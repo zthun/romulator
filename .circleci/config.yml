@@ -63,6 +63,8 @@ jobs:
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker buildx create --use
             docker buildx build --target romulator-web -t zthun/romulator-web:latest -t zthun/romulator-web:$(npm show @zthun/romulator-web version) --progress=plain --platform linux/arm64,linux/amd64 --push .
+            docker buildx build --target romulator-api -t zthun/romulator-api:latest -t zthun/romulator-api:$(npm show @zthun/romulator-api version) --progress=plain --platform linux/arm64,linux/amd64 --push .
+
 workflows:
   make:
     jobs:
