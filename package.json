@@ -1,5 +1,5 @@
 {
-  "name": "@zthun/romulator",
+  "name": "romulator",
   "version": "0.0.0",
   "description": "A rom management system that can integrate your library with other platforms.",
   "author": "Anthony Bonta",
@@ -34,6 +34,8 @@
     "husky": "^9.1.6",
     "lerna": "^8.1.9",
     "lodash-es": "^4.17.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "rimraf": "^6.0.1",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
