@@ -1,1 +1,1 @@
-export const Placeholder = "Placeholder";
+export * from "./system/system";
