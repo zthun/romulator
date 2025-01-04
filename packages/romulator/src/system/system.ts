@@ -34,6 +34,12 @@ export class ZRomulatorSystemBuilder {
     return this.id("nes").name("Nintendo Entertainment System").short("NES");
   }
 
+  public snes() {
+    return this.id("snes")
+      .name("Super Nintendo Entertainment System")
+      .short("SNES");
+  }
+
   public build() {
     return structuredClone(this._system);
   }
