@@ -1,2 +1,2 @@
 import { defineTest } from "../../.config/vitest-project";
-export default defineTest("happy-dom");
+export default defineTest("romulator-web", "happy-dom");
