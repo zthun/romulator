@@ -3296,6 +3296,9 @@ __metadata:
     "@zthun/helpful-query": "npm:^7.0.5"
     "@zthun/helpful-react": "npm:^7.0.5"
     "@zthun/romulator": "npm:^1.0.0"
+    "@zthun/webigail-http": "npm:^3.1.3"
+    "@zthun/webigail-rest": "npm:^3.2.0"
+    "@zthun/webigail-url": "npm:^3.2.0"
     history: "npm:^5.3.0"
     lodash-es: "npm:^4.17.21"
     react: "npm:^19.0.0"
@@ -3367,6 +3370,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zthun/webigail-rest@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@zthun/webigail-rest@npm:3.2.0"
+  dependencies:
+    "@zthun/helpful-fn": "npm:^7.0.5"
+    "@zthun/helpful-query": "npm:^7.0.5"
+    "@zthun/webigail-http": "npm:^3.1.3"
+    "@zthun/webigail-url": "npm:^3.2.0"
+  checksum: 10c0/8f32af157d8abfdb149c377f05ce03b486b2be386beb91f2ef53a6ce319e66d1c7e24444fdfc1d26b73c0864718c7635225acbb87c32967f1b7fae86cb8b39ea
+  languageName: node
+  linkType: hard
+
 "@zthun/webigail-url@npm:^3.1.3":
   version: 3.1.3
   resolution: "@zthun/webigail-url@npm:3.1.3"
@@ -3374,6 +3389,16 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     url-parse: "npm:^1.5.10"
   checksum: 10c0/3a1cb646333c56a19ddfeb4d8d23de4bb1d8da651d4b5c9e0b4c66b53c0bd12ae407b61bd6a9ad3a7f2426034c03806a7144d0287faf26d5ad47a34f72c4bb28
+  languageName: node
+  linkType: hard
+
+"@zthun/webigail-url@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@zthun/webigail-url@npm:3.2.0"
+  dependencies:
+    lodash-es: "npm:^4.17.21"
+    url-parse: "npm:^1.5.10"
+  checksum: 10c0/0b724e84fa1323ce4e08e0e640de60034ef711dc99f93b37be5b2472956170df6efc0525f356da214ca9dc6f39bcf13a129bd4a3b9333ffddd4a3afc18e9bc7e
   languageName: node
   linkType: hard
 
