@@ -1,0 +1,45 @@
+services:
+  # Load Balancer (Entry Point)
+  romulator.local.zthunworks.com:
+    image: zthun/bouncer
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./.config:/.config
+    depends_on:
+      - romulator-services-api
+      - romulator-services-web
+
+  # Node Ports
+  romulator-services-web:
+    image: node:lts
+    volumes:
+      - .:/usr/dev
+    working_dir: /usr/dev
+    command: npm --workspace @zthun/romulator-web run start
+  romulator-services-api:
+    image: node:lts
+    ports:
+      - 9229:9229
+    volumes:
+      - .:/usr/dev
+    working_dir: /usr/dev
+    command: npm --workspace @zthun/romulator run debug
+    depends_on:
+      - romulator-mongo
+  # Databases
+  romulator-mongo:
+    image: mongo:noble
+    volumes:
+      - romulator-mongo-data:/data/db
+  romulator-mongo-express:
+    image: mongo-express:latest
+    ports:
+      - 8081:8081
+    depends_on:
+      - romulator-mongo
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=romulator-mongo
+volumes:
+  romulator-mongo-data:
