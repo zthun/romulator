@@ -1,11 +1,9 @@
 import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 
-export function defineWeb(dir: string) {
+export function defineWeb() {
   return defineConfig({
-    plugins: [
-      tsConfigPaths(),
-    ],
+    plugins: [tsConfigPaths()],
     server: {
       strictPort: true,
     },
