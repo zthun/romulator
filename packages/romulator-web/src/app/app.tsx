@@ -7,6 +7,7 @@ import {
   ZRouteMap,
 } from "@zthun/fashion-boutique";
 import { createDarkTheme } from "@zthun/fashion-theme";
+import { ZRomulatorAvatar } from "./app-avatar";
 import { ZRomulatorTitle } from "./app-title";
 
 const FashionTheme = createDarkTheme();
@@ -16,6 +17,7 @@ export function ZRomulatorApp() {
     <ZFashionThemeContext.Provider value={FashionTheme}>
       <ZBannerMain
         TitleProps={{
+          avatar: <ZRomulatorAvatar />,
           prefix: <ZRomulatorTitle />,
         }}
       >
