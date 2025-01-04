@@ -2406,10 +2406,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/fs-extra@npm:^11.0.4":
+  version: 11.0.4
+  resolution: "@types/fs-extra@npm:11.0.4"
+  dependencies:
+    "@types/jsonfile": "npm:*"
+    "@types/node": "npm:*"
+  checksum: 10c0/9e34f9b24ea464f3c0b18c3f8a82aefc36dc524cc720fc2b886e5465abc66486ff4e439ea3fb2c0acebf91f6d3f74e514f9983b1f02d4243706bdbb7511796ad
+  languageName: node
+  linkType: hard
+
 "@types/json5@npm:^0.0.29":
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 10c0/6bf5337bc447b706bb5b4431d37686aa2ea6d07cfd6f79cc31de80170d6ff9b1c7384a9c0ccbc45b3f512bae9e9f75c2e12109806a15331dc94e8a8db6dbb4ac
+  languageName: node
+  linkType: hard
+
+"@types/jsonfile@npm:*":
+  version: 6.1.4
+  resolution: "@types/jsonfile@npm:6.1.4"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/b12d068b021e4078f6ac4441353965769be87acf15326173e2aea9f3bf8ead41bd0ad29421df5bbeb0123ec3fc02eb0a734481d52903704a1454a1845896b9eb
   languageName: node
   linkType: hard
 
@@ -2449,6 +2468,13 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.19.8"
   checksum: 10c0/14372885db80059ed6e92c320b2bcd8f7dc271698adce11f51aa0f424a3f82aa1749a4f66321b87043791b894346b2458d514cbb65ce70167c2fd8a78a124947
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.18.63":
+  version: 14.18.63
+  resolution: "@types/node@npm:14.18.63"
+  checksum: 10c0/626a371419a6a0e11ca460b22bb4894abe5d75c303739588bc96267e380aa8b90ba5a87bc552400584f0ac2a84b5c458dadcbcf0dfd2396ebeb765f7a7f95893
   languageName: node
   linkType: hard
 
@@ -5468,7 +5494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^11.2.0":
+"fs-extra@npm:^11.1.1, fs-extra@npm:^11.2.0":
   version: 11.2.0
   resolution: "fs-extra@npm:11.2.0"
   dependencies:
@@ -9462,6 +9488,7 @@ __metadata:
     typescript: "npm:^5.6.3"
     vite: "npm:^5.4.10"
     vite-plugin-dts: "npm:^4.3.0"
+    vite-plugin-external: "npm:^4.3.1"
     vite-plugin-externalize-deps: "npm:^0.8.0"
     vite-tsconfig-paths: "npm:^5.0.1"
     vitest: "npm:^2.1.4"
@@ -10870,6 +10897,17 @@ __metadata:
     vite:
       optional: true
   checksum: 10c0/e200fa54b985e99b64b882380bb1f669d7f0a05ba9f5f2de717b5d1b7d35921344e12e03bce3aadb455c706879ae10c8997ebe79bd0aa47e9dc51ca79d040372
+  languageName: node
+  linkType: hard
+
+"vite-plugin-external@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "vite-plugin-external@npm:4.3.1"
+  dependencies:
+    "@types/fs-extra": "npm:^11.0.4"
+    "@types/node": "npm:^14.18.63"
+    fs-extra: "npm:^11.1.1"
+  checksum: 10c0/8d9ae0b67b35cae2c2b7388a0591138c4e0299b7bb84e3a058a37646b09f0b39c9497973a06b3b656906103043331fc2278e588ead1f4e3f6874005fd3b7dfd8
   languageName: node
   linkType: hard
 
