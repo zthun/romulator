@@ -2,8 +2,6 @@
   "extends": "../../.config/.tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist/lib",
-    "declarationDir": "dist/types",
     "paths": {
       "@zthun/romulator": ["../romulator/src/index"]
     }
