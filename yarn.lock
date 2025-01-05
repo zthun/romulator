@@ -3352,16 +3352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-fn@npm:^7.0.5":
-  version: 7.0.5
-  resolution: "@zthun/helpful-fn@npm:7.0.5"
-  dependencies:
-    uuid: "npm:^11.0.3"
-  checksum: 10c0/0dcd208a12522e925b95bd7adfe247b222f3fa6d13ace93a3994665083d6ca60b066d63389acb0f8846e35c000d422ef3e83591982f2d95608481e75ad41adee
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-fn@npm:^7.1.0":
+"@zthun/helpful-fn@npm:^7.0.5, @zthun/helpful-fn@npm:^7.1.0":
   version: 7.1.0
   resolution: "@zthun/helpful-fn@npm:7.1.0"
   dependencies:
@@ -3380,17 +3371,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-query@npm:^7.0.5":
-  version: 7.0.5
-  resolution: "@zthun/helpful-query@npm:7.0.5"
-  dependencies:
-    "@zthun/helpful-fn": "npm:^7.0.5"
-    lodash-es: "npm:^4.17.21"
-  checksum: 10c0/815792180d206e197590b17cd5425a41ddf8b901e9e32d99f18e8cfa38cbd855725dc7fab87138220cb7bab00c2069de70856ffb4bfe7cdacaf1e7451e617361
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-query@npm:^7.1.0":
+"@zthun/helpful-query@npm:^7.0.5, @zthun/helpful-query@npm:^7.1.0":
   version: 7.1.0
   resolution: "@zthun/helpful-query@npm:7.1.0"
   dependencies:
@@ -3400,26 +3381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-react@npm:^7.0.5":
-  version: 7.0.5
-  resolution: "@zthun/helpful-react@npm:7.0.5"
-  dependencies:
-    "@zthun/helpful-fn": "npm:^7.0.5"
-    "@zthun/helpful-query": "npm:^7.0.5"
-    lodash-es: "npm:^4.17.21"
-    rxjs: "npm:^7.8.1"
-  peerDependencies:
-    react: ">=18.0.0 <20.0.0"
-    react-dom: ">=18.0.0 <20.0.0"
-    rxjs: ^7.8.1
-  peerDependenciesMeta:
-    rxjs:
-      optional: true
-  checksum: 10c0/b9e63f8034863ae02383e352d5f486a340d194e26e9f68925d484c496b97a8c65f0a20894f436cf23dbdfe555af2f3fc34d7471e49d3ba0996cee6b6a67d41dd
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-react@npm:^7.1.0":
+"@zthun/helpful-react@npm:^7.0.5, @zthun/helpful-react@npm:^7.1.0":
   version: 7.1.0
   resolution: "@zthun/helpful-react@npm:7.1.0"
   dependencies:
@@ -3527,12 +3489,17 @@ __metadata:
     "@zthun/helpful-node": "npm:^7.1.0"
     "@zthun/helpful-query": "npm:^7.1.0"
     "@zthun/romulator": "npm:^1.0.0"
+    helmet: "npm:^8.0.0"
     lodash-es: "npm:^4.17.21"
     reflect-metadata: "npm:^0.2.2"
     rxjs: "npm:^7.8.1"
     supertest: "npm:^7.0.0"
+    tsx: "npm:^4.19.2"
+    typescript: "npm:^5.7.2"
     vitest: "npm:^2.1.8"
     vitest-mock-extended: "npm:^2.0.2"
+  bin:
+    romulator-api: ./bin/main.mjs
   languageName: unknown
   linkType: soft
 
@@ -3636,17 +3603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/webigail-url@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@zthun/webigail-url@npm:3.1.3"
-  dependencies:
-    lodash-es: "npm:^4.17.21"
-    url-parse: "npm:^1.5.10"
-  checksum: 10c0/3a1cb646333c56a19ddfeb4d8d23de4bb1d8da651d4b5c9e0b4c66b53c0bd12ae407b61bd6a9ad3a7f2426034c03806a7144d0287faf26d5ad47a34f72c4bb28
-  languageName: node
-  linkType: hard
-
-"@zthun/webigail-url@npm:^3.2.0":
+"@zthun/webigail-url@npm:^3.1.3, @zthun/webigail-url@npm:^3.2.0":
   version: 3.2.0
   resolution: "@zthun/webigail-url@npm:3.2.0"
   dependencies:
@@ -7157,6 +7114,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"helmet@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "helmet@npm:8.0.0"
+  checksum: 10c0/c3d273df206cbb4e5e830ea68afdbd3d0f8e055b2707f67f651ebb4b679c7fd4d6ac77ce6188a2cee32e853d4e24aa00548f787989bbe6e5f98ebfb703855d09
+  languageName: node
+  linkType: hard
+
 "hexoid@npm:^2.0.0":
   version: 2.0.0
   resolution: "hexoid@npm:2.0.0"
@@ -7552,16 +7516,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.13.0, is-core-module@npm:^2.15.1, is-core-module@npm:^2.5.0":
-  version: 2.15.1
-  resolution: "is-core-module@npm:2.15.1"
-  dependencies:
-    hasown: "npm:^2.0.2"
-  checksum: 10c0/53432f10c69c40bfd2fa8914133a68709ff9498c86c3bf5fca3cdf3145a56fd2168cbf4a43b29843a6202a120a5f9c5ffba0a4322e1e3441739bc0b641682612
-  languageName: node
-  linkType: hard
-
-"is-core-module@npm:^2.16.0":
+"is-core-module@npm:^2.13.0, is-core-module@npm:^2.15.1, is-core-module@npm:^2.16.0, is-core-module@npm:^2.5.0":
   version: 2.16.1
   resolution: "is-core-module@npm:2.16.1"
   dependencies:
@@ -10718,20 +10673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.10.0, resolve@npm:^1.22.4, resolve@npm:~1.22.1, resolve@npm:~1.22.2":
-  version: 1.22.8
-  resolution: "resolve@npm:1.22.8"
-  dependencies:
-    is-core-module: "npm:^2.13.0"
-    path-parse: "npm:^1.0.7"
-    supports-preserve-symlinks-flag: "npm:^1.0.0"
-  bin:
-    resolve: bin/resolve
-  checksum: 10c0/07e179f4375e1fd072cfb72ad66d78547f86e6196c4014b31cb0b8bb1db5f7ca871f922d08da0fbc05b94e9fd42206f819648fa3b5b873ebbc8e1dc68fec433a
-  languageName: node
-  linkType: hard
-
-"resolve@npm:^1.19.0":
+"resolve@npm:^1.10.0, resolve@npm:^1.19.0, resolve@npm:^1.22.4, resolve@npm:~1.22.1, resolve@npm:~1.22.2":
   version: 1.22.10
   resolution: "resolve@npm:1.22.10"
   dependencies:
@@ -10757,20 +10699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A~1.22.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A~1.22.2#optional!builtin<compat/resolve>":
-  version: 1.22.8
-  resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
-  dependencies:
-    is-core-module: "npm:^2.13.0"
-    path-parse: "npm:^1.0.7"
-    supports-preserve-symlinks-flag: "npm:^1.0.0"
-  bin:
-    resolve: bin/resolve
-  checksum: 10c0/0446f024439cd2e50c6c8fa8ba77eaa8370b4180f401a96abf3d1ebc770ac51c1955e12764cde449fde3fff480a61f84388e3505ecdbab778f4bef5f8212c729
-  languageName: node
-  linkType: hard
-
-"resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A~1.22.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A~1.22.2#optional!builtin<compat/resolve>":
   version: 1.22.10
   resolution: "resolve@patch:resolve@npm%3A1.22.10#optional!builtin<compat/resolve>::version=1.22.10&hash=c3c19d"
   dependencies:
