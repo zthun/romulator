@@ -1,5 +1,6 @@
 export interface IZRomulatorConfig {
   games?: string;
+  media?: string;
 }
 
 export class ZRomulatorConfigBuilder {
@@ -11,6 +12,11 @@ export class ZRomulatorConfigBuilder {
 
   public games(path: string): this {
     this._config.games = path;
+    return this;
+  }
+
+  public media(path: string): this {
+    this._config.media = path;
     return this;
   }
 
