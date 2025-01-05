@@ -8,6 +8,7 @@ const PORT = 3000;
 (async function () {
   const app = await NestFactory.create(ZRomulatorModule);
   app.setGlobalPrefix("api");
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle("Romulator API")
