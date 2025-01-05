@@ -1,0 +1,12 @@
+{
+  "extends": "../../.config/.tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": false,
+    "outDir": "./dist",
+    "paths": {
+      "@zthun/romulator": ["../romulator/src/index"]
+    }
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.mts"]
+}
