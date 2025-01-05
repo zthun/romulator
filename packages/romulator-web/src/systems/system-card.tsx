@@ -1,10 +1,13 @@
 import {
+  useFashionTheme,
+  useNavigate,
+  ZButton,
   ZCard,
   ZIconFontAwesome,
   ZImageSource,
   ZStack,
 } from "@zthun/fashion-boutique";
-import { ZSizeFixed } from "@zthun/fashion-tailor";
+import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { ZOrientation } from "@zthun/helpful-fn";
 import { IZRomulatorSystem } from "@zthun/romulator";
 
@@ -14,7 +17,9 @@ export interface IZRomulatorSystemCard {
 
 export function ZRomulatorSystemCard(props: IZRomulatorSystemCard) {
   const { system } = props;
+  const { secondary } = useFashionTheme();
   const src = `/png/${system.id}-256x256.png`;
+  const navigate = useNavigate();
 
   return (
     <ZCard
@@ -25,6 +30,15 @@ export function ZRomulatorSystemCard(props: IZRomulatorSystemCard) {
         subHeading: system.name,
       }}
       name={system.id}
+      footer={
+        <ZButton
+          fashion={secondary}
+          label="See Games"
+          name="games"
+          width={ZSizeVaried.Full}
+          onClick={() => navigate(`/systems/${system.id}`)}
+        />
+      }
     >
       <ZStack
         orientation={ZOrientation.Horizontal}

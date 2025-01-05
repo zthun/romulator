@@ -9,6 +9,17 @@ export class ZRomulatorSystemsPageComponentModel extends ZCircusComponentModel {
     return Promise.resolve(new ZGridViewComponentModel(this.driver));
   }
 
+  public async system(
+    id: string,
+  ): Promise<ZRomulatorSystemCardComponentModel | null> {
+    const grid = await this.grid();
+    return ZCircusBy.optional(
+      grid.driver,
+      ZRomulatorSystemCardComponentModel,
+      id,
+    );
+  }
+
   public async systems(): Promise<ZRomulatorSystemCardComponentModel[]> {
     const grid = await this.grid();
     return ZCircusBy.all(grid.driver, ZRomulatorSystemCardComponentModel);
