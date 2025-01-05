@@ -5,5 +5,6 @@ import { ZFileSystemToken } from "./file-system-service.mjs";
 
 @Module({
   providers: [{ provide: ZFileSystemToken, useClass: ZFileSystemService }],
+  exports: [ZFileSystemToken],
 })
 export class ZRomulatorFileSystemModule {}

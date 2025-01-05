@@ -8,5 +8,6 @@ import {
   providers: [
     { provide: ZRomulatorConfigsToken, useClass: ZRomulatorConfigService },
   ],
+  exports: [ZRomulatorConfigsToken],
 })
 export class ZRomulatorConfigsModule {}

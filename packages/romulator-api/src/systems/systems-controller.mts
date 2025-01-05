@@ -1,5 +1,9 @@
-import { Controller, Get, Inject } from "@nestjs/common";
-import { IZPage } from "@zthun/helpful-query";
+import { Controller, Get, Inject, Query } from "@nestjs/common";
+import {
+  IZDataRequestQuery,
+  IZPage,
+  ZDataRequestBuilder,
+} from "@zthun/helpful-query";
 import { IZRomulatorSystem } from "@zthun/romulator";
 import {
   IZRomulatorSystemsService,
@@ -14,7 +18,9 @@ export class ZRomulatorSystemsController {
   ) {}
 
   @Get()
-  public list(): Promise<IZPage<IZRomulatorSystem>> {
-    return this._systems.list();
+  public list(
+    @Query() query: IZDataRequestQuery,
+  ): Promise<IZPage<IZRomulatorSystem>> {
+    return this._systems.list(new ZDataRequestBuilder().query(query).build());
   }
 }

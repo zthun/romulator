@@ -7,7 +7,7 @@ import { resolve } from "node:path";
 export const ZRomulatorConfigsToken = Symbol("configs");
 
 export interface IZRomulatorConfigService {
-  read(): Promise<IZRomulatorConfig | null>;
+  read(): Promise<IZRomulatorConfig>;
 }
 
 @Injectable()

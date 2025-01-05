@@ -3,6 +3,8 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "helmet";
 import { ZRomulatorModule } from "./app/app-module.mjs";
 
+const PORT = 3000;
+
 (async function () {
   const app = await NestFactory.create(ZRomulatorModule);
   app.setGlobalPrefix("api");
@@ -18,5 +20,5 @@ import { ZRomulatorModule } from "./app/app-module.mjs";
 
   app.use(helmet());
 
-  await app.listen(3000);
+  await app.listen(PORT);
 })();
