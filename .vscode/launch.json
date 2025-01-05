@@ -5,14 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Chrome",
+      "name": "Run Romulator API",
+      "type": "node",
       "request": "launch",
-      "type": "chrome",
-      "url": "http://localhost:5173",
-      "trace": true,
-      "sourceMaps": true,
-      "perScriptSourcemaps": "yes",
-      "webRoot": "${workspaceFolder}"
+      "program": "${workspaceFolder}/packages/romulator-api/src/main.mts",
+      "runtimeExecutable": "tsx",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }
