@@ -17,7 +17,13 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   private _rest: IZRestfulService<IZRomulatorSystem>;
 
   public static endpoint() {
-    return new ZUrlBuilder().api(location).append("systems").build();
+    return new ZUrlBuilder()
+      .protocol("http")
+      .hostname("localhost")
+      .port(3000)
+      .append("api")
+      .append("systems")
+      .build();
   }
 
   public constructor(_http: IZHttpService) {
