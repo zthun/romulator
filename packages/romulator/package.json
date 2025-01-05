@@ -25,6 +25,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@zthun/helpful-fn": "^7.1.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {

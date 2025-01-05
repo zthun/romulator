@@ -40,6 +40,12 @@ export class ZRomulatorSystemBuilder {
       .short("SNES");
   }
 
+  public megadrive() {
+    return this.id("megadrive").name("Sega Mega Drive").short("Mega Drive");
+  }
+
+  public genesis = this.megadrive.bind(this);
+
   public build() {
     return structuredClone(this._system);
   }
