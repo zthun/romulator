@@ -1,8 +1,9 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { IZFileSystemNode, IZFileSystemService } from "@zthun/helpful-node";
 import {
   IZDataRequest,
   IZPage,
+  ZDataRequestBuilder,
   ZDataSearchFields,
   ZDataSourceStatic,
   ZDataSourceStaticOptionsBuilder,
@@ -12,6 +13,7 @@ import {
   IZRomulatorSystem,
   ZRomulatorSystemBuilder,
 } from "@zthun/romulator-models";
+import { find } from "lodash-es";
 import { basename } from "node:path";
 import {
   IZRomulatorConfigService,
@@ -23,6 +25,7 @@ export const ZRomulatorSystemsToken = Symbol("systems");
 
 export interface IZRomulatorSystemsService {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>>;
+  get(id: string): Promise<IZRomulatorSystem>;
 }
 
 @Injectable()
@@ -59,6 +62,17 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
       .data(data)
       .count(count)
       .build();
+  }
+
+  public async get(id: string): Promise<IZRomulatorSystem> {
+    const all = await this.list(new ZDataRequestBuilder().build());
+    const system = find(all.data, (system) => system.id === id);
+
+    if (!system) {
+      throw new NotFoundException(`Unable to find system with id, ${id}.`);
+    }
+
+    return system;
   }
 
   private convertToSystem(folder: IZFileSystemNode): IZRomulatorSystem | null {

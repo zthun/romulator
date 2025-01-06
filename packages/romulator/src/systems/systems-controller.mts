@@ -1,4 +1,5 @@
-import { Controller, Get, Inject, Query } from "@nestjs/common";
+import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
+import { ApiParam } from "@nestjs/swagger";
 import {
   IZDataRequestQuery,
   IZPage,
@@ -22,5 +23,15 @@ export class ZRomulatorSystemsController {
     @Query() query: IZDataRequestQuery,
   ): Promise<IZPage<IZRomulatorSystem>> {
     return this._systems.list(new ZDataRequestBuilder().query(query).build());
+  }
+
+  @ApiParam({
+    type: "string | number",
+    name: "identification",
+    description: "The id of the system",
+  })
+  @Get(":identification")
+  public get(@Param("identification") identification: string) {
+    return this._systems.get(identification);
   }
 }

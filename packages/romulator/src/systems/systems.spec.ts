@@ -14,7 +14,7 @@ import {
   ZRomulatorConfigBuilder,
   ZRomulatorSystemBuilder,
 } from "@zthun/romulator-models";
-import { ZHttpCodeSuccess } from "@zthun/webigail-http";
+import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { resolve } from "node:path";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
@@ -163,6 +163,36 @@ describe("SystemsApi", () => {
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
       expect(actual.body.data).toEqual(expected);
+    });
+  });
+
+  describe("Get", () => {
+    it("should return the system by its id", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+      const expected = nes;
+
+      // Act.
+      const actual = await request(target.getHttpServer()).get(
+        `/${endpoint}/${nes.id}`,
+      );
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+      expect(actual.body).toEqual(expected);
+    });
+
+    it("should return a 404 if the system does not exist", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const actual = await request(target.getHttpServer()).get(
+        `/${endpoint}/lol-wut`,
+      );
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
     });
   });
 });
