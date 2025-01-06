@@ -4,7 +4,7 @@ import {
   ZNotFoundComponentModel,
   ZSuspenseComponentModel,
 } from "@zthun/fashion-boutique";
-import { ZRomulatorSystemCardComponentModel } from "./system-card.cm.mjs";
+import { ZRomulatorSystemCardComponentModel } from "./system-avatar-card.cm.mjs";
 
 export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorSystemPage-root";

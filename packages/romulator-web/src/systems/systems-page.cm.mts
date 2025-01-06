@@ -1,6 +1,6 @@
 import { ZCircusBy, ZCircusComponentModel } from "@zthun/cirque";
 import { ZGridViewComponentModel } from "@zthun/fashion-boutique";
-import { ZRomulatorSystemCardComponentModel } from "./system-card.cm.mjs";
+import { ZRomulatorSystemCardComponentModel } from "./system-avatar-card.cm.mjs";
 
 export class ZRomulatorSystemsPageComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorSystemsPage-root";

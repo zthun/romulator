@@ -9,7 +9,7 @@ import {
 import { ZSizeFixed } from "@zthun/fashion-tailor";
 import { cssJoinDefined, firstDefined } from "@zthun/helpful-fn";
 import { isStateErrored, isStateLoading } from "@zthun/helpful-react";
-import { ZRomulatorSystemCard } from "./system-card";
+import { ZRomulatorSystemCard } from "./system-avatar-card";
 import { useSystem } from "./systems-service.mjs";
 
 export function ZRomulatorSystemPage() {
