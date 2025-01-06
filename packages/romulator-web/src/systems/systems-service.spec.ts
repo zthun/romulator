@@ -9,7 +9,10 @@ import {
 } from "@zthun/webigail-http";
 import { ZRestfulUrlBuilder } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
+import { mock } from "vitest-mock-extended";
+import { IZRomulatorEnvironmentService } from "../environment/environment-service.mjs";
+import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 import {
   IZRomulatorSystemsService,
   useSystemsService,
@@ -18,6 +21,7 @@ import {
 
 describe("SystemsService", () => {
   let _http: ZHttpServiceMock;
+  let _env: Mocked<IZRomulatorEnvironmentService>;
 
   const nes = new ZRomulatorSystemBuilder().nes().build();
   const snes = new ZRomulatorSystemBuilder().snes().build();
@@ -25,9 +29,11 @@ describe("SystemsService", () => {
 
   beforeEach(async () => {
     _http = new ZHttpServiceMock();
+    _env = mock<IZRomulatorEnvironmentService>();
+    _env.read.mockResolvedValue(new ZRomulatorEnvironmentBuilder().build());
   });
 
-  const createTestTarget = () => new ZRomulatorSystemsService(_http);
+  const createTestTarget = () => new ZRomulatorSystemsService(_http, _env);
 
   describe("Read", () => {
     it("should retrieve a list of systems", async () => {
