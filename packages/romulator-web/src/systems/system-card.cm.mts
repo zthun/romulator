@@ -25,7 +25,7 @@ export class ZRomulatorSystemCardComponentModel extends ZCircusComponentModel {
     return firstDefined("", await subheading?.text());
   }
 
-  public async games(): Promise<ZButtonComponentModel> {
+  public async navigate(): Promise<ZButtonComponentModel> {
     const card = await this.card();
     const footer = await required(card.footer());
     return ZCircusBy.first(footer, ZButtonComponentModel);

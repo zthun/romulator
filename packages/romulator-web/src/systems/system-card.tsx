@@ -33,7 +33,7 @@ export function ZRomulatorSystemCard(props: IZRomulatorSystemCard) {
       footer={
         <ZButton
           fashion={secondary}
-          label="See Games"
+          label="More"
           name="games"
           width={ZSizeVaried.Full}
           onClick={() => navigate(`/systems/${system.id}`)}
