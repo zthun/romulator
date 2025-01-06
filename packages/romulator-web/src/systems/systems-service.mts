@@ -1,3 +1,4 @@
+import { ZLazy } from "@zthun/helpful-fn";
 import { IZDataRequest, IZDataSource } from "@zthun/helpful-query";
 import { IZRomulatorSystem } from "@zthun/romulator";
 import { IZHttpService, ZHttpService } from "@zthun/webigail-http";
@@ -14,7 +15,7 @@ export interface IZRomulatorSystemsService
     IZDataSource<IZRomulatorSystem> {}
 
 export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
-  private _rest: IZRestfulService<IZRomulatorSystem>;
+  private _rest: ZLazy<IZRestfulService<IZRomulatorSystem>>;
 
   public static endpoint() {
     return new ZUrlBuilder()
@@ -27,22 +28,23 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   }
 
   public constructor(_http: IZHttpService) {
-    this._rest = new ZRestfulService(
-      _http,
-      ZRomulatorSystemsService.endpoint(),
+    this._rest = new ZLazy(() =>
+      Promise.resolve(
+        new ZRestfulService(_http, ZRomulatorSystemsService.endpoint()),
+      ),
     );
   }
 
   public async retrieve(request: IZDataRequest): Promise<IZRomulatorSystem[]> {
-    return this._rest.retrieve(request);
+    return (await this._rest.get()).retrieve(request);
   }
 
   public async count(request: IZDataRequest): Promise<number> {
-    return this._rest.count(request);
+    return (await this._rest.get()).count(request);
   }
 
   public async get(id: string): Promise<IZRomulatorSystem> {
-    return this._rest.get(id);
+    return (await this._rest.get()).get(id);
   }
 }
 
