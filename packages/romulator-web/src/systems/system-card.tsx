@@ -18,7 +18,8 @@ export interface IZRomulatorSystemCard {
 export function ZRomulatorSystemCard(props: IZRomulatorSystemCard) {
   const { system } = props;
   const { secondary } = useFashionTheme();
-  const src = `/png/${system.id}-256x256.png`;
+  // TODO: Add support for other regions
+  const src = `/systems/us/${system.id}-256x256.png`;
   const navigate = useNavigate();
 
   return (
