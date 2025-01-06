@@ -5,7 +5,7 @@
     "declaration": false,
     "outDir": "./dist",
     "paths": {
-      "@zthun/romulator": ["../romulator/src/index"]
+      "@zthun/romulator-models": ["../romulator-models/src/index"]
     }
   },
   "include": ["./src/**/*.ts", "./src/**/*.mts"]

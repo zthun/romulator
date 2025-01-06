@@ -8,7 +8,10 @@ import {
   ZDataSourceStaticOptionsBuilder,
   ZPageBuilder,
 } from "@zthun/helpful-query";
-import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "@zthun/romulator";
+import {
+  IZRomulatorSystem,
+  ZRomulatorSystemBuilder,
+} from "@zthun/romulator-models";
 import { basename } from "node:path";
 import {
   IZRomulatorConfigService,

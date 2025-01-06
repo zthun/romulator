@@ -9,7 +9,7 @@ import {
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { ZOrientation } from "@zthun/helpful-fn";
-import { IZRomulatorSystem } from "@zthun/romulator";
+import { IZRomulatorSystem } from "../../../romulator-models/src";
 
 export interface IZRomulatorSystemCard {
   system: IZRomulatorSystem;

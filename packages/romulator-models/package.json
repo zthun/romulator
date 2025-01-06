@@ -1,13 +1,13 @@
 {
-  "name": "@zthun/romulator",
+  "name": "@zthun/romulator-models",
   "version": "1.0.0",
-  "description": "A rom management library that can be used to build rom management systems.",
+  "description": "Models for romulator.  Contains builders and helpers to construct systems, games, and configuration.",
   "author": "Anthony Bonta",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/zthun/romulator",
-    "directory": "packages/romulator"
+    "directory": "packages/romulator-models"
   },
   "type": "module",
   "main": "dist/index.cjs",

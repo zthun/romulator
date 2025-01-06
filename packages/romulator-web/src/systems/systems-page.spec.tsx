@@ -2,10 +2,10 @@ import { IZCircusDriver, IZCircusSetup, ZCircusBy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import { ZTestRouter } from "@zthun/fashion-boutique";
 import { ZDataSourceStatic } from "@zthun/helpful-query";
-import { ZRomulatorSystemBuilder } from "@zthun/romulator";
 import { createMemoryHistory, MemoryHistory } from "history";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
+import { ZRomulatorSystemBuilder } from "../../../romulator-models/src";
 import { ZRomulatorSystemsPage } from "./systems-page";
 import { ZRomulatorSystemsPageComponentModel } from "./systems-page.cm.mjs";
 import {

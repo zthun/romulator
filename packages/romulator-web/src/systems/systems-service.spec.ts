@@ -1,7 +1,10 @@
 import { IZCircusSetup } from "@zthun/cirque";
 import { IZCircusReactHook, ZCircusSetupHook } from "@zthun/cirque-du-react";
 import { ZDataRequestBuilder, ZPageBuilder } from "@zthun/helpful-query";
-import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "@zthun/romulator";
+import {
+  IZRomulatorSystem,
+  ZRomulatorSystemBuilder,
+} from "@zthun/romulator-models";
 import {
   ZHttpMethod,
   ZHttpResultBuilder,

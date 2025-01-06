@@ -13,7 +13,7 @@ import {
 import {
   ZRomulatorConfigBuilder,
   ZRomulatorSystemBuilder,
-} from "@zthun/romulator";
+} from "@zthun/romulator-models";
 import { ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { resolve } from "node:path";
 import request from "supertest";

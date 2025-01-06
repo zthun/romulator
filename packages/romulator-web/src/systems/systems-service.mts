@@ -1,6 +1,5 @@
 import { ZLazy } from "@zthun/helpful-fn";
 import { IZDataRequest, IZDataSource } from "@zthun/helpful-query";
-import { IZRomulatorSystem } from "@zthun/romulator";
 import { IZHttpService, ZHttpService } from "@zthun/webigail-http";
 import {
   IZRestfulGet,
@@ -9,6 +8,7 @@ import {
 } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
 import { createContext, useContext } from "react";
+import { IZRomulatorSystem } from "../../../romulator-models/src";
 import { ZRomulatorEnvironmentService } from "../environment/environment-service.mjs";
 
 export interface IZRomulatorSystemsService
