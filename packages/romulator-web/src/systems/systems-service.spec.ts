@@ -36,7 +36,7 @@ describe("SystemsService", () => {
       const request = new ZDataRequestBuilder().build();
 
       _http.set(
-        target.endpoint(),
+        await target.endpoint(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(
           new ZPageBuilder<IZRomulatorSystem>().all(systems).build(),
@@ -55,13 +55,19 @@ describe("SystemsService", () => {
       const target = createTestTarget();
 
       _http.set(
-        new ZUrlBuilder().parse(target.endpoint()).append(nes.id).build(),
+        new ZUrlBuilder()
+          .parse(await target.endpoint())
+          .append(nes.id)
+          .build(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(nes).build(),
       );
 
       _http.set(
-        new ZUrlBuilder().parse(target.endpoint()).append(snes.id).build(),
+        new ZUrlBuilder()
+          .parse(await target.endpoint())
+          .append(snes.id)
+          .build(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(snes).build(),
       );
@@ -82,7 +88,7 @@ describe("SystemsService", () => {
       const target = createTestTarget();
 
       _http.set(
-        new ZRestfulUrlBuilder(target.endpoint()).count().build(),
+        new ZRestfulUrlBuilder(await target.endpoint()).count().build(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(
           new ZPageBuilder<IZRomulatorSystem>()
