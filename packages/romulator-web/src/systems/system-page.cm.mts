@@ -1,18 +1,12 @@
 import { ZCircusBy, ZCircusComponentModel } from "@zthun/cirque";
 import {
   ZAlertComponentModel,
-  ZNotFoundComponentModel,
   ZSuspenseComponentModel,
 } from "@zthun/fashion-boutique";
-import { ZRomulatorSystemCardComponentModel } from "./system-avatar-card.cm.mjs";
+import { ZRomulatorSystemAvatarCardComponentModel } from "./system-avatar-card.cm.mjs";
 
 export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorSystemPage-root";
-
-  public async notFound(): Promise<ZNotFoundComponentModel | null> {
-    await this.load();
-    return ZCircusBy.optional(this.driver, ZNotFoundComponentModel);
-  }
 
   public async loader(): Promise<ZSuspenseComponentModel | null> {
     return ZCircusBy.optional(this.driver, ZSuspenseComponentModel);
@@ -30,7 +24,10 @@ export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
     return ZCircusBy.optional(this.driver, ZAlertComponentModel);
   }
 
-  public system(): Promise<ZRomulatorSystemCardComponentModel | null> {
-    return ZCircusBy.optional(this.driver, ZRomulatorSystemCardComponentModel);
+  public system(): Promise<ZRomulatorSystemAvatarCardComponentModel | null> {
+    return ZCircusBy.optional(
+      this.driver,
+      ZRomulatorSystemAvatarCardComponentModel,
+    );
   }
 }
