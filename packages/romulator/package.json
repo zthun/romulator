@@ -1,13 +1,13 @@
 {
-  "name": "@zthun/romulator-api",
+  "name": "@zthun/romulator",
   "version": "1.0.0",
-  "description": "An api for your rom directory for managing media and the directory structure.",
+  "description": "A service for your rom directory for managing media and the directory structure.",
   "author": "Anthony Bonta",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/zthun/romulator",
-    "directory": "packages/romulator-api"
+    "directory": "packages/romulator"
   },
   "type": "module",
   "scripts": {
