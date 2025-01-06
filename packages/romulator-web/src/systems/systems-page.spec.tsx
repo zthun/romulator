@@ -69,11 +69,10 @@ describe("ZRomulatorSystemsPage", () => {
   it("should navigate me to the system page when I click on the navigate button", async () => {
     // Arrange.
     const target = await createTestTarget();
-    const system = await target.system(nes.id);
 
     // Act.
-    const games = await system?.navigate();
-    await games?.click();
+    const more = await target.more(nes.id);
+    await more.click();
 
     // Assert.
     expect(_history.location.pathname).toEqual(`/systems/${nes.id}`);

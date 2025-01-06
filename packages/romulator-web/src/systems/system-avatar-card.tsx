@@ -1,26 +1,24 @@
 import {
-  useFashionTheme,
-  useNavigate,
-  ZButton,
+  IZCard,
   ZCard,
   ZIconFontAwesome,
   ZImageSource,
   ZStack,
 } from "@zthun/fashion-boutique";
-import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
+import { ZSizeFixed } from "@zthun/fashion-tailor";
 import { ZOrientation } from "@zthun/helpful-fn";
 import { IZRomulatorSystem } from "../../../romulator-models/src";
 
-export interface IZRomulatorSystemCard {
+export interface IZRomulatorSystemAvatarCard {
   system: IZRomulatorSystem;
+
+  CardProps?: Pick<IZCard, "footer">;
 }
 
-export function ZRomulatorSystemCard(props: IZRomulatorSystemCard) {
-  const { system } = props;
-  const { secondary } = useFashionTheme();
+export function ZRomulatorSystemAvatarCard(props: IZRomulatorSystemAvatarCard) {
+  const { system, CardProps } = props;
   // TODO: Add support for other regions
   const src = `/systems/us/${system.id}-256x256.png`;
-  const navigate = useNavigate();
 
   return (
     <ZCard
@@ -31,15 +29,7 @@ export function ZRomulatorSystemCard(props: IZRomulatorSystemCard) {
         subHeading: system.name,
       }}
       name={system.id}
-      footer={
-        <ZButton
-          fashion={secondary}
-          label="More"
-          name="games"
-          width={ZSizeVaried.Full}
-          onClick={() => navigate(`/systems/${system.id}`)}
-        />
-      }
+      {...CardProps}
     >
       <ZStack
         orientation={ZOrientation.Horizontal}
