@@ -1,5 +1,7 @@
 import { ZLazy } from "@zthun/helpful-fn";
 import { IZDataRequest, IZDataSource } from "@zthun/helpful-query";
+import { useAsyncState } from "@zthun/helpful-react";
+import { IZRomulatorSystem } from "@zthun/romulator-models";
 import { IZHttpService, ZHttpService } from "@zthun/webigail-http";
 import {
   IZRestfulGet,
@@ -8,7 +10,6 @@ import {
 } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
 import { createContext, useContext } from "react";
-import { IZRomulatorSystem } from "../../../romulator-models/src";
 import { ZRomulatorEnvironmentService } from "../environment/environment-service.mjs";
 
 export interface IZRomulatorSystemsService
@@ -58,3 +59,9 @@ export const ZRomulatorSystemsServiceContext = createContext(
 
 export const useSystemsService = () =>
   useContext(ZRomulatorSystemsServiceContext);
+
+export const useSystem = (id: string) => {
+  const service = useSystemsService();
+
+  return useAsyncState(() => service.get(id), [id]);
+};
