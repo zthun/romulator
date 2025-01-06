@@ -4,7 +4,7 @@
     "baseUrl": "packages",
     "target": "esnext",
     "paths": {
-      "@zthun/romulator": ["romulator/src/index"]
+      "@zthun/romulator-models": ["romulator-models/src/index"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.mts"]
