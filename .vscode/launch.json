@@ -5,7 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Romulator API",
+      "name": "Run Romulator UI",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/packages/romulator-web"
+    },
+    {
+      "name": "Run Romulator",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/packages/romulator-api/src/main.mts",
