@@ -17,7 +17,7 @@ export interface IZRomulatorSystemsService
 export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   private _rest: ZLazy<IZRestfulService<IZRomulatorSystem>>;
 
-  public static endpoint() {
+  public endpoint() {
     return new ZUrlBuilder()
       .protocol("http")
       .hostname("localhost")
@@ -29,9 +29,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
 
   public constructor(_http: IZHttpService) {
     this._rest = new ZLazy(() =>
-      Promise.resolve(
-        new ZRestfulService(_http, ZRomulatorSystemsService.endpoint()),
-      ),
+      Promise.resolve(new ZRestfulService(_http, this.endpoint())),
     );
   }
 

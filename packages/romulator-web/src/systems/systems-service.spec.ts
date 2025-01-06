@@ -25,45 +25,6 @@ describe("SystemsService", () => {
 
   beforeEach(async () => {
     _http = new ZHttpServiceMock();
-
-    _http.set(
-      ZRomulatorSystemsService.endpoint(),
-      ZHttpMethod.Get,
-      new ZHttpResultBuilder(
-        new ZPageBuilder<IZRomulatorSystem>().all(systems).build(),
-      ).build(),
-    );
-
-    _http.set(
-      new ZRestfulUrlBuilder(ZRomulatorSystemsService.endpoint())
-        .count()
-        .build(),
-      ZHttpMethod.Get,
-      new ZHttpResultBuilder(
-        new ZPageBuilder<IZRomulatorSystem>()
-          .data([nes])
-          .count(systems.length)
-          .build(),
-      ).build(),
-    );
-
-    _http.set(
-      new ZUrlBuilder()
-        .parse(ZRomulatorSystemsService.endpoint())
-        .append(nes.id)
-        .build(),
-      ZHttpMethod.Get,
-      new ZHttpResultBuilder(nes).build(),
-    );
-
-    _http.set(
-      new ZUrlBuilder()
-        .parse(ZRomulatorSystemsService.endpoint())
-        .append(snes.id)
-        .build(),
-      ZHttpMethod.Get,
-      new ZHttpResultBuilder(snes).build(),
-    );
   });
 
   const createTestTarget = () => new ZRomulatorSystemsService(_http);
@@ -73,6 +34,14 @@ describe("SystemsService", () => {
       // Arrange.
       const target = createTestTarget();
       const request = new ZDataRequestBuilder().build();
+
+      _http.set(
+        target.endpoint(),
+        ZHttpMethod.Get,
+        new ZHttpResultBuilder(
+          new ZPageBuilder<IZRomulatorSystem>().all(systems).build(),
+        ).build(),
+      );
 
       // Act.
       const actual = await target.retrieve(request);
@@ -84,6 +53,18 @@ describe("SystemsService", () => {
     it("should retrieve a single system by id", async () => {
       // Arrange.
       const target = createTestTarget();
+
+      _http.set(
+        new ZUrlBuilder().parse(target.endpoint()).append(nes.id).build(),
+        ZHttpMethod.Get,
+        new ZHttpResultBuilder(nes).build(),
+      );
+
+      _http.set(
+        new ZUrlBuilder().parse(target.endpoint()).append(snes.id).build(),
+        ZHttpMethod.Get,
+        new ZHttpResultBuilder(snes).build(),
+      );
 
       // Act.
       const _nes = await target.get(nes.id);
@@ -99,6 +80,17 @@ describe("SystemsService", () => {
     it("should count the number of systems", async () => {
       // Arrange.
       const target = createTestTarget();
+
+      _http.set(
+        new ZRestfulUrlBuilder(target.endpoint()).count().build(),
+        ZHttpMethod.Get,
+        new ZHttpResultBuilder(
+          new ZPageBuilder<IZRomulatorSystem>()
+            .data([nes])
+            .count(systems.length)
+            .build(),
+        ).build(),
+      );
 
       // Act.
       const actual = await target.count(new ZDataRequestBuilder().build());
