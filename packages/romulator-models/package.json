@@ -14,9 +14,9 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
+    "types": "./dist/index.d.ts",
     "require": "./dist/index.cjs",
-    "import": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+    "import": "./dist/index.js"
   },
   "scripts": {
     "build": "vite build"
@@ -25,12 +25,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@zthun/helpful-fn": "^7.2.0",
+    "@zthun/helpful-fn": "^7.2.1",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
-    "vite": "^5.4.11",
-    "vitest": "^2.1.8"
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
   },
   "files": [
     "dist"
