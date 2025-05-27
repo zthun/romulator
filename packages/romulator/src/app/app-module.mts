@@ -1,8 +1,6 @@
 /* istanbul ignore file -- @preserve */
 import { Module } from "@nestjs/common";
-import { ZRomulatorSystemsModule } from "../systems/systems-module.mjs";
+import { ZRomulatorPlatformsModule } from "../platforms/platforms-module.mjs";
 
-@Module({
-  imports: [ZRomulatorSystemsModule],
-})
+@Module({ imports: [ZRomulatorPlatformsModule] })
 export class ZRomulatorModule {}

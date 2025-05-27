@@ -18,15 +18,15 @@ import {
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
 import { IZRomulatorPlatform, ZRomulatorPlatformBuilder } from "./platform";
 
-export const ZRomulatorSystemsToken = Symbol("systems");
+export const ZRomulatorPlatformsToken = Symbol("romulator-platforms-service");
 
-export interface IZRomulatorSystemsService {
+export interface IZRomulatorPlatformsService {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorPlatform>>;
   get(id: string): Promise<IZRomulatorPlatform>;
 }
 
 @Injectable()
-export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
+export class ZRomulatorPlatformsService implements IZRomulatorPlatformsService {
   public constructor(
     @Inject(ZFileSystemToken)
     private readonly _file: IZFileSystemService,

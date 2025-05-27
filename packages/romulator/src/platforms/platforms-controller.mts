@@ -7,15 +7,15 @@ import {
 } from "@zthun/helpful-query";
 import { IZRomulatorPlatform } from "./platform";
 import {
-  IZRomulatorSystemsService,
-  ZRomulatorSystemsToken,
+  IZRomulatorPlatformsService,
+  ZRomulatorPlatformsToken,
 } from "./platforms-service.mjs";
 
 @Controller("platforms")
 export class ZRomulatorPlatformsController {
   public constructor(
-    @Inject(ZRomulatorSystemsToken)
-    private readonly _systems: IZRomulatorSystemsService,
+    @Inject(ZRomulatorPlatformsToken)
+    private readonly _systems: IZRomulatorPlatformsService,
   ) {}
 
   @Get()

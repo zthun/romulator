@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { readFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { resolve } from "node:path";
+import { IZRomulatorConfig, ZRomulatorConfigBuilder } from "./config";
 
 export const ZRomulatorConfigsToken = Symbol("configs");
 
