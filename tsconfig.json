@@ -1,11 +1,5 @@
 {
   "extends": "./.config/.tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "packages",
-    "target": "esnext",
-    "paths": {
-      "@zthun/romulator-models": ["romulator-models/src/index"]
-    }
-  },
+  "compilerOptions": { "baseUrl": "packages", "target": "esnext" },
   "include": ["**/*.ts", "**/*.tsx", "**/*.mts"]
 }
