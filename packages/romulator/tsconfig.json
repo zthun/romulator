@@ -3,10 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": false,
-    "outDir": "./dist",
-    "paths": {
-      "@zthun/romulator-models": ["../romulator-models/src/index"]
-    }
+    "outDir": "./dist"
   },
   "include": ["./src/**/*.ts", "./src/**/*.mts"]
 }

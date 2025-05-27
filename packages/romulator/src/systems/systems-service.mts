@@ -9,10 +9,6 @@ import {
   ZDataSourceStaticOptionsBuilder,
   ZPageBuilder,
 } from "@zthun/helpful-query";
-import {
-  IZRomulatorSystem,
-  ZRomulatorSystemBuilder,
-} from "@zthun/romulator-models";
 import { find } from "lodash-es";
 import { basename } from "node:path";
 import {
@@ -20,6 +16,7 @@ import {
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
+import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system";
 
 export const ZRomulatorSystemsToken = Symbol("systems");
 

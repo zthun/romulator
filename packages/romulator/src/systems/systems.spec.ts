@@ -10,20 +10,18 @@ import {
   ZSortBuilder,
   ZSortSerialize,
 } from "@zthun/helpful-query";
-import {
-  ZRomulatorConfigBuilder,
-  ZRomulatorSystemBuilder,
-} from "@zthun/romulator-models";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { resolve } from "node:path";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
+import { ZRomulatorConfigBuilder } from "../config/config";
 import {
   IZRomulatorConfigService,
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
+import { ZRomulatorSystemBuilder } from "./system";
 import { ZRomulatorSystemsModule } from "./systems-module.mjs";
 
 describe("SystemsApi", () => {
