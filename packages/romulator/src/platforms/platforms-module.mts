@@ -2,15 +2,15 @@
 import { Module } from "@nestjs/common";
 import { ZRomulatorConfigsModule } from "../config/configs-module.mjs";
 import { ZRomulatorFileSystemModule } from "../file/file-system-module.mjs";
-import { ZRomulatorSystemsController } from "./systems-controller.mjs";
+import { ZRomulatorPlatformsController } from "./platforms-controller.mjs";
 import {
   ZRomulatorSystemsService,
   ZRomulatorSystemsToken,
-} from "./systems-service.mjs";
+} from "./platforms-service.mjs";
 
 @Module({
   imports: [ZRomulatorConfigsModule, ZRomulatorFileSystemModule],
-  controllers: [ZRomulatorSystemsController],
+  controllers: [ZRomulatorPlatformsController],
   providers: [
     { provide: ZRomulatorSystemsToken, useClass: ZRomulatorSystemsService },
   ],

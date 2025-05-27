@@ -16,13 +16,13 @@ import {
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
-import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system";
+import { IZRomulatorPlatform, ZRomulatorPlatformBuilder } from "./platform";
 
 export const ZRomulatorSystemsToken = Symbol("systems");
 
 export interface IZRomulatorSystemsService {
-  list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>>;
-  get(id: string): Promise<IZRomulatorSystem>;
+  list(req: IZDataRequest): Promise<IZPage<IZRomulatorPlatform>>;
+  get(id: string): Promise<IZRomulatorPlatform>;
 }
 
 @Injectable()
@@ -34,20 +34,20 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     private readonly _configs: IZRomulatorConfigService,
   ) {}
 
-  public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>> {
+  public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorPlatform>> {
     const config = await this._configs.read();
     const folders = await this._file.search("*/", { cwd: config.games });
 
     const systems = folders
       .map((folder) => this.convertToSystem(folder))
       .filter((system) => system != null)
-      .map((system) => system as IZRomulatorSystem);
+      .map((system) => system as IZRomulatorPlatform);
 
     const sourceOptions = new ZDataSourceStaticOptionsBuilder()
       .search(new ZDataSearchFields(["id", "name", "short"]))
       .build();
 
-    const source = new ZDataSourceStatic<IZRomulatorSystem>(
+    const source = new ZDataSourceStatic<IZRomulatorPlatform>(
       systems,
       sourceOptions,
     );
@@ -55,26 +55,28 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     const data = await source.retrieve(req);
     const count = await source.count(req);
 
-    return new ZPageBuilder<IZRomulatorSystem>()
+    return new ZPageBuilder<IZRomulatorPlatform>()
       .data(data)
       .count(count)
       .build();
   }
 
-  public async get(id: string): Promise<IZRomulatorSystem> {
+  public async get(id: string): Promise<IZRomulatorPlatform> {
     const all = await this.list(new ZDataRequestBuilder().build());
     const system = find(all.data, (system) => system.id === id);
 
     if (!system) {
-      throw new NotFoundException(`Unable to find system with id, ${id}.`);
+      throw new NotFoundException(`Unable to find platform with id, ${id}.`);
     }
 
     return system;
   }
 
-  private convertToSystem(folder: IZFileSystemNode): IZRomulatorSystem | null {
+  private convertToSystem(
+    folder: IZFileSystemNode,
+  ): IZRomulatorPlatform | null {
     const id = basename(folder.path);
-    const builder = new ZRomulatorSystemBuilder();
+    const builder = new ZRomulatorPlatformBuilder();
 
     if (typeof builder[id] === "function") {
       return builder[id]().build();

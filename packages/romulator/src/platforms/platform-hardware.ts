@@ -1,7 +1,7 @@
 /**
  * A description of the hardware capabilities of a system.
  */
-export interface IZRomulatorHardware {
+export interface IZRomulatorPlatformHardware {
   /**
    * The operating system of the system.
    */

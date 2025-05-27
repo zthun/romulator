@@ -13,7 +13,7 @@ export interface IZRomulatorPlatform {
   price?: number;
 }
 
-export class ZRomulatorSystemBuilder {
+export class ZRomulatorPlatformBuilder {
   private _system: IZRomulatorPlatform = {};
 
   public id(id: string): this {

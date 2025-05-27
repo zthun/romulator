@@ -5,14 +5,14 @@ import {
   IZPage,
   ZDataRequestBuilder,
 } from "@zthun/helpful-query";
-import { IZRomulatorSystem } from "./system";
+import { IZRomulatorPlatform } from "./platform";
 import {
   IZRomulatorSystemsService,
   ZRomulatorSystemsToken,
-} from "./systems-service.mjs";
+} from "./platforms-service.mjs";
 
-@Controller("systems")
-export class ZRomulatorSystemsController {
+@Controller("platforms")
+export class ZRomulatorPlatformsController {
   public constructor(
     @Inject(ZRomulatorSystemsToken)
     private readonly _systems: IZRomulatorSystemsService,
@@ -21,14 +21,14 @@ export class ZRomulatorSystemsController {
   @Get()
   public list(
     @Query() query: IZDataRequestQuery,
-  ): Promise<IZPage<IZRomulatorSystem>> {
+  ): Promise<IZPage<IZRomulatorPlatform>> {
     return this._systems.list(new ZDataRequestBuilder().query(query).build());
   }
 
   @ApiParam({
     type: "string | number",
     name: "identification",
-    description: "The id of the system",
+    description: "The id of the platform",
   })
   @Get(":identification")
   public get(@Param("identification") identification: string) {
