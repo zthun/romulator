@@ -1,6 +1,4 @@
-import { ZRomulatorRegion } from "../region/region";
-
-export interface IZRomulatorSystem {
+export interface IZRomulatorPlatform {
   id?: string;
   name?: string;
   short?: string;
@@ -13,11 +11,10 @@ export interface IZRomulatorSystem {
   discontinued?: string;
   sold?: number;
   price?: number;
-  region?: ZRomulatorRegion;
 }
 
 export class ZRomulatorSystemBuilder {
-  private _system: IZRomulatorSystem = {};
+  private _system: IZRomulatorPlatform = {};
 
   public id(id: string): this {
     this._system.id = id;
@@ -31,11 +28,6 @@ export class ZRomulatorSystemBuilder {
 
   public short(short: string): this {
     this._system.short = short;
-    return this;
-  }
-
-  public region(region: ZRomulatorRegion): this {
-    this._system.region = region;
     return this;
   }
 
