@@ -3,6 +3,7 @@ import { Test } from "@nestjs/testing";
 import {
   IZFileSystemService,
   ZFileSystemNodeBuilder,
+  ZFileSystemToken,
 } from "@zthun/helpful-node";
 import {
   ZFilterBinaryBuilder,
@@ -20,7 +21,6 @@ import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
-import { ZFileSystemToken } from "../file/file-system-service.mjs";
 import { ZRomulatorSystemKnown } from "./system-known";
 import { ZRomulatorSystemsModule } from "./systems-module.mjs";
 

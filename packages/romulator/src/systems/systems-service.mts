@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { IZFileSystemService } from "@zthun/helpful-node";
+import { IZFileSystemService, ZFileSystemToken } from "@zthun/helpful-node";
 import {
   IZDataRequest,
   IZPage,
@@ -15,7 +15,6 @@ import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
-import { ZFileSystemToken } from "../file/file-system-service.mjs";
 import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system";
 import { ZRomulatorSystemKnown } from "./system-known";
 
