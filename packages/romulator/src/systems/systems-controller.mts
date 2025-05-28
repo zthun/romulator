@@ -28,7 +28,7 @@ export class ZRomulatorSystemsController {
   @ApiParam({
     type: "string | number",
     name: "identification",
-    description: "The id of the platform",
+    description: "The id of the system",
   })
   @Get(":identification")
   public get(@Param("identification") identification: string) {
