@@ -11,8 +11,8 @@ import {
   ZRomulatorPlatformsToken,
 } from "./systems-service.mjs";
 
-@Controller("platforms")
-export class ZRomulatorPlatformsController {
+@Controller("systems")
+export class ZRomulatorSystemsController {
   public constructor(
     @Inject(ZRomulatorPlatformsToken)
     private readonly _systems: IZRomulatorPlatformsService,

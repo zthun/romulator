@@ -22,11 +22,11 @@ import {
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
 import { ZRomulatorSystemKnown } from "./system-known";
-import { ZRomulatorPlatformsModule } from "./systems-module.mjs";
+import { ZRomulatorSystemsModule } from "./systems-module.mjs";
 
 describe("SystemsApi", () => {
   const roms = "/path/to/roms";
-  const endpoint = "platforms";
+  const endpoint = "systems";
 
   const nes = ZRomulatorSystemKnown.nes().build();
   const snes = ZRomulatorSystemKnown.snes().build();
@@ -65,7 +65,7 @@ describe("SystemsApi", () => {
 
   const createTestTarget = async () => {
     const module = await Test.createTestingModule({
-      imports: [ZRomulatorPlatformsModule],
+      imports: [ZRomulatorSystemsModule],
     })
       .overrideProvider(ZFileSystemToken)
       .useValue(_file)
