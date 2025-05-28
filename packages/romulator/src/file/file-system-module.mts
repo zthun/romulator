@@ -1,7 +1,6 @@
 /* istanbul ignore file -- @preserve */
 import { Module } from "@nestjs/common";
-import { ZFileSystemService } from "@zthun/helpful-node";
-import { ZFileSystemToken } from "./file-system-service.mjs";
+import { ZFileSystemService, ZFileSystemToken } from "@zthun/helpful-node";
 
 @Module({
   providers: [{ provide: ZFileSystemToken, useClass: ZFileSystemService }],
