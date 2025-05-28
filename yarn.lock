@@ -3116,6 +3116,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zthun/lumberjacky-log@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@zthun/lumberjacky-log@npm:2.3.0"
+  dependencies:
+    lodash-es: "npm:^4.17.21"
+  checksum: 10c0/5662cbfebeeb53d435706376f039eda6399fce85911769ce00aceefb2944bae7a2d96d019f6a4930203137b01e856bdfbd0f2f2333bcbe1628e4b1cc3d05c3d4
+  languageName: node
+  linkType: hard
+
+"@zthun/lumberjacky-nest@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@zthun/lumberjacky-nest@npm:2.3.0"
+  dependencies:
+    "@zthun/lumberjacky-log": "npm:^2.3.0"
+    lodash-es: "npm:^4.17.21"
+    reflect-metadata: "npm:^0.2.2"
+    rxjs: "npm:^7.8.2"
+  peerDependencies:
+    "@nestjs/common": ^11.1.1
+  checksum: 10c0/1d216785c359269487e184b1afcc5676a691b8883e70762fcd7d8ef8b4f0d234145566dc9ea58da26d3e6185603ebaf10b3191d1a194303629fa188e9c34bfcc
+  languageName: node
+  linkType: hard
+
 "@zthun/markdownlint-config@npm:^18.1.0":
   version: 18.1.0
   resolution: "@zthun/markdownlint-config@npm:18.1.0"
@@ -3146,6 +3169,8 @@ __metadata:
     "@zthun/helpful-fn": "npm:^7.2.1"
     "@zthun/helpful-node": "npm:^7.2.1"
     "@zthun/helpful-query": "npm:^7.2.1"
+    "@zthun/lumberjacky-log": "npm:^2.3.0"
+    "@zthun/lumberjacky-nest": "npm:^2.3.0"
     "@zthun/webigail-http": "npm:^3.3.0"
     helmet: "npm:^8.1.0"
     lodash-es: "npm:^4.17.21"
