@@ -2,18 +2,16 @@ import "reflect-metadata";
 
 import { ZRomulatorSystemBuilder } from "./system";
 
-const IS_SYSTEM_METHOD = "custom:isSystem";
+const IS_SYSTEM = "z-romulator-is-system-method";
 
 function KnownSystem(): MethodDecorator {
   return (_, __, descriptor) => {
-    Reflect.defineMetadata(IS_SYSTEM_METHOD, true, descriptor.value!);
+    Reflect.defineMetadata(IS_SYSTEM, true, descriptor.value!);
   };
 }
 
 function isKnownSystem(target: any): target is () => ZRomulatorSystemBuilder {
-  return (
-    target != null && Reflect.getMetadata(IS_SYSTEM_METHOD, target) === true
-  );
+  return target != null && Reflect.getMetadata(IS_SYSTEM, target) === true;
 }
 
 /**
