@@ -28,8 +28,8 @@ describe("SystemsApi", () => {
   const roms = "/path/to/roms";
   const endpoint = "platforms";
 
-  const nes = new ZRomulatorSystemKnown().nes().build();
-  const snes = new ZRomulatorSystemKnown().snes().build();
+  const nes = ZRomulatorSystemKnown.nes().build();
+  const snes = ZRomulatorSystemKnown.snes().build();
 
   const mediaFolder = new ZFileSystemNodeBuilder()
     .folder()
@@ -43,7 +43,11 @@ describe("SystemsApi", () => {
     .folder()
     .path(resolve(roms, "snes"))
     .build();
-  const folders = [mediaFolder, nesFolder, snesFolder];
+  const unsupportedFolder = new ZFileSystemNodeBuilder()
+    .folder()
+    .path(resolve(roms, "from"))
+    .build();
+  const folders = [mediaFolder, nesFolder, snesFolder, unsupportedFolder];
 
   let _target: INestApplication<any>;
   let _file: Mocked<IZFileSystemService>;

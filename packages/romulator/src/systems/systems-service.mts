@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { IZFileSystemNode, IZFileSystemService } from "@zthun/helpful-node";
+import { IZFileSystemService } from "@zthun/helpful-node";
 import {
   IZDataRequest,
   IZPage,
@@ -17,6 +17,7 @@ import {
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
 import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system";
+import { ZRomulatorSystemKnown } from "./system-known";
 
 export const ZRomulatorPlatformsToken = Symbol("romulator-platforms-service");
 
@@ -39,9 +40,12 @@ export class ZRomulatorPlatformsService implements IZRomulatorPlatformsService {
     const folders = await this._file.search("*/", { cwd: config.games });
 
     const systems = folders
-      .map((folder) => this.convertToSystem(folder))
+      .map((folder) => folder.path)
+      .map((path) => basename(path))
+      .map((slug) => ZRomulatorSystemKnown.from(slug))
       .filter((system) => system != null)
-      .map((system) => system as IZRomulatorSystem);
+      .map((system) => system as ZRomulatorSystemBuilder)
+      .map((builder) => builder.build());
 
     const sourceOptions = new ZDataSourceStaticOptionsBuilder()
       .search(new ZDataSearchFields(["id", "name", "short"]))
@@ -70,16 +74,5 @@ export class ZRomulatorPlatformsService implements IZRomulatorPlatformsService {
     }
 
     return system;
-  }
-
-  private convertToSystem(folder: IZFileSystemNode): IZRomulatorSystem | null {
-    const id = basename(folder.path);
-    const builder = new ZRomulatorSystemBuilder();
-
-    if (typeof builder[id] === "function") {
-      return builder[id]().build();
-    }
-
-    return null;
   }
 }
