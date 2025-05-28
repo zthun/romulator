@@ -21,15 +21,15 @@ import {
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
-import { ZRomulatorPlatformBuilder } from "./platform";
-import { ZRomulatorPlatformsModule } from "./platforms-module.mjs";
+import { ZRomulatorSystemBuilder } from "./system";
+import { ZRomulatorPlatformsModule } from "./systems-module.mjs";
 
 describe("SystemsApi", () => {
   const roms = "/path/to/roms";
   const endpoint = "platforms";
 
-  const nes = new ZRomulatorPlatformBuilder().nes().build();
-  const snes = new ZRomulatorPlatformBuilder().snes().build();
+  const nes = new ZRomulatorSystemBuilder().nes().build();
+  const snes = new ZRomulatorSystemBuilder().snes().build();
 
   const mediaFolder = new ZFileSystemNodeBuilder()
     .folder()

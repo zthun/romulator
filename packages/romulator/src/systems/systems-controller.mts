@@ -5,11 +5,11 @@ import {
   IZPage,
   ZDataRequestBuilder,
 } from "@zthun/helpful-query";
-import { IZRomulatorPlatform } from "./platform";
+import { IZRomulatorSystem } from "./system";
 import {
   IZRomulatorPlatformsService,
   ZRomulatorPlatformsToken,
-} from "./platforms-service.mjs";
+} from "./systems-service.mjs";
 
 @Controller("platforms")
 export class ZRomulatorPlatformsController {
@@ -21,7 +21,7 @@ export class ZRomulatorPlatformsController {
   @Get()
   public list(
     @Query() query: IZDataRequestQuery,
-  ): Promise<IZPage<IZRomulatorPlatform>> {
+  ): Promise<IZPage<IZRomulatorSystem>> {
     return this._systems.list(new ZDataRequestBuilder().query(query).build());
   }
 

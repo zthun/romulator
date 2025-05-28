@@ -2,11 +2,11 @@
 import { Module } from "@nestjs/common";
 import { ZRomulatorConfigsModule } from "../config/configs-module.mjs";
 import { ZRomulatorFileSystemModule } from "../file/file-system-module.mjs";
-import { ZRomulatorPlatformsController } from "./platforms-controller.mjs";
+import { ZRomulatorPlatformsController } from "./systems-controller.mjs";
 import {
   ZRomulatorPlatformsService,
   ZRomulatorPlatformsToken,
-} from "./platforms-service.mjs";
+} from "./systems-service.mjs";
 
 @Module({
   imports: [ZRomulatorConfigsModule, ZRomulatorFileSystemModule],
