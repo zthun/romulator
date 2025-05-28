@@ -17,7 +17,7 @@ import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { ZRomulatorConfigBuilder } from "../config/config";
 import {
-  IZRomulatorConfigService,
+  IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
@@ -51,13 +51,13 @@ describe("SystemsApi", () => {
 
   let _target: INestApplication<any>;
   let _file: Mocked<IZFileSystemService>;
-  let _config: Mocked<IZRomulatorConfigService>;
+  let _config: Mocked<IZRomulatorConfigsService>;
 
   beforeEach(() => {
     _file = mock<IZFileSystemService>();
     _file.search.mockResolvedValue(folders);
 
-    _config = mock<IZRomulatorConfigService>();
+    _config = mock<IZRomulatorConfigsService>();
     _config.read.mockResolvedValue(
       new ZRomulatorConfigBuilder().games(roms).build(),
     );

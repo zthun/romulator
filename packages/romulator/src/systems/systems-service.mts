@@ -12,7 +12,7 @@ import {
 import { find } from "lodash-es";
 import { basename } from "node:path";
 import {
-  IZRomulatorConfigService,
+  IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
 import { ZFileSystemToken } from "../file/file-system-service.mjs";
@@ -32,7 +32,7 @@ export class ZRomulatorPlatformsService implements IZRomulatorPlatformsService {
     @Inject(ZFileSystemToken)
     private readonly _file: IZFileSystemService,
     @Inject(ZRomulatorConfigsToken)
-    private readonly _configs: IZRomulatorConfigService,
+    private readonly _configs: IZRomulatorConfigsService,
   ) {}
 
   public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>> {
