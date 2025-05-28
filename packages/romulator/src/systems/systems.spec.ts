@@ -16,7 +16,7 @@ import { resolve } from "node:path";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { ZRomulatorConfigBuilder } from "../config/config";
+import { ZRomulatorConfigRomsBuilder } from "../config/config-roms";
 import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
@@ -59,7 +59,7 @@ describe("SystemsApi", () => {
 
     _config = mock<IZRomulatorConfigsService>();
     _config.read.mockResolvedValue(
-      new ZRomulatorConfigBuilder().games(roms).build(),
+      new ZRomulatorConfigRomsBuilder().games(roms).build(),
     );
   });
 

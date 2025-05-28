@@ -11,6 +11,7 @@ import {
 } from "@zthun/helpful-query";
 import { find } from "lodash-es";
 import { basename } from "node:path";
+import { IZRomulatorConfigRoms } from "../config/config-roms";
 import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
@@ -18,15 +19,15 @@ import {
 import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system";
 import { ZRomulatorSystemKnown } from "./system-known";
 
-export const ZRomulatorPlatformsToken = Symbol("romulator-platforms-service");
+export const ZRomulatorSystemsToken = Symbol("romulator-platforms-service");
 
-export interface IZRomulatorPlatformsService {
+export interface IZRomulatorSystemsService {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>>;
   get(id: string): Promise<IZRomulatorSystem>;
 }
 
 @Injectable()
-export class ZRomulatorPlatformsService implements IZRomulatorPlatformsService {
+export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   public constructor(
     @Inject(ZFileSystemToken)
     private readonly _file: IZFileSystemService,
@@ -35,7 +36,7 @@ export class ZRomulatorPlatformsService implements IZRomulatorPlatformsService {
   ) {}
 
   public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>> {
-    const config = await this._configs.read();
+    const config = await this._configs.read<IZRomulatorConfigRoms>("roms");
     const folders = await this._file.search("*/", { cwd: config.games });
 
     const systems = folders
