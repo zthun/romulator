@@ -12,7 +12,8 @@ import {
 } from "@zthun/helpful-query";
 import { find } from "lodash-es";
 import { basename } from "node:path";
-import { IZRomulatorConfigRoms } from "../config/config-roms";
+import { ZRomulatorConfigBuilder } from "../config/config";
+import { IZRomulatorConfigGames } from "../config/config-games";
 import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
@@ -37,8 +38,10 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   ) {}
 
   public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>> {
-    const config = await this._configs.read<IZRomulatorConfigRoms>("roms");
-    const folders = await this._file.search("*/", { cwd: config.games });
+    const games = new ZRomulatorConfigBuilder().games().build();
+    const { contents: config } =
+      await this._configs.read<IZRomulatorConfigGames>(games.id);
+    const folders = await this._file.search("*/", { cwd: config.gamesFolder });
 
     const systems = folders
       .map((folder) => folder.path)
@@ -71,7 +74,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     const system = find(all.data, (system) => system.id === id);
 
     if (!system) {
-      throw new NotFoundException(`Unable to find platform with id, ${id}.`);
+      throw new NotFoundException(`Unable to find system with id, ${id}.`);
     }
 
     return system;

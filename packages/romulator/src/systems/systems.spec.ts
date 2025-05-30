@@ -16,7 +16,11 @@ import { resolve } from "node:path";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { ZRomulatorConfigRomsBuilder } from "../config/config-roms";
+import { IZRomulatorConfig, ZRomulatorConfigBuilder } from "../config/config";
+import {
+  IZRomulatorConfigGames,
+  ZRomulatorConfigGamesBuilder,
+} from "../config/config-games";
 import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
@@ -25,7 +29,7 @@ import { ZRomulatorSystemKnown } from "./system-known";
 import { ZRomulatorSystemsModule } from "./systems-module.mjs";
 
 describe("SystemsApi", () => {
-  const roms = "/path/to/roms";
+  const games = "/path/to/games";
   const endpoint = "systems";
 
   const nes = ZRomulatorSystemKnown.nes().build();
@@ -33,19 +37,19 @@ describe("SystemsApi", () => {
 
   const mediaFolder = new ZFileSystemNodeBuilder()
     .folder()
-    .path(resolve(roms, ".media"))
+    .path(resolve(games, ".media"))
     .build();
   const nesFolder = new ZFileSystemNodeBuilder()
     .folder()
-    .path(resolve(roms, "nes"))
+    .path(resolve(games, "nes"))
     .build();
   const snesFolder = new ZFileSystemNodeBuilder()
     .folder()
-    .path(resolve(roms, "snes"))
+    .path(resolve(games, "snes"))
     .build();
   const unsupportedFolder = new ZFileSystemNodeBuilder()
     .folder()
-    .path(resolve(roms, "from"))
+    .path(resolve(games, "from"))
     .build();
   const folders = [mediaFolder, nesFolder, snesFolder, unsupportedFolder];
 
@@ -59,7 +63,10 @@ describe("SystemsApi", () => {
 
     _config = mock<IZRomulatorConfigsService>();
     _config.read.mockResolvedValue(
-      new ZRomulatorConfigRomsBuilder().games(roms).build(),
+      new ZRomulatorConfigBuilder<IZRomulatorConfigGames>()
+        .games()
+        .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
+        .build() as Required<IZRomulatorConfig>,
     );
   });
 
