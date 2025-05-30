@@ -3006,6 +3006,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zthun/crumbtrail-fs@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@zthun/crumbtrail-fs@npm:2.0.0"
+  dependencies:
+    glob: "npm:^11.0.2"
+    lodash-es: "npm:^4.17.21"
+  checksum: 10c0/ccbaee6c683d640d0b1d2417fb9ef9fa7ad3ff4957c67b5b802dac6b2e44ee497c8f92623b08a0f3ef6f1eb55c60a916a6925290e71f3cd7e20b270216fcbe5d
+  languageName: node
+  linkType: hard
+
+"@zthun/crumbtrail-nest@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@zthun/crumbtrail-nest@npm:2.0.0"
+  dependencies:
+    "@zthun/crumbtrail-fs": "npm:^2.0.0"
+  peerDependencies:
+    "@nestjs/common": ^11.1.2
+  checksum: 10c0/db255b193e56af0380c1869e0754e57c4a0252319a9814f4223e6926c7a3c59647fa92ed64f4d366ff2c32791a63dc9e1b6823bfd074e4fff51a1511bfde07fa
+  languageName: node
+  linkType: hard
+
 "@zthun/eslint-config@npm:^18.1.0":
   version: 18.1.0
   resolution: "@zthun/eslint-config@npm:18.1.0"
@@ -3035,16 +3056,6 @@ __metadata:
   dependencies:
     uuid: "npm:^11.1.0"
   checksum: 10c0/1ddde844df3a74b69db96734ce21d164df1883ec7a1a583d9603dacda5e02449139dd26134705d2313203220312d8ff8aa85633ad5cbf1412cbbea6ca5c59c53
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-node@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "@zthun/helpful-node@npm:7.2.1"
-  dependencies:
-    "@zthun/helpful-fn": "npm:^7.2.1"
-    glob: "npm:^11.0.2"
-  checksum: 10c0/2d46cd825700f74716f53b91ee7794b20c2c2fb05b23de2eb3defddb0df2f67ff688aee4d5a62a2802056010336857a93d5999a5cdf8fe20eb166d5016381ebd
   languageName: node
   linkType: hard
 
@@ -3166,8 +3177,9 @@ __metadata:
     "@nestjs/platform-express": "npm:^11.1.2"
     "@nestjs/swagger": "npm:^11.2.0"
     "@nestjs/testing": "npm:^11.1.2"
+    "@zthun/crumbtrail-fs": "npm:^2.0.0"
+    "@zthun/crumbtrail-nest": "npm:^2.0.0"
     "@zthun/helpful-fn": "npm:^7.2.1"
-    "@zthun/helpful-node": "npm:^7.2.1"
     "@zthun/helpful-query": "npm:^7.2.1"
     "@zthun/lumberjacky-log": "npm:^2.3.0"
     "@zthun/lumberjacky-nest": "npm:^2.3.0"
