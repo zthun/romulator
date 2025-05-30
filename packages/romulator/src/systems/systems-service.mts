@@ -1,5 +1,6 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { IZFileSystemService, ZFileSystemToken } from "@zthun/helpful-node";
+import { IZFileSystemService } from "@zthun/crumbtrail-fs";
+import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
 import {
   IZDataRequest,
   IZPage,

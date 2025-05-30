@@ -3,8 +3,8 @@ import { Test } from "@nestjs/testing";
 import {
   IZFileSystemService,
   ZFileSystemNodeBuilder,
-  ZFileSystemToken,
-} from "@zthun/helpful-node";
+} from "@zthun/crumbtrail-fs";
+import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
 import {
   ZFilterBinaryBuilder,
   ZFilterSerialize,
