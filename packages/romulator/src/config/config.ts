@@ -1,22 +1,34 @@
-export interface IZRomulatorConfig {
-  games?: string;
-  media?: string;
+import { resolve } from "node:path";
+import { ZDir } from "../dir/dir";
+
+export interface IZRomulatorConfig<T = any> {
+  id: string;
+  file: string;
+  contents?: T;
 }
 
-export class ZRomulatorConfigBuilder {
-  private _config: IZRomulatorConfig;
+export class ZRomulatorConfigBuilder<T = any> {
+  private _config: IZRomulatorConfig<T> = { id: "", file: "" };
 
-  public constructor() {
-    this._config = {};
+  public static all(): IZRomulatorConfig[] {
+    return [new ZRomulatorConfigBuilder().games().build()];
   }
 
-  public games(path: string): this {
-    this._config.games = path;
+  public from(id: string) {
+    this._config.file = resolve(ZDir.configs(), `${id}.json`);
+    this._config.id = id;
     return this;
   }
 
-  public media(path: string): this {
-    this._config.media = path;
+  public contents(contents: T) {
+    this._config.contents = contents;
+    return this;
+  }
+
+  public games = this.from.bind(this, "games");
+
+  public copy(other: IZRomulatorConfig<T>) {
+    this._config = structuredClone(other);
     return this;
   }
 
