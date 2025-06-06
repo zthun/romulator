@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "removeComments": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "target": "es5",
-    "module": "ESNext"
+    "module": "NodeNext"
   }
 }
