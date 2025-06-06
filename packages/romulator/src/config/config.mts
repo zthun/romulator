@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { ZDir } from "../dir/dir";
+import { ZDir } from "../dir/dir.js";
 
 export interface IZRomulatorConfig<T = any> {
   id: string;
@@ -30,6 +30,12 @@ export class ZRomulatorConfigBuilder<T = any> {
   public copy(other: IZRomulatorConfig<T>) {
     this._config = structuredClone(other);
     return this;
+  }
+
+  public cast<K>() {
+    return new ZRomulatorConfigBuilder<K>().copy(
+      this._config as unknown as IZRomulatorConfig<K>,
+    );
   }
 
   public build() {
