@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  NotImplementedException,
+} from "@nestjs/common";
 import { createError } from "@zthun/helpful-fn";
 import {
   IZDataRequest,
@@ -16,13 +21,17 @@ import {
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import { find } from "lodash-es";
 import { readFile } from "node:fs/promises";
-import { IZRomulatorConfig, ZRomulatorConfigBuilder } from "./config";
+import { IZRomulatorConfig, ZRomulatorConfigBuilder } from "./config.mjs";
 
 export const ZRomulatorConfigsToken = Symbol("configs");
 
 export interface IZRomulatorConfigsService {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorConfig<undefined>>>;
   read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>>;
+  update<T>(
+    id: string,
+    record: Partial<IZRomulatorConfig<T>>,
+  ): Promise<IZRomulatorConfig<T>>;
 }
 
 @Injectable()
@@ -51,7 +60,7 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
       .build();
   }
 
-  public async read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>> {
+  public async find(id: string): Promise<IZRomulatorConfig<undefined>> {
     const configs = ZRomulatorConfigBuilder.all();
     const config = find(configs, (c) => c.id === id);
 
@@ -59,6 +68,12 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
       const msg = `Could not find config, ${id}`;
       return Promise.reject(new NotFoundException(msg));
     }
+
+    return config;
+  }
+
+  public async read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>> {
+    const config = await this.find(id);
 
     let contents: any = {};
 
@@ -75,10 +90,20 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     }
 
     return Promise.resolve(
-      new ZRomulatorConfigBuilder<T>()
+      new ZRomulatorConfigBuilder<undefined>()
         .copy(config)
         .contents(contents)
+        .cast<T>()
         .build() as Required<IZRomulatorConfig<T>>,
     );
+  }
+
+  public async update<T>(
+    id: string,
+    record: Partial<IZRomulatorConfig<T>>,
+  ): Promise<IZRomulatorConfig<T>> {
+    await this.find(id);
+
+    throw new NotImplementedException();
   }
 }

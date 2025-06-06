@@ -1,11 +1,22 @@
-import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from "@nestjs/common";
 import { ApiParam } from "@nestjs/swagger";
 import {
   IZDataRequestQuery,
   IZPage,
   ZDataRequestBuilder,
 } from "@zthun/helpful-query";
-import { IZRomulatorConfig } from "./config";
+import { ZRomulatorConfigUpdateDto } from "./config-update.mjs";
+import { IZRomulatorConfig } from "./config.mjs";
 import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
@@ -23,6 +34,23 @@ export class ZRomulatorConfigsController {
     @Query() query: IZDataRequestQuery,
   ): Promise<IZPage<IZRomulatorConfig>> {
     return this._configs.list(new ZDataRequestBuilder().query(query).build());
+  }
+
+  @Patch(":identification")
+  @UsePipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      skipMissingProperties: false,
+      skipNullProperties: false,
+      skipUndefinedProperties: false,
+    }),
+  )
+  public update(
+    @Param("identification") id: string,
+    @Body() payload: ZRomulatorConfigUpdateDto,
+  ): Promise<IZRomulatorConfig> {
+    return this._configs.update(id, payload);
   }
 
   @ApiParam({
