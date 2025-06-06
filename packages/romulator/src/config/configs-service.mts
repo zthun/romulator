@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-  NotImplementedException,
-} from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { createError } from "@zthun/helpful-fn";
 import {
   IZDataRequest,
@@ -20,7 +15,8 @@ import {
 } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import { find } from "lodash-es";
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
 import { IZRomulatorConfig, ZRomulatorConfigBuilder } from "./config.mjs";
 
 export const ZRomulatorConfigsToken = Symbol("configs");
@@ -102,8 +98,17 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     id: string,
     record: Partial<IZRomulatorConfig<T>>,
   ): Promise<IZRomulatorConfig<T>> {
-    await this.find(id);
+    const current = await this.read<T>(id);
 
-    throw new NotImplementedException();
+    const next = new ZRomulatorConfigBuilder<T>()
+      .copy(current)
+      .assign(record)
+      .build();
+    const json = JSON.stringify(next.contents);
+
+    await mkdir(dirname(next.file), { recursive: true });
+    await writeFile(next.file, json);
+
+    return next;
   }
 }

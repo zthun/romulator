@@ -32,6 +32,15 @@ export class ZRomulatorConfigBuilder<T = any> {
     return this;
   }
 
+  public assign(other: Partial<IZRomulatorConfig<T>>) {
+    this._config.contents = {
+      ...this._config.contents,
+      ...other.contents,
+    } as T;
+
+    return this;
+  }
+
   public cast<K>() {
     return new ZRomulatorConfigBuilder<K>().copy(
       this._config as unknown as IZRomulatorConfig<K>,

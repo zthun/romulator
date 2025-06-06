@@ -9,7 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import { ApiParam } from "@nestjs/swagger";
+import { ApiBody, ApiParam } from "@nestjs/swagger";
 import {
   IZDataRequestQuery,
   IZPage,
@@ -36,6 +36,14 @@ export class ZRomulatorConfigsController {
     return this._configs.list(new ZDataRequestBuilder().query(query).build());
   }
 
+  @ApiParam({
+    type: "string",
+    name: "identification",
+    description: "The id of the config",
+  })
+  @ApiBody({
+    type: ZRomulatorConfigUpdateDto,
+  })
   @Patch(":identification")
   @UsePipes(
     new ValidationPipe({
@@ -47,19 +55,21 @@ export class ZRomulatorConfigsController {
     }),
   )
   public update(
-    @Param("identification") id: string,
+    @Param("identification") identification: string,
     @Body() payload: ZRomulatorConfigUpdateDto,
   ): Promise<IZRomulatorConfig> {
-    return this._configs.update(id, payload);
+    return this._configs.update(identification, payload);
   }
 
   @ApiParam({
-    type: "string | number",
+    type: "string",
     name: "identification",
     description: "The id of the config",
   })
   @Get(":identification")
-  public get(@Param("identification") id: string): Promise<IZRomulatorConfig> {
-    return this._configs.read(id);
+  public get(
+    @Param("identification") identification: string,
+  ): Promise<IZRomulatorConfig> {
+    return this._configs.read(identification);
   }
 }

@@ -3,9 +3,9 @@ import { Test } from "@nestjs/testing";
 import { ZLoggerSilent, ZLogLevel } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import request from "supertest";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ZRomulatorConfigGamesBuilder } from "./config-games.mjs";
 import { ZRomulatorConfigBuilder } from "./config.mjs";
 import { ZRomulatorConfigsModule } from "./configs-module.mjs";
@@ -128,48 +128,110 @@ describe("ConfigsApi", () => {
   });
 
   describe("Update", () => {
-    it("should return a 400 error if the contents are missing", async () => {
-      // Arrange.
-      const games = new ZRomulatorConfigBuilder().games().build();
-      const target = await createTestTarget();
+    describe("Bad Request", () => {
+      it("should return a 400 error if the contents are missing", async () => {
+        // Arrange.
+        const games = new ZRomulatorConfigBuilder().games().build();
+        const target = await createTestTarget();
 
-      // Act.
-      const actual = await request(target.getHttpServer())
-        .patch(`/${endpoint}/${games.id}`)
-        .send({ bar: "lol-wut" });
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .patch(`/${endpoint}/${games.id}`)
+          .send({ bar: "lol-wut" });
 
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeClient.BadRequest);
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeClient.BadRequest);
+      });
+
+      it("should return a 400 error if the contents are empty", async () => {
+        // Arrange.
+        const payload = { contents: {} };
+        const games = new ZRomulatorConfigBuilder().games().build();
+        const target = await createTestTarget();
+
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .patch(`/${endpoint}/${games.id}`)
+          .send(payload);
+
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeClient.BadRequest);
+      });
     });
 
-    it("should return a 400 error if the contents are empty", async () => {
-      // Arrange.
-      const payload = { contents: {} };
-      const games = new ZRomulatorConfigBuilder().games().build();
-      const target = await createTestTarget();
+    describe("Not Found", () => {
+      it("should return a 404 if the target config id does not exist", async () => {
+        // Arrange.
+        const payload = { contents: { a: 1, b: 2 } };
+        const target = await createTestTarget();
 
-      // Act.
-      const actual = await request(target.getHttpServer())
-        .patch(`/${endpoint}/${games.id}`)
-        .send(payload);
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .patch(`/${endpoint}/not-a-config-id`)
+          .send(payload);
 
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeClient.BadRequest);
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
+      });
     });
 
-    it("should return a 404 if the target config id does not exist", async () => {
-      // Arrange.
-      const payload = { contents: { a: 1, b: 2 } };
-      const games = new ZRomulatorConfigGamesBuilder().build();
-      const target = await createTestTarget();
+    describe("Success", () => {
+      const existing = new ZRomulatorConfigGamesBuilder()
+        .gamesFolder("/path/to/games/.media")
+        .build();
+      const existingBytes = Buffer.from(JSON.stringify(existing));
+      const contents = new ZRomulatorConfigGamesBuilder()
+        .mediaFolder("/path/to/games/.media")
+        .build();
+      const games = new ZRomulatorConfigBuilder().games().build();
 
-      // Act.
-      const actual = await request(target.getHttpServer())
-        .patch(`/${endpoint}/not-a-config-id`)
-        .send(payload);
+      beforeEach(() => {
+        vi.mocked(readFile).mockResolvedValue(existingBytes);
+      });
 
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
+      it("should update a config with the given id", async () => {
+        // Arrange.
+        const next = new ZRomulatorConfigGamesBuilder()
+          .copy(existing)
+          .assign(contents)
+          .build();
+        const expected = JSON.stringify(next);
+        const payload = { contents };
+        const target = await createTestTarget();
+
+        // Act.
+        await request(target.getHttpServer())
+          .patch(`/${endpoint}/${games.id}`)
+          .send(payload);
+        1;
+
+        // Assert.
+        expect(writeFile).toHaveBeenCalledWith(games.file, expected);
+      });
+
+      it("should return the updated config", async () => {
+        // Arrange.
+        const expected = new ZRomulatorConfigBuilder()
+          .copy(games)
+          .contents(
+            new ZRomulatorConfigGamesBuilder()
+              .copy(existing)
+              .assign(contents)
+              .build(),
+          )
+          .build();
+        const payload = { contents };
+        const target = await createTestTarget();
+
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .patch(`/${endpoint}/${games.id}`)
+          .send(payload);
+
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+        expect(actual.body).toEqual(expected);
+      });
     });
   });
 });
