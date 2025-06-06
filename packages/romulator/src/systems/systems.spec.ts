@@ -16,16 +16,19 @@ import { resolve } from "node:path";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { IZRomulatorConfig, ZRomulatorConfigBuilder } from "../config/config";
 import {
   IZRomulatorConfigGames,
   ZRomulatorConfigGamesBuilder,
-} from "../config/config-games";
+} from "../config/config-games.mjs";
+import {
+  IZRomulatorConfig,
+  ZRomulatorConfigBuilder,
+} from "../config/config.mjs";
 import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
-import { ZRomulatorSystemKnown } from "./system-known";
+import { ZRomulatorSystemKnown } from "./system-known.mjs";
 import { ZRomulatorSystemsModule } from "./systems-module.mjs";
 
 describe("SystemsApi", () => {

@@ -12,14 +12,14 @@ import {
 } from "@zthun/helpful-query";
 import { find } from "lodash-es";
 import { basename } from "node:path";
-import { ZRomulatorConfigBuilder } from "../config/config";
-import { IZRomulatorConfigGames } from "../config/config-games";
+import { IZRomulatorConfigGames } from "../config/config-games.mjs";
+import { ZRomulatorConfigBuilder } from "../config/config.mjs";
 import {
   IZRomulatorConfigsService,
   ZRomulatorConfigsToken,
 } from "../config/configs-service.mjs";
-import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system";
-import { ZRomulatorSystemKnown } from "./system-known";
+import { ZRomulatorSystemKnown } from "./system-known.mjs";
+import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system.mjs";
 
 export const ZRomulatorSystemsToken = Symbol("romulator-platforms-service");
 

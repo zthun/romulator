@@ -1,5 +1,5 @@
 import { uniq } from "lodash-es";
-import { ZRomulatorSystemType } from "./system-type";
+import { ZRomulatorSystemType } from "./system-type.mjs";
 
 /**
  * Represents a system in romulator.

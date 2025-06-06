@@ -5,7 +5,7 @@ import {
   IZPage,
   ZDataRequestBuilder,
 } from "@zthun/helpful-query";
-import { IZRomulatorSystem } from "./system";
+import { IZRomulatorSystem } from "./system.mjs";
 import {
   IZRomulatorSystemsService,
   ZRomulatorSystemsToken,
