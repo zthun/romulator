@@ -2,8 +2,12 @@ import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { ZLoggerSilent, ZLogLevel } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
-import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
-import { readFile, writeFile } from "node:fs/promises";
+import {
+  ZHttpCodeClient,
+  ZHttpCodeServer,
+  ZHttpCodeSuccess,
+} from "@zthun/webigail-http";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ZRomulatorConfigGamesBuilder } from "./config-games.mjs";
@@ -15,6 +19,7 @@ vi.mock("node:fs/promises");
 describe("ConfigsApi", () => {
   const endpoint = "configs";
   const configs = ZRomulatorConfigBuilder.all();
+  const games = new ZRomulatorConfigBuilder().games().build();
 
   let _logger: ZLoggerSilent;
   let _target: INestApplication<any>;
@@ -55,8 +60,6 @@ describe("ConfigsApi", () => {
   });
 
   describe("Get", () => {
-    const games = new ZRomulatorConfigBuilder().games().build();
-
     it("should return the games config", async () => {
       // Arrange.
       const expected = new ZRomulatorConfigGamesBuilder()
@@ -131,7 +134,6 @@ describe("ConfigsApi", () => {
     describe("Bad Request", () => {
       it("should return a 400 error if the contents are missing", async () => {
         // Arrange.
-        const games = new ZRomulatorConfigBuilder().games().build();
         const target = await createTestTarget();
 
         // Act.
@@ -146,7 +148,6 @@ describe("ConfigsApi", () => {
       it("should return a 400 error if the contents are empty", async () => {
         // Arrange.
         const payload = { contents: {} };
-        const games = new ZRomulatorConfigBuilder().games().build();
         const target = await createTestTarget();
 
         // Act.
@@ -183,7 +184,6 @@ describe("ConfigsApi", () => {
       const contents = new ZRomulatorConfigGamesBuilder()
         .mediaFolder("/path/to/games/.media")
         .build();
-      const games = new ZRomulatorConfigBuilder().games().build();
 
       beforeEach(() => {
         vi.mocked(readFile).mockResolvedValue(existingBytes);
@@ -231,6 +231,32 @@ describe("ConfigsApi", () => {
         // Assert.
         expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
         expect(actual.body).toEqual(expected);
+      });
+    });
+
+    describe("Error", () => {
+      const contents = new ZRomulatorConfigGamesBuilder()
+        .gamesFolder("/path/to/games/")
+        .build();
+
+      it("should log the error message if there is a failure creating the directory", async () => {
+        // Arrange.
+        const expected = "Permission Denied";
+        const target = await createTestTarget();
+        const payload = { contents };
+        vi.mocked(mkdir).mockRejectedValue(new Error(expected));
+        vi.spyOn(_logger, "log");
+
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .patch(`/${endpoint}/${games.id}`)
+          .send(payload);
+
+        // Assert
+        expect(actual.status).toEqual(ZHttpCodeServer.InternalServerError);
+        expect(_logger.log).toHaveBeenCalledWith(
+          expect.objectContaining({ message: expected }),
+        );
       });
     });
   });

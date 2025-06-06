@@ -1,5 +1,10 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { createError } from "@zthun/helpful-fn";
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from "@nestjs/common";
+import { createError, firstDefined } from "@zthun/helpful-fn";
 import {
   IZDataRequest,
   IZPage,
@@ -41,6 +46,11 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
   public async list(
     req: IZDataRequest,
   ): Promise<IZPage<IZRomulatorConfig<undefined>>> {
+    const page = firstDefined(1, req.page);
+    const size = firstDefined(Infinity, req.size);
+    let msg = `Retrieving configs page, ${page}, with size, ${size}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+
     const configs = ZRomulatorConfigBuilder.all();
     const options = new ZDataSourceStaticOptionsBuilder()
       .search(new ZDataSearchFields())
@@ -50,6 +60,9 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     const data = await source.retrieve(req);
     const count = await source.count(req);
 
+    msg = `Responding with ${data.length} configs out of ${count} total`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+
     return new ZPageBuilder<IZRomulatorConfig>()
       .data(data)
       .count(count)
@@ -57,13 +70,19 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
   }
 
   public async find(id: string): Promise<IZRomulatorConfig<undefined>> {
+    let msg = `Attempting to retrieve config, ${id}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
     const configs = ZRomulatorConfigBuilder.all();
     const config = find(configs, (c) => c.id === id);
 
     if (config == null) {
-      const msg = `Could not find config, ${id}`;
+      msg = `Could not find config, ${id}`;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
       return Promise.reject(new NotFoundException(msg));
     }
+
+    msg = `Config, ${id}, found`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
     return config;
   }
@@ -71,18 +90,19 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
   public async read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>> {
     const config = await this.find(id);
 
+    let msg = `Attempting to read the file contents for config, ${id}.`;
     let contents: any = {};
 
     try {
+      this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
       const buffer = await readFile(config.file);
       const json = buffer.toString("utf-8");
       contents = JSON.parse(json);
+      msg = `Finished reading config contents (${buffer.byteLength} bytes)`;
+      this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
     } catch (e) {
-      const entry = new ZLogEntryBuilder()
-        .warning()
-        .message(createError(e).message)
-        .build();
-      this._logger.log(entry);
+      msg = createError(e).message;
+      this._logger.log(new ZLogEntryBuilder().warning().message(msg).build());
     }
 
     return Promise.resolve(
@@ -100,15 +120,26 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
   ): Promise<IZRomulatorConfig<T>> {
     const current = await this.read<T>(id);
 
+    let msg = `Updating config file, ${id}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+
     const next = new ZRomulatorConfigBuilder<T>()
       .copy(current)
       .assign(record)
       .build();
     const json = JSON.stringify(next.contents);
 
-    await mkdir(dirname(next.file), { recursive: true });
-    await writeFile(next.file, json);
-
-    return next;
+    try {
+      await mkdir(dirname(next.file), { recursive: true });
+      await writeFile(next.file, json);
+      return next;
+    } catch (e) {
+      const error = createError(e);
+      msg = `Unable to write to, ${next.file}`;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
+      msg = error.message;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
+      return Promise.reject(new InternalServerErrorException(error));
+    }
   }
 }
