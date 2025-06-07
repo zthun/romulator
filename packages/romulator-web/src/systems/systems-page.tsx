@@ -5,7 +5,7 @@ import {
   ZGridView,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
-import { ZRomulatorSystemAvatarCard } from "./system-avatar-card";
+import { ZRomulatorSystemAvatarCard } from "./system-avatar-card.js";
 import { useSystemsService } from "./systems-service.mjs";
 
 export function ZRomulatorSystemsPage() {

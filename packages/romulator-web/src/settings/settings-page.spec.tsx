@@ -1,8 +1,8 @@
 import { IZCircusDriver, IZCircusSetup, ZCircusBy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import { afterEach, describe, expect, it } from "vitest";
-import { ZRomulatorSettingsPage } from "./settings-page";
 import { ZRomulatorSettingsPageComponentModel } from "./settings-page.cm.mjs";
+import { ZRomulatorSettingsPage } from "./settings-page.js";
 
 describe("ZRomulatorSettingsPage", () => {
   let _renderer: IZCircusSetup | undefined;

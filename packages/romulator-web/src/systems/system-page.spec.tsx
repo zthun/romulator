@@ -16,8 +16,8 @@ import { createMemoryHistory, History } from "history";
 import { noop } from "lodash-es";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { ZRomulatorSystemPage } from "./system-page";
 import { ZRomulatorSystemPageComponentModel } from "./system-page.cm.mjs";
+import { ZRomulatorSystemPage } from "./system-page.js";
 import {
   IZRomulatorSystemsService,
   ZRomulatorSystemsServiceContext,

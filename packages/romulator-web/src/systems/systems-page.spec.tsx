@@ -5,8 +5,8 @@ import { ZDataSourceStatic } from "@zthun/helpful-query";
 import { createMemoryHistory, MemoryHistory } from "history";
 import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { ZRomulatorSystemsPage } from "./systems-page";
 import { ZRomulatorSystemsPageComponentModel } from "./systems-page.cm.mjs";
+import { ZRomulatorSystemsPage } from "./systems-page.js";
 import {
   IZRomulatorSystemsService,
   ZRomulatorSystemsServiceContext,

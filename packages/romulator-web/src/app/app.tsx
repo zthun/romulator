@@ -7,11 +7,11 @@ import {
   ZRouteMap,
 } from "@zthun/fashion-boutique";
 import { createDarkTheme } from "@zthun/fashion-theme";
-import { ZRomulatorSettingsPage } from "../settings/settings-page";
-import { ZRomulatorSystemPage } from "../systems/system-page";
-import { ZRomulatorSystemsPage } from "../systems/systems-page";
-import { ZRomulatorAvatar } from "./app-avatar";
-import { ZRomulatorTitle } from "./app-title";
+import { ZRomulatorSettingsPage } from "../settings/settings-page.js";
+import { ZRomulatorSystemPage } from "../systems/system-page.js";
+import { ZRomulatorSystemsPage } from "../systems/systems-page.js";
+import { ZRomulatorAvatar } from "./app-avatar.js";
+import { ZRomulatorTitle } from "./app-title.js";
 
 const FashionTheme = createDarkTheme();
 
