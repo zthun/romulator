@@ -9,11 +9,11 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "declaration": true,
+    "isolatedModules": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "noEmit": true,
     "jsx": "react-jsx",
     "target": "es5",
     "module": "NodeNext"
