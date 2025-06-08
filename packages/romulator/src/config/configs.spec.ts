@@ -3,7 +3,10 @@ import { ValidationPipe } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { ZLoggerSilent, ZLogLevel } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
-import { ZRomulatorConfigGamesBuilder } from "@zthun/romulator-client";
+import {
+  ZRomulatorConfigBuilder,
+  ZRomulatorConfigGamesBuilder,
+} from "@zthun/romulator-client";
 import {
   ZHttpCodeClient,
   ZHttpCodeServer,
@@ -12,15 +15,15 @@ import {
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ZRomulatorConfigDto } from "./config.mjs";
+import { ZRomulatorConfigKnown } from "./config-known.mjs";
 import { ZRomulatorConfigsModule } from "./configs-module.mjs";
 
 vi.mock("node:fs/promises");
 
 describe("ConfigsApi", () => {
   const endpoint = "configs";
-  const configs = ZRomulatorConfigDto.all();
-  const games = ZRomulatorConfigDto.games();
+  const configs = ZRomulatorConfigKnown.all();
+  const games = ZRomulatorConfigKnown.games().build();
 
   let _logger: ZLoggerSilent;
   let _target: INestApplication<any>;
@@ -215,12 +218,10 @@ describe("ConfigsApi", () => {
           .copy(existing)
           .assign(contents)
           .build();
-        const json = JSON.stringify(next);
-        const expected = games.toClient(next);
-
-        vi.mocked(readFile)
-          .mockResolvedValueOnce(existingBytes)
-          .mockResolvedValueOnce(json);
+        const expected = new ZRomulatorConfigBuilder()
+          .copy(games)
+          .contents(next)
+          .build();
 
         const payload = { contents };
         const target = await createTestTarget();

@@ -15,22 +15,25 @@ import {
 import type { IZLogger } from "@zthun/lumberjacky-log";
 import { ZLogEntryBuilder, ZLoggerContext } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
+import {
+  ZRomulatorConfigBuilder,
+  type IZRomulatorConfig,
+} from "@zthun/romulator-client";
 import { find } from "lodash-es";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import type { ZRomulatorConfigUpdateDto } from "./config-update.mjs";
-import { ZRomulatorConfigDto } from "./config.mjs";
+import { ZRomulatorConfigKnown } from "./config-known.mjs";
 
 export const ZRomulatorConfigsToken = Symbol("configs");
 
 export interface IZRomulatorConfigsService {
-  list(req: IZDataRequest): Promise<IZPage<ZRomulatorConfigDto>>;
-  find(id: string): Promise<ZRomulatorConfigDto>;
-  read<T>(config: ZRomulatorConfigDto): Promise<T>;
-  update(
+  list(req: IZDataRequest): Promise<IZPage<IZRomulatorConfig>>;
+  find(id: string): Promise<IZRomulatorConfig>;
+  read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>>;
+  update<T>(
     id: string,
-    record: ZRomulatorConfigUpdateDto,
-  ): Promise<ZRomulatorConfigDto>;
+    record: Pick<IZRomulatorConfig, "contents">,
+  ): Promise<Required<IZRomulatorConfig<T>>>;
 }
 
 @Injectable()
@@ -41,17 +44,17 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     this._logger = new ZLoggerContext("ZRomulatorConfigsService", _logger);
   }
 
-  public async list(req: IZDataRequest): Promise<IZPage<ZRomulatorConfigDto>> {
+  public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorConfig>> {
     const page = firstDefined(1, req.page);
     const size = firstDefined(Infinity, req.size);
     let msg = `Retrieving configs page, ${page}, with size, ${size}`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
-    const configs = ZRomulatorConfigDto.all();
+    const configs = ZRomulatorConfigKnown.all();
     const options = new ZDataSourceStaticOptionsBuilder()
       .search(new ZDataSearchFields())
       .build();
-    const source = new ZDataSourceStatic<ZRomulatorConfigDto>(configs, options);
+    const source = new ZDataSourceStatic<IZRomulatorConfig>(configs, options);
 
     const data = await source.retrieve(req);
     const count = await source.count(req);
@@ -59,16 +62,16 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     msg = `Responding with ${data.length} configs out of ${count} total`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
-    return new ZPageBuilder<ZRomulatorConfigDto>()
+    return new ZPageBuilder<IZRomulatorConfig>()
       .data(data)
       .count(count)
       .build();
   }
 
-  public async find(id: string): Promise<ZRomulatorConfigDto> {
+  public async find(id: string): Promise<IZRomulatorConfig> {
     let msg = `Attempting to retrieve config, ${id}`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
-    const configs = ZRomulatorConfigDto.all();
+    const configs = ZRomulatorConfigKnown.all();
     const config = find(configs, (c) => c.id === id);
 
     if (config == null) {
@@ -83,8 +86,9 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     return config;
   }
 
-  public async read<T>(config: ZRomulatorConfigDto): Promise<T> {
-    let msg = `Attempting to read the file contents for config, ${config.id}.`;
+  public async read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>> {
+    const config = await this.find(id);
+    let msg = `Attempting to read the file contents for config, ${id}.`;
     let contents: any = {};
 
     try {
@@ -99,26 +103,33 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
       this._logger.log(new ZLogEntryBuilder().warning().message(msg).build());
     }
 
-    return Promise.resolve(contents);
+    const result = new ZRomulatorConfigBuilder()
+      .copy(config)
+      .contents(contents)
+      .build();
+
+    return Promise.resolve(result as Required<IZRomulatorConfig<T>>);
   }
 
   public async update<T>(
     id: string,
-    record: ZRomulatorConfigUpdateDto,
-  ): Promise<ZRomulatorConfigDto> {
-    const config = await this.find(id);
-    const current = await this.read<T>(config);
+    record: Pick<IZRomulatorConfig, "contents">,
+  ): Promise<Required<IZRomulatorConfig<T>>> {
+    const config = await this.read<T>(id);
 
     let msg = `Updating config file, ${id}`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
-    const next = { ...current, ...record.contents };
+    const next = { ...config.contents, ...record.contents };
     const json = JSON.stringify(next);
 
     try {
       await mkdir(dirname(config.file), { recursive: true });
       await writeFile(config.file, json);
-      return config;
+      return new ZRomulatorConfigBuilder()
+        .copy(config)
+        .contents(next)
+        .build() as Required<IZRomulatorConfig<T>>;
     } catch (e) {
       const error = createError(e);
       msg = `Unable to write to, ${config.file}`;
