@@ -1,13 +1,30 @@
+/**
+ * Represents a list of known config ids
+ */
+export enum ZRomulatorConfigId {
+  /**
+   * Config for games.
+   */
+  Games = "games",
+  /**
+   * Config id for emulators.
+   */
+  Emulators = "emulators",
+}
+
 export interface IZRomulatorConfig<T = any> {
-  id: string;
+  id: ZRomulatorConfigId;
   file: string;
   contents?: T;
 }
 
 export class ZRomulatorConfigBuilder<T = any> {
-  private _config: IZRomulatorConfig<T> = { id: "", file: "" };
+  private _config: IZRomulatorConfig<T> = {
+    id: ZRomulatorConfigId.Games,
+    file: "",
+  };
 
-  public id(id: string) {
+  public id(id: ZRomulatorConfigId) {
     this._config.id = id;
     return this;
   }
