@@ -3,6 +3,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { ZLoggerSilent, ZLogLevel } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
+import { ZRomulatorConfigGamesBuilder } from "@zthun/romulator-client";
 import {
   ZHttpCodeClient,
   ZHttpCodeServer,
@@ -11,7 +12,6 @@ import {
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ZRomulatorConfigGamesBuilder } from "./config-games.mjs";
 import { ZRomulatorConfigDto } from "./config.mjs";
 import { ZRomulatorConfigsModule } from "./configs-module.mjs";
 
