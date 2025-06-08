@@ -3719,7 +3719,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zthun/romulator-client@workspace:packages/romulator-client"
   dependencies:
+    "@types/lodash-es": "npm:^4.17.12"
     "@zthun/janitor-build-config": "npm:^19.1.0"
+    lodash-es: "npm:^4.17.21"
     tsx: "npm:^4.19.4"
     typescript: "npm:^5.8.3"
     vite: "npm:^6.3.5"
