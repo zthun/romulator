@@ -1,7 +1,10 @@
 {
   "extends": "../../.config/.tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@zthun/romulator-client": ["../romulator-client/src/index.mts"]
+    }
   },
   "include": ["./src/**/*.ts", "./src/**/*.mts"]
 }

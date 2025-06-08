@@ -11,9 +11,9 @@ import {
 } from "@nestjs/common";
 import { ApiBody, ApiParam } from "@nestjs/swagger";
 import type { IZDataRequestQuery, IZPage } from "@zthun/helpful-query";
-import { ZDataRequestBuilder } from "@zthun/helpful-query";
+import { ZDataRequestBuilder, ZPageBuilder } from "@zthun/helpful-query";
+import { type IZRomulatorConfig } from "@zthun/romulator-client";
 import { ZRomulatorConfigUpdateDto } from "./config-update.mjs";
-import type { IZRomulatorConfig } from "./config.mjs";
 import type { IZRomulatorConfigsService } from "./configs-service.mjs";
 import { ZRomulatorConfigsToken } from "./configs-service.mjs";
 
@@ -25,10 +25,15 @@ export class ZRomulatorConfigsController {
   ) {}
 
   @Get()
-  public list(
+  public async list(
     @Query() query: IZDataRequestQuery,
   ): Promise<IZPage<IZRomulatorConfig>> {
-    return this._configs.list(new ZDataRequestBuilder().query(query).build());
+    const request = new ZDataRequestBuilder().query(query).build();
+    const page = await this._configs.list(request);
+    return new ZPageBuilder<IZRomulatorConfig>()
+      .copy(page)
+      .data(page.data.map((p) => p.toClient()))
+      .build();
   }
 
   @ApiParam({
@@ -49,11 +54,13 @@ export class ZRomulatorConfigsController {
       skipUndefinedProperties: false,
     }),
   )
-  public update(
+  public async update(
     @Param("identification") identification: string,
     @Body() payload: ZRomulatorConfigUpdateDto,
   ): Promise<IZRomulatorConfig> {
-    return this._configs.update(identification, payload);
+    const config = await this._configs.update(identification, payload);
+    const contents = await this._configs.read(config);
+    return config.toClient(contents);
   }
 
   @ApiParam({
@@ -62,9 +69,11 @@ export class ZRomulatorConfigsController {
     description: "The id of the config",
   })
   @Get(":identification")
-  public get(
+  public async get(
     @Param("identification") identification: string,
   ): Promise<IZRomulatorConfig> {
-    return this._configs.read(identification);
+    const config = await this._configs.find(identification);
+    const contents = await this._configs.read(config);
+    return config.toClient(contents);
   }
 }

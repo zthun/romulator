@@ -30,6 +30,7 @@
     "@zthun/helpful-query": "^7.2.1",
     "@zthun/lumberjacky-log": "^2.3.0",
     "@zthun/lumberjacky-nest": "^2.3.0",
+    "@zthun/romulator-client": "^1.0.0",
     "@zthun/webigail-http": "^3.3.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",

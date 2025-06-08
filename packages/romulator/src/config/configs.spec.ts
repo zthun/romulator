@@ -12,15 +12,15 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ZRomulatorConfigGamesBuilder } from "./config-games.mjs";
-import { ZRomulatorConfigBuilder } from "./config.mjs";
+import { ZRomulatorConfigDto } from "./config.mjs";
 import { ZRomulatorConfigsModule } from "./configs-module.mjs";
 
 vi.mock("node:fs/promises");
 
 describe("ConfigsApi", () => {
   const endpoint = "configs";
-  const configs = ZRomulatorConfigBuilder.all();
-  const games = new ZRomulatorConfigBuilder().games().build();
+  const configs = ZRomulatorConfigDto.all();
+  const games = ZRomulatorConfigDto.games();
 
   let _logger: ZLoggerSilent;
   let _target: INestApplication<any>;
@@ -211,15 +211,17 @@ describe("ConfigsApi", () => {
 
       it("should return the updated config", async () => {
         // Arrange.
-        const expected = new ZRomulatorConfigBuilder()
-          .copy(games)
-          .contents(
-            new ZRomulatorConfigGamesBuilder()
-              .copy(existing)
-              .assign(contents)
-              .build(),
-          )
+        const next = new ZRomulatorConfigGamesBuilder()
+          .copy(existing)
+          .assign(contents)
           .build();
+        const json = JSON.stringify(next);
+        const expected = games.toClient(next);
+
+        vi.mocked(readFile)
+          .mockResolvedValueOnce(existingBytes)
+          .mockResolvedValueOnce(json);
+
         const payload = { contents };
         const target = await createTestTarget();
 
