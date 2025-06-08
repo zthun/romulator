@@ -39,6 +39,11 @@ export class ZRomulatorConfigBuilder<T = any> {
     return this;
   }
 
+  public copy(other: IZRomulatorConfig<T>) {
+    this._config = structuredClone(other);
+    return this;
+  }
+
   public build() {
     return structuredClone(this._config);
   }
