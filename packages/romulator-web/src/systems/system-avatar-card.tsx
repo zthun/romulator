@@ -1,5 +1,5 @@
+import type { IZCard } from "@zthun/fashion-boutique";
 import {
-  IZCard,
   ZCard,
   ZIconFontAwesome,
   ZImageSource,

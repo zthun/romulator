@@ -1,2 +1,5 @@
-import { defineWeb } from "../../.config/vite-web";
-export default defineWeb();
+import { ZViteConfigBuilder } from "@zthun/janitor-build-config/vite";
+import { defineConfig } from "vite";
+
+const config = new ZViteConfigBuilder().react().build();
+export default defineConfig(config);

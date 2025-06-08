@@ -1,12 +1,10 @@
 import { ZLazy } from "@zthun/helpful-fn";
-import { IZDataRequest, IZDataSource } from "@zthun/helpful-query";
+import type { IZDataRequest, IZDataSource } from "@zthun/helpful-query";
 import { useAsyncState } from "@zthun/helpful-react";
-import { IZHttpService, ZHttpService } from "@zthun/webigail-http";
-import {
-  IZRestfulGet,
-  IZRestfulService,
-  ZRestfulService,
-} from "@zthun/webigail-rest";
+import type { IZHttpService } from "@zthun/webigail-http";
+import { ZHttpService } from "@zthun/webigail-http";
+import type { IZRestfulGet, IZRestfulService } from "@zthun/webigail-rest";
+import { ZRestfulService } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
 import { createContext, useContext } from "react";
 import { ZRomulatorEnvironmentService } from "../environment/environment-service.mjs";

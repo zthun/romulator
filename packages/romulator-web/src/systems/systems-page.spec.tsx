@@ -1,16 +1,17 @@
-import { IZCircusDriver, IZCircusSetup, ZCircusBy } from "@zthun/cirque";
+import type { IZCircusDriver, IZCircusSetup } from "@zthun/cirque";
+import { ZCircusBy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import { ZTestRouter } from "@zthun/fashion-boutique";
 import { ZDataSourceStatic } from "@zthun/helpful-query";
-import { createMemoryHistory, MemoryHistory } from "history";
-import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
+import type { MemoryHistory } from "history";
+import { createMemoryHistory } from "history";
+import type { Mocked } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { ZRomulatorSystemsPageComponentModel } from "./systems-page.cm.mjs";
 import { ZRomulatorSystemsPage } from "./systems-page.js";
-import {
-  IZRomulatorSystemsService,
-  ZRomulatorSystemsServiceContext,
-} from "./systems-service.mjs";
+import type { IZRomulatorSystemsService } from "./systems-service.mjs";
+import { ZRomulatorSystemsServiceContext } from "./systems-service.mjs";
 
 describe("ZRomulatorSystemsPage", () => {
   const nes = new ZRomulatorSystemBuilder().nes().build();
