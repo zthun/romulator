@@ -1,6 +1,5 @@
+import { ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import "reflect-metadata";
-
-import { ZRomulatorSystemBuilder } from "./system.mjs";
 
 const IS_SYSTEM = "z-romulator-is-system-method";
 

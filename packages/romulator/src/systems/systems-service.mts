@@ -9,14 +9,16 @@ import {
   ZDataSourceStaticOptionsBuilder,
   ZPageBuilder,
 } from "@zthun/helpful-query";
+import type {
+  IZRomulatorConfigGames,
+  IZRomulatorSystem,
+} from "@zthun/romulator-client";
+import { ZRomulatorConfigId } from "@zthun/romulator-client";
 import { find } from "lodash-es";
 import { basename } from "node:path";
-import type { IZRomulatorConfigGames } from "../config/config-games.mjs";
-import { ZRomulatorConfigBuilder } from "../config/config.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 import { ZRomulatorSystemKnown } from "./system-known.mjs";
-import type { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system.mjs";
 
 export const ZRomulatorSystemsToken = Symbol("romulator-platforms-service");
 
@@ -35,18 +37,21 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   ) {}
 
   public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>> {
-    const games = new ZRomulatorConfigBuilder().games().build();
-    const { contents: config } =
-      await this._configs.read<IZRomulatorConfigGames>(games.id);
-    const folders = await this._file.search("*/", { cwd: config.gamesFolder });
+    type C = IZRomulatorConfigGames;
+    const {
+      contents: { gamesFolder },
+    } = await this._configs.read<C>(ZRomulatorConfigId.Games);
+
+    const folders = await this._file.search("*/", {
+      cwd: gamesFolder,
+    });
 
     const systems = folders
       .map((folder) => folder.path)
       .map((path) => basename(path))
       .map((slug) => ZRomulatorSystemKnown.from(slug))
       .filter((system) => system != null)
-      .map((system) => system as ZRomulatorSystemBuilder)
-      .map((builder) => builder.build());
+      .map((system) => system.build());
 
     const sourceOptions = new ZDataSourceStaticOptionsBuilder()
       .search(new ZDataSearchFields(["id", "name", "short"]))

@@ -9,16 +9,21 @@ import {
   ZSortBuilder,
   ZSortSerialize,
 } from "@zthun/helpful-query";
+import type {
+  IZRomulatorConfig,
+  IZRomulatorConfigGames,
+} from "@zthun/romulator-client";
+import {
+  ZRomulatorConfigBuilder,
+  ZRomulatorConfigGamesBuilder,
+} from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { resolve } from "node:path";
 import request from "supertest";
 import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
-import type { IZRomulatorConfigGames } from "../config/config-games.mjs";
-import { ZRomulatorConfigGamesBuilder } from "../config/config-games.mjs";
-import type { IZRomulatorConfig } from "../config/config.mjs";
-import { ZRomulatorConfigBuilder } from "../config/config.mjs";
+import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 import { ZRomulatorSystemKnown } from "./system-known.mjs";
@@ -28,6 +33,7 @@ describe("SystemsApi", () => {
   const games = "/path/to/games";
   const endpoint = "systems";
 
+  const config = ZRomulatorConfigKnown.games().build();
   const nes = ZRomulatorSystemKnown.nes().build();
   const snes = ZRomulatorSystemKnown.snes().build();
 
@@ -60,7 +66,7 @@ describe("SystemsApi", () => {
     _config = mock<IZRomulatorConfigsService>();
     _config.read.mockResolvedValue(
       new ZRomulatorConfigBuilder<IZRomulatorConfigGames>()
-        .games()
+        .copy(config)
         .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
         .build() as Required<IZRomulatorConfig>,
     );
