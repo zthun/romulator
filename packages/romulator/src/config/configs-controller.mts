@@ -10,17 +10,12 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import { ApiBody, ApiParam } from "@nestjs/swagger";
-import {
-  IZDataRequestQuery,
-  IZPage,
-  ZDataRequestBuilder,
-} from "@zthun/helpful-query";
+import type { IZDataRequestQuery, IZPage } from "@zthun/helpful-query";
+import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import { ZRomulatorConfigUpdateDto } from "./config-update.mjs";
-import { IZRomulatorConfig } from "./config.mjs";
-import {
-  IZRomulatorConfigsService,
-  ZRomulatorConfigsToken,
-} from "./configs-service.mjs";
+import type { IZRomulatorConfig } from "./config.mjs";
+import type { IZRomulatorConfigsService } from "./configs-service.mjs";
+import { ZRomulatorConfigsToken } from "./configs-service.mjs";
 
 @Controller("configs")
 export class ZRomulatorConfigsController {

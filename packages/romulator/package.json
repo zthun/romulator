@@ -11,7 +11,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.prod.json",
+    "build": "vite build",
     "debug": "tsx watch --inspect=0.0.0.0:9229 ./src/main.mts",
     "start": "node ./bin/main.mjs"
   },
@@ -20,9 +20,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.2",
-    "@nestjs/core": "^11.1.2",
-    "@nestjs/platform-express": "^11.1.2",
+    "@nestjs/common": "^11.1.3",
+    "@nestjs/core": "^11.1.3",
+    "@nestjs/platform-express": "^11.1.3",
     "@nestjs/swagger": "^11.2.0",
     "@zthun/crumbtrail-fs": "^2.0.0",
     "@zthun/crumbtrail-nest": "^2.0.0",
@@ -39,11 +39,13 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@nestjs/testing": "^11.1.2",
+    "@nestjs/testing": "^11.1.3",
+    "@zthun/janitor-build-config": "^19.1.0",
     "supertest": "^7.1.1",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.4",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.2",
     "vitest-mock-extended": "^3.1.0"
   },
   "files": [

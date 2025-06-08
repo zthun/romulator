@@ -1,9 +1,8 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { IZFileSystemService } from "@zthun/crumbtrail-fs";
+import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
+import type { IZDataRequest, IZPage } from "@zthun/helpful-query";
 import {
-  IZDataRequest,
-  IZPage,
   ZDataRequestBuilder,
   ZDataSearchFields,
   ZDataSourceStatic,
@@ -12,14 +11,12 @@ import {
 } from "@zthun/helpful-query";
 import { find } from "lodash-es";
 import { basename } from "node:path";
-import { IZRomulatorConfigGames } from "../config/config-games.mjs";
+import type { IZRomulatorConfigGames } from "../config/config-games.mjs";
 import { ZRomulatorConfigBuilder } from "../config/config.mjs";
-import {
-  IZRomulatorConfigsService,
-  ZRomulatorConfigsToken,
-} from "../config/configs-service.mjs";
+import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
+import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 import { ZRomulatorSystemKnown } from "./system-known.mjs";
-import { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system.mjs";
+import type { IZRomulatorSystem, ZRomulatorSystemBuilder } from "./system.mjs";
 
 export const ZRomulatorSystemsToken = Symbol("romulator-platforms-service");
 

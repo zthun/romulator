@@ -1,4 +1,5 @@
-import { INestApplication, ValidationPipe } from "@nestjs/common";
+import type { INestApplication } from "@nestjs/common";
+import { ValidationPipe } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { ZLoggerSilent, ZLogLevel } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
@@ -203,7 +204,6 @@ describe("ConfigsApi", () => {
         await request(target.getHttpServer())
           .patch(`/${endpoint}/${games.id}`)
           .send(payload);
-        1;
 
         // Assert.
         expect(writeFile).toHaveBeenCalledWith(games.file, expected);

@@ -1,9 +1,7 @@
-import { INestApplication } from "@nestjs/common";
+import type { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import {
-  IZFileSystemService,
-  ZFileSystemNodeBuilder,
-} from "@zthun/crumbtrail-fs";
+import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
+import { ZFileSystemNodeBuilder } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
 import {
   ZFilterBinaryBuilder,
@@ -14,20 +12,15 @@ import {
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { resolve } from "node:path";
 import request from "supertest";
-import { afterEach, beforeEach, describe, expect, it, Mocked } from "vitest";
+import type { Mocked } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
-import {
-  IZRomulatorConfigGames,
-  ZRomulatorConfigGamesBuilder,
-} from "../config/config-games.mjs";
-import {
-  IZRomulatorConfig,
-  ZRomulatorConfigBuilder,
-} from "../config/config.mjs";
-import {
-  IZRomulatorConfigsService,
-  ZRomulatorConfigsToken,
-} from "../config/configs-service.mjs";
+import type { IZRomulatorConfigGames } from "../config/config-games.mjs";
+import { ZRomulatorConfigGamesBuilder } from "../config/config-games.mjs";
+import type { IZRomulatorConfig } from "../config/config.mjs";
+import { ZRomulatorConfigBuilder } from "../config/config.mjs";
+import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
+import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 import { ZRomulatorSystemKnown } from "./system-known.mjs";
 import { ZRomulatorSystemsModule } from "./systems-module.mjs";
 
