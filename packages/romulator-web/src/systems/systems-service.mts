@@ -1,6 +1,7 @@
 import { ZLazy } from "@zthun/helpful-fn";
 import type { IZDataRequest, IZDataSource } from "@zthun/helpful-query";
 import { useAsyncState } from "@zthun/helpful-react";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import type { IZHttpService } from "@zthun/webigail-http";
 import { ZHttpService } from "@zthun/webigail-http";
 import type { IZRestfulGet, IZRestfulService } from "@zthun/webigail-rest";

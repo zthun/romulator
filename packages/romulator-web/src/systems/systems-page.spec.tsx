@@ -3,6 +3,7 @@ import { ZCircusBy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import { ZTestRouter } from "@zthun/fashion-boutique";
 import { ZDataSourceStatic } from "@zthun/helpful-query";
+import { ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import type { MemoryHistory } from "history";
 import { createMemoryHistory } from "history";
 import type { Mocked } from "vitest";
@@ -14,8 +15,8 @@ import type { IZRomulatorSystemsService } from "./systems-service.mjs";
 import { ZRomulatorSystemsServiceContext } from "./systems-service.mjs";
 
 describe("ZRomulatorSystemsPage", () => {
-  const nes = new ZRomulatorSystemBuilder().nes().build();
-  const snes = new ZRomulatorSystemBuilder().snes().build();
+  const nes = new ZRomulatorSystemBuilder().id("nes").build();
+  const snes = new ZRomulatorSystemBuilder().id("snes").build();
   const systems = [nes, snes];
 
   let _systemsService: Mocked<IZRomulatorSystemsService>;

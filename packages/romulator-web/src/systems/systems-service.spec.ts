@@ -2,6 +2,8 @@ import type { IZCircusSetup } from "@zthun/cirque";
 import type { IZCircusReactHook } from "@zthun/cirque-du-react";
 import { ZCircusSetupHook } from "@zthun/cirque-du-react";
 import { ZDataRequestBuilder, ZPageBuilder } from "@zthun/helpful-query";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
+import { ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import {
   ZHttpMethod,
   ZHttpResultBuilder,
@@ -24,8 +26,8 @@ describe("SystemsService", () => {
   let _http: ZHttpServiceMock;
   let _env: Mocked<IZRomulatorEnvironmentService>;
 
-  const nes = new ZRomulatorSystemBuilder().nes().build();
-  const snes = new ZRomulatorSystemBuilder().snes().build();
+  const nes = new ZRomulatorSystemBuilder().id("nes").build();
+  const snes = new ZRomulatorSystemBuilder().id("snes").build();
   const systems = [nes, snes];
 
   beforeEach(async () => {

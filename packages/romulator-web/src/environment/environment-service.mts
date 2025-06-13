@@ -1,8 +1,6 @@
 /* istanbul ignore file -- @preserve */
-import {
-  IZRomulatorEnvironment,
-  ZRomulatorEnvironmentBuilder,
-} from "./environment.mjs";
+import type { IZRomulatorEnvironment } from "./environment.mjs";
+import { ZRomulatorEnvironmentBuilder } from "./environment.mjs";
 
 export interface IZRomulatorEnvironmentService {
   read(): Promise<IZRomulatorEnvironment>;
