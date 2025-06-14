@@ -18,7 +18,9 @@
     "access": "public"
   },
   "devDependencies": {
+    "@swc/core": "^1.12.1",
     "@types/node": "^24.0.1",
+    "@vitejs/plugin-react-swc": "^3.10.2",
     "@zthun/cirque": "^7.1.3",
     "@zthun/cirque-du-react": "^7.1.3",
     "@zthun/fashion-boutique": "^10.0.0",

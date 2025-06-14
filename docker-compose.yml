@@ -1,0 +1,17 @@
+services:
+  romulator-web:
+    image: node:lts
+    ports:
+      - 5173:5173
+    volumes:
+      - .:/usr/dev
+    working_dir: /usr/dev
+    command: yarn workspace @zthun/romulator-web start
+  romulator-api:
+    image: node:lts
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/dev
+    working_dir: /usr/dev
+    command: yarn workspace @zthun/romulator-api debug

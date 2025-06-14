@@ -49,7 +49,8 @@
     "vitest": "^3.2.3"
   },
   "resolutions": {
-    "vite": "^6.3.5"
+    "rollup": "npm:@rollup/wasm-node@*",
+    "vite": "^6.0.0"
   },
   "packageManager": "yarn@4.9.2"
 }
