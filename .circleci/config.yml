@@ -75,7 +75,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - none
+                - latest
       - release:
           context:
             - credentials
@@ -86,7 +86,7 @@ workflows:
           filters:
             branches:
               only:
-                - none
+                - latest
       - dockerize:
           context:
             - credentials
