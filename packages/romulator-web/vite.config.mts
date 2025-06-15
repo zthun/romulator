@@ -5,7 +5,5 @@ import {
 import { defineConfig } from "vite";
 
 const server = new ZViteServerBuilder().dev().build();
-const config = new ZViteConfigBuilder().web().server(server).lodash().build();
-
-console.log(config.plugins?.map((p: any) => p?.name));
+const config = new ZViteConfigBuilder().react().server(server).lodash().build();
 export default defineConfig(config);
