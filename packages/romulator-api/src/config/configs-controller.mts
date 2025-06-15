@@ -12,9 +12,12 @@ import {
 import { ApiBody, ApiParam } from "@nestjs/swagger";
 import type { IZDataRequestQuery, IZPage } from "@zthun/helpful-query";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
-import { type IZRomulatorConfig } from "@zthun/romulator-client";
+import type {
+  IZRomulatorConfig,
+  IZRomulatorConfigsService,
+  ZRomulatorConfigId,
+} from "@zthun/romulator-client";
 import { ZRomulatorConfigUpdateDto } from "./config-update.mjs";
-import type { IZRomulatorConfigsService } from "./configs-service.mjs";
 import { ZRomulatorConfigsToken } from "./configs-service.mjs";
 
 @Controller("configs")
@@ -51,7 +54,7 @@ export class ZRomulatorConfigsController {
     }),
   )
   public async update(
-    @Param("identification") identification: string,
+    @Param("identification") identification: ZRomulatorConfigId,
     @Body() payload: ZRomulatorConfigUpdateDto,
   ): Promise<IZRomulatorConfig> {
     return this._configs.update(identification, payload);
@@ -64,7 +67,7 @@ export class ZRomulatorConfigsController {
   })
   @Get(":identification")
   public async get(
-    @Param("identification") identification: string,
+    @Param("identification") identification: ZRomulatorConfigId,
   ): Promise<IZRomulatorConfig> {
     return await this._configs.read(identification);
   }

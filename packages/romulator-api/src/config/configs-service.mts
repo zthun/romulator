@@ -15,26 +15,18 @@ import {
 import type { IZLogger } from "@zthun/lumberjacky-log";
 import { ZLogEntryBuilder, ZLoggerContext } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
-import {
-  ZRomulatorConfigBuilder,
-  type IZRomulatorConfig,
+import type {
+  IZRomulatorConfig,
+  IZRomulatorConfigsService,
+  ZRomulatorConfigId,
 } from "@zthun/romulator-client";
+import { ZRomulatorConfigBuilder } from "@zthun/romulator-client";
 import { find } from "lodash-es";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { ZRomulatorConfigKnown } from "./config-known.mjs";
 
 export const ZRomulatorConfigsToken = Symbol("configs");
-
-export interface IZRomulatorConfigsService {
-  list(req: IZDataRequest): Promise<IZPage<IZRomulatorConfig>>;
-  find(id: string): Promise<IZRomulatorConfig>;
-  read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>>;
-  update<T>(
-    id: string,
-    record: Pick<IZRomulatorConfig, "contents">,
-  ): Promise<Required<IZRomulatorConfig<T>>>;
-}
 
 @Injectable()
 export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
@@ -68,7 +60,7 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
       .build();
   }
 
-  public async find(id: string): Promise<IZRomulatorConfig> {
+  public async find(id: ZRomulatorConfigId): Promise<IZRomulatorConfig> {
     let msg = `Attempting to retrieve config, ${id}`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
     const configs = ZRomulatorConfigKnown.all();
@@ -86,7 +78,9 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     return config;
   }
 
-  public async read<T>(id: string): Promise<Required<IZRomulatorConfig<T>>> {
+  public async read<T>(
+    id: ZRomulatorConfigId,
+  ): Promise<Required<IZRomulatorConfig<T>>> {
     const config = await this.find(id);
     let msg = `Attempting to read the file contents for config, ${id}.`;
     let contents: any = {};
@@ -112,7 +106,7 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
   }
 
   public async update<T>(
-    id: string,
+    id: ZRomulatorConfigId,
     record: Pick<IZRomulatorConfig, "contents">,
   ): Promise<Required<IZRomulatorConfig<T>>> {
     const config = await this.read<T>(id);
