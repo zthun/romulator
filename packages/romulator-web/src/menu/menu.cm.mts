@@ -2,10 +2,30 @@ import { ZCircusBy, ZCircusComponentModel } from "@zthun/cirque";
 import {
   ZButtonComponentModel,
   ZDialogComponentModel,
+  ZListItemComponentModel,
 } from "@zthun/fashion-boutique";
 
 export class ZRomulatorMenuComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorMenu-root";
+
+  private async listItem(
+    name: string,
+  ): Promise<ZListItemComponentModel | null> {
+    const drawer = await this.drawer();
+    const opened = await drawer.opened();
+
+    if (!opened) {
+      return null;
+    }
+
+    return ZCircusBy.first(drawer.driver, ZListItemComponentModel, name);
+  }
+
+  public systems = this.listItem.bind(this, "systems");
+  public games = this.listItem.bind(this, "games");
+  public audits = this.listItem.bind(this, "audits");
+  public steam = this.listItem.bind(this, "steam");
+  public settings = this.listItem.bind(this, "settings");
 
   public drawer(): Promise<ZDialogComponentModel> {
     return ZCircusBy.first(this.driver, ZDialogComponentModel, "navigation");

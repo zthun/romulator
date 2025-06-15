@@ -1,22 +1,33 @@
 import type { IZCircusDriver, IZCircusSetup } from "@zthun/cirque";
 import { ZCircusBy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
-import { afterEach, describe, expect, it } from "vitest";
+import { ZTestRouter } from "@zthun/fashion-boutique";
+import { createMemoryHistory, type MemoryHistory } from "history";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ZRomulatorMenuComponentModel } from "./menu.cm.mjs";
 import { ZRomulatorMenu } from "./menu.js";
 
 describe("ZRomulatorMenu", () => {
   let _renderer: IZCircusSetup<IZCircusDriver>;
   let _driver: IZCircusDriver;
+  let _history: MemoryHistory;
 
   const createTestTarget = async () => {
-    const element = <ZRomulatorMenu />;
+    const element = (
+      <ZTestRouter location={_history.location} navigator={_history}>
+        <ZRomulatorMenu />
+      </ZTestRouter>
+    );
 
     _renderer = new ZCircusSetupRenderer(element);
     _driver = await _renderer.setup();
 
     return ZCircusBy.first(_driver, ZRomulatorMenuComponentModel);
   };
+
+  beforeEach(() => {
+    _history = createMemoryHistory();
+  });
 
   afterEach(async () => {
     await _driver?.destroy?.call(_driver);
@@ -51,6 +62,54 @@ describe("ZRomulatorMenu", () => {
 
       // Assert.
       expect(actual).toBeFalsy();
+    });
+
+    it("should not have menu items if the drawer is closed", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const actual = await target.systems();
+
+      // Assert.
+      expect(actual).toBeNull();
+    });
+  });
+
+  describe("Navigation", () => {
+    type NavigationName = "systems" | "settings" | "steam" | "audits" | "games";
+
+    const shouldNavigateTo = async (expected: string, name: NavigationName) => {
+      // Arrange.
+      const target = await createTestTarget();
+      await target.open();
+
+      // Act.
+      const item = await target[name]();
+      await item?.click();
+
+      // Assert.
+      expect(_history.location.pathname).toEqual(expected);
+    };
+
+    it("should navigation to the systems page", async () => {
+      await shouldNavigateTo("/systems", "systems");
+    });
+
+    it("should navigation to the games page", async () => {
+      await shouldNavigateTo("/games", "games");
+    });
+
+    it("should navigate to the settings page", async () => {
+      await shouldNavigateTo("/settings", "settings");
+    });
+
+    it("should navigate to the audits page", async () => {
+      await shouldNavigateTo("/audits", "audits");
+    });
+
+    it("should navigate to the steam page", async () => {
+      await shouldNavigateTo("/steam", "steam");
     });
   });
 });
