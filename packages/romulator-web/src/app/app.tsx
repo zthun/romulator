@@ -7,6 +7,7 @@ import {
   ZRouteMap,
 } from "@zthun/fashion-boutique";
 import { createDarkTheme } from "@zthun/fashion-theme";
+import { ZRomulatorMenu } from "../menu/menu.js";
 import { ZRomulatorSettingsPage } from "../settings/settings-page.js";
 import { ZRomulatorSystemPage } from "../systems/system-page.js";
 import { ZRomulatorSystemsPage } from "../systems/systems-page.js";
@@ -22,6 +23,7 @@ export function ZRomulatorApp() {
         TitleProps={{
           avatar: <ZRomulatorAvatar />,
           prefix: <ZRomulatorTitle />,
+          suffix: <ZRomulatorMenu />,
         }}
       >
         <ZRouteMap>
