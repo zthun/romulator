@@ -79,7 +79,7 @@ export function ZRomulatorMenu() {
             onClick={navigateAndClose.bind(null, "/games")}
           >
             <ZContentTitle
-              avatar={<ZIconFontAwesome name="gear" />}
+              avatar={<ZIconFontAwesome name="gamepad" />}
               heading={<ZH3 compact>Games</ZH3>}
               subHeading={<ZCaption>View all games</ZCaption>}
             />
