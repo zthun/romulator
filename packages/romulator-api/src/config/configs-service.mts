@@ -17,16 +17,22 @@ import { ZLogEntryBuilder, ZLoggerContext } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import type {
   IZRomulatorConfig,
-  IZRomulatorConfigsService,
   ZRomulatorConfigId,
 } from "@zthun/romulator-client";
 import { ZRomulatorConfigBuilder } from "@zthun/romulator-client";
+import type { IZRestfulGet, IZRestfulUpdate } from "@zthun/webigail-rest";
 import { find } from "lodash-es";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { ZRomulatorConfigKnown } from "./config-known.mjs";
 
 export const ZRomulatorConfigsToken = Symbol("configs");
+
+export interface IZRomulatorConfigsService
+  extends IZRestfulUpdate<IZRomulatorConfig>,
+    IZRestfulGet<IZRomulatorConfig> {
+  list(req: IZDataRequest): Promise<IZPage<IZRomulatorConfig>>;
+}
 
 @Injectable()
 export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
@@ -60,28 +66,10 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
       .build();
   }
 
-  public async find(id: ZRomulatorConfigId): Promise<IZRomulatorConfig> {
-    let msg = `Attempting to retrieve config, ${id}`;
-    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
-    const configs = ZRomulatorConfigKnown.all();
-    const config = find(configs, (c) => c.id === id);
-
-    if (config == null) {
-      msg = `Could not find config, ${id}`;
-      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
-      return Promise.reject(new NotFoundException(msg));
-    }
-
-    msg = `Config, ${id}, found`;
-    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
-
-    return config;
-  }
-
-  public async read<T>(
+  public async get<T>(
     id: ZRomulatorConfigId,
   ): Promise<Required<IZRomulatorConfig<T>>> {
-    const config = await this.find(id);
+    const config = await this._find(id);
     let msg = `Attempting to read the file contents for config, ${id}.`;
     let contents: any = {};
 
@@ -109,7 +97,7 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
     id: ZRomulatorConfigId,
     record: Pick<IZRomulatorConfig, "contents">,
   ): Promise<Required<IZRomulatorConfig<T>>> {
-    const config = await this.read<T>(id);
+    const config = await this.get<T>(id);
 
     let msg = `Updating config file, ${id}`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
@@ -132,5 +120,23 @@ export class ZRomulatorConfigsService implements IZRomulatorConfigsService {
       this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
       return Promise.reject(new InternalServerErrorException(error));
     }
+  }
+
+  private async _find(id: ZRomulatorConfigId): Promise<IZRomulatorConfig> {
+    let msg = `Attempting to retrieve config, ${id}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+    const configs = ZRomulatorConfigKnown.all();
+    const config = find(configs, (c) => c.id === id);
+
+    if (config == null) {
+      msg = `Could not find config, ${id}`;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
+      return Promise.reject(new NotFoundException(msg));
+    }
+
+    msg = `Config, ${id}, found`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+
+    return config;
   }
 }

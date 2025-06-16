@@ -14,10 +14,10 @@ import type { IZDataRequestQuery, IZPage } from "@zthun/helpful-query";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import type {
   IZRomulatorConfig,
-  IZRomulatorConfigsService,
   ZRomulatorConfigId,
 } from "@zthun/romulator-client";
 import { ZRomulatorConfigUpdateDto } from "./config-update.mjs";
+import type { IZRomulatorConfigsService } from "./configs-service.mjs";
 import { ZRomulatorConfigsToken } from "./configs-service.mjs";
 
 @Controller("configs")
@@ -69,6 +69,6 @@ export class ZRomulatorConfigsController {
   public async get(
     @Param("identification") identification: ZRomulatorConfigId,
   ): Promise<IZRomulatorConfig> {
-    return await this._configs.read(identification);
+    return await this._configs.get(identification);
   }
 }

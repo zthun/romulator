@@ -32,6 +32,8 @@
     "@zthun/lumberjacky-nest": "^3.0.0",
     "@zthun/romulator-client": "^1.0.0",
     "@zthun/webigail-http": "^4.0.0",
+    "@zthun/webigail-rest": "^4.0.0",
+    "@zthun/webigail-url": "^4.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "helmet": "^8.1.0",
