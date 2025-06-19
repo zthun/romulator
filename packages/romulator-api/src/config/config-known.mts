@@ -1,5 +1,6 @@
 import {
   ZRomulatorConfigBuilder,
+  ZRomulatorConfigGamesMetadata,
   ZRomulatorConfigId,
 } from "@zthun/romulator-client";
 import { resolve } from "node:path";
@@ -22,7 +23,8 @@ export abstract class ZRomulatorConfigKnown {
     return ZRomulatorConfigKnown.create(ZRomulatorConfigId.Games)
       .name("Game Settings")
       .description("Modify your games and media settings")
-      .avatar("gamepad");
+      .avatar("gamepad")
+      .metadata(ZRomulatorConfigGamesMetadata.all());
   }
 
   public static emulators() {

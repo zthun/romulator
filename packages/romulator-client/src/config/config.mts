@@ -1,3 +1,7 @@
+import { firstDefined } from "@zthun/helpful-fn";
+import type { IZMetadata } from "@zthun/helpful-query";
+import { castArray } from "lodash-es";
+
 /**
  * Represents a list of known config ids
  */
@@ -15,10 +19,12 @@ export enum ZRomulatorConfigId {
 export interface IZRomulatorConfig<T = any> {
   id: ZRomulatorConfigId;
   name: string;
+
   avatar?: string;
   contents?: T;
   description?: string;
   file: string;
+  metadata?: IZMetadata[];
 }
 
 export class ZRomulatorConfigBuilder<T = any> {
@@ -55,6 +61,12 @@ export class ZRomulatorConfigBuilder<T = any> {
 
   public contents(contents?: T) {
     this._config.contents = contents;
+    return this;
+  }
+
+  public metadata(meta: IZMetadata | IZMetadata[]) {
+    const metadata = firstDefined([], this._config.metadata);
+    this._config.metadata = metadata.concat(castArray(meta));
     return this;
   }
 
