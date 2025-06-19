@@ -29,6 +29,8 @@ describe("ZRomulatorSettingPage", () => {
   const _games = new ZRomulatorConfigBuilder()
     .id(ZRomulatorConfigId.Games)
     .contents(_gamesContent)
+    .name("Games")
+    .description("Games config")
     .build();
 
   let _history: MemoryHistory;
@@ -53,6 +55,13 @@ describe("ZRomulatorSettingPage", () => {
     return ZCircusBy.first(_driver, ZRomulatorSettingPageComponentModel);
   };
 
+  const loadTestTarget = async () => {
+    const target = await createTestTarget();
+    const suspense = await target.suspense();
+    await suspense.load();
+    return target;
+  };
+
   beforeEach(() => {
     _settings = mock<IZRomulatorSettingsService>();
     _settings.get.mockResolvedValue(_games);
@@ -65,13 +74,33 @@ describe("ZRomulatorSettingPage", () => {
     await _renderer?.destroy?.call(_renderer);
   });
 
-  it("should render the page", async () => {
-    // Arrange.
+  describe("Header", () => {
+    it("should set the page title to the name of the config", async () => {
+      // Arrange.
+      const target = await loadTestTarget();
+      const card = await target.card();
+      const title = await card.title();
 
-    // Act.
-    const target = await createTestTarget();
+      // Act.
+      const heading = await title.heading();
+      const actual = await heading?.text();
 
-    // Assert.
-    expect(target).toBeTruthy();
+      // Assert.
+      expect(actual).toEqual(_games.name);
+    });
+
+    it("should set the subheading to the description of the config", async () => {
+      // Arrange.
+      const target = await loadTestTarget();
+      const card = await target.card();
+      const title = await card.title();
+
+      // Act.
+      const subHeading = await title.subHeading();
+      const actual = await subHeading?.text();
+
+      // Assert.
+      expect(actual).toEqual(_games.description);
+    });
   });
 });

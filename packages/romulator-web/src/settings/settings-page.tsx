@@ -14,7 +14,6 @@ import {
 import { ZSizeFixed } from "@zthun/fashion-tailor";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorConfig } from "@zthun/romulator-client";
-import { startCase } from "lodash-es";
 import { useState } from "react";
 import { useSettingsService } from "./settings-service.mjs";
 
@@ -38,8 +37,13 @@ export function ZRomulatorSettingsPage() {
       >
         <ZStack gap={ZSizeFixed.Medium}>
           <ZContentTitle
-            avatar={<ZIconFontAwesome name={config.avatar} />}
-            heading={<ZH3 compact>{startCase(config.id)}</ZH3>}
+            avatar={
+              <ZIconFontAwesome
+                name={config.avatar}
+                width={ZSizeFixed.Medium}
+              />
+            }
+            heading={<ZH3 compact>{config.name}</ZH3>}
             subHeading={<ZCaption>{config.description}</ZCaption>}
           />
         </ZStack>
@@ -54,7 +58,7 @@ export function ZRomulatorSettingsPage() {
         TitleProps={{
           heading: <ZH3 compact>Settings</ZH3>,
           subHeading: <ZCaption compact>Modify configs and options</ZCaption>,
-          avatar: <ZIconFontAwesome name="gear" />,
+          avatar: <ZIconFontAwesome name="gear" width={ZSizeFixed.Medium} />,
         }}
       >
         <ZGridView

@@ -1,5 +1,17 @@
-import { ZCircusComponentModel } from "@zthun/cirque";
+import { ZCircusBy, ZCircusComponentModel } from "@zthun/cirque";
+import {
+  ZCardComponentModel,
+  ZSuspenseComponentModel,
+} from "@zthun/fashion-boutique";
 
 export class ZRomulatorSettingPageComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorSettingPage-root";
+
+  public card(): Promise<ZCardComponentModel> {
+    return ZCircusBy.first(this.driver, ZCardComponentModel);
+  }
+
+  public suspense(): Promise<ZSuspenseComponentModel> {
+    return ZCircusBy.first(this.driver, ZSuspenseComponentModel);
+  }
 }

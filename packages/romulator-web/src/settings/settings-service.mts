@@ -1,5 +1,9 @@
 import type { IZDataSource } from "@zthun/helpful-query";
-import type { IZRomulatorConfig } from "@zthun/romulator-client";
+import { useAsyncState } from "@zthun/helpful-react";
+import type {
+  IZRomulatorConfig,
+  ZRomulatorConfigId,
+} from "@zthun/romulator-client";
 import { ZHttpService } from "@zthun/webigail-http";
 import {
   ZRestfulService,
@@ -27,3 +31,8 @@ export const ZRomulatorSettingsContext = createContext(
 );
 
 export const useSettingsService = () => useContext(ZRomulatorSettingsContext);
+
+export const useSetting = (id: ZRomulatorConfigId) => {
+  const service = useSettingsService();
+  return useAsyncState(() => service.get(id), [id]);
+};
