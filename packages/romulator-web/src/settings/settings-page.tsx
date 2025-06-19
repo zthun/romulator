@@ -2,6 +2,7 @@ import {
   useFashionTheme,
   useNavigate,
   ZBox,
+  ZBreadcrumbsLocation,
   ZCaption,
   ZCard,
   ZContentTitle,
@@ -47,28 +48,31 @@ export function ZRomulatorSettingsPage() {
   };
 
   return (
-    <ZCard
-      TitleProps={{
-        heading: <ZH3 compact>Settings</ZH3>,
-        subHeading: <ZCaption compact>Modify configs and options</ZCaption>,
-        avatar: <ZIconFontAwesome name="gear" />,
-      }}
-    >
-      <ZGridView
-        className="ZRomulatorSettingsPage-root"
-        GridProps={{
-          columns: {
-            xl: "1fr 1fr 1fr",
-            lg: "1fr 1fr",
-            sm: "1fr",
-          },
-          gap: ZSizeFixed.Medium,
+    <ZStack gap={ZSizeFixed.Medium}>
+      <ZBreadcrumbsLocation />
+      <ZCard
+        TitleProps={{
+          heading: <ZH3 compact>Settings</ZH3>,
+          subHeading: <ZCaption compact>Modify configs and options</ZCaption>,
+          avatar: <ZIconFontAwesome name="gear" />,
         }}
-        SearchProps={false}
-        dataSource={settings}
-        value={request}
-        renderItem={renderTile}
-      />
-    </ZCard>
+      >
+        <ZGridView
+          className="ZRomulatorSettingsPage-root"
+          GridProps={{
+            columns: {
+              xl: "1fr 1fr 1fr",
+              lg: "1fr 1fr",
+              sm: "1fr",
+            },
+            gap: ZSizeFixed.Medium,
+          }}
+          SearchProps={false}
+          dataSource={settings}
+          value={request}
+          renderItem={renderTile}
+        />
+      </ZCard>
+    </ZStack>
   );
 }
