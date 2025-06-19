@@ -11,6 +11,7 @@ services:
     image: node:lts
     ports:
       - 3000:3000
+      - 9229:9229
     volumes:
       - .:/usr/dev
     working_dir: /usr/dev
