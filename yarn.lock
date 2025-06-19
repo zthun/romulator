@@ -4375,8 +4375,8 @@ __metadata:
     "@zthun/lumberjacky-log": "npm:^3.0.0"
     "@zthun/lumberjacky-nest": "npm:^3.0.0"
     "@zthun/romulator-client": "npm:^1.0.0"
-    "@zthun/webigail-http": "npm:^4.0.1"
-    "@zthun/webigail-rest": "npm:^4.0.1"
+    "@zthun/webigail-http": "npm:^4.0.2"
+    "@zthun/webigail-rest": "npm:^4.0.2"
     "@zthun/webigail-url": "npm:^4.0.1"
     class-transformer: "npm:^0.5.1"
     class-validator: "npm:^0.14.2"
@@ -4427,8 +4427,8 @@ __metadata:
     "@zthun/helpful-react": "npm:^9.2.0"
     "@zthun/janitor-build-config": "npm:^19.2.0"
     "@zthun/romulator-client": "npm:^1.0.0"
-    "@zthun/webigail-http": "npm:^4.0.1"
-    "@zthun/webigail-rest": "npm:^4.0.1"
+    "@zthun/webigail-http": "npm:^4.0.2"
+    "@zthun/webigail-rest": "npm:^4.0.2"
     "@zthun/webigail-url": "npm:^4.0.1"
     history: "npm:^5.3.0"
     lodash-es: "npm:^4.17.21"
@@ -4443,7 +4443,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zthun/webigail-http@npm:^4.0.0, @zthun/webigail-http@npm:^4.0.1":
+"@zthun/webigail-http@npm:^4.0.0":
   version: 4.0.1
   resolution: "@zthun/webigail-http@npm:4.0.1"
   dependencies:
@@ -4453,15 +4453,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/webigail-rest@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@zthun/webigail-rest@npm:4.0.1"
+"@zthun/webigail-http@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@zthun/webigail-http@npm:4.0.2"
+  dependencies:
+    "@zthun/webigail-url": "npm:^4.0.1"
+    cross-fetch: "npm:^4.1.0"
+    lodash-es: "npm:^4.17.21"
+  checksum: 10/5ada34a59fab9fafee64d450702632e6da538d186cb823ef93bb493d5b12cfaff648b1d6764a03dd53b70b2367b00c375aa044a5f6e53f7e2900c090ebc84f48
+  languageName: node
+  linkType: hard
+
+"@zthun/webigail-rest@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@zthun/webigail-rest@npm:4.0.2"
   dependencies:
     "@zthun/helpful-fn": "npm:^9.1.0"
     "@zthun/helpful-query": "npm:^9.2.0"
-    "@zthun/webigail-http": "npm:^4.0.1"
+    "@zthun/webigail-http": "npm:^4.0.2"
     "@zthun/webigail-url": "npm:^4.0.1"
-  checksum: 10/156d1ced5b5869064887ba7faa8fb6d40a57c70dfa19c924cc4dcbbf3daf67b05fc57028f7ddfe670df47a29def71e520386c0c64accbdedc45e468ef2ad5d5a
+  checksum: 10/5b29488d1ee2256ab28d0a7286303785c95a9125ca75fe8580bce3e74ef8c11da13fe460652fe9b460df5c0537393ca7a84f5e7832681cb2ba1166eb1e9064a7
   languageName: node
   linkType: hard
 
