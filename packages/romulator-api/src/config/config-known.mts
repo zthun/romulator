@@ -20,14 +20,14 @@ export abstract class ZRomulatorConfigKnown {
 
   public static games() {
     return ZRomulatorConfigKnown.create(ZRomulatorConfigId.Games)
-      .name("Games")
+      .name("Game Settings")
       .description("Modify your games and media settings")
       .avatar("gamepad");
   }
 
   public static emulators() {
     return ZRomulatorConfigKnown.create(ZRomulatorConfigId.Emulators)
-      .name("Emulators")
+      .name("Emulator Settings")
       .description("Modify emulator paths and launch options")
       .avatar("microchip");
   }
