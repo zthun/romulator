@@ -14,18 +14,37 @@ export enum ZRomulatorConfigId {
 
 export interface IZRomulatorConfig<T = any> {
   id: ZRomulatorConfigId;
-  file: string;
+  name: string;
+  avatar?: string;
   contents?: T;
+  description?: string;
+  file: string;
 }
 
 export class ZRomulatorConfigBuilder<T = any> {
   private _config: IZRomulatorConfig<T> = {
     id: ZRomulatorConfigId.Games,
+    name: "",
     file: "",
   };
 
   public id(id: ZRomulatorConfigId) {
     this._config.id = id;
+    return this;
+  }
+
+  public avatar(id: string) {
+    this._config.avatar = id;
+    return this;
+  }
+
+  public name(name: string) {
+    this._config.name = name;
+    return this;
+  }
+
+  public description(description: string) {
+    this._config.description = description;
     return this;
   }
 
