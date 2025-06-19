@@ -14,6 +14,7 @@ import { mock } from "vitest-mock-extended";
 import { ZRomulatorSettingsPageComponentModel } from "./settings-page.cm.mjs";
 import { ZRomulatorSettingsPage } from "./settings-page.js";
 import type { IZRomulatorSettingsService } from "./settings-service.mjs";
+import { ZRomulatorSettingsContext } from "./settings-service.mjs";
 
 describe("ZRomulatorSettingsPage", () => {
   const _games = new ZRomulatorConfigBuilder()
@@ -48,7 +49,9 @@ describe("ZRomulatorSettingsPage", () => {
   const createTestTarget = async () => {
     const element = (
       <ZTestRouter location={_history.location} navigator={_history}>
-        <ZRomulatorSettingsPage />
+        <ZRomulatorSettingsContext value={_settings}>
+          <ZRomulatorSettingsPage />
+        </ZRomulatorSettingsContext>
       </ZTestRouter>
     );
 
