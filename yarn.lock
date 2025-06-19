@@ -3836,6 +3836,8 @@ __metadata:
   resolution: "@zthun/romulator-client@workspace:packages/romulator-client"
   dependencies:
     "@types/lodash-es": "npm:^4.17.12"
+    "@zthun/helpful-fn": "npm:^9.1.0"
+    "@zthun/helpful-query": "npm:^9.2.0"
     "@zthun/janitor-build-config": "npm:^19.2.0"
     lodash-es: "npm:^4.17.21"
     tsx: "npm:^4.20.3"
