@@ -9,10 +9,7 @@ import {
   ZDataSourceStaticOptionsBuilder,
   ZPageBuilder,
 } from "@zthun/helpful-query";
-import type {
-  IZRomulatorConfigGames,
-  IZRomulatorSystem,
-} from "@zthun/romulator-client";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { ZRomulatorConfigId } from "@zthun/romulator-client";
 import { find } from "lodash-es";
 import { basename } from "node:path";
@@ -37,10 +34,9 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   ) {}
 
   public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>> {
-    type C = IZRomulatorConfigGames;
     const {
       contents: { gamesFolder },
-    } = await this._configs.read<C>(ZRomulatorConfigId.Games);
+    } = await this._configs.get(ZRomulatorConfigId.Games);
 
     const folders = await this._file.search("*/", {
       cwd: gamesFolder,
