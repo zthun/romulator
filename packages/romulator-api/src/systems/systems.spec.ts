@@ -64,7 +64,7 @@ describe("SystemsApi", () => {
     _file.search.mockResolvedValue(folders);
 
     _config = mock<IZRomulatorConfigsService>();
-    _config.read.mockResolvedValue(
+    _config.get.mockResolvedValue(
       new ZRomulatorConfigBuilder<IZRomulatorConfigGames>()
         .copy(config)
         .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
