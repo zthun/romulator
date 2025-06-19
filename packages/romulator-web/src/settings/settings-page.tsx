@@ -2,44 +2,41 @@ import {
   useFashionTheme,
   useNavigate,
   ZBox,
-  ZBreadcrumbsLocation,
   ZCaption,
   ZCard,
   ZContentTitle,
-  ZGrid,
-  ZH2,
+  ZGridView,
   ZH3,
   ZIconFontAwesome,
   ZStack,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed } from "@zthun/fashion-tailor";
+import type { IZRomulatorConfig } from "@zthun/romulator-client";
 import { startCase } from "lodash-es";
-import { useMemo } from "react";
-import type { IZRomulatorSettingsTile } from "./settings-tile.js";
-import { ZRomulatorSettingsTileBuilder } from "./settings-tile.js";
+import { useSettingsService } from "./settings-service.mjs";
 
 export function ZRomulatorSettingsPage() {
   const { body } = useFashionTheme();
-  const tiles = useMemo(() => ZRomulatorSettingsTileBuilder.all(), []);
   const navigate = useNavigate();
+  const settings = useSettingsService();
 
-  const renderTile = (page: IZRomulatorSettingsTile) => {
+  const renderTile = (config: IZRomulatorConfig) => {
     return (
       <ZBox
         className="ZRomulatorSettingsPage-tile"
         fashion={body}
         interactive
-        key={page.name}
+        key={config.id}
         cursor="pointer"
         padding={ZSizeFixed.Medium}
-        data-setting={page.name}
-        onClick={navigate.bind(null, page.name)}
+        data-name={config.id}
+        onClick={() => navigate(config.id)}
       >
         <ZStack gap={ZSizeFixed.Medium}>
           <ZContentTitle
-            avatar={page.avatar}
-            heading={<ZH3 compact>{startCase(page.name)}</ZH3>}
-            subHeading={<ZCaption>{page.description}</ZCaption>}
+            avatar={<ZIconFontAwesome name={config.avatar} />}
+            heading={<ZH3 compact>{startCase(config.id)}</ZH3>}
+            subHeading={<ZCaption>{config.description}</ZCaption>}
           />
         </ZStack>
       </ZBox>
@@ -47,26 +44,27 @@ export function ZRomulatorSettingsPage() {
   };
 
   return (
-    <ZStack className="ZRomulatorSettingsPage-root" gap={ZSizeFixed.Medium}>
-      <ZBreadcrumbsLocation />
-      <ZCard
-        TitleProps={{
-          avatar: <ZIconFontAwesome name="gear" />,
-          heading: <ZH2 compact>Settings</ZH2>,
-          subHeading: "Modify configs and options",
-        }}
-      >
-        <ZGrid
-          columns={{
-            xl: "1fr 1fr 1fr",
+    <ZCard
+      TitleProps={{
+        heading: <ZH3 compact>Settings</ZH3>,
+        subHeading: <ZCaption compact>Modify configs and options</ZCaption>,
+        avatar: <ZIconFontAwesome name="gear" />,
+      }}
+    >
+      <ZGridView
+        className="ZRomulatorSettingsPage-root"
+        GridProps={{
+          columns: {
+            xl: "1fr 1fr 1fr 1fr",
+            lg: "1fr 1fr 1fr",
             md: "1fr 1fr",
             sm: "1fr",
-          }}
-          gap={ZSizeFixed.Medium}
-        >
-          {tiles.map(renderTile)}
-        </ZGrid>
-      </ZCard>
-    </ZStack>
+          },
+          gap: ZSizeFixed.Medium,
+        }}
+        dataSource={settings}
+        renderItem={renderTile}
+      />
+    </ZCard>
   );
 }
