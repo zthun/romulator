@@ -22,7 +22,7 @@
     "@vitejs/plugin-react-swc": "^3.10.2",
     "@zthun/cirque": "^7.1.3",
     "@zthun/cirque-du-react": "^7.1.3",
-    "@zthun/fashion-boutique": "^10.1.0",
+    "@zthun/fashion-boutique": "^10.1.2",
     "@zthun/fashion-tailor": "^10.1.0",
     "@zthun/fashion-theme": "^10.1.0",
     "@zthun/helpful-fn": "^9.1.0",

@@ -11,14 +11,17 @@ import {
   ZStack,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed } from "@zthun/fashion-tailor";
+import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorConfig } from "@zthun/romulator-client";
 import { startCase } from "lodash-es";
+import { useState } from "react";
 import { useSettingsService } from "./settings-service.mjs";
 
 export function ZRomulatorSettingsPage() {
   const { body } = useFashionTheme();
   const navigate = useNavigate();
   const settings = useSettingsService();
+  const [request] = useState(new ZDataRequestBuilder().build());
 
   const renderTile = (config: IZRomulatorConfig) => {
     return (
@@ -55,14 +58,15 @@ export function ZRomulatorSettingsPage() {
         className="ZRomulatorSettingsPage-root"
         GridProps={{
           columns: {
-            xl: "1fr 1fr 1fr 1fr",
-            lg: "1fr 1fr 1fr",
-            md: "1fr 1fr",
+            xl: "1fr 1fr 1fr",
+            lg: "1fr 1fr",
             sm: "1fr",
           },
           gap: ZSizeFixed.Medium,
         }}
+        SearchProps={false}
         dataSource={settings}
+        value={request}
         renderItem={renderTile}
       />
     </ZCard>
