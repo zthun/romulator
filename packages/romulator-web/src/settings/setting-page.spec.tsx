@@ -8,6 +8,7 @@ import { ZRoute, ZRouteMap, ZTestRouter } from "@zthun/fashion-boutique";
 import {
   ZRomulatorConfigBuilder,
   ZRomulatorConfigGamesBuilder,
+  ZRomulatorConfigGamesMetadata,
   ZRomulatorConfigId,
 } from "@zthun/romulator-client";
 import { createMemoryHistory, type MemoryHistory } from "history";
@@ -26,11 +27,13 @@ describe("ZRomulatorSettingPage", () => {
     .gamesFolder("/path/to/games")
     .mediaFolder("/path/to/media")
     .build();
+  const _gamesFolder = ZRomulatorConfigGamesMetadata.gamesFolder();
   const _games = new ZRomulatorConfigBuilder()
     .id(ZRomulatorConfigId.Games)
     .contents(_gamesContent)
     .name("Games")
     .description("Games config")
+    .metadata(_gamesFolder)
     .build();
 
   let _history: MemoryHistory;
@@ -101,6 +104,50 @@ describe("ZRomulatorSettingPage", () => {
 
       // Assert.
       expect(actual).toEqual(_games.description);
+    });
+  });
+
+  describe("Reset", () => {
+    it("should reset the form meta when the reset button is clicked", async () => {
+      // Arrange.
+      const target = await loadTestTarget();
+      const form = await target.form();
+      const field = await form.field(_gamesFolder.id);
+
+      // Act.
+      const folder = await field.text();
+      await folder?.keyboard("games");
+      const reset = await form.button("reset");
+      const btn = await reset.underlying();
+      await btn.click();
+      const actual = await folder?.value();
+
+      // Assert.
+      expect(actual).toBeFalsy();
+    });
+  });
+
+  describe("Save", () => {
+    it("should save the form when the save button is clicked", async () => {
+      // Arrange.
+      const target = await loadTestTarget();
+      const form = await target.form();
+      const field = await form.field(_gamesFolder.id);
+      const gamesFolder = "games";
+      const expected = {
+        contents: expect.objectContaining({ gamesFolder }),
+      };
+
+      // Act.
+      const folder = await field.text();
+      await folder?.clear();
+      await folder?.keyboard(gamesFolder);
+      const save = await form.button("submit");
+      const btn = await save.underlying();
+      await btn.click();
+
+      // Assert.
+      expect(_settings.update).toHaveBeenCalledWith(_games.id, expected);
     });
   });
 });
