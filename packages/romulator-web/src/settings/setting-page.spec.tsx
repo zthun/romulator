@@ -123,7 +123,7 @@ describe("ZRomulatorSettingPage", () => {
       const actual = await folder?.value();
 
       // Assert.
-      expect(actual).toBeFalsy();
+      expect(actual).toEqual(_gamesContent.gamesFolder);
     });
   });
 
