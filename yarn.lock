@@ -4151,16 +4151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-fn@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "@zthun/helpful-fn@npm:9.3.0"
-  dependencies:
-    uuid: "npm:^11.1.0"
-  checksum: 10/07c3dbc2b0186dc187163253fb7b75082557e45a17022b613ddfe5fb9de85cddcd2af1af6ce384dc306762379715516c1bc1ea67de02e4cd6692c08a035ec604
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-fn@npm:^9.4.0":
+"@zthun/helpful-fn@npm:^9.3.0, @zthun/helpful-fn@npm:^9.4.0":
   version: 9.4.0
   resolution: "@zthun/helpful-fn@npm:9.4.0"
   dependencies:
@@ -4169,17 +4160,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-query@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "@zthun/helpful-query@npm:9.3.0"
-  dependencies:
-    "@zthun/helpful-fn": "npm:^9.3.0"
-    lodash-es: "npm:^4.17.21"
-  checksum: 10/3b218db2c45d60534a884e9a29a8fec74fe4306b71bb3db574f8d3a881e13204f114b9e3a5b7e98510991f3db591673766ce67b89c76815346330d90110487b7
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-query@npm:^9.4.0":
+"@zthun/helpful-query@npm:^9.3.0, @zthun/helpful-query@npm:^9.4.0":
   version: 9.4.0
   resolution: "@zthun/helpful-query@npm:9.4.0"
   dependencies:
@@ -4189,26 +4170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-react@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "@zthun/helpful-react@npm:9.3.0"
-  dependencies:
-    "@zthun/helpful-fn": "npm:^9.3.0"
-    "@zthun/helpful-query": "npm:^9.3.0"
-    lodash-es: "npm:^4.17.21"
-    rxjs: "npm:^7.8.2"
-  peerDependencies:
-    react: ">=18.0.0 <20.0.0"
-    react-dom: ">=18.0.0 <20.0.0"
-    rxjs: ^7.8.1
-  peerDependenciesMeta:
-    rxjs:
-      optional: true
-  checksum: 10/91b22b0e4754ba0dc9e862bfb3f99d0e25012b0e2ee185053ce48e9bcc74a9b1f3193bb560f57cdc559ba1cdf677112d07046cb84b7e29187676cc421669267a
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-react@npm:^9.4.0":
+"@zthun/helpful-react@npm:^9.3.0, @zthun/helpful-react@npm:^9.4.0":
   version: 9.4.0
   resolution: "@zthun/helpful-react@npm:9.4.0"
   dependencies:
