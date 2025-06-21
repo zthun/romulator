@@ -25,7 +25,7 @@ export function ZRomulatorSettingPage() {
   const service = useSettingsService();
 
   const renderField = useCallback((meta: IZMetadata) => {
-    return <ZFormField key={meta.id} meta={meta} />;
+    return <ZFormField key={meta.id} metadata={meta} />;
   }, []);
 
   const handleUpdateConfig = async (contents: any) => {
