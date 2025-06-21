@@ -10,6 +10,7 @@ export abstract class ZRomulatorConfigGamesMetadata {
       .id("games-folder")
       .path("gamesFolder")
       .name("Games Folder")
+      .fallback("${HOME}/Games")
       .editable()
       .file()
       .build();

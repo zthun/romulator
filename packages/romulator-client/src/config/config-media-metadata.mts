@@ -10,6 +10,7 @@ export abstract class ZRomulatorConfigMediaMetadata {
       .id("media-folder")
       .path("mediaFolder")
       .name("Media Folder")
+      .fallback("${HOME}/Games/.media")
       .editable()
       .file()
       .build();
