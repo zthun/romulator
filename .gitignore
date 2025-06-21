@@ -9,6 +9,9 @@ stats
 # OS Turds
 .DS_Store
 
+# Secrets
+.secrets
+
 # Logs
 logs
 *.log
