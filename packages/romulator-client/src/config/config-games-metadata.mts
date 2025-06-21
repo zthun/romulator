@@ -11,7 +11,7 @@ export abstract class ZRomulatorConfigGamesMetadata {
       .path("gamesFolder")
       .name("Games Folder")
       .editable()
-      .text()
+      .file()
       .build();
   }
 }
