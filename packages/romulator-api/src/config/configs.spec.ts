@@ -68,7 +68,6 @@ describe("ConfigsApi", () => {
       // Arrange.
       const expected = new ZRomulatorConfigGamesBuilder()
         .gamesFolder("/path/to/games")
-        .mediaFolder("/path/to/media")
         .build();
       const buffer = Buffer.from(JSON.stringify(expected));
       const target = await createTestTarget();
@@ -182,11 +181,11 @@ describe("ConfigsApi", () => {
 
     describe("Success", () => {
       const existing = new ZRomulatorConfigGamesBuilder()
-        .gamesFolder("/path/to/games/.media")
+        .gamesFolder("/path/to/games/")
         .build();
       const existingBytes = Buffer.from(JSON.stringify(existing));
       const contents = new ZRomulatorConfigGamesBuilder()
-        .mediaFolder("/path/to/games/.media")
+        .gamesFolder("/new/path/to/games/")
         .build();
 
       beforeEach(() => {

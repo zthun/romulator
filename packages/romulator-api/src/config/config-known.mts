@@ -10,7 +10,7 @@ export abstract class ZRomulatorConfigKnown {
   public static all() {
     return [
       ZRomulatorConfigKnown.games().build(),
-      ZRomulatorConfigKnown.emulators().build(),
+      ZRomulatorConfigKnown.media().build(),
     ];
   }
 
@@ -27,10 +27,10 @@ export abstract class ZRomulatorConfigKnown {
       .metadata(ZRomulatorConfigGamesMetadata.all());
   }
 
-  public static emulators() {
-    return ZRomulatorConfigKnown.create(ZRomulatorConfigId.Emulators)
-      .name("Emulator Settings")
-      .description("Modify emulator paths and launch options")
-      .avatar("microchip");
+  public static media() {
+    return ZRomulatorConfigKnown.create(ZRomulatorConfigId.Media)
+      .name("Media Settings")
+      .description("Modify where media is stored and what media to retrieve")
+      .avatar("image");
   }
 }

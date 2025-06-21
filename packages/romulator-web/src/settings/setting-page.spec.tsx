@@ -25,7 +25,6 @@ import {
 describe("ZRomulatorSettingPage", () => {
   const _gamesContent = new ZRomulatorConfigGamesBuilder()
     .gamesFolder("/path/to/games")
-    .mediaFolder("/path/to/media")
     .build();
   const _gamesFolder = ZRomulatorConfigGamesMetadata.gamesFolder();
   const _games = new ZRomulatorConfigBuilder()
@@ -69,7 +68,9 @@ describe("ZRomulatorSettingPage", () => {
     _settings = mock<IZRomulatorSettingsService>();
     _settings.get.mockResolvedValue(_games);
 
-    _history = createMemoryHistory({ initialEntries: ["/settings/games"] });
+    _history = createMemoryHistory({
+      initialEntries: [`/settings/${_games.id}`],
+    });
   });
 
   afterEach(async () => {

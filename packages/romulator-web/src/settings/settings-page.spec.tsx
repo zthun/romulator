@@ -22,8 +22,8 @@ describe("ZRomulatorSettingsPage", () => {
     .name("Games")
     .build();
   const _emulators = new ZRomulatorConfigBuilder()
-    .id(ZRomulatorConfigId.Emulators)
-    .name("Emulators")
+    .id(ZRomulatorConfigId.Media)
+    .name("Media")
     .build();
 
   let _renderer: IZCircusSetup | undefined;
@@ -76,7 +76,7 @@ describe("ZRomulatorSettingsPage", () => {
 
       // Act.
       const games = await target.config(ZRomulatorConfigId.Games);
-      const emulators = await target.config(ZRomulatorConfigId.Emulators);
+      const emulators = await target.config(ZRomulatorConfigId.Media);
 
       // Assert.
       expect(games).toBeTruthy();

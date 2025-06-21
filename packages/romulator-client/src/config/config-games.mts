@@ -1,6 +1,5 @@
 export interface IZRomulatorConfigGames {
   gamesFolder?: string;
-  mediaFolder?: string;
 }
 
 export class ZRomulatorConfigGamesBuilder {
@@ -8,11 +7,6 @@ export class ZRomulatorConfigGamesBuilder {
 
   public gamesFolder(games: string): this {
     this._config.gamesFolder = games;
-    return this;
-  }
-
-  public mediaFolder(media: string): this {
-    this._config.mediaFolder = media;
     return this;
   }
 

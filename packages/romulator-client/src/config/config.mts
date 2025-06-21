@@ -10,10 +10,11 @@ export enum ZRomulatorConfigId {
    * Config for games.
    */
   Games = "games",
+
   /**
-   * Config id for emulators.
+   * Config id for media.
    */
-  Emulators = "emulators",
+  Media = "media",
 }
 
 export interface IZRomulatorConfig<T = any> {
