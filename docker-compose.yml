@@ -15,5 +15,6 @@ services:
     volumes:
       - .:/usr/dev
       - ${HOME}/.zthunworks:/root/.zthunworks
+      - ${HOME}/Games:/root/games
     working_dir: /usr/dev
     command: yarn workspace @zthun/romulator-api debug
