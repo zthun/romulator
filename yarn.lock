@@ -4103,19 +4103,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/fashion-boutique@npm:^10.1.6":
-  version: 10.1.6
-  resolution: "@zthun/fashion-boutique@npm:10.1.6"
+"@zthun/fashion-boutique@npm:^10.2.1":
+  version: 10.2.1
+  resolution: "@zthun/fashion-boutique@npm:10.2.1"
   dependencies:
     "@emotion/css": "npm:^11.13.5"
     "@emotion/serialize": "npm:^1.3.3"
     "@emotion/sheet": "npm:^1.4.0"
     "@zthun/cirque": "npm:^7.1.4"
-    "@zthun/fashion-tailor": "npm:^10.1.6"
-    "@zthun/fashion-theme": "npm:^10.1.6"
-    "@zthun/helpful-fn": "npm:^9.3.0"
-    "@zthun/helpful-query": "npm:^9.3.0"
-    "@zthun/helpful-react": "npm:^9.3.0"
+    "@zthun/fashion-tailor": "npm:^10.2.1"
+    "@zthun/fashion-theme": "npm:^10.2.1"
+    "@zthun/helpful-fn": "npm:^9.4.0"
+    "@zthun/helpful-query": "npm:^9.4.0"
+    "@zthun/helpful-react": "npm:^9.4.0"
     "@zthun/webigail-http": "npm:^4.0.3"
     "@zthun/webigail-url": "npm:^4.0.3"
     csstype: "npm:^3.1.3"
@@ -4126,28 +4126,28 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19
     react-dom: ^18 || ^19
-  checksum: 10/1e60ec87e36398943c51ff8c202336e14f25b77f4f883263486a93934d2f7e382f444c4100f1c84a4ac86702018120e96958340aeda9795b9cc88d394dc4603c
+  checksum: 10/6acee35e1992c253f413d64f814010faf6f237d4bb2c57d3a43c69040ab5f7a8efc7c0222aa18168cbe861e412157591c93a070fd1fb10511f266410f44f36c0
   languageName: node
   linkType: hard
 
-"@zthun/fashion-tailor@npm:^10.1.6":
-  version: 10.1.6
-  resolution: "@zthun/fashion-tailor@npm:10.1.6"
+"@zthun/fashion-tailor@npm:^10.2.1":
+  version: 10.2.1
+  resolution: "@zthun/fashion-tailor@npm:10.2.1"
   dependencies:
-    "@zthun/helpful-fn": "npm:^9.3.0"
+    "@zthun/helpful-fn": "npm:^9.4.0"
     lodash-es: "npm:^4.17.21"
-  checksum: 10/0c25057fa775fcbe1fef8c5f17ea1c4bceda1fbf9acb3196e92483e75eb7758a7dbea494bf473b0470fb9996bcedc6c9d6e37be1a6f6cb45c6023e0ce4ef0275
+  checksum: 10/8c5ab6713ade997f43ab82f2c74d0d17a7ae1a5dfe43612c011101b704be8c150b03a16338b5ce25739d60024290364ce31fe409998f427d745af928ddc8b897
   languageName: node
   linkType: hard
 
-"@zthun/fashion-theme@npm:^10.1.6":
-  version: 10.1.6
-  resolution: "@zthun/fashion-theme@npm:10.1.6"
+"@zthun/fashion-theme@npm:^10.2.1":
+  version: 10.2.1
+  resolution: "@zthun/fashion-theme@npm:10.2.1"
   dependencies:
-    "@zthun/helpful-fn": "npm:^9.3.0"
+    "@zthun/helpful-fn": "npm:^9.4.0"
     csstype: "npm:^3.1.3"
     lodash-es: "npm:^4.17.21"
-  checksum: 10/595b23088539a8b617b2b5863a9289240010da012e64ea800f44c94fc6544fe7aec798fb6a56899f7b6c74d55ecf3558e829ea5ccbbaa50fc871fc6b2e1d821a
+  checksum: 10/5217c6e34a213dbc70ead602d57bc8c5e207c6e61346a5689d952928c1af5bd71a62fe8f071cb8960c93abff723af3bcf5209c2118671a8a7faa10ed1f2fac32
   languageName: node
   linkType: hard
 
@@ -4170,7 +4170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-react@npm:^9.3.0, @zthun/helpful-react@npm:^9.4.0":
+"@zthun/helpful-react@npm:^9.4.0":
   version: 9.4.0
   resolution: "@zthun/helpful-react@npm:9.4.0"
   dependencies:
@@ -4449,9 +4449,9 @@ __metadata:
     "@vitejs/plugin-react-swc": "npm:^3.10.2"
     "@zthun/cirque": "npm:^7.1.4"
     "@zthun/cirque-du-react": "npm:^7.1.4"
-    "@zthun/fashion-boutique": "npm:^10.1.6"
-    "@zthun/fashion-tailor": "npm:^10.1.6"
-    "@zthun/fashion-theme": "npm:^10.1.6"
+    "@zthun/fashion-boutique": "npm:^10.2.1"
+    "@zthun/fashion-tailor": "npm:^10.2.1"
+    "@zthun/fashion-theme": "npm:^10.2.1"
     "@zthun/helpful-fn": "npm:^9.4.0"
     "@zthun/helpful-query": "npm:^9.4.0"
     "@zthun/helpful-react": "npm:^9.4.0"
