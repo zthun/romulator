@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/zthun/romulator/compare/v1.1.0...v1.2.0) (2025-06-22)
+
+
+### Features
+
+* systems now show in order of generation and by wheels on the systems page ([09266c3](https://github.com/zthun/romulator/commit/09266c39b1be1ef057c761ae52a2443ee00db17a))
+
+
+
 ## 1.1.0 (2025-06-21)
 
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/zthun/romulator/compare/v1.1.0...v1.2.0) (2025-06-22)
+
+
+### Features
+
+* media and game folder now have fallback values ([ec03c5a](https://github.com/zthun/romulator/commit/ec03c5acad22bff08a0c15d0544cc2435a07c0f6))
+* systems now show in order of generation and by wheels on the systems page ([09266c3](https://github.com/zthun/romulator/commit/09266c39b1be1ef057c761ae52a2443ee00db17a))
+* systems now use the games config ([67d063f](https://github.com/zthun/romulator/commit/67d063fbf6ac2ed88c637f67225fb7eddcb4b10a))
+
+
+### Bug Fixes
+
+* point to correct main ([d3fea27](https://github.com/zthun/romulator/commit/d3fea27a670d2e12884371a0f4b7689fa9906e0b))
+
+
+
 ## 1.1.0 (2025-06-21)
 
 
