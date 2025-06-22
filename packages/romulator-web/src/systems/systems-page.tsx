@@ -7,12 +7,12 @@ import {
   ZCard,
   ZContentTitle,
   ZGridView,
-  ZH5,
+  ZIconFontAwesome,
   ZImageSource,
   ZStack,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
-import { css, cssJoinDefined } from "@zthun/helpful-fn";
+import { css, cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { useSystemsService } from "./systems-service.mjs";
 
@@ -43,12 +43,18 @@ export function ZRomulatorSystemsPage() {
         <ZStack
           className={cssJoinDefined(tile)}
           gap={ZSizeFixed.Medium}
+          orientation={ZOrientation.Horizontal}
           justify={{ content: "center" }}
-          align={{ items: "stretch" }}
+          align={{ items: "center" }}
         >
           <ZContentTitle
-            avatar={<ZImageSource src={wheel} height={ZSizeFixed.Medium} />}
-            heading={<ZH5 compact>{system.name}</ZH5>}
+            avatar={
+              <ZImageSource
+                src={wheel}
+                height={ZSizeVaried.Full}
+                width={ZSizeVaried.Full}
+              />
+            }
           />
         </ZStack>
       </ZBox>
@@ -61,6 +67,9 @@ export function ZRomulatorSystemsPage() {
       <ZCard
         width={ZSizeVaried.Full}
         TitleProps={{
+          avatar: (
+            <ZIconFontAwesome name="puzzle-piece" width={ZSizeFixed.Medium} />
+          ),
           heading: "Systems",
           subHeading: "Your games organized by system",
         }}
@@ -70,7 +79,8 @@ export function ZRomulatorSystemsPage() {
           GridProps={{
             columns: {
               xl: "1fr 1fr 1fr 1fr",
-              lg: "1fr 1fr",
+              lg: "1fr 1fr 1fr",
+              md: "1fr 1fr",
               sm: "1fr",
             },
             gap: ZSizeFixed.Medium,
