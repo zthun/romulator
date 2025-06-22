@@ -60,22 +60,22 @@ describe("ZRomulatorSystemsPage", () => {
     const expected = systems.map((s) => s.id);
 
     // Act.
-    const cards = await target.systems();
-    const actual = await Promise.all(cards.map((s) => s.id()));
-
+    const tiles = await target.systems();
+    const ids = tiles.map((s) => s.driver.attribute("data-name"));
+    const actual = await Promise.all(ids);
     // Assert.
     expect(actual).toEqual(expected);
   });
 
-  it("should navigate me to the system page when I click on the navigate button", async () => {
+  it("should navigate me to the system page when I click on one", async () => {
     // Arrange.
     const target = await createTestTarget();
 
     // Act.
-    const more = await target.more(nes.id);
-    await more.click();
+    const system = await target.system(nes.id);
+    await system?.click();
 
     // Assert.
-    expect(_history.location.pathname).toEqual(`/systems/${nes.id}`);
+    expect(_history.location.pathname).toEqual(`/${nes.id}`);
   });
 });
