@@ -13,13 +13,25 @@ import {
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { css, cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
+import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
+import { useState } from "react";
 import { useSystemsService } from "./systems-service.mjs";
+
+const DefaultSystemSortOrder = new ZSortBuilder()
+  .ascending("generation")
+  .ascending("name")
+  .build();
+
+const DefaultSystemRequest = new ZDataRequestBuilder()
+  .sort(DefaultSystemSortOrder)
+  .build();
 
 export function ZRomulatorSystemsPage() {
   const { body } = useFashionTheme();
   const navigate = useNavigate();
   const source = useSystemsService();
+  const [request, setRequest] = useState(DefaultSystemRequest);
 
   const tile = useCss(css`
     & {
@@ -85,6 +97,8 @@ export function ZRomulatorSystemsPage() {
             },
             gap: ZSizeFixed.Medium,
           }}
+          value={request}
+          onValueChange={setRequest}
           dataSource={source}
           renderItem={renderTile}
         />
