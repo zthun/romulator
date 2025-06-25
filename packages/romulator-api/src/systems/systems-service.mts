@@ -27,7 +27,7 @@ import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 import { ZRomulatorSystemKnown } from "./system-known.mjs";
 
-export const ZRomulatorSystemsToken = Symbol("romulator-platforms-service");
+export const ZRomulatorSystemsToken = Symbol("romulator-systems-service");
 
 export interface IZRomulatorSystemsService {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorSystem>>;
