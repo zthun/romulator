@@ -1,9 +1,21 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Inject, Query } from "@nestjs/common";
+import {
+  ZDataRequestBuilder,
+  type IZDataRequestQuery,
+} from "@zthun/helpful-query";
+import type { IZRomulatorMediaService } from "./media-service.mjs";
+import { ZRomulatorMediaServiceToken } from "./media-service.mjs";
 
 @Controller("media")
 export class ZRomulatorMediaController {
+  public constructor(
+    @Inject(ZRomulatorMediaServiceToken)
+    private _media: IZRomulatorMediaService,
+  ) {}
+
   @Get()
-  public list() {
-    return Promise.reject("Not implemented yet");
+  public list(@Query() params: IZDataRequestQuery) {
+    const request = new ZDataRequestBuilder().query(params).build();
+    return this._media.list(request);
   }
 }

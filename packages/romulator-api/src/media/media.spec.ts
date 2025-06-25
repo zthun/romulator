@@ -19,7 +19,7 @@ import {
 } from "../config/configs-service.mjs";
 import { ZRomulatorMediaModule } from "./media-module.mjs";
 
-describe.skip("MediaApi", () => {
+describe("MediaApi", () => {
   const media = "/path/to/media";
   const endpoint = "media";
 
