@@ -1,20 +1,9 @@
+import { isTagged, ZTag } from "@zthun/helpful-reflection";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import "reflect-metadata";
 
-const IS_SYSTEM = "z-romulator-is-system-method";
-
-function KnownSystem(): MethodDecorator {
-  return (_, __, descriptor) => {
-    Reflect.defineMetadata(IS_SYSTEM, true, descriptor.value!);
-  };
-}
-
-function isKnownSystem(target: any): target is () => ZRomulatorSystemBuilder {
-  return (
-    typeof target === "function" &&
-    Reflect.getMetadata(IS_SYSTEM, target) === true
-  );
-}
+const KnownSystem = "@zthunworks/romulator/known-system";
 
 /**
  * A helper factory class for creating supported systems.
@@ -28,8 +17,10 @@ export abstract class ZRomulatorSystemKnown {
    */
   public static all() {
     const properties = Object.getOwnPropertyNames(ZRomulatorSystemKnown);
-    const fields = properties.map((p) => ZRomulatorSystemKnown[p]);
-    const methods = fields.filter((f) => isKnownSystem(f));
+    const methods = properties
+      .filter((p) => isTagged(KnownSystem, ZRomulatorSystemKnown, p))
+      .map((p) => ZRomulatorSystemKnown[p])
+      .map((f) => f as () => IZRomulatorSystem);
     return methods.map((m) => m.call(null));
   }
 
@@ -41,7 +32,7 @@ export abstract class ZRomulatorSystemKnown {
    *        A {@link ZRomulatorSystemBuilder} instance that has
    *        built the nes.
    */
-  @KnownSystem()
+  @ZTag(KnownSystem)
   public static nes() {
     return new ZRomulatorSystemBuilder()
       .id("nes")
@@ -63,7 +54,7 @@ export abstract class ZRomulatorSystemKnown {
    * @returns
    *        This instance.
    */
-  @KnownSystem()
+  @ZTag(KnownSystem)
   public static snes() {
     return new ZRomulatorSystemBuilder()
       .id("snes")
@@ -85,7 +76,7 @@ export abstract class ZRomulatorSystemKnown {
    * @returns
    *        This instance.
    */
-  @KnownSystem()
+  @ZTag(KnownSystem)
   public static n64() {
     return new ZRomulatorSystemBuilder()
       .id("n64")
@@ -105,7 +96,7 @@ export abstract class ZRomulatorSystemKnown {
    * @returns
    *        This instance.
    */
-  @KnownSystem()
+  @ZTag(KnownSystem)
   public static gc() {
     return new ZRomulatorSystemBuilder()
       .id("gc")
@@ -125,7 +116,7 @@ export abstract class ZRomulatorSystemKnown {
    * @returns
    *        This instance.
    */
-  @KnownSystem()
+  @ZTag(KnownSystem)
   public static wii() {
     return new ZRomulatorSystemBuilder()
       .id("wii")
@@ -144,7 +135,7 @@ export abstract class ZRomulatorSystemKnown {
    * @returns
    *        This instance.
    */
-  @KnownSystem()
+  @ZTag(KnownSystem)
   public static wiiu() {
     return new ZRomulatorSystemBuilder()
       .id("wiiu")
@@ -165,7 +156,7 @@ export abstract class ZRomulatorSystemKnown {
    * @returns
    *        This instance.
    */
-  @KnownSystem()
+  @ZTag(KnownSystem)
   public static switch() {
     return new ZRomulatorSystemBuilder()
       .id("switch")
@@ -190,10 +181,8 @@ export abstract class ZRomulatorSystemKnown {
    *        The system, or null if the id is not known.
    */
   public static from(id: string): ZRomulatorSystemBuilder | null {
-    const system = ZRomulatorSystemKnown[id];
-
-    if (isKnownSystem(system)) {
-      return system();
+    if (isTagged(KnownSystem, ZRomulatorSystemKnown, id)) {
+      return ZRomulatorSystemKnown[id]();
     }
 
     return null;
