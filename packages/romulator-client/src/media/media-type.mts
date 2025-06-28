@@ -5,74 +5,68 @@ export enum ZRomulatorMediaType {
   /**
    * A 3d representation of the box art.
    */
-  Game3dBox = "game-3d-box",
+  Game3dBox = "3dboxes",
   /**
    * Back of the game box.
    */
-  GameBackCover = "game-back-cover",
+  GameBackCover = "backcovers",
   /**
    * Front of the game box.
    */
-  GameCover = "game-cover",
+  GameCover = "covers",
   /**
    * Fan art.
    */
-  GameFanArt = "game-fan-art",
+  GameFanArt = "fanart",
   /**
    * Game manual.
    */
-  GameManual = "game-manual",
+  GameManual = "manuals",
   /**
    * A marquee of a game.
    */
-  GameMarquee = "game-marquee",
+  GameMarquee = "marquees",
   /**
    * The cartridge or disc label.
    */
-  GamePhysicalMedia = "game-physical-media",
+  GamePhysicalMedia = "physicalmedia",
   /**
    * An in game screenshot showcasing gameplay.
    */
-  GameScreenshot = "game-screenshot",
+  GameScreenshot = "screenshots",
   /**
    * An in game screenshot of the title screen.
    */
-  GameTitle = "game-title",
+  GameTitle = "titlescreens",
   /**
    * A video showcasing the game.
    */
-  GameVideo = "game-video",
-  /**
-   * The game wheel.
-   *
-   * This is the logo for the game.
-   */
-  GameWheel = "game-wheel",
+  GameVideo = "videos",
   /**
    * An image of a system's controller.
    */
-  SystemController = "system-controller",
+  SystemController = "controller.png",
   /**
    * A icon for the system.
    *
    * These are normally 32x32.
    */
-  SystemIcon = "system-icon",
+  SystemIcon = "icon.png",
   /**
    * An illustration of the system.
    */
-  SystemIllustration = "system-illustration",
+  SystemIllustration = "illustration.png",
   /**
    * A picture of the system.
    *
    * These are real life looking photos of what
    * a system looks like.
    */
-  SystemPicture = "system-picture",
+  SystemPicture = "picture.png",
   /**
    * A wheel for a system.
    *
    * This is basically the logo.
    */
-  SystemWheel = "system-wheel",
+  SystemWheel = "wheel.png",
 }
