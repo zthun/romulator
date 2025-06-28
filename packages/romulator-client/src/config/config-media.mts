@@ -10,6 +10,11 @@ export class ZRomulatorConfigMediaBuilder {
     return this;
   }
 
+  public copy(other: IZRomulatorConfigMedia) {
+    this._media = structuredClone(other);
+    return this;
+  }
+
   public build() {
     return structuredClone(this._media);
   }
