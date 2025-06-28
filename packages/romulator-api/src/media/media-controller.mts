@@ -4,12 +4,12 @@ import {
   type IZDataRequestQuery,
 } from "@zthun/helpful-query";
 import type { IZRomulatorMediaService } from "./media-service.mjs";
-import { ZRomulatorMediaServiceToken } from "./media-service.mjs";
+import { ZRomulatorMediaToken } from "./media-service.mjs";
 
 @Controller("media")
 export class ZRomulatorMediaController {
   public constructor(
-    @Inject(ZRomulatorMediaServiceToken)
+    @Inject(ZRomulatorMediaToken)
     private _media: IZRomulatorMediaService,
   ) {}
 
