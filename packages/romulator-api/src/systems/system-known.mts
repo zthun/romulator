@@ -10,13 +10,29 @@ function KnownSystem(): MethodDecorator {
 }
 
 function isKnownSystem(target: any): target is () => ZRomulatorSystemBuilder {
-  return target != null && Reflect.getMetadata(IS_SYSTEM, target) === true;
+  return (
+    typeof target === "function" &&
+    Reflect.getMetadata(IS_SYSTEM, target) === true
+  );
 }
 
 /**
  * A helper factory class for creating supported systems.
  */
 export abstract class ZRomulatorSystemKnown {
+  /**
+   * Returns all known systems.
+   *
+   * @returns
+   *        All supported systems.
+   */
+  public static all() {
+    const properties = Object.getOwnPropertyNames(ZRomulatorSystemKnown);
+    const fields = properties.map((p) => ZRomulatorSystemKnown[p]);
+    const methods = fields.filter((f) => isKnownSystem(f));
+    return methods.map((m) => m.call(null));
+  }
+
   /**
    * Creates a system that represents the Nintendo
    * Entertainment System (NES).
