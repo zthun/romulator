@@ -18,7 +18,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^24.0.3",
+    "@types/node": "^24.0.7",
     "@vitejs/plugin-react-swc": "^3.10.2",
     "@zthun/cirque": "^7.1.5",
     "@zthun/cirque-du-react": "^7.1.5",
@@ -28,7 +28,7 @@
     "@zthun/helpful-fn": "^9.4.0",
     "@zthun/helpful-query": "^9.4.0",
     "@zthun/helpful-react": "^9.4.1",
-    "@zthun/janitor-build-config": "^19.2.4",
+    "@zthun/janitor-build-config": "^19.2.6",
     "@zthun/romulator-client": "^1.2.0",
     "@zthun/webigail-http": "^4.0.4",
     "@zthun/webigail-rest": "^4.0.4",
