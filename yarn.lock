@@ -4196,6 +4196,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zthun/helpful-reflection@npm:^9.4.0":
+  version: 9.4.0
+  resolution: "@zthun/helpful-reflection@npm:9.4.0"
+  dependencies:
+    "@zthun/helpful-fn": "npm:^9.4.0"
+    reflect-metadata: "npm:^0.2.2"
+  checksum: 10/5949ec9d308ccd2ac4721a7c97ce7c606b820815229eb8f131286e8e9d365e4d797565d66bb510b5ea59486feda7ba13839d19b4d41f9f5dce4c0afd6611e0b3
+  languageName: node
+  linkType: hard
+
 "@zthun/janitor-build-config@npm:^19.2.4, @zthun/janitor-build-config@npm:^19.2.6":
   version: 19.2.6
   resolution: "@zthun/janitor-build-config@npm:19.2.6"
@@ -4408,6 +4418,7 @@ __metadata:
     "@zthun/crumbtrail-nest": "npm:^2.0.2"
     "@zthun/helpful-fn": "npm:^9.4.0"
     "@zthun/helpful-query": "npm:^9.4.0"
+    "@zthun/helpful-reflection": "npm:^9.4.0"
     "@zthun/janitor-build-config": "npm:^19.2.6"
     "@zthun/lumberjacky-log": "npm:^3.0.2"
     "@zthun/lumberjacky-nest": "npm:^3.0.2"
