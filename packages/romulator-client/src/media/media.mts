@@ -29,6 +29,11 @@ export interface IZRomulatorMedia {
   game?: string;
 
   /**
+   * The name of the file.
+   */
+  fileName?: string;
+
+  /**
    * The full url path for the media.
    */
   url?: string;
@@ -60,6 +65,11 @@ export class ZRomulatorMediaBuilder {
     return this;
   }
 
+  public filename(name: string) {
+    this._media.fileName = name;
+    return this;
+  }
+
   public url(url: string) {
     this._media.url = url;
     return this;
@@ -67,7 +77,8 @@ export class ZRomulatorMediaBuilder {
 
   public from(path: string) {
     const hierarchy = path.split(sep);
-    const builder = this.url(path);
+    let builder = this.url(path);
+
     // The media structure is split into 2 or 3 parts
     // fileName = game file name or system media type name
     // parent = media type for games or system type for systems
@@ -83,6 +94,7 @@ export class ZRomulatorMediaBuilder {
       return builder;
     }
 
+    builder = builder.filename(fileName);
     const ext = extname(fileName);
     const title = basename(fileName, ext);
 
