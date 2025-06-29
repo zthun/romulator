@@ -11,7 +11,7 @@ import {
   ZRomulatorConfigMediaBuilder,
   ZRomulatorMediaBuilder,
 } from "@zthun/romulator-client";
-import { ZHttpCodeSuccess } from "@zthun/webigail-http";
+import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import request from "supertest";
 import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -101,6 +101,36 @@ describe("MediaApi", () => {
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
       expect(actual.body.data).toEqual(expected);
       expect(actual.body.count).toEqual(expected.length);
+    });
+  });
+
+  describe("Get", () => {
+    it("should return the media with the given id", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+      const expected = new ZRomulatorMediaBuilder()
+        .from(nesBatman.path)
+        .build();
+      const url = `/${endpoint}/${expected.id}`;
+
+      // Act.
+      const actual = await request(target.getHttpServer()).get(url);
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+      expect(actual.body).toEqual(expected);
+    });
+
+    it("should return a 404 error if no such media exists", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+      const url = `/${endpoint}/lol-wut`;
+
+      // Act.
+      const actual = await request(target.getHttpServer()).get(url);
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
     });
   });
 });
