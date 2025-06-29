@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/zthun/romulator/compare/v1.2.0...v1.3.0) (2025-06-29)
+
+
+### Features
+
+* media api allows consumers to retrieve the media found in the media folder ([e54d305](https://github.com/zthun/romulator/commit/e54d305ddc9341eb86c7e40ddb6d89ee9508b605))
+* media/id endpoint now uses content negotiation for the format ([769cf2b](https://github.com/zthun/romulator/commit/769cf2b5c0ddc547156672faf7204119a113c0cf))
+* you can list media ([666a8cb](https://github.com/zthun/romulator/commit/666a8cb26e5d1413135c016d269c4daf627cd94c))
+* you can now delete media ([d9ffe6e](https://github.com/zthun/romulator/commit/d9ffe6e14cb776fae4b73e534389c12e76ebc802))
+* you can retrieve an individual piece of media ([2440eb0](https://github.com/zthun/romulator/commit/2440eb0624410fc1ab795b5b85b986138cc42b07))
+
+
+### Bug Fixes
+
+* config known now returns consistent types ([ad73940](https://github.com/zthun/romulator/commit/ad73940fc8911e4b3bde0326f1d60bcf422fed44))
+* known systems now return the correct types ([e34edac](https://github.com/zthun/romulator/commit/e34edac44028c04c7529f88cd4593350325965aa))
+
+
+
 ## [1.2.0](https://github.com/zthun/romulator/compare/v1.1.0...v1.2.0) (2025-06-22)
 
 
