@@ -1,5 +1,19 @@
+import { firstDefined } from "@zthun/helpful-fn";
 import { uniq } from "lodash-es";
 import { ZRomulatorSystemType } from "./system-type.mjs";
+
+/**
+ * Id slugs for supported systems.
+ */
+export enum ZRomulatorSystemId {
+  Nintendo = "nes",
+  SuperNintendo = "snes",
+  Nintendo64 = "n64",
+  GameCube = "gc",
+  Wii = "wii",
+  WiiU = "wiiu",
+  Switch = "switch",
+}
 
 /**
  * Represents a system in romulator.
@@ -18,7 +32,7 @@ export interface IZRomulatorSystem {
    *
    * This is essentially a slug.
    */
-  id: string;
+  id?: ZRomulatorSystemId;
   /**
    * The canonical name of the system.
    *
@@ -26,7 +40,7 @@ export interface IZRomulatorSystem {
    * not the historical accurate name for each
    * and every region.
    */
-  name: string;
+  name?: string;
   /**
    * Other names that the system is known by.
    *
@@ -37,35 +51,28 @@ export interface IZRomulatorSystem {
    * For example, the Nintendo Entertainment System
    * is known as the Famicom in Japan.
    */
-  aliases: string[];
+  aliases?: string[];
   /**
    * The generational index of the system.
    */
-  generation: number;
+  generation?: number;
   /**
    * The system manufacturers.
    *
    * There can be multiple manufacturers for a system.
    */
-  manufacturers: string[];
+  manufacturers?: string[];
   /**
    * The type of system.
    */
-  type: ZRomulatorSystemType;
+  type?: ZRomulatorSystemType;
 }
 
 /**
  * A builder for creating an IZRomulatorSystem.
  */
 export class ZRomulatorSystemBuilder {
-  private _system: IZRomulatorSystem = {
-    id: "",
-    name: "",
-    aliases: [],
-    generation: 0,
-    manufacturers: [],
-    type: ZRomulatorSystemType.Console,
-  };
+  private _system: IZRomulatorSystem = {};
 
   /**
    * Sets the id (slug) of the system.
@@ -75,7 +82,7 @@ export class ZRomulatorSystemBuilder {
    * @returns
    *        This instance.
    */
-  public id(id: string): this {
+  public id(id: ZRomulatorSystemId): this {
     this._system.id = id;
     return this;
   }
@@ -163,7 +170,7 @@ export class ZRomulatorSystemBuilder {
    *        This instance.
    */
   public alias(alias: string): this {
-    const aliases = this._system.aliases.slice();
+    const aliases = firstDefined([], this._system.aliases).slice();
     aliases.push(alias);
     return this.aliases(uniq(aliases));
   }
@@ -205,7 +212,7 @@ export class ZRomulatorSystemBuilder {
    *        This instance.
    */
   public manufacturer(manufacturer: string): this {
-    const manufacturers = this._system.manufacturers.slice();
+    const manufacturers = firstDefined([], this._system.manufacturers).slice();
     manufacturers.push(manufacturer);
     return this.manufacturers(uniq(manufacturers));
   }
