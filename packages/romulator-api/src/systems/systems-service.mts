@@ -69,8 +69,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
       .map((folder) => folder.path)
       .map((path) => basename(path))
       .map((slug) => ZRomulatorSystemKnown.from(slug))
-      .filter((system) => system != null)
-      .map((system) => system.build());
+      .filter((system) => system != null);
 
     msg = `Found ${systems.length} systems`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());

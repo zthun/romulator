@@ -34,8 +34,8 @@ describe("SystemsApi", () => {
   const endpoint = "systems";
 
   const config = ZRomulatorConfigKnown.games().build();
-  const nes = ZRomulatorSystemKnown.nes().build();
-  const snes = ZRomulatorSystemKnown.snes().build();
+  const nes = ZRomulatorSystemKnown.nes();
+  const snes = ZRomulatorSystemKnown.snes();
 
   const mediaFolder = new ZFileSystemNodeBuilder()
     .folder()

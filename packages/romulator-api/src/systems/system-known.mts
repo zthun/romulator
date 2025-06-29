@@ -47,7 +47,8 @@ export abstract class ZRomulatorSystemKnown {
       .alias("Samurai Electronic TV Game System")
       .alias("Dendy")
       .generation(3)
-      .manufacturer("Nintendo");
+      .manufacturer("Nintendo")
+      .build();
   }
 
   /**
@@ -69,7 +70,8 @@ export abstract class ZRomulatorSystemKnown {
       .alias("Super NES")
       .alias("Super Comboy")
       .generation(4)
-      .manufacturer("Nintendo");
+      .manufacturer("Nintendo")
+      .build();
   }
 
   /**
@@ -89,7 +91,8 @@ export abstract class ZRomulatorSystemKnown {
       .alias("Ultra 64")
       .alias("Hyundai Comboy 64")
       .generation(5)
-      .manufacturer("Nintendo");
+      .manufacturer("Nintendo")
+      .build();
   }
 
   /**
@@ -109,7 +112,8 @@ export abstract class ZRomulatorSystemKnown {
       .alias("Dolphin")
       .generation(6)
       .manufacturer("Nintendo")
-      .manufacturer("Foxconn");
+      .manufacturer("Foxconn")
+      .build();
   }
 
   /**
@@ -128,7 +132,8 @@ export abstract class ZRomulatorSystemKnown {
       .alias("Wii")
       .alias("Revolution")
       .generation(7)
-      .manufacturer("Foxconn");
+      .manufacturer("Foxconn")
+      .build();
   }
 
   /**
@@ -149,7 +154,8 @@ export abstract class ZRomulatorSystemKnown {
       .generation(8)
       .manufacturer("Nintendo")
       .manufacturer("Foxconn")
-      .manufacturer("Mitsumi");
+      .manufacturer("Mitsumi")
+      .build();
   }
 
   /**
@@ -171,7 +177,8 @@ export abstract class ZRomulatorSystemKnown {
       .alias("Odin")
       .generation(9)
       .manufacturer("Foxconn")
-      .manufacturer("Hosiden");
+      .manufacturer("Hosiden")
+      .build();
   }
 
   /**
@@ -183,7 +190,7 @@ export abstract class ZRomulatorSystemKnown {
    * @return
    *        The system, or null if the id is not known.
    */
-  public static from(id: string): ZRomulatorSystemBuilder | null {
+  public static from(id: string): IZRomulatorSystem | null {
     if (isTagged(KnownSystem, ZRomulatorSystemKnown, id)) {
       return ZRomulatorSystemKnown[id]();
     }
