@@ -13,7 +13,10 @@ import {
   ZDataSourceStatic,
   ZFilterBinaryBuilder,
 } from "@zthun/helpful-query";
-import { ZRomulatorSystemBuilder } from "@zthun/romulator-client";
+import {
+  ZRomulatorSystemBuilder,
+  ZRomulatorSystemId,
+} from "@zthun/romulator-client";
 import type { History } from "history";
 import { createMemoryHistory } from "history";
 import { noop } from "lodash-es";
@@ -30,7 +33,9 @@ interface ZRomulatorSystemPageProps {
 }
 
 describe("SystemPage", () => {
-  const nes = new ZRomulatorSystemBuilder().id("nes").build();
+  const nes = new ZRomulatorSystemBuilder()
+    .id(ZRomulatorSystemId.Nintendo)
+    .build();
 
   let _driver: IZCircusDriver;
   let _renderer: IZCircusSetup;

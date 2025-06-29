@@ -3,7 +3,10 @@ import type { IZCircusReactHook } from "@zthun/cirque-du-react";
 import { ZCircusSetupHook } from "@zthun/cirque-du-react";
 import { ZDataRequestBuilder, ZPageBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
-import { ZRomulatorSystemBuilder } from "@zthun/romulator-client";
+import {
+  ZRomulatorSystemBuilder,
+  ZRomulatorSystemId,
+} from "@zthun/romulator-client";
 import {
   ZHttpMethod,
   ZHttpResultBuilder,
@@ -26,8 +29,12 @@ describe("SystemsService", () => {
   let _http: ZHttpServiceMock;
   let _env: Mocked<IZRomulatorEnvironmentService>;
 
-  const nes = new ZRomulatorSystemBuilder().id("nes").build();
-  const snes = new ZRomulatorSystemBuilder().id("snes").build();
+  const nes = new ZRomulatorSystemBuilder()
+    .id(ZRomulatorSystemId.Nintendo)
+    .build();
+  const snes = new ZRomulatorSystemBuilder()
+    .id(ZRomulatorSystemId.SuperNintendo)
+    .build();
   const systems = [nes, snes];
 
   beforeEach(async () => {
