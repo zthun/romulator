@@ -21,7 +21,7 @@ export class ZRomulatorSystemsController {
   }
 
   @ApiParam({
-    type: "string | number",
+    type: "string",
     name: "identification",
     description: "The id of the system",
   })
