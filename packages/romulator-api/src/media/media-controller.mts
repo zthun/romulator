@@ -1,4 +1,12 @@
-import { Controller, Get, Inject, Param, Query, Req } from "@nestjs/common";
+import {
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Query,
+  Req,
+} from "@nestjs/common";
 import { ApiParam, ApiResponse } from "@nestjs/swagger";
 import {
   ZDataRequestBuilder,
@@ -57,5 +65,15 @@ export class ZRomulatorMediaController {
     return accept.includes("application/json")
       ? this._media.get(identification)
       : this._media.download(identification, accept);
+  }
+
+  @ApiParam({
+    type: "string",
+    name: "identification",
+    description: "The id of the media",
+  })
+  @Delete(":identification")
+  public async delete(@Param("identification") identification: string) {
+    await this._media.delete(identification);
   }
 }

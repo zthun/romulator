@@ -12,9 +12,10 @@ import {
   ZRomulatorMediaBuilder,
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
+import { unlink } from "fs/promises";
 import request from "supertest";
-import type { Mocked } from "vitest";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import type { Mock, Mocked } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import {
@@ -22,6 +23,8 @@ import {
   type IZRomulatorConfigsService,
 } from "../config/configs-service.mjs";
 import { ZRomulatorMediaModule } from "./media-module.mjs";
+
+vi.mock("node:fs/promises");
 
 describe("MediaApi", () => {
   const media = "/path/to/media";
@@ -33,6 +36,7 @@ describe("MediaApi", () => {
   let _logger: IZLogger;
   let _config: Mocked<IZRomulatorConfigsService>;
   let _file: Mocked<IZFileSystemService>;
+  let _unlink: Mock;
 
   const nesSystemWheel = new ZFileSystemNodeBuilder()
     .file()
@@ -78,6 +82,9 @@ describe("MediaApi", () => {
 
     _file = mock<IZFileSystemService>();
     _file.search.mockResolvedValue([nesSystemWheel, nesBatman, snesAladdin]);
+
+    _unlink = vi.mocked(unlink);
+    _unlink.mockReturnValue(Promise.resolve());
   });
 
   afterEach(async () => {
@@ -104,73 +111,113 @@ describe("MediaApi", () => {
     });
   });
 
-  describe("Get", () => {
+  describe("CRUD", () => {
     const media = new ZRomulatorMediaBuilder().from(nesBatman.path).build();
     const url = `/${endpoint}/${media.id}`;
 
-    it("should return the media with the given id", async () => {
-      // Arrange.
-      const target = await createTestTarget();
+    describe("Read", () => {
+      it("should return the media with the given id", async () => {
+        // Arrange.
+        const target = await createTestTarget();
 
-      // Act.
-      const actual = await request(target.getHttpServer())
-        .get(url)
-        .set("Accept", "application/json");
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .get(url)
+          .set("Accept", "application/json");
 
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(media);
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+        expect(actual.body).toEqual(media);
+      });
+
+      it("should detect the correct mime type", async () => {
+        // Arrange.
+        const target = await createTestTarget();
+
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .get(url)
+          .set("Accept", "*/*");
+
+        // Assert.
+        expect(actual.header["content-type"]).toContain("image/png");
+      });
+
+      it("should return the media if the mime type acceptance matches", async () => {
+        // Arrange.
+        const target = await createTestTarget();
+
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .get(url)
+          .set("Accept", "video/*,image/*");
+
+        // Assert.
+        expect(actual.header["content-type"]).toContain("image/png");
+      });
+
+      it("should return a 406 error if the media type does not match the target types", async () => {
+        // Arrange.
+        const target = await createTestTarget();
+
+        // Act.
+        const actual = await request(target.getHttpServer())
+          .get(url)
+          .set("Accept", "video/mp4");
+
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeClient.NotAcceptable);
+      });
+
+      it("should return a 404 error if no such media exists", async () => {
+        // Arrange.
+        const target = await createTestTarget();
+        const url = `/${endpoint}/lol-wut`;
+
+        // Act.
+        const actual = await request(target.getHttpServer()).get(url);
+
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
+      });
     });
 
-    it("should detect the correct mime type", async () => {
-      // Arrange.
-      const target = await createTestTarget();
+    describe("Delete", () => {
+      it("should unlink the file", async () => {
+        // Arrange.
+        const target = await createTestTarget();
 
-      // Act.
-      const actual = await request(target.getHttpServer())
-        .get(url)
-        .set("Accept", "*/*");
+        // Act.
+        const actual = await request(target.getHttpServer()).delete(url);
 
-      // Assert.
-      expect(actual.header["content-type"]).toContain("image/png");
-    });
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+        expect(unlink).toHaveBeenCalledWith(media.url);
+      });
 
-    it("should return the media if the mime type acceptance matches", async () => {
-      // Arrange.
-      const target = await createTestTarget();
+      it("should return a 403 error if the file cannot be deleted by the running user", async () => {
+        // Arrange.
+        _unlink.mockRejectedValue(new Error("Denied access to file"));
+        const target = await createTestTarget();
 
-      // Act.
-      const actual = await request(target.getHttpServer())
-        .get(url)
-        .set("Accept", "video/*,image/*");
+        // Act.
+        const actual = await request(target.getHttpServer()).delete(url);
 
-      // Assert.
-      expect(actual.header["content-type"]).toContain("image/png");
-    });
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeClient.Forbidden);
+      });
 
-    it("should return a 406 error if the media type does not match the target types", async () => {
-      // Arrange.
-      const target = await createTestTarget();
+      it("should return a 404 error if the identity does not exist", async () => {
+        // Arrange.
+        const target = await createTestTarget();
+        const url = `/${endpoint}/lol-wut`;
 
-      // Act.
-      const actual = await request(target.getHttpServer())
-        .get(url)
-        .set("Accept", "video/mp4");
+        // Act.
+        const actual = await request(target.getHttpServer()).delete(url);
 
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeClient.NotAcceptable);
-    });
-
-    it("should return a 404 error if no such media exists", async () => {
-      // Arrange.
-      const target = await createTestTarget();
-      const url = `/${endpoint}/lol-wut`;
-
-      // Act.
-      const actual = await request(target.getHttpServer()).get(url);
-
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
+      });
     });
   });
 });

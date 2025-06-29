@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Inject,
   Injectable,
   NotAcceptableException,
@@ -7,7 +8,12 @@ import {
 } from "@nestjs/common";
 import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import { detokenize, firstDefined, firstTruthy } from "@zthun/helpful-fn";
+import {
+  createError,
+  detokenize,
+  firstDefined,
+  firstTruthy,
+} from "@zthun/helpful-fn";
 import {
   ZDataSearchFields,
   ZDataSourceStatic,
@@ -27,11 +33,12 @@ import {
   ZRomulatorMediaBuilder,
   type IZRomulatorMedia,
 } from "@zthun/romulator-client";
-import type { IZRestfulGet } from "@zthun/webigail-rest";
+import type { IZRestfulDelete, IZRestfulGet } from "@zthun/webigail-rest";
 import { ZMimeTypeApplication } from "@zthun/webigail-url";
 import { findIndex } from "lodash-es";
 import { lookup } from "mime-types";
 import { createReadStream } from "node:fs";
+import { unlink } from "node:fs/promises";
 import { env } from "node:process";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
@@ -41,7 +48,8 @@ import { ZRomulatorSystemKnown } from "../systems/system-known.mjs";
 export const ZRomulatorMediaToken = Symbol("romulator-media-service");
 
 export interface IZRomulatorMediaService
-  extends IZRestfulGet<IZRomulatorMedia> {
+  extends IZRestfulGet<IZRomulatorMedia>,
+    IZRestfulDelete {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorMedia>>;
   download(id: string, accept: string): Promise<StreamableFile>;
 }
@@ -81,7 +89,7 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
       .filter((media) => !!media.id);
   }
 
-  async list(req: IZDataRequest): Promise<IZPage<IZRomulatorMedia>> {
+  public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorMedia>> {
     const cwd = await this.getMediaFolder();
 
     let msg = `Reading all media from ${cwd}`;
@@ -101,7 +109,7 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
     return new ZPageBuilder<IZRomulatorMedia>().data(page).count(count).build();
   }
 
-  async get(id: string): Promise<IZRomulatorMedia> {
+  public async get(id: string): Promise<IZRomulatorMedia> {
     const cwd = await this.getMediaFolder();
 
     const time = new Date();
@@ -125,7 +133,7 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
     return media;
   }
 
-  async download(id: string, accept: string): Promise<StreamableFile> {
+  public async download(id: string, accept: string): Promise<StreamableFile> {
     let log = `Download request received for ${id}`;
     this._logger.log(new ZLogEntryBuilder().info().message(log).build());
     const fallback = ZMimeTypeApplication.OctetStream;
@@ -159,5 +167,24 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
       type: mime,
       disposition: `inline; filename=${fileName}`,
     });
+  }
+
+  public async delete(id: string): Promise<void> {
+    const { url } = await this.get(id);
+    const _url = firstDefined("", url);
+
+    let log = `Attempting to delete file ${_url}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(log).build());
+
+    try {
+      await unlink(_url);
+    } catch (err) {
+      const { message } = createError(err);
+      this._logger.log(new ZLogEntryBuilder().error().message(message).build());
+      throw new ForbiddenException(message);
+    }
+
+    log = `Deleted ${url}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(log).build());
   }
 }
