@@ -5,5 +5,6 @@ export * from "./config/config-media.mjs";
 export * from "./config/config.mjs";
 export * from "./media/media-type.mjs";
 export * from "./media/media.mjs";
+export * from "./system/system-id.mjs";
 export * from "./system/system-type.mjs";
 export * from "./system/system.mjs";

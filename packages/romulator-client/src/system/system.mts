@@ -1,19 +1,7 @@
 import { firstDefined } from "@zthun/helpful-fn";
 import { uniq } from "lodash-es";
+import type { ZRomulatorSystemId } from "./system-id.mjs";
 import { ZRomulatorSystemType } from "./system-type.mjs";
-
-/**
- * Id slugs for supported systems.
- */
-export enum ZRomulatorSystemId {
-  Nintendo = "nes",
-  SuperNintendo = "snes",
-  Nintendo64 = "n64",
-  GameCube = "gc",
-  Wii = "wii",
-  WiiU = "wiiu",
-  Switch = "switch",
-}
 
 /**
  * Represents a system in romulator.
