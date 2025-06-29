@@ -23,7 +23,7 @@ vi.mock("node:fs/promises");
 describe("ConfigsApi", () => {
   const endpoint = "configs";
   const configs = ZRomulatorConfigKnown.all();
-  const games = ZRomulatorConfigKnown.games().build();
+  const games = ZRomulatorConfigKnown.games();
 
   let _logger: ZLoggerSilent;
   let _target: INestApplication<any>;

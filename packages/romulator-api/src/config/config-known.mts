@@ -9,10 +9,7 @@ import { ZDir } from "../dir/dir.js";
 
 export abstract class ZRomulatorConfigKnown {
   public static all() {
-    return [
-      ZRomulatorConfigKnown.games().build(),
-      ZRomulatorConfigKnown.media().build(),
-    ];
+    return [ZRomulatorConfigKnown.games(), ZRomulatorConfigKnown.media()];
   }
 
   private static create(id: ZRomulatorConfigId) {
@@ -25,7 +22,8 @@ export abstract class ZRomulatorConfigKnown {
       .name("Game Settings")
       .description("Modify where your games are stored and related settings")
       .avatar("gamepad")
-      .metadata(ZRomulatorConfigGamesMetadata.all());
+      .metadata(ZRomulatorConfigGamesMetadata.all())
+      .build();
   }
 
   public static media() {
@@ -33,6 +31,7 @@ export abstract class ZRomulatorConfigKnown {
       .name("Media Settings")
       .description("Modify where media is stored and what media to retrieve")
       .avatar("image")
-      .metadata(ZRomulatorConfigMediaMetadata.all());
+      .metadata(ZRomulatorConfigMediaMetadata.all())
+      .build();
   }
 }

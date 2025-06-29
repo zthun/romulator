@@ -27,7 +27,7 @@ describe("MediaApi", () => {
   const media = "/path/to/media";
   const endpoint = "media";
 
-  const config = ZRomulatorConfigKnown.media().build();
+  const config = ZRomulatorConfigKnown.media();
 
   let _target: INestApplication<any>;
   let _logger: IZLogger;

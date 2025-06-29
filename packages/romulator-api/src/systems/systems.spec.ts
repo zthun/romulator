@@ -33,7 +33,7 @@ describe("SystemsApi", () => {
   const games = "/path/to/games";
   const endpoint = "systems";
 
-  const config = ZRomulatorConfigKnown.games().build();
+  const config = ZRomulatorConfigKnown.games();
   const nes = ZRomulatorSystemKnown.nes();
   const snes = ZRomulatorSystemKnown.snes();
 
