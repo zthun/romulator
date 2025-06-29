@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
+import { detokenize } from "@zthun/helpful-fn";
 import {
   ZDataSearchFields,
   ZDataSourceStatic,
@@ -10,10 +11,17 @@ import {
   type IZPage,
 } from "@zthun/helpful-query";
 import {
+  ZLogEntryBuilder,
+  ZLoggerContext,
+  type IZLogger,
+} from "@zthun/lumberjacky-log";
+import { ZLoggerToken } from "@zthun/lumberjacky-nest";
+import {
   ZRomulatorConfigMediaBuilder,
   ZRomulatorMediaBuilder,
   type IZRomulatorMedia,
 } from "@zthun/romulator-client";
+import { env } from "node:process";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
@@ -27,25 +35,41 @@ export interface IZRomulatorMediaService {
 
 @Injectable()
 export class ZRomulatorMediaService implements IZRomulatorMediaService {
+  private _logger: IZLogger;
+
   public constructor(
     @Inject(ZFileSystemToken) private _file: IZFileSystemService,
     @Inject(ZRomulatorConfigsToken) private _config: IZRomulatorConfigsService,
-  ) {}
+    @Inject(ZLoggerToken) logger: IZLogger,
+  ) {
+    this._logger = new ZLoggerContext("ZRomulatorMediaService", logger);
+  }
 
   async list(req: IZDataRequest): Promise<IZPage<IZRomulatorMedia>> {
-    const mediaConfig = ZRomulatorConfigKnown.media().build();
+    const mediaConfig = ZRomulatorConfigKnown.media();
     const { contents } = await this._config.get(mediaConfig.id);
     const { mediaFolder } = new ZRomulatorConfigMediaBuilder()
       .copy(contents)
       .build();
 
-    const systems = ZRomulatorSystemKnown.all();
-    const glob = `{${systems.map((s) => s.id).join(",")}}/**`;
+    const cwd = detokenize(mediaFolder, env);
+    const systems = ZRomulatorSystemKnown.all()
+      .map((s) => s.id)
+      .join(",");
+    const glob = `{${systems}}/**`;
 
-    const files = await this._file.search(glob, { cwd: mediaFolder });
-    const data = files.map((f) =>
-      new ZRomulatorMediaBuilder().from(f.path).build(),
-    );
+    let msg = `Reading all media from ${cwd}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+    const files = await this._file.search(glob, { cwd });
+    msg = `Found ${files.length} candidates`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+
+    const data = files
+      .map((f) => new ZRomulatorMediaBuilder().from(f.path).build())
+      .filter((media) => !!media.id);
+
+    msg = `Found ${data.length} actual media files`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
     const options = new ZDataSourceStaticOptionsBuilder<IZRomulatorMedia>()
       .search(new ZDataSearchFields())
