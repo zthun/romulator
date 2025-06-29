@@ -1,3 +1,5 @@
+import { keyBy } from "lodash-es";
+
 /**
  * Describes what a specific piece of media represents.
  */
@@ -69,4 +71,13 @@ export enum ZRomulatorMediaType {
    * This is basically the logo.
    */
   SystemWheel = "wheel.png",
+}
+
+const ZRomulatorMediaTypeMap = keyBy(Object.values(ZRomulatorMediaType));
+
+export function isMediaType(candidate: any): candidate is ZRomulatorMediaType {
+  return (
+    typeof candidate === "string" &&
+    Object.prototype.hasOwnProperty.call(ZRomulatorMediaTypeMap, candidate)
+  );
 }
