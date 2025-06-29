@@ -105,22 +105,22 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
     const cwd = await this.getMediaFolder();
 
     const time = new Date();
-    let msg = `Searching for media with id ${id}.`;
-    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+    let log = `Searching for media with id ${id}.`;
+    this._logger.log(new ZLogEntryBuilder().info().message(log).build());
     const mediaList = await this.findAllMedia(cwd);
     const index = findIndex(mediaList, (m) => m.id === id);
     const span = new Date().getTime() - time.getTime();
 
     if (index < 0) {
-      const _msg = `Could not find any media with id, ${id}.`;
-      msg = `${_msg} Search took ${span} milliseconds`;
-      this._logger.log(new ZLogEntryBuilder().warning().message(msg).build());
-      throw new NotFoundException(_msg);
+      const msg = `Could not find any media with id, ${id}.`;
+      log = `${msg} Search took ${span} milliseconds`;
+      this._logger.log(new ZLogEntryBuilder().warning().message(log).build());
+      throw new NotFoundException(msg);
     }
 
     const media = mediaList[index];
-    msg = `Found media, ${media.url} after ${span} milliseconds`;
-    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+    log = `Found media, ${media.url} after ${span} milliseconds`;
+    this._logger.log(new ZLogEntryBuilder().info().message(log).build());
 
     return media;
   }
