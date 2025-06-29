@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
 
 describe("IsSystemId", () => {
-  it("should return true for systems that are supported", () => {
+  it("should return true for supported systems", () => {
     expect(isSystemId(ZRomulatorSystemId.Switch)).toBeTruthy();
   });
 
