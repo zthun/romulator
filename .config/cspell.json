@@ -3,6 +3,7 @@
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/master/cspell.schema.json",
   "language": "en",
   "words": [
+    "backcovers",
     "Bonta",
     "BUILDKIT",
     "buildx",
@@ -10,26 +11,26 @@
     "commitlint",
     "conventionalcommits",
     "crumbtrail",
+    "dboxes",
     "Dendy",
     "DOCKERHUB",
     "Famicom",
+    "fanart",
     "Foxconn",
     "Hosiden",
     "lumberjacky",
     "megadrive",
     "Mitsumi",
+    "physicalmedia",
     "Romulator",
     "snes",
+    "titlescreens",
     "webigail",
     "wiiu",
     "xmark",
+    "Yoshi",
     "zthun",
     "zthunworks"
   ],
-  "dictionaries": [
-    "typescript",
-    "node",
-    "npm",
-    "en_US"
-  ]
+  "dictionaries": ["typescript", "node", "npm", "en_US"]
 }
