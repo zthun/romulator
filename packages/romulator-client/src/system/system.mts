@@ -1,6 +1,6 @@
 import { firstDefined } from "@zthun/helpful-fn";
 import { uniq } from "lodash-es";
-import type { ZRomulatorSystemId } from "./system-id.mjs";
+import { ZRomulatorSystemId } from "./system-id.mjs";
 import { ZRomulatorSystemType } from "./system-type.mjs";
 
 /**
@@ -20,7 +20,7 @@ export interface IZRomulatorSystem {
    *
    * This is essentially a slug.
    */
-  id?: ZRomulatorSystemId;
+  id: ZRomulatorSystemId;
   /**
    * The canonical name of the system.
    *
@@ -60,7 +60,9 @@ export interface IZRomulatorSystem {
  * A builder for creating an IZRomulatorSystem.
  */
 export class ZRomulatorSystemBuilder {
-  private _system: IZRomulatorSystem = {};
+  private _system: IZRomulatorSystem = {
+    id: ZRomulatorSystemId.Nintendo,
+  };
 
   /**
    * Sets the id (slug) of the system.
