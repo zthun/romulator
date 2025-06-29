@@ -1,6 +1,9 @@
 import { isTagged, ZTag } from "@zthun/helpful-reflection";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
-import { ZRomulatorSystemBuilder } from "@zthun/romulator-client";
+import {
+  ZRomulatorSystemBuilder,
+  ZRomulatorSystemId,
+} from "@zthun/romulator-client";
 import "reflect-metadata";
 
 const KnownSystem = "@zthunworks/romulator/known-system";
@@ -35,7 +38,7 @@ export abstract class ZRomulatorSystemKnown {
   @ZTag(KnownSystem)
   public static nes() {
     return new ZRomulatorSystemBuilder()
-      .id("nes")
+      .id(ZRomulatorSystemId.Nintendo)
       .console()
       .name("Nintendo Entertainment System")
       .alias("Famicom")
@@ -57,7 +60,7 @@ export abstract class ZRomulatorSystemKnown {
   @ZTag(KnownSystem)
   public static snes() {
     return new ZRomulatorSystemBuilder()
-      .id("snes")
+      .id(ZRomulatorSystemId.SuperNintendo)
       .console()
       .name("Super Nintendo Entertainment System")
       .alias("Super Nintendo")
@@ -79,7 +82,7 @@ export abstract class ZRomulatorSystemKnown {
   @ZTag(KnownSystem)
   public static n64() {
     return new ZRomulatorSystemBuilder()
-      .id("n64")
+      .id(ZRomulatorSystemId.Nintendo64)
       .console()
       .name("Nintendo 64")
       .alias("N64")
@@ -99,7 +102,7 @@ export abstract class ZRomulatorSystemKnown {
   @ZTag(KnownSystem)
   public static gc() {
     return new ZRomulatorSystemBuilder()
-      .id("gc")
+      .id(ZRomulatorSystemId.GameCube)
       .console()
       .name("Nintendo GameCube")
       .alias("GameCube")
@@ -119,7 +122,7 @@ export abstract class ZRomulatorSystemKnown {
   @ZTag(KnownSystem)
   public static wii() {
     return new ZRomulatorSystemBuilder()
-      .id("wii")
+      .id(ZRomulatorSystemId.Wii)
       .console()
       .name("Nintendo Wii")
       .alias("Wii")
@@ -138,7 +141,7 @@ export abstract class ZRomulatorSystemKnown {
   @ZTag(KnownSystem)
   public static wiiu() {
     return new ZRomulatorSystemBuilder()
-      .id("wiiu")
+      .id(ZRomulatorSystemId.WiiU)
       .console()
       .name("Nintendo Wii U")
       .alias("WiiU")
@@ -159,7 +162,7 @@ export abstract class ZRomulatorSystemKnown {
   @ZTag(KnownSystem)
   public static switch() {
     return new ZRomulatorSystemBuilder()
-      .id("switch")
+      .id(ZRomulatorSystemId.Switch)
       .console()
       .name("Nintendo Switch")
       .alias("Switch")
