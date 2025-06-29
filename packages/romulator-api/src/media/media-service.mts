@@ -1,7 +1,13 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  Inject,
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+  StreamableFile,
+} from "@nestjs/common";
 import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import { detokenize } from "@zthun/helpful-fn";
+import { detokenize, firstDefined, firstTruthy } from "@zthun/helpful-fn";
 import {
   ZDataSearchFields,
   ZDataSourceStatic,
@@ -22,7 +28,10 @@ import {
   type IZRomulatorMedia,
 } from "@zthun/romulator-client";
 import type { IZRestfulGet } from "@zthun/webigail-rest";
+import { ZMimeTypeApplication } from "@zthun/webigail-url";
 import { findIndex } from "lodash-es";
+import { lookup } from "mime-types";
+import { createReadStream } from "node:fs";
 import { env } from "node:process";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
@@ -34,6 +43,7 @@ export const ZRomulatorMediaToken = Symbol("romulator-media-service");
 export interface IZRomulatorMediaService
   extends IZRestfulGet<IZRomulatorMedia> {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorMedia>>;
+  download(id: string, accept: string): Promise<StreamableFile>;
 }
 
 @Injectable()
@@ -113,5 +123,41 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
     return media;
+  }
+
+  async download(id: string, accept: string): Promise<StreamableFile> {
+    let log = `Download request received for ${id}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(log).build());
+    const fallback = ZMimeTypeApplication.OctetStream;
+    const { fileName, url } = await this.get(id);
+    const lookupResult = lookup(firstDefined("", fileName));
+    const mime = firstTruthy(fallback, lookupResult) as string;
+    const accepts = accept.split(",").map((h) => h.split(";")[0].trim());
+
+    const acceptable = accepts.some((a) => {
+      if (a === "*/*") {
+        return true;
+      }
+      if (a.endsWith("/*")) {
+        return mime.startsWith(a.slice(0, -1));
+      }
+      return a === mime;
+    });
+
+    if (!acceptable) {
+      const msg =
+        `The media requested is of type ${mime}. ` +
+        `The request only accepts ${accept}.`;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
+      throw new NotAcceptableException(msg);
+    }
+
+    log = `Streaming ${url}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(log).build());
+
+    return new StreamableFile(createReadStream(firstDefined("", url)), {
+      type: mime,
+      disposition: `inline; filename=${fileName}`,
+    });
   }
 }

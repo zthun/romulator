@@ -105,20 +105,60 @@ describe("MediaApi", () => {
   });
 
   describe("Get", () => {
+    const media = new ZRomulatorMediaBuilder().from(nesBatman.path).build();
+    const url = `/${endpoint}/${media.id}`;
+
     it("should return the media with the given id", async () => {
       // Arrange.
       const target = await createTestTarget();
-      const expected = new ZRomulatorMediaBuilder()
-        .from(nesBatman.path)
-        .build();
-      const url = `/${endpoint}/${expected.id}`;
 
       // Act.
-      const actual = await request(target.getHttpServer()).get(url);
+      const actual = await request(target.getHttpServer())
+        .get(url)
+        .set("Accept", "application/json");
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body).toEqual(media);
+    });
+
+    it("should detect the correct mime type", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const actual = await request(target.getHttpServer())
+        .get(url)
+        .set("Accept", "*/*");
+
+      // Assert.
+      expect(actual.header["content-type"]).toContain("image/png");
+    });
+
+    it("should return the media if the mime type acceptance matches", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const actual = await request(target.getHttpServer())
+        .get(url)
+        .set("Accept", "video/*,image/*");
+
+      // Assert.
+      expect(actual.header["content-type"]).toContain("image/png");
+    });
+
+    it("should return a 406 error if the media type does not match the target types", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const actual = await request(target.getHttpServer())
+        .get(url)
+        .set("Accept", "video/mp4");
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeClient.NotAcceptable);
     });
 
     it("should return a 404 error if no such media exists", async () => {
