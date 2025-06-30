@@ -16,6 +16,7 @@ import { css, cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { useState } from "react";
+import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 import { useSystemsService } from "./systems-service.mjs";
 
 const DefaultSystemSortOrder = new ZSortBuilder()
@@ -40,7 +41,10 @@ export function ZRomulatorSystemsPage() {
   `);
 
   const renderTile = (system: IZRomulatorSystem) => {
-    const wheel = `/systems/wheel/${system.id}.png`;
+    const { api } = new ZRomulatorEnvironmentBuilder().build();
+    const id = `${system.id}-wheel`;
+    const wheel = `${api}/media/${id}`;
+
     return (
       <ZBox
         className="ZRomulatorSystemsPage-tile"

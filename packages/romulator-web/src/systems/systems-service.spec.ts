@@ -14,11 +14,7 @@ import {
 } from "@zthun/webigail-http";
 import { ZRestfulUrlBuilder } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
-import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { mock } from "vitest-mock-extended";
-import type { IZRomulatorEnvironmentService } from "../environment/environment-service.mjs";
-import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 import type { IZRomulatorSystemsService } from "./systems-service.mjs";
 import {
   useSystemsService,
@@ -27,7 +23,6 @@ import {
 
 describe("SystemsService", () => {
   let _http: ZHttpServiceMock;
-  let _env: Mocked<IZRomulatorEnvironmentService>;
 
   const nes = new ZRomulatorSystemBuilder()
     .id(ZRomulatorSystemId.Nintendo)
@@ -39,11 +34,9 @@ describe("SystemsService", () => {
 
   beforeEach(async () => {
     _http = new ZHttpServiceMock();
-    _env = mock<IZRomulatorEnvironmentService>();
-    _env.read.mockResolvedValue(new ZRomulatorEnvironmentBuilder().build());
   });
 
-  const createTestTarget = () => new ZRomulatorSystemsService(_http, _env);
+  const createTestTarget = () => new ZRomulatorSystemsService(_http);
 
   describe("Read", () => {
     it("should retrieve a list of systems", async () => {
@@ -52,7 +45,7 @@ describe("SystemsService", () => {
       const request = new ZDataRequestBuilder().build();
 
       _http.set(
-        await target.endpoint(),
+        target.endpoint(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(
           new ZPageBuilder<IZRomulatorSystem>().all(systems).build(),
@@ -71,19 +64,13 @@ describe("SystemsService", () => {
       const target = createTestTarget();
 
       _http.set(
-        new ZUrlBuilder()
-          .parse(await target.endpoint())
-          .append(nes.id)
-          .build(),
+        new ZUrlBuilder().parse(target.endpoint()).append(nes.id).build(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(nes).build(),
       );
 
       _http.set(
-        new ZUrlBuilder()
-          .parse(await target.endpoint())
-          .append(snes.id)
-          .build(),
+        new ZUrlBuilder().parse(target.endpoint()).append(snes.id).build(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(snes).build(),
       );
@@ -104,7 +91,7 @@ describe("SystemsService", () => {
       const target = createTestTarget();
 
       _http.set(
-        new ZRestfulUrlBuilder(await target.endpoint()).count().build(),
+        new ZRestfulUrlBuilder(target.endpoint()).count().build(),
         ZHttpMethod.Get,
         new ZHttpResultBuilder(
           new ZPageBuilder<IZRomulatorSystem>()
