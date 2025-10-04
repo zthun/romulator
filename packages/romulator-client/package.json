@@ -25,16 +25,16 @@
     "access": "public"
   },
   "dependencies": {
-    "@zthun/helpful-fn": "^9.4.4",
-    "@zthun/helpful-query": "^9.4.4",
+    "@zthun/helpful-fn": "^9.4.5",
+    "@zthun/helpful-query": "^9.4.5",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
-    "@zthun/janitor-build-config": "^19.3.4",
-    "tsx": "^4.20.5",
-    "typescript": "^5.9.2",
-    "vite": "^7.1.5",
+    "@zthun/janitor-build-config": "^19.3.6",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.9",
     "vitest": "^3.2.4"
   },
   "files": [
