@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@zthun/helpful-fn": "^9.4.5",
-    "@zthun/helpful-query": "^9.4.5",
+    "@zthun/helpful-query": "^9.5.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
