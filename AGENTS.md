@@ -27,3 +27,10 @@ primary purpose is to manage the media and metadata of games and systems.
   and @zthun/cirque.
 - Unit test coverage should be as close to 100% as you can get. Over 95% is
   acceptable.
+
+## Coding Standards
+
+- Never import from a bucket such as index.mts.
+- Imports should always be relative within the same package.
+- Imports across packages, even in the same repository should always assume
+  they're in node_modules.
