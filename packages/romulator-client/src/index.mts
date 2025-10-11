@@ -3,6 +3,7 @@ export * from "./config/config-games.mjs";
 export * from "./config/config-media-metadata.mjs";
 export * from "./config/config-media.mjs";
 export * from "./config/config.mjs";
+export * from "./game/game.mjs";
 export * from "./media/media-type.mjs";
 export * from "./media/media.mjs";
 export * from "./system/system-id.mjs";
