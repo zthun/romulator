@@ -2,11 +2,12 @@ import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
 import { detokenize, firstDefined } from "@zthun/helpful-fn";
-import type { IZDataRequest } from "@zthun/helpful-query";
+import type { IZDataRequest, IZPage } from "@zthun/helpful-query";
 import {
   ZDataRequestBuilder,
   ZDataSourceStatic,
   ZDataSourceStaticOptionsBuilder,
+  ZPageBuilder,
   ZSortBuilder,
 } from "@zthun/helpful-query";
 import {
@@ -36,7 +37,7 @@ import { ZRomulatorDataMatchGame } from "./data-match-game.mjs";
 export const ZRomulatorGamesToken = Symbol("romulator-games-service");
 
 export interface IZRomulatorGamesService extends IZRestfulGet<IZRomulatorGame> {
-  list(req: IZDataRequest): Promise<IZRomulatorGame[]>;
+  list(req: IZDataRequest): Promise<IZPage<IZRomulatorGame>>;
 }
 
 @Injectable()
@@ -53,7 +54,7 @@ export class ZRomulatorGamesService implements IZRomulatorGamesService {
     this._logger = new ZLoggerContext("ZRomulatorGamesService", logger);
   }
 
-  public async list(req: IZDataRequest): Promise<IZRomulatorGame[]> {
+  public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorGame>> {
     const config = ZRomulatorConfigKnown.games();
     const { contents } = await this._config.get(config.id);
     const { gamesFolder } = new ZRomulatorConfigGamesBuilder()
@@ -99,13 +100,15 @@ export class ZRomulatorGamesService implements IZRomulatorGamesService {
       .ascending("name")
       .build();
     const $request = new ZDataRequestBuilder().copy(req).sort($sort).build();
-    const data = await source.retrieve($request);
 
-    return data;
+    const data = await source.retrieve($request);
+    const count = await source.count($request);
+
+    return new ZPageBuilder().count(count).data(data).build();
   }
 
   public async get(id: string): Promise<IZRomulatorGame> {
-    const games = await this.list(new ZDataRequestBuilder().build());
+    const { data: games } = await this.list(new ZDataRequestBuilder().build());
     const match = games.find((game) => game.id === id);
 
     if (!match) {

@@ -1,5 +1,5 @@
 import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
-import type { IZDataRequestQuery } from "@zthun/helpful-query";
+import type { IZDataRequestQuery, IZPage } from "@zthun/helpful-query";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorGame } from "@zthun/romulator-client";
 import type { IZRomulatorGamesService } from "./games-service.mjs";
@@ -13,7 +13,9 @@ export class ZRomulatorGamesController {
   ) {}
 
   @Get()
-  public list(@Query() query: IZDataRequestQuery): Promise<IZRomulatorGame[]> {
+  public list(
+    @Query() query: IZDataRequestQuery,
+  ): Promise<IZPage<IZRomulatorGame>> {
     return this._games.list(new ZDataRequestBuilder().query(query).build());
   }
 
