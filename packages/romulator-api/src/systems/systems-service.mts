@@ -86,10 +86,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     const data = await source.retrieve(req);
     const count = await source.count(req);
 
-    return new ZPageBuilder<IZRomulatorSystem>()
-      .data(data)
-      .count(count)
-      .build();
+    return new ZPageBuilder().data(data).count(count).build();
   }
 
   public async get(id: string): Promise<IZRomulatorSystem> {
