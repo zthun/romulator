@@ -28,7 +28,7 @@
     "@zthun/crumbtrail-fs": "^2.1.4",
     "@zthun/crumbtrail-nest": "^2.1.4",
     "@zthun/helpful-fn": "^9.4.5",
-    "@zthun/helpful-query": "^9.5.0",
+    "@zthun/helpful-query": "^9.5.1",
     "@zthun/helpful-reflection": "^9.4.5",
     "@zthun/lumberjacky-log": "^3.0.6",
     "@zthun/lumberjacky-nest": "^3.0.6",
