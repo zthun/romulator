@@ -105,9 +105,11 @@ export class ZRomulatorMediaBuilder {
     }
 
     if (fileName && isMediaType(parent) && isSystemId(grandparent)) {
-      // This is media for a game that is supported.
+      // This is media for a game that is supported.  The id for a game
+      // is the system id followed by the kebab case of the title, followed
+      // by the media type.
       const game = kebabCase(title);
-      const id = `${grandparent}-${parent}-${game}`;
+      const id = `${grandparent}-${game}-${parent}`;
       return builder.id(id).system(grandparent).type(parent).game(game);
     }
 
