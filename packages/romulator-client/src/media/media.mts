@@ -2,7 +2,11 @@ import { isUndefined, kebabCase, omitBy } from "lodash-es";
 import { basename, extname, sep } from "node:path";
 import type { ZRomulatorSystemId } from "../system/system-id.mjs";
 import { isSystemId } from "../system/system-id.mjs";
-import { isMediaType, type ZRomulatorMediaType } from "./media-type.mjs";
+import {
+  isGameMediaType,
+  isSystemMediaType,
+  type ZRomulatorMediaType,
+} from "./media-type.mjs";
 
 /**
  * Represents a piece of media for a game or system.
@@ -98,13 +102,13 @@ export class ZRomulatorMediaBuilder {
     const ext = extname(fileName);
     const title = basename(fileName, ext);
 
-    if (isMediaType(fileName) && isSystemId(parent)) {
+    if (isSystemMediaType(fileName) && isSystemId(parent)) {
       // This is media for system hardware
       const id = `${parent}-${kebabCase(title)}`;
       return builder.id(id).system(parent).type(fileName).game(undefined);
     }
 
-    if (fileName && isMediaType(parent) && isSystemId(grandparent)) {
+    if (fileName && isGameMediaType(parent) && isSystemId(grandparent)) {
       // This is media for a game that is supported.  The id for a game
       // is the system id followed by the kebab case of the title, followed
       // by the media type.

@@ -1,83 +1,120 @@
 import { keyBy } from "lodash-es";
 
-/**
- * Describes what a specific piece of media represents.
- */
-export enum ZRomulatorMediaType {
+export enum ZRomulatorGameMediaType {
   /**
    * A 3d representation of the box art.
    */
-  Game3dBox = "3dboxes",
+  Box3d = "3dboxes",
   /**
    * Back of the game box.
    */
-  GameBackCover = "backcovers",
+  BackCover = "backcovers",
   /**
    * Front of the game box.
    */
-  GameCover = "covers",
+  Cover = "covers",
   /**
    * Fan art.
    */
-  GameFanArt = "fanart",
+  FanArt = "fanart",
   /**
    * Game manual.
    */
-  GameManual = "manuals",
+  Manual = "manuals",
   /**
    * A marquee of a game.
    */
-  GameMarquee = "marquees",
+  Marquee = "marquees",
   /**
    * The cartridge or disc label.
    */
-  GamePhysicalMedia = "physicalmedia",
+  PhysicalMedia = "physicalmedia",
   /**
    * An in game screenshot showcasing gameplay.
    */
-  GameScreenshot = "screenshots",
+  Screenshot = "screenshots",
   /**
    * An in game screenshot of the title screen.
    */
-  GameTitle = "titlescreens",
+  Title = "titlescreens",
   /**
    * A video showcasing the game.
    */
-  GameVideo = "videos",
+  Video = "videos",
+}
+
+/**
+ * Media type for a system.
+ */
+export enum ZRomulatorSystemMediaType {
   /**
    * An image of a system's controller.
    */
-  SystemController = "controller.png",
+  Controller = "controller.png",
   /**
    * A icon for the system.
    *
    * These are normally 32x32.
    */
-  SystemIcon = "icon.png",
+  Icon = "icon.png",
   /**
    * An illustration of the system.
    */
-  SystemIllustration = "illustration.png",
+  Illustration = "illustration.png",
   /**
    * A picture of the system.
    *
    * These are real life looking photos of what
    * a system looks like.
    */
-  SystemPicture = "picture.png",
+  Picture = "picture.png",
+  /**
+   * A video trailer for the system.
+   */
+  Video = "video.mp4",
   /**
    * A wheel for a system.
    *
    * This is basically the logo.
    */
-  SystemWheel = "wheel.png",
+  Wheel = "wheel.png",
 }
 
-const ZRomulatorMediaTypeMap = keyBy(Object.values(ZRomulatorMediaType));
+/**
+ * Describes what a specific piece of media represents.
+ */
+export type ZRomulatorMediaType =
+  | ZRomulatorSystemMediaType
+  | ZRomulatorGameMediaType;
 
-export function isMediaType(candidate: any): candidate is ZRomulatorMediaType {
+const ZRomulatorSystemMediaTypeMap = keyBy(
+  Object.values(ZRomulatorSystemMediaType),
+);
+const ZRomulatorGameMediaTypeMap = keyBy(
+  Object.values(ZRomulatorGameMediaType),
+);
+
+export function isSystemMediaType(
+  candidate: any,
+): candidate is ZRomulatorSystemMediaType {
   return (
     typeof candidate === "string" &&
-    Object.prototype.hasOwnProperty.call(ZRomulatorMediaTypeMap, candidate)
+    Object.prototype.hasOwnProperty.call(
+      ZRomulatorSystemMediaTypeMap,
+      candidate,
+    )
   );
+}
+
+export function isGameMediaType(
+  candidate: any,
+): candidate is ZRomulatorGameMediaType {
+  return (
+    typeof candidate === "string" &&
+    Object.prototype.hasOwnProperty.call(ZRomulatorGameMediaTypeMap, candidate)
+  );
+}
+
+export function isMediaType(candidate: any): candidate is ZRomulatorMediaType {
+  return isSystemMediaType(candidate) || isGameMediaType(candidate);
 }

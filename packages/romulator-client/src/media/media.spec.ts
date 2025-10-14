@@ -1,7 +1,11 @@
 import { kebabCase } from "lodash-es";
 import { basename, extname } from "node:path";
 import { describe, expect, it } from "vitest";
-import { isMediaType, ZRomulatorMediaType } from "./media-type.mjs";
+import {
+  isMediaType,
+  ZRomulatorGameMediaType,
+  ZRomulatorSystemMediaType,
+} from "./media-type.mjs";
 import { ZRomulatorMediaBuilder } from "./media.mjs";
 
 describe("Media", () => {
@@ -41,7 +45,7 @@ describe("Media", () => {
 
     describe("Game", () => {
       const system = "nes";
-      const type = ZRomulatorMediaType.GameCover;
+      const type = ZRomulatorGameMediaType.Cover;
       const fileTitle = "StarTropics (USA)";
       const fileName = `${fileTitle}.png`;
       const path = `/path/to/media/${system}/${type}/${fileName}`;
@@ -68,7 +72,7 @@ describe("Media", () => {
 
     describe("System", () => {
       const system = "gc";
-      const type = ZRomulatorMediaType.SystemController;
+      const type = ZRomulatorSystemMediaType.Controller;
       const title = basename(type, extname(type));
       const path = `/path/to/media/${system}/${type}`;
 
@@ -93,7 +97,7 @@ describe("Media", () => {
 
   describe("IsMediaType", () => {
     it("should return true for supported media", () => {
-      expect(isMediaType(ZRomulatorMediaType.GameCover)).toBeTruthy();
+      expect(isMediaType(ZRomulatorGameMediaType.Cover)).toBeTruthy();
     });
 
     it("should return false for unsupported media", () => {
