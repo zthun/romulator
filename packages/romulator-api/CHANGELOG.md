@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/zthun/romulator/compare/v1.3.5...v1.4.0) (2025-10-12)
+
+
+### Features
+
+* games service api ([9dfe8f3](https://github.com/zthun/romulator/commit/9dfe8f3db5a19d10d62fef1a65857c788cef51fb))
+
+
+
 ## [1.3.5](https://github.com/zthun/romulator/compare/v1.3.4...v1.3.5) (2025-10-04)
 
 **Note:** Version bump only for package @zthun/romulator-api
