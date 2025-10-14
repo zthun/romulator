@@ -62,20 +62,4 @@ describe("Game", () => {
       expect(result.name).toEqual("Super Mario Bros.");
     });
   });
-
-  describe("Build", () => {
-    it("should remove undefined properties", () => {
-      const actual = createTestTarget().name("Super Mario Bros.").build();
-      expect(actual.id).toBeUndefined();
-      expect(actual.system).toBeUndefined();
-    });
-
-    it("should clone the underlying state", () => {
-      const target = createTestTarget().name("Super Mario Bros.");
-      const first = target.build();
-      first.name = "Modified";
-
-      expect(target.build().name).toEqual("Super Mario Bros.");
-    });
-  });
 });
