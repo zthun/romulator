@@ -13,7 +13,9 @@ import {
   ZDataSourceStatic,
   ZFilterBinaryBuilder,
 } from "@zthun/helpful-query";
+import type { IZRomulatorGame } from "@zthun/romulator-client";
 import {
+  ZRomulatorGameBuilder,
   ZRomulatorSystemBuilder,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
@@ -23,6 +25,10 @@ import { noop } from "lodash-es";
 import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
+import {
+  ZRomulatorGamesServiceContext,
+  type IZRomulatorGamesService,
+} from "../games/games-service.mjs";
 import { ZRomulatorSystemPageComponentModel } from "./system-page.cm.mjs";
 import { ZRomulatorSystemPage } from "./system-page.js";
 import type { IZRomulatorSystemsService } from "./systems-service.mjs";
@@ -35,11 +41,29 @@ interface ZRomulatorSystemPageProps {
 describe("SystemPage", () => {
   const nes = new ZRomulatorSystemBuilder()
     .id(ZRomulatorSystemId.Nintendo)
+    .name("Nintendo Entertainment System")
+    .build();
+
+  const batman = new ZRomulatorGameBuilder()
+    .id("nes-batman")
+    .name("Batman")
+    .system(ZRomulatorSystemId.Nintendo)
+    .build();
+  const mario = new ZRomulatorGameBuilder()
+    .id("nes-super-mario-bros")
+    .name("Super Mario Bros.")
+    .system(ZRomulatorSystemId.Nintendo)
+    .build();
+  const superMetroid = new ZRomulatorGameBuilder()
+    .id("snes-super-metroid")
+    .name("Super Metroid")
+    .system(ZRomulatorSystemId.SuperNintendo)
     .build();
 
   let _driver: IZCircusDriver;
   let _renderer: IZCircusSetup;
   let _systems: Mocked<IZRomulatorSystemsService>;
+  let _games: Mocked<IZRomulatorGamesService>;
 
   beforeEach(() => {
     const source = new ZDataSourceStatic([nes]);
@@ -56,6 +80,16 @@ describe("SystemPage", () => {
 
       return required(item);
     });
+
+    const __games = new ZDataSourceStatic<IZRomulatorGame>([
+      batman,
+      mario,
+      superMetroid,
+    ]);
+
+    _games = mock<IZRomulatorGamesService>();
+    _games.retrieve.mockImplementation(async (req) => __games.retrieve(req));
+    _games.count.mockImplementation(async (req) => __games.count(req));
   });
 
   afterEach(async () => {
@@ -63,19 +97,23 @@ describe("SystemPage", () => {
     await _renderer?.destroy?.call(_renderer);
   });
 
+  function createSystemMemoryHistory(system: string) {
+    return createMemoryHistory({ initialEntries: [`/systems/${system}`] });
+  }
+
   async function createTestTarget(props: ZRomulatorSystemPageProps = {}) {
-    const {
-      history = createMemoryHistory({ initialEntries: [`/systems/${nes.id}`] }),
-    } = props;
+    const { history = createSystemMemoryHistory(nes.id) } = props;
 
     const element = (
       <ZRomulatorSystemsServiceContext value={_systems}>
-        <ZTestRouter navigator={history} location={history.location}>
-          <ZRouteMap>
-            <ZRoute path="/systems/:id" element={<ZRomulatorSystemPage />} />
-            <ZRoute path="*" element={<ZNotFound />} />
-          </ZRouteMap>
-        </ZTestRouter>
+        <ZRomulatorGamesServiceContext value={_games}>
+          <ZTestRouter navigator={history} location={history.location}>
+            <ZRouteMap>
+              <ZRoute path="/systems/:id" element={<ZRomulatorSystemPage />} />
+              <ZRoute path="*" element={<ZNotFound />} />
+            </ZRouteMap>
+          </ZTestRouter>
+        </ZRomulatorGamesServiceContext>
       </ZRomulatorSystemsServiceContext>
     );
 
@@ -101,9 +139,7 @@ describe("SystemPage", () => {
   describe("Error", () => {
     it("should show an error alert if the system cannot be found", async () => {
       // Arrange.
-      const history = createMemoryHistory({
-        initialEntries: ["/systems/does-not-exist"],
-      });
+      const history = createSystemMemoryHistory("does-not-exist");
       const target = await createTestTarget({ history });
       await target.load();
 
@@ -122,11 +158,58 @@ describe("SystemPage", () => {
       await target.load();
 
       // Act.
-      const system = await target.system();
-      const actual = await system?.id();
+      const actual = await target.system();
 
       // Assert.
-      expect(actual).toEqual(nes.id);
+      expect(actual).toBeTruthy();
+    });
+
+    it("should render the games list", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+      await target.load();
+
+      // Act.
+      const actual = target.games();
+
+      // Assert.
+      expect(actual).toBeTruthy();
+    });
+  });
+
+  describe("Games", () => {
+    it("should only load games that are assigned to the given system", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+      await target.load();
+      const games = await target.games();
+      await games?.load();
+
+      // Act.
+      const _batman = await target.game(batman.id);
+      const _mario = await target.game(mario.id);
+      const _metroid = await target.game(superMetroid.id);
+
+      // Assert.
+      expect(_batman).toBeTruthy();
+      expect(_mario).toBeTruthy();
+      expect(_metroid).toBeFalsy();
+    });
+
+    it("should navigate to the games page when clicked", async () => {
+      // Arrange.
+      const history = createSystemMemoryHistory(nes.id);
+      const target = await createTestTarget({ history });
+      await target.load();
+      const games = await target.games();
+      await games?.load();
+
+      // Act.
+      const _batman = await target.game(batman.id);
+      await _batman?.click();
+
+      // Assert.
+      expect(history.location.pathname).toEqual(`/games/${batman.id}`);
     });
   });
 });

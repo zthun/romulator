@@ -4390,51 +4390,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/fashion-boutique@npm:^10.2.7":
-  version: 10.2.7
-  resolution: "@zthun/fashion-boutique@npm:10.2.7"
+"@zthun/fashion-boutique@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@zthun/fashion-boutique@npm:11.0.0"
   dependencies:
     "@emotion/css": "npm:^11.13.5"
     "@emotion/serialize": "npm:^1.3.3"
     "@emotion/sheet": "npm:^1.4.0"
     "@zthun/cirque": "npm:^7.1.10"
-    "@zthun/fashion-tailor": "npm:^10.2.7"
-    "@zthun/fashion-theme": "npm:^10.2.7"
+    "@zthun/fashion-tailor": "npm:^11.0.0"
+    "@zthun/fashion-theme": "npm:^11.0.0"
     "@zthun/helpful-fn": "npm:^9.4.5"
-    "@zthun/helpful-query": "npm:^9.4.5"
-    "@zthun/helpful-react": "npm:^9.4.5"
+    "@zthun/helpful-query": "npm:^9.5.1"
+    "@zthun/helpful-react": "npm:^9.5.1"
     "@zthun/webigail-http": "npm:^4.0.8"
     "@zthun/webigail-url": "npm:^4.0.8"
     csstype: "npm:^3.1.3"
     history: "npm:^5.3.0"
     lodash-es: "npm:^4.17.21"
-    react-router-dom: "npm:^7.9.3"
+    react-router-dom: "npm:^7.9.4"
     stylis: "npm:^4.3.6"
   peerDependencies:
     react: ^18 || ^19
     react-dom: ^18 || ^19
-  checksum: 10/847cadded9df20b620394a23a2f03e5785cd4e2874a0a70fc965429fd3f5b9088a1736f55c92fd88086c2ac2bc8e703239cdc1fb56d96ae144231af1d3f7dee1
+  checksum: 10/3c9062307e49dd61fb607c6ebaf3ed55a6bae5bbd562e234bd4893d128594330e7f1d58c5702e868495b511590b2988e1d985416a3603b80d83b0bc01d7683b5
   languageName: node
   linkType: hard
 
-"@zthun/fashion-tailor@npm:^10.2.7":
-  version: 10.2.7
-  resolution: "@zthun/fashion-tailor@npm:10.2.7"
+"@zthun/fashion-tailor@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@zthun/fashion-tailor@npm:11.0.0"
   dependencies:
     "@zthun/helpful-fn": "npm:^9.4.5"
     lodash-es: "npm:^4.17.21"
-  checksum: 10/201356d87c1f33aacd251ad91cd212f2ae19c587a11adaef14f92abce43069ad58dda59784b9650e3f32d8bc4213f7964683d6431e039db4a11a749b2090d4c9
+  checksum: 10/498c459e4fecdbe92ec3da91ead2fd5cb05af390966496b3e8319a8527a144a334c8377140cbbdb1d2516669583185216dc52343cc989fd8037c0df077f21dc2
   languageName: node
   linkType: hard
 
-"@zthun/fashion-theme@npm:^10.2.7":
-  version: 10.2.7
-  resolution: "@zthun/fashion-theme@npm:10.2.7"
+"@zthun/fashion-theme@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@zthun/fashion-theme@npm:11.0.0"
   dependencies:
     "@zthun/helpful-fn": "npm:^9.4.5"
     csstype: "npm:^3.1.3"
     lodash-es: "npm:^4.17.21"
-  checksum: 10/d2f39d760963c83e34e38100878970047138604e5044cd426b13672fd2d6f87e9d106f8b059c6848c27150102f7951309b5be64576b468c289107162aa0216a1
+  checksum: 10/dcb1c565ba692265b73cee3a5018a3a9427495faaf2647b6aea791c6ea7d8db1efe8b9e93507cb1fa7a0c09b4c3cb3f790713b87976e3e62e22f5777305a9333
   languageName: node
   linkType: hard
 
@@ -4457,22 +4457,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-query@npm:^9.5.0":
-  version: 9.5.0
-  resolution: "@zthun/helpful-query@npm:9.5.0"
+"@zthun/helpful-query@npm:^9.5.1":
+  version: 9.5.1
+  resolution: "@zthun/helpful-query@npm:9.5.1"
   dependencies:
     "@zthun/helpful-fn": "npm:^9.4.5"
     lodash-es: "npm:^4.17.21"
-  checksum: 10/80b6b973297b783c558fa2b118db1322980604c3ec366361db420438d664ade587d088b6fc1403fe26d6f185fc55401b3ef6cd14b65dd7ec6e1be0618a27f766
+  checksum: 10/8f78569f59c8cbc0e2d5d7ad4a152eccb38fa49d6f709fcf5d600a83266339d5a74c19c2d1d5d1bf08ce4d3f5d8d91f0e3006c9fb2bc7f6e42c8e32b6bf8965f
   languageName: node
   linkType: hard
 
-"@zthun/helpful-react@npm:^9.4.5":
-  version: 9.4.5
-  resolution: "@zthun/helpful-react@npm:9.4.5"
+"@zthun/helpful-react@npm:^9.5.1":
+  version: 9.5.1
+  resolution: "@zthun/helpful-react@npm:9.5.1"
   dependencies:
     "@zthun/helpful-fn": "npm:^9.4.5"
-    "@zthun/helpful-query": "npm:^9.4.5"
+    "@zthun/helpful-query": "npm:^9.5.1"
     lodash-es: "npm:^4.17.21"
     rxjs: "npm:^7.8.2"
   peerDependencies:
@@ -4482,26 +4482,7 @@ __metadata:
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10/46e4b02da157263cbc2d3be41866e25a109583a66874226e2a4eea47722af9e2c48274ee94644b481393d9ecb8f4ac9140a6ea28754e024c2eb85e6a5bf1498f
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-react@npm:^9.5.0":
-  version: 9.5.0
-  resolution: "@zthun/helpful-react@npm:9.5.0"
-  dependencies:
-    "@zthun/helpful-fn": "npm:^9.4.5"
-    "@zthun/helpful-query": "npm:^9.5.0"
-    lodash-es: "npm:^4.17.21"
-    rxjs: "npm:^7.8.2"
-  peerDependencies:
-    react: ">=18.0.0 <20.0.0"
-    react-dom: ">=18.0.0 <20.0.0"
-    rxjs: ^7.8.1
-  peerDependenciesMeta:
-    rxjs:
-      optional: true
-  checksum: 10/efac1ec4cc87ab69e7b712cb0b57d6574ee491bff402c9ceb85719a9f7314b7976a4738f6c7f812fd2b53e8449bf1d01eca5e975850d6688c6f0d7e4636328a6
+  checksum: 10/6a393d3784df304963b4dd36dcceb749a55e2d49ec428a16307462e99a1a67416d189e78a9ad9c32acdfff8c4120dbfd39c0ece56a0714b52d4a948ae265e1c8
   languageName: node
   linkType: hard
 
@@ -4727,7 +4708,7 @@ __metadata:
     "@zthun/crumbtrail-fs": "npm:^2.1.4"
     "@zthun/crumbtrail-nest": "npm:^2.1.4"
     "@zthun/helpful-fn": "npm:^9.4.5"
-    "@zthun/helpful-query": "npm:^9.5.0"
+    "@zthun/helpful-query": "npm:^9.5.1"
     "@zthun/helpful-reflection": "npm:^9.4.5"
     "@zthun/janitor-build-config": "npm:^19.3.6"
     "@zthun/lumberjacky-log": "npm:^3.0.6"
@@ -4747,7 +4728,7 @@ __metadata:
     supertest: "npm:^7.1.4"
     tsx: "npm:^4.20.6"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.9"
+    vite: "npm:^7.1.10"
     vitest: "npm:^3.2.4"
     vitest-mock-extended: "npm:^3.1.0"
   bin:
@@ -4761,12 +4742,12 @@ __metadata:
   dependencies:
     "@types/lodash-es": "npm:^4.17.12"
     "@zthun/helpful-fn": "npm:^9.4.5"
-    "@zthun/helpful-query": "npm:^9.5.0"
+    "@zthun/helpful-query": "npm:^9.5.1"
     "@zthun/janitor-build-config": "npm:^19.3.6"
     lodash-es: "npm:^4.17.21"
     tsx: "npm:^4.20.6"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.9"
+    vite: "npm:^7.1.10"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -4778,12 +4759,12 @@ __metadata:
     "@types/node": "npm:^24.7.2"
     "@zthun/cirque": "npm:^7.1.10"
     "@zthun/cirque-du-react": "npm:^7.1.10"
-    "@zthun/fashion-boutique": "npm:^10.2.7"
-    "@zthun/fashion-tailor": "npm:^10.2.7"
-    "@zthun/fashion-theme": "npm:^10.2.7"
+    "@zthun/fashion-boutique": "npm:^11.0.0"
+    "@zthun/fashion-tailor": "npm:^11.0.0"
+    "@zthun/fashion-theme": "npm:^11.0.0"
     "@zthun/helpful-fn": "npm:^9.4.5"
-    "@zthun/helpful-query": "npm:^9.5.0"
-    "@zthun/helpful-react": "npm:^9.5.0"
+    "@zthun/helpful-query": "npm:^9.5.1"
+    "@zthun/helpful-react": "npm:^9.5.1"
     "@zthun/janitor-build-config": "npm:^19.3.6"
     "@zthun/romulator-client": "npm:^1.3.5"
     "@zthun/webigail-http": "npm:^4.0.8"
@@ -4795,7 +4776,7 @@ __metadata:
     react-dom: "npm:^19.2.0"
     tsconfig-paths: "npm:^4.2.0"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.9"
+    vite: "npm:^7.1.10"
     vitest: "npm:^3.2.4"
     vitest-mock-extended: "npm:^3.1.0"
   languageName: unknown
@@ -12450,21 +12431,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^7.9.3":
-  version: 7.9.3
-  resolution: "react-router-dom@npm:7.9.3"
+"react-router-dom@npm:^7.9.4":
+  version: 7.9.4
+  resolution: "react-router-dom@npm:7.9.4"
   dependencies:
-    react-router: "npm:7.9.3"
+    react-router: "npm:7.9.4"
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
-  checksum: 10/c30acb4b37377a2f02e8dce70c07a72af0b128b10befe6443ee710893df5d22c900fd1cad7cdf35b1a4f949554b39dcd76fcf93941c918e10c08109e0d870fda
+  checksum: 10/b47af028bc092697f496daa1c0c7e61554cafd9d96e62127801d0f91c972e652c9580885da454311f18a4172c09a559c427de808cbd300c87a2dd4af9e5fdbfc
   languageName: node
   linkType: hard
 
-"react-router@npm:7.9.3":
-  version: 7.9.3
-  resolution: "react-router@npm:7.9.3"
+"react-router@npm:7.9.4":
+  version: 7.9.4
+  resolution: "react-router@npm:7.9.4"
   dependencies:
     cookie: "npm:^1.0.1"
     set-cookie-parser: "npm:^2.6.0"
@@ -12474,7 +12455,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10/62066f09214c5b026b0d400af946aa0b16ef5be7f5120a4400e1b1fc487249220c2d735d9f6a2afa505a136bc8ef4cd7657b1ff8126871068cbf7ec773febce3
+  checksum: 10/0091b79845fdfe6500ec35cbcb3fd1149288ae39e32c3c5f85eda2c9b281294e7e9807ca1b482785c92cc3809422eddade6554f5b1b5d419eee20b166b55cd4d
   languageName: node
   linkType: hard
 
@@ -12844,7 +12825,7 @@ __metadata:
     rimraf: "npm:^6.0.1"
     tsx: "npm:^4.20.6"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.9"
+    vite: "npm:^7.1.10"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -14967,6 +14948,61 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 10/361b8dfea414233927761fdb63ec38c2cc4630007efc33a7a02ef9a5c033552c41b2e95f7fcc9acf427da5a3cf194d62dc5f0853bc31e940a13528d0fb180132
+  languageName: node
+  linkType: hard
+
+"vite@npm:^7.1.10":
+  version: 7.1.10
+  resolution: "vite@npm:7.1.10"
+  dependencies:
+    esbuild: "npm:^0.25.0"
+    fdir: "npm:^6.5.0"
+    fsevents: "npm:~2.3.3"
+    picomatch: "npm:^4.0.3"
+    postcss: "npm:^8.5.6"
+    rollup: "npm:^4.43.0"
+    tinyglobby: "npm:^0.2.15"
+  peerDependencies:
+    "@types/node": ^20.19.0 || >=22.12.0
+    jiti: ">=1.21.0"
+    less: ^4.0.0
+    lightningcss: ^1.21.0
+    sass: ^1.70.0
+    sass-embedded: ^1.70.0
+    stylus: ">=0.54.8"
+    sugarss: ^5.0.0
+    terser: ^5.16.0
+    tsx: ^4.8.1
+    yaml: ^2.4.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    jiti:
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    sass-embedded:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+    tsx:
+      optional: true
+    yaml:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: 10/34482c3698a6e10986036caa91c0114fc59f5a4bdda571d19b863a44a8b231dda09b0e3c63eb459e3b27ce453e695bce476f504b160451706563ce97e841ac5a
   languageName: node
   linkType: hard
 

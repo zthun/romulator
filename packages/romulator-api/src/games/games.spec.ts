@@ -121,7 +121,8 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.count).toEqual(expected.length);
     });
 
     it("should list all games if search is white space", async () => {
@@ -137,7 +138,7 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body.data).toEqual(expected);
     });
 
     it("should sort games by name", async () => {
@@ -155,7 +156,7 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body.data).toEqual(expected);
     });
 
     it("should filter games", async () => {
@@ -177,7 +178,8 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.count).toEqual(1);
     });
 
     it("should page the games", async () => {
@@ -192,7 +194,8 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.count).toEqual(nodes.length);
     });
 
     it("should search games by name", async () => {
@@ -207,7 +210,8 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.count).toEqual(expected.length);
     });
 
     it("should search games by system name", async () => {
@@ -222,7 +226,8 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(expected);
+      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.count).toEqual(expected.length);
     });
   });
 

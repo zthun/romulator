@@ -10,7 +10,7 @@ export interface IZRomulatorGame {
    *
    * This is unique across all games and all systems.
    */
-  id?: string;
+  id: string;
 
   /**
    * The name of the game.
@@ -36,7 +36,7 @@ export interface IZRomulatorGame {
  * A builder for the IZRomulatorGame model.
  */
 export class ZRomulatorGameBuilder {
-  private _game: IZRomulatorGame = {};
+  private _game: IZRomulatorGame = { id: "" };
 
   /**
    * Sets the unique id for the game.

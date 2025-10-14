@@ -28,7 +28,7 @@
     "@zthun/crumbtrail-fs": "^2.1.4",
     "@zthun/crumbtrail-nest": "^2.1.4",
     "@zthun/helpful-fn": "^9.4.5",
-    "@zthun/helpful-query": "^9.5.0",
+    "@zthun/helpful-query": "^9.5.1",
     "@zthun/helpful-reflection": "^9.4.5",
     "@zthun/lumberjacky-log": "^3.0.6",
     "@zthun/lumberjacky-nest": "^3.0.6",
@@ -54,7 +54,7 @@
     "supertest": "^7.1.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vite": "^7.1.9",
+    "vite": "^7.1.10",
     "vitest": "^3.2.4",
     "vitest-mock-extended": "^3.1.0"
   },

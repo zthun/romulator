@@ -3,23 +3,43 @@ import {
   useParams,
   ZAlert,
   ZBreadcrumbsLocation,
+  ZCard,
+  ZIconFontAwesome,
   ZStack,
   ZSuspenseProgress,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed } from "@zthun/fashion-tailor";
-import { cssJoinDefined, firstDefined } from "@zthun/helpful-fn";
+import { firstDefined } from "@zthun/helpful-fn";
+import {
+  ZDataRequestBuilder,
+  ZFilterBinaryBuilder,
+} from "@zthun/helpful-query";
 import { isStateErrored, isStateLoading } from "@zthun/helpful-react";
-import { ZRomulatorSystemAvatarCard } from "./system-avatar-card.js";
+import { useMemo, useState } from "react";
+import { ZRomulatorGamesList } from "../games/games-list.js";
 import { useSystem } from "./systems-service.mjs";
 
 export function ZRomulatorSystemPage() {
   const { id } = useParams();
   const { error } = useFashionTheme();
   const [system] = useSystem(firstDefined("", id));
+  const gameFilter = useMemo(
+    () =>
+      new ZFilterBinaryBuilder().subject("system").equal().value(id).build(),
+    [id],
+  );
+  const baseGameRequest = useMemo(
+    () => new ZDataRequestBuilder().filter(gameFilter).build(),
+    [gameFilter],
+  );
+
+  const [gameRequest, setGameRequest] = useState(baseGameRequest);
 
   const renderSystemInformation = () => {
     if (isStateLoading(system)) {
-      return <ZSuspenseProgress height={ZSizeFixed.Large} />;
+      return (
+        <ZSuspenseProgress name="system-loading" height={ZSizeFixed.Large} />
+      );
     }
 
     if (isStateErrored(system)) {
@@ -32,14 +52,39 @@ export function ZRomulatorSystemPage() {
       );
     }
 
-    return <ZRomulatorSystemAvatarCard system={system} />;
+    return (
+      <ZStack gap={ZSizeFixed.Medium}>
+        <ZCard
+          name="system-info"
+          TitleProps={{
+            avatar: (
+              <ZIconFontAwesome name="puzzle-piece" width={ZSizeFixed.Medium} />
+            ),
+            heading: system.name,
+            subHeading: `Generation ${system.generation}`,
+          }}
+        />
+        <ZCard
+          name="game-list"
+          TitleProps={{
+            avatar: (
+              <ZIconFontAwesome name="gamepad" width={ZSizeFixed.Medium} />
+            ),
+            heading: "Games",
+            subHeading: `Your ${system.name} Games`,
+          }}
+        >
+          <ZRomulatorGamesList
+            value={gameRequest}
+            onValueChange={setGameRequest}
+          />
+        </ZCard>
+      </ZStack>
+    );
   };
 
   return (
-    <ZStack
-      gap={ZSizeFixed.Medium}
-      className={cssJoinDefined("ZRomulatorSystemPage-root")}
-    >
+    <ZStack gap={ZSizeFixed.Medium} className={"ZRomulatorSystemPage-root"}>
       <ZBreadcrumbsLocation />
 
       {renderSystemInformation()}

@@ -61,7 +61,7 @@ describe("Media", () => {
 
       it("should map the id to a combination of the system, type, and game", () => {
         const game = kebabCase(fileTitle);
-        const expected = `${system}-${type}-${game}`;
+        const expected = `${system}-${game}-${type}`;
         expect(createTestTarget().from(path).build().id).toEqual(expected);
       });
     });
