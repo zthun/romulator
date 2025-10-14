@@ -2,7 +2,7 @@ import { ZCircusComponentModel } from "@zthun/cirque";
 import { ZCardComponentModel } from "@zthun/fashion-boutique";
 import { firstDefined } from "@zthun/helpful-fn";
 
-export class ZRomulatorSystemAvatarCardComponentModel extends ZCircusComponentModel {
+export class ZRomulatorSystemCardComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorSystemCard-root";
 
   public card(): Promise<ZCardComponentModel> {
