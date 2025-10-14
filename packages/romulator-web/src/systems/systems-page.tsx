@@ -1,18 +1,15 @@
 import {
-  useCss,
   useFashionTheme,
   useNavigate,
   ZBox,
   ZBreadcrumbsLocation,
   ZCard,
-  ZContentTitle,
   ZGridView,
   ZIconFontAwesome,
   ZImageSource,
   ZStack,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
-import { css, cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { useState } from "react";
@@ -31,14 +28,8 @@ const DefaultSystemRequest = new ZDataRequestBuilder()
 export function ZRomulatorSystemsPage() {
   const { body } = useFashionTheme();
   const navigate = useNavigate();
-  const source = useSystemsService();
+  const systems = useSystemsService();
   const [request, setRequest] = useState(DefaultSystemRequest);
-
-  const tile = useCss(css`
-    & {
-      height: 100%;
-    }
-  `);
 
   const renderTile = (system: IZRomulatorSystem) => {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
@@ -57,21 +48,11 @@ export function ZRomulatorSystemsPage() {
         onClick={() => navigate(system.id)}
       >
         <ZStack
-          className={cssJoinDefined(tile)}
-          gap={ZSizeFixed.Medium}
-          orientation={ZOrientation.Horizontal}
           justify={{ content: "center" }}
           align={{ items: "center" }}
+          height={ZSizeVaried.Full}
         >
-          <ZContentTitle
-            avatar={
-              <ZImageSource
-                src={wheel}
-                height={ZSizeVaried.Full}
-                width={ZSizeVaried.Full}
-              />
-            }
-          />
+          <ZImageSource src={wheel} width={ZSizeVaried.Full} />
         </ZStack>
       </ZBox>
     );
@@ -101,10 +82,10 @@ export function ZRomulatorSystemsPage() {
             },
             gap: ZSizeFixed.Medium,
           }}
+          dataSource={systems}
+          renderItem={renderTile}
           value={request}
           onValueChange={setRequest}
-          dataSource={source}
-          renderItem={renderTile}
         />
       </ZCard>
     </ZStack>
