@@ -1,5 +1,3 @@
-import { firstDefined } from "@zthun/helpful-fn";
-import { uniq } from "lodash-es";
 import { ZRomulatorSystemId } from "./system-id.mjs";
 import { ZRomulatorSystemType } from "./system-type.mjs";
 
@@ -30,26 +28,9 @@ export interface IZRomulatorSystem {
    */
   name?: string;
   /**
-   * Other names that the system is known by.
-   *
-   * This helps with searching and scraping
-   * media for systems that have multiple names
-   * around the world.
-   *
-   * For example, the Nintendo Entertainment System
-   * is known as the Famicom in Japan.
-   */
-  aliases?: string[];
-  /**
    * The generational index of the system.
    */
   generation?: number;
-  /**
-   * The system manufacturers.
-   *
-   * There can be multiple manufacturers for a system.
-   */
-  manufacturers?: string[];
   /**
    * The type of system.
    */
@@ -136,36 +117,6 @@ export class ZRomulatorSystemBuilder {
   public computer = this.type.bind(this, ZRomulatorSystemType.Computer);
 
   /**
-   * Sets the aliases of the system.
-   *
-   * @param aliases -
-   *        The aliases of the system.
-   * @returns
-   *        This instance.
-   */
-  public aliases(aliases: string[]): this {
-    this._system.aliases = aliases;
-    return this;
-  }
-
-  /**
-   * Adds an alias to the system.
-   *
-   * If an alias already exists, then it will
-   * not be added again.
-   *
-   * @param alias -
-   *        The alias to add to the system.
-   * @returns
-   *        This instance.
-   */
-  public alias(alias: string): this {
-    const aliases = firstDefined([], this._system.aliases).slice();
-    aliases.push(alias);
-    return this.aliases(uniq(aliases));
-  }
-
-  /**
    * Sets the generational index of the system.
    *
    * @param generation -
@@ -176,35 +127,6 @@ export class ZRomulatorSystemBuilder {
   public generation(generation: number): this {
     this._system.generation = generation;
     return this;
-  }
-
-  /**
-   * Sets the manufacturers of the system.
-   *
-   * @param manufacturers -
-   *        The manufacturers of the system.
-   * @returns
-   *        This instance.
-   */
-  public manufacturers(manufacturers: string[]): this {
-    this._system.manufacturers = manufacturers;
-    return this;
-  }
-
-  /**
-   * Adds a manufacturer for the system.
-   *
-   * If a manufacturer already exists, then it will not be added again.
-   *
-   * @param manufacturer -
-   *        The manufacturer of the system.
-   * @returns
-   *        This instance.
-   */
-  public manufacturer(manufacturer: string): this {
-    const manufacturers = firstDefined([], this._system.manufacturers).slice();
-    manufacturers.push(manufacturer);
-    return this.manufacturers(uniq(manufacturers));
   }
 
   /**

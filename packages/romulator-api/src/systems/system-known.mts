@@ -41,13 +41,7 @@ export abstract class ZRomulatorSystemKnown {
       .id(ZRomulatorSystemId.Nintendo)
       .console()
       .name("Nintendo Entertainment System")
-      .alias("Famicom")
-      .alias("NES")
-      .alias("Hyundai Comboy")
-      .alias("Samurai Electronic TV Game System")
-      .alias("Dendy")
       .generation(3)
-      .manufacturer("Nintendo")
       .build();
   }
 
@@ -64,13 +58,7 @@ export abstract class ZRomulatorSystemKnown {
       .id(ZRomulatorSystemId.SuperNintendo)
       .console()
       .name("Super Nintendo Entertainment System")
-      .alias("Super Nintendo")
-      .alias("Super Famicom")
-      .alias("SNES")
-      .alias("Super NES")
-      .alias("Super Comboy")
       .generation(4)
-      .manufacturer("Nintendo")
       .build();
   }
 
@@ -87,11 +75,7 @@ export abstract class ZRomulatorSystemKnown {
       .id(ZRomulatorSystemId.Nintendo64)
       .console()
       .name("Nintendo 64")
-      .alias("N64")
-      .alias("Ultra 64")
-      .alias("Hyundai Comboy 64")
       .generation(5)
-      .manufacturer("Nintendo")
       .build();
   }
 
@@ -108,11 +92,7 @@ export abstract class ZRomulatorSystemKnown {
       .id(ZRomulatorSystemId.GameCube)
       .console()
       .name("Nintendo GameCube")
-      .alias("GameCube")
-      .alias("Dolphin")
       .generation(6)
-      .manufacturer("Nintendo")
-      .manufacturer("Foxconn")
       .build();
   }
 
@@ -129,10 +109,7 @@ export abstract class ZRomulatorSystemKnown {
       .id(ZRomulatorSystemId.Wii)
       .console()
       .name("Nintendo Wii")
-      .alias("Wii")
-      .alias("Revolution")
       .generation(7)
-      .manufacturer("Foxconn")
       .build();
   }
 
@@ -149,12 +126,7 @@ export abstract class ZRomulatorSystemKnown {
       .id(ZRomulatorSystemId.WiiU)
       .console()
       .name("Nintendo Wii U")
-      .alias("WiiU")
-      .alias("Project Cafe")
       .generation(8)
-      .manufacturer("Nintendo")
-      .manufacturer("Foxconn")
-      .manufacturer("Mitsumi")
       .build();
   }
 
@@ -171,13 +143,7 @@ export abstract class ZRomulatorSystemKnown {
       .id(ZRomulatorSystemId.Switch)
       .console()
       .name("Nintendo Switch")
-      .alias("Switch")
-      .alias("NX")
-      .alias("HAC")
-      .alias("Odin")
       .generation(9)
-      .manufacturer("Foxconn")
-      .manufacturer("Hosiden")
       .build();
   }
 
