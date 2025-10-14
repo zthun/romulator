@@ -14,8 +14,12 @@ import {
   ZDataRequestBuilder,
   ZFilterBinaryBuilder,
 } from "@zthun/helpful-query";
-import { isStateErrored, isStateLoading } from "@zthun/helpful-react";
-import { useMemo, useState } from "react";
+import {
+  isStateErrored,
+  isStateLoading,
+  useSyncState,
+} from "@zthun/helpful-react";
+import { useMemo } from "react";
 import { ZRomulatorGamesList } from "../games/games-list.js";
 import { useSystem } from "./systems-service.mjs";
 
@@ -28,12 +32,13 @@ export function ZRomulatorSystemPage() {
       new ZFilterBinaryBuilder().subject("system").equal().value(id).build(),
     [id],
   );
+
   const baseGameRequest = useMemo(
     () => new ZDataRequestBuilder().filter(gameFilter).build(),
     [gameFilter],
   );
 
-  const [gameRequest, setGameRequest] = useState(baseGameRequest);
+  const [userRequest, setGameRequest] = useSyncState(baseGameRequest);
 
   const renderSystemInformation = () => {
     if (isStateLoading(system)) {
@@ -75,7 +80,7 @@ export function ZRomulatorSystemPage() {
           }}
         >
           <ZRomulatorGamesList
-            value={gameRequest}
+            value={userRequest}
             onValueChange={setGameRequest}
           />
         </ZCard>
