@@ -68,7 +68,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     const systems = folders
       .map((folder) => folder.path)
       .map((path) => basename(path))
-      .map((slug) => ZRomulatorSystemKnown.from(slug))
+      .map((slug) => this._createSystemFromSlug(slug))
       .filter((system) => system != null);
 
     msg = `Found ${systems.length} systems`;
@@ -98,5 +98,10 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     }
 
     return system;
+  }
+
+  private _createSystemFromSlug(slug: string): IZRomulatorSystem | null {
+    // A romulator system's slug should read the metadata.json file from the root
+    return ZRomulatorSystemKnown.from(slug);
   }
 }
