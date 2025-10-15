@@ -3,19 +3,47 @@
  */
 export enum ZRomulatorSystemType {
   /**
-   * A console system.
+   * An accessory that attaches to another system.
    */
-  Console = "console",
-  /**
-   * A handheld system
-   */
-  Handheld = "handheld",
+  Accessory = "accessory",
+
   /**
    * A cabinet system
    */
   Arcade = "arcade",
+
   /**
    * Known computer systems
    */
   Computer = "computer",
+
+  /**
+   * A console system.
+   */
+  Console = "console",
+
+  /**
+   * Pinball
+   */
+  Flipper = "flipper",
+
+  /**
+   * A handheld system
+   */
+  Handheld = "console-portable",
+
+  /**
+   * Script Creation Utility.
+   */
+  ScummVm = "scummvm",
+
+  /**
+   * Phone based system
+   */
+  Smartphone = "smartphone",
+
+  /**
+   * Virtual machine based system.
+   */
+  VirtualMachine = "virtual-machine",
 }
