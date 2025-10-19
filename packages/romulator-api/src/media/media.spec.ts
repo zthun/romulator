@@ -5,10 +5,10 @@ import { ZFileSystemNodeBuilder } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
 import { ZLoggerSilent, type IZLogger } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
-import type { IZRomulatorConfigMedia } from "@zthun/romulator-client";
+import type { IZRomulatorConfigGames } from "@zthun/romulator-client";
 import {
   ZRomulatorConfigBuilder,
-  ZRomulatorConfigMediaBuilder,
+  ZRomulatorConfigGamesBuilder,
   ZRomulatorMediaBuilder,
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
@@ -27,10 +27,10 @@ import { ZRomulatorMediaModule } from "./media-module.mjs";
 vi.mock("node:fs/promises");
 
 describe("MediaApi", () => {
-  const media = "/path/to/media";
+  const games = "/path/to/games";
   const endpoint = "media";
 
-  const config = ZRomulatorConfigKnown.media();
+  const config = ZRomulatorConfigKnown.games();
 
   let _target: INestApplication<any>;
   let _logger: IZLogger;
@@ -40,15 +40,15 @@ describe("MediaApi", () => {
 
   const nesSystemWheel = new ZFileSystemNodeBuilder()
     .file()
-    .path(`${media}/nes/wheel.png`)
+    .path(`${games}/nes/wheel.png`)
     .build();
   const nesBatman = new ZFileSystemNodeBuilder()
     .file()
-    .path(`${media}/nes/covers/Batman - The Video Game (USA).png`)
+    .path(`${games}/nes/covers/Batman - The Video Game (USA).png`)
     .build();
   const snesAladdin = new ZFileSystemNodeBuilder()
     .file()
-    .path(`${media}/snes/videos/Aladdin (USA).mp4`)
+    .path(`${games}/snes/videos/Aladdin (USA).mp4`)
     .build();
 
   const createTestTarget = async () => {
@@ -74,9 +74,9 @@ describe("MediaApi", () => {
 
     _config = mock<IZRomulatorConfigsService>();
     _config.get.mockResolvedValue(
-      new ZRomulatorConfigBuilder<IZRomulatorConfigMedia>()
+      new ZRomulatorConfigBuilder<IZRomulatorConfigGames>()
         .copy(config)
-        .contents(new ZRomulatorConfigMediaBuilder().mediaFolder(media).build())
+        .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
         .build(),
     );
 

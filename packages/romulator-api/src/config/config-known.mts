@@ -2,14 +2,13 @@ import {
   ZRomulatorConfigBuilder,
   ZRomulatorConfigGamesMetadata,
   ZRomulatorConfigId,
-  ZRomulatorConfigMediaMetadata,
 } from "@zthun/romulator-client";
 import { resolve } from "node:path";
 import { ZDir } from "../dir/dir.js";
 
 export abstract class ZRomulatorConfigKnown {
   public static all() {
-    return [ZRomulatorConfigKnown.games(), ZRomulatorConfigKnown.media()];
+    return [ZRomulatorConfigKnown.games()];
   }
 
   private static create(id: ZRomulatorConfigId) {
@@ -23,15 +22,6 @@ export abstract class ZRomulatorConfigKnown {
       .description("Modify where your games are stored and related settings")
       .avatar("gamepad")
       .metadata(ZRomulatorConfigGamesMetadata.all())
-      .build();
-  }
-
-  public static media() {
-    return ZRomulatorConfigKnown.create(ZRomulatorConfigId.Media)
-      .name("Media Settings")
-      .description("Modify where media is stored and what media to retrieve")
-      .avatar("image")
-      .metadata(ZRomulatorConfigMediaMetadata.all())
       .build();
   }
 }

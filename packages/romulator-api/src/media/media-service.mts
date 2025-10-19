@@ -29,7 +29,7 @@ import {
 } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import {
-  ZRomulatorConfigMediaBuilder,
+  ZRomulatorConfigGamesBuilder,
   ZRomulatorMediaBuilder,
   type IZRomulatorMedia,
 } from "@zthun/romulator-client";
@@ -39,6 +39,7 @@ import { findIndex } from "lodash-es";
 import { lookup } from "mime-types";
 import { createReadStream } from "node:fs";
 import { unlink } from "node:fs/promises";
+import { resolve } from "node:path";
 import { env } from "node:process";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
@@ -67,13 +68,14 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
   }
 
   private async getMediaFolder(): Promise<string> {
-    const mediaConfig = ZRomulatorConfigKnown.media();
-    const { contents } = await this._config.get(mediaConfig.id);
-    const { mediaFolder } = new ZRomulatorConfigMediaBuilder()
+    const gamesConfig = ZRomulatorConfigKnown.games();
+    const { contents } = await this._config.get(gamesConfig.id);
+    const { gamesFolder } = new ZRomulatorConfigGamesBuilder()
       .copy(contents)
       .build();
 
-    return detokenize(mediaFolder, env);
+    const games = detokenize(gamesFolder, env);
+    return resolve(games, ".media");
   }
 
   private async findAllMedia(cwd: string): Promise<IZRomulatorMedia[]> {
