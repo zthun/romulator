@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/zthun/romulator/compare/v1.4.0...v1.5.0) (2025-10-14)
+
+
+### Features
+
+* add a game list to the system page ([72f362b](https://github.com/zthun/romulator/commit/72f362bb8517d1791f40a6e58d8a624027f98f0a))
+* game tile displays a game in a tile to navigate to the games page ([057aef9](https://github.com/zthun/romulator/commit/057aef94f1c28f8211d95c9503dd8ea4c8ba06e7))
+* games list shows a grid view list of games given a request ([c1ab661](https://github.com/zthun/romulator/commit/c1ab661dc1b3f0a19750ce25332313f15220a50c))
+* games service allows you to query the games list ([b31d2ab](https://github.com/zthun/romulator/commit/b31d2ab011869030df743a68a0164dd8688deeee))
+
+
+### Bug Fixes
+
+* system page should now renew game list when url id is changed by the user ([f58919e](https://github.com/zthun/romulator/commit/f58919ea788efdb70cb7a8afa37f505ad920c447))
+
+
+
 ## [1.4.0](https://github.com/zthun/romulator/compare/v1.3.5...v1.4.0) (2025-10-12)
 
 **Note:** Version bump only for package @zthun/romulator-web
