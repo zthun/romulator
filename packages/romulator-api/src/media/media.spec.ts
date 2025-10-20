@@ -1,21 +1,27 @@
 import type { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
-import { ZFileSystemNodeBuilder } from "@zthun/crumbtrail-fs";
-import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
+import { sleepWatchDelay, ZStreamFile } from "@zthun/crumbtrail-fs";
 import { ZLoggerSilent, type IZLogger } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
-import type { IZRomulatorConfigGames } from "@zthun/romulator-client";
 import {
   ZRomulatorConfigBuilder,
   ZRomulatorConfigGamesBuilder,
   ZRomulatorMediaBuilder,
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
-import { unlink } from "fs/promises";
+import { rm, unlink } from "node:fs/promises";
+import { resolve } from "node:path";
 import request from "supertest";
 import type { Mock, Mocked } from "vitest";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 import { mock } from "vitest-mock-extended";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import {
@@ -24,32 +30,30 @@ import {
 } from "../config/configs-service.mjs";
 import { ZRomulatorMediaModule } from "./media-module.mjs";
 
-vi.mock("node:fs/promises");
+vi.mock("node:fs/promises", async () => {
+  const actual: any = await vi.importActual("node:fs/promises");
+  const unlink = vi.fn((...args) => actual.unlink(...args));
+
+  return {
+    ...actual,
+    unlink,
+  };
+});
 
 describe("MediaApi", () => {
-  const games = "/path/to/games";
+  const writer = new ZStreamFile({ cache: { maxFiles: 0 } });
+  const assets = resolve(__dirname, "../../.test.media-api");
+  const games = resolve(assets, "games");
+  const media = resolve(games, ".media");
   const endpoint = "media";
-
-  const config = ZRomulatorConfigKnown.games();
 
   let _target: INestApplication<any>;
   let _logger: IZLogger;
   let _config: Mocked<IZRomulatorConfigsService>;
-  let _file: Mocked<IZFileSystemService>;
-  let _unlink: Mock;
 
-  const nesSystemWheel = new ZFileSystemNodeBuilder()
-    .file()
-    .path(`${games}/nes/wheel.png`)
-    .build();
-  const nesBatman = new ZFileSystemNodeBuilder()
-    .file()
-    .path(`${games}/nes/covers/Batman - The Video Game (USA).png`)
-    .build();
-  const snesAladdin = new ZFileSystemNodeBuilder()
-    .file()
-    .path(`${games}/snes/videos/Aladdin (USA).mp4`)
-    .build();
+  const nesSystemWheel = resolve(media, "nes/wheel.png");
+  const nesBatman = resolve(media, "nes/covers/Batman (USA).png");
+  const snesAladdin = resolve(media, "snes/videos/Aladdin (USA).mp4");
 
   const createTestTarget = async () => {
     const module = await Test.createTestingModule({
@@ -59,8 +63,6 @@ describe("MediaApi", () => {
       .useValue(_logger)
       .overrideProvider(ZRomulatorConfigsToken)
       .useValue(_config)
-      .overrideProvider(ZFileSystemToken)
-      .useValue(_file)
       .compile();
 
     _target = module.createNestApplication();
@@ -69,26 +71,32 @@ describe("MediaApi", () => {
     return _target;
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     _logger = new ZLoggerSilent();
 
+    const gamesConfig = new ZRomulatorConfigBuilder()
+      .copy(ZRomulatorConfigKnown.games())
+      .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
+      .build();
+
     _config = mock<IZRomulatorConfigsService>();
-    _config.get.mockResolvedValue(
-      new ZRomulatorConfigBuilder<IZRomulatorConfigGames>()
-        .copy(config)
-        .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
-        .build(),
-    );
+    _config.get.mockResolvedValue(gamesConfig);
 
-    _file = mock<IZFileSystemService>();
-    _file.search.mockResolvedValue([nesSystemWheel, nesBatman, snesAladdin]);
+    await rm(assets, { recursive: true, force: true });
 
-    _unlink = vi.mocked(unlink);
-    _unlink.mockReturnValue(Promise.resolve());
+    await writer.write(nesSystemWheel);
+    await writer.write(nesBatman);
+    await writer.write(snesAladdin);
+
+    (unlink as Mock).mockReset();
   });
 
   afterEach(async () => {
     await _target?.close();
+  });
+
+  afterAll(async () => {
+    await rm(assets, { recursive: true, force: true });
   });
 
   describe("List", () => {
@@ -96,9 +104,9 @@ describe("MediaApi", () => {
       // Arrange.
       const target = await createTestTarget();
       const expected = [
-        new ZRomulatorMediaBuilder().from(nesSystemWheel.path).build(),
-        new ZRomulatorMediaBuilder().from(nesBatman.path).build(),
-        new ZRomulatorMediaBuilder().from(snesAladdin.path).build(),
+        new ZRomulatorMediaBuilder().from(nesBatman).build(),
+        new ZRomulatorMediaBuilder().from(nesSystemWheel).build(),
+        new ZRomulatorMediaBuilder().from(snesAladdin).build(),
       ];
 
       // Act.
@@ -112,8 +120,8 @@ describe("MediaApi", () => {
   });
 
   describe("CRUD", () => {
-    const media = new ZRomulatorMediaBuilder().from(nesBatman.path).build();
-    const url = `/${endpoint}/${media.id}`;
+    const batman = new ZRomulatorMediaBuilder().from(nesBatman).build();
+    const url = `/${endpoint}/${batman.id}`;
 
     describe("Read", () => {
       it("should return the media with the given id", async () => {
@@ -127,7 +135,7 @@ describe("MediaApi", () => {
 
         // Assert.
         expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-        expect(actual.body).toEqual(media);
+        expect(actual.body).toEqual(batman);
       });
 
       it("should detect the correct mime type", async () => {
@@ -189,18 +197,21 @@ describe("MediaApi", () => {
 
         // Act.
         const actual = await request(target.getHttpServer()).delete(url);
+        await sleepWatchDelay();
+        const exists = await request(target.getHttpServer()).get(url);
 
         // Assert.
         expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-        expect(unlink).toHaveBeenCalledWith(media.url);
+        expect(exists.status).toEqual(ZHttpCodeClient.NotFound);
       });
 
       it("should return a 403 error if the file cannot be deleted by the running user", async () => {
         // Arrange.
-        _unlink.mockRejectedValue(new Error("Denied access to file"));
+        const _unlink = unlink as Mock;
         const target = await createTestTarget();
 
         // Act.
+        _unlink.mockRejectedValue(new Error("No Permissions"));
         const actual = await request(target.getHttpServer()).delete(url);
 
         // Assert.

@@ -6,14 +6,7 @@ import {
   NotFoundException,
   StreamableFile,
 } from "@nestjs/common";
-import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
-import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import {
-  createError,
-  detokenize,
-  firstDefined,
-  firstTruthy,
-} from "@zthun/helpful-fn";
+import { createError, firstDefined, firstTruthy } from "@zthun/helpful-fn";
 import {
   ZDataSearchFields,
   ZDataSourceStatic,
@@ -29,7 +22,6 @@ import {
 } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import {
-  ZRomulatorConfigGamesBuilder,
   ZRomulatorMediaBuilder,
   type IZRomulatorMedia,
 } from "@zthun/romulator-client";
@@ -39,12 +31,8 @@ import { findIndex } from "lodash-es";
 import { lookup } from "mime-types";
 import { createReadStream } from "node:fs";
 import { unlink } from "node:fs/promises";
-import { resolve } from "node:path";
-import { env } from "node:process";
-import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
-import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
-import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
-import { ZRomulatorSystemKnown } from "../systems/system-known.mjs";
+import type { IZRomulatorFilesService } from "../files/files-service.mjs";
+import { ZRomulatorFilesToken } from "../files/files-service.mjs";
 
 export const ZRomulatorMediaToken = Symbol("romulator-media-service");
 
@@ -60,31 +48,14 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
   private _logger: IZLogger;
 
   public constructor(
-    @Inject(ZFileSystemToken) private _file: IZFileSystemService,
-    @Inject(ZRomulatorConfigsToken) private _config: IZRomulatorConfigsService,
+    @Inject(ZRomulatorFilesToken) private _files: IZRomulatorFilesService,
     @Inject(ZLoggerToken) logger: IZLogger,
   ) {
     this._logger = new ZLoggerContext("ZRomulatorMediaService", logger);
   }
 
-  private async getMediaFolder(): Promise<string> {
-    const gamesConfig = ZRomulatorConfigKnown.games();
-    const { contents } = await this._config.get(gamesConfig.id);
-    const { gamesFolder } = new ZRomulatorConfigGamesBuilder()
-      .copy(contents)
-      .build();
-
-    const games = detokenize(gamesFolder, env);
-    return resolve(games, ".media");
-  }
-
-  private async findAllMedia(cwd: string): Promise<IZRomulatorMedia[]> {
-    const systems = ZRomulatorSystemKnown.all()
-      .map((s) => s.id)
-      .join(",");
-    const glob = `{${systems}}/**`;
-
-    const files = await this._file.search(glob, { cwd, stat: false });
+  private async findAllMedia(): Promise<IZRomulatorMedia[]> {
+    const files = await this._files.media();
 
     return files
       .map((f) => new ZRomulatorMediaBuilder().from(f.path).build())
@@ -92,14 +63,13 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
   }
 
   public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorMedia>> {
-    const cwd = await this.getMediaFolder();
-
-    let msg = `Reading all media from ${cwd}`;
+    let msg = `Querying media`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
     const time = new Date();
-    const mediaList = await this.findAllMedia(cwd);
+    const mediaList = await this.findAllMedia();
     const span = new Date().getTime() - time.getTime();
     msg = `Found ${mediaList.length} media files. Search took ${span} milliseconds`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
     const options = new ZDataSourceStaticOptionsBuilder<IZRomulatorMedia>()
       .search(new ZDataSearchFields())
@@ -112,12 +82,10 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
   }
 
   public async get(id: string): Promise<IZRomulatorMedia> {
-    const cwd = await this.getMediaFolder();
-
     const time = new Date();
     let log = `Searching for media with id ${id}.`;
     this._logger.log(new ZLogEntryBuilder().info().message(log).build());
-    const mediaList = await this.findAllMedia(cwd);
+    const mediaList = await this.findAllMedia();
     const index = findIndex(mediaList, (m) => m.id === id);
     const span = new Date().getTime() - time.getTime();
 

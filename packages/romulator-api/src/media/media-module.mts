@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
-import { ZFileSystemModule } from "@zthun/crumbtrail-nest";
 import { ZLoggerModule } from "@zthun/lumberjacky-nest";
-import { ZRomulatorConfigsModule } from "../config/configs-module.mjs";
+import { ZRomulatorFilesModule } from "../files/files-module.mjs";
 import { ZRomulatorMediaController } from "./media-controller.mjs";
 import {
   ZRomulatorMediaService,
@@ -9,7 +8,7 @@ import {
 } from "./media-service.mjs";
 
 @Module({
-  imports: [ZFileSystemModule, ZRomulatorConfigsModule, ZLoggerModule],
+  imports: [ZLoggerModule, ZRomulatorFilesModule],
   controllers: [ZRomulatorMediaController],
   providers: [
     { provide: ZRomulatorMediaToken, useClass: ZRomulatorMediaService },
