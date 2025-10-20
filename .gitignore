@@ -5,6 +5,8 @@ stats
 *.lerna_backup
 *.tgz
 .rpt2_cache
+.test
+.test.*
 
 # OS Turds
 .DS_Store

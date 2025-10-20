@@ -4369,9 +4369,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/crumbtrail-fs@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "@zthun/crumbtrail-fs@npm:2.2.2"
+"@zthun/crumbtrail-fs@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@zthun/crumbtrail-fs@npm:2.3.0"
   dependencies:
     "@zthun/helpful-fn": "npm:^9.6.0"
     "@zthun/helpful-query": "npm:^9.7.1"
@@ -4380,18 +4380,18 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     minimatch: "npm:^10.0.3"
     rxjs: "npm:^7.8.2"
-  checksum: 10/9682c3b9ad3f93dd39873d3b8ee6626b09f97169be2faaa165e1be77363bc57cff2e0b7fb67b0815aa65513110fc57a9d0c2b2ffffbdbbc285443a1579d3c9ff
+  checksum: 10/8f3db2891df84777aa7705adfc7a98a5c52fe93a363e008739df2ebaa8ebd770aa9b377539250c812d69ba95895477ce7a90dea963f1dd39f80b90e89b354431
   languageName: node
   linkType: hard
 
-"@zthun/crumbtrail-nest@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "@zthun/crumbtrail-nest@npm:2.2.2"
+"@zthun/crumbtrail-nest@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@zthun/crumbtrail-nest@npm:2.3.0"
   dependencies:
-    "@zthun/crumbtrail-fs": "npm:^2.2.2"
+    "@zthun/crumbtrail-fs": "npm:^2.3.0"
   peerDependencies:
     "@nestjs/common": ^11.1.2
-  checksum: 10/c9447346ac1dd97b3d5db67052c6fc8dc3992d8636c9411035f48d0b9627392f152d7c266a151eaeb841fd335da4fb8d35b6544e5939daa4471e7658627fe210
+  checksum: 10/bc248fb075488c1a8a744971ede7348ce2ee118ff60376828bdf056e59d0fab85efa65307552626cce2ae0101234d5aa5122a0e168dcfef0d416e98fac95052a
   languageName: node
   linkType: hard
 
@@ -4700,8 +4700,8 @@ __metadata:
     "@nestjs/testing": "npm:^11.1.6"
     "@types/express": "npm:^5.0.3"
     "@types/mime-types": "npm:^3.0.1"
-    "@zthun/crumbtrail-fs": "npm:^2.2.2"
-    "@zthun/crumbtrail-nest": "npm:^2.2.2"
+    "@zthun/crumbtrail-fs": "npm:^2.3.0"
+    "@zthun/crumbtrail-nest": "npm:^2.3.0"
     "@zthun/helpful-fn": "npm:^9.6.0"
     "@zthun/helpful-query": "npm:^9.7.1"
     "@zthun/helpful-reflection": "npm:^9.6.0"
@@ -8410,14 +8410,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^20.0.5":
-  version: 20.0.5
-  resolution: "happy-dom@npm:20.0.5"
+"happy-dom@npm:^20.0.7":
+  version: 20.0.7
+  resolution: "happy-dom@npm:20.0.7"
   dependencies:
     "@types/node": "npm:^20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10/51e0f8c38b283280cd93462f9f062df206f70a8ddbdfd3b3aa420168c29d0eb52bda5fb5fff0233b69fd867e15db7cb43beb0e726f350c73f8ac59ac0012e5c0
+  checksum: 10/1161bfe8fcac0fd093b8fbe8af29e8a6525437f17424be97b21401f0741e6473541b30b080066a32990b884eae4b83a1fd1f948a52607975bc98d1b90b394509
   languageName: node
   linkType: hard
 
@@ -12818,7 +12818,7 @@ __metadata:
     "@zthun/janitor-build-config": "npm:^19.3.6"
     "@zthun/janitor-lint": "npm:^19.3.6"
     "@zthun/janitor-lint-config": "npm:^19.3.6"
-    happy-dom: "npm:^20.0.5"
+    happy-dom: "npm:^20.0.7"
     husky: "npm:^9.1.7"
     lerna: "npm:^9.0.0"
     lodash-es: "npm:^4.17.21"
