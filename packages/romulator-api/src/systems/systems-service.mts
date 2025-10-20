@@ -1,10 +1,8 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
-import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import { detokenize, firstDefined } from "@zthun/helpful-fn";
+import { ZStreamFile } from "@zthun/crumbtrail-fs";
+import { createError, firstDefined } from "@zthun/helpful-fn";
 import type { IZDataRequest, IZPage } from "@zthun/helpful-query";
 import {
-  ZDataRequestBuilder,
   ZDataSearchFields,
   ZDataSourceStatic,
   ZDataSourceStaticOptionsBuilder,
@@ -18,14 +16,13 @@ import {
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import {
-  ZRomulatorConfigGamesMetadata,
-  ZRomulatorConfigId,
+  isSystemId,
+  ZRomulatorSystemBuilder,
+  ZRomulatorSystemId,
 } from "@zthun/romulator-client";
-import { find } from "lodash-es";
 import { basename } from "node:path";
-import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
-import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
-import { ZRomulatorSystemKnown } from "./system-known.mjs";
+import type { IZRomulatorFilesService } from "../files/files-service.mjs";
+import { ZRomulatorFilesToken } from "../files/files-service.mjs";
 
 export const ZRomulatorSystemsToken = Symbol("romulator-systems-service");
 
@@ -37,12 +34,13 @@ export interface IZRomulatorSystemsService {
 @Injectable()
 export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   private _logger: IZLogger;
+  private _fileStream = new ZStreamFile({
+    cache: { maxFiles: Object.keys(ZRomulatorSystemId).length + 1 },
+  });
 
   public constructor(
-    @Inject(ZFileSystemToken)
-    private readonly _file: IZFileSystemService,
-    @Inject(ZRomulatorConfigsToken)
-    private readonly _configs: IZRomulatorConfigsService,
+    @Inject(ZRomulatorFilesToken)
+    private readonly _files: IZRomulatorFilesService,
     @Inject(ZLoggerToken) readonly logger: IZLogger,
   ) {
     this._logger = new ZLoggerContext("ZRomulatorSystemsService", logger);
@@ -54,22 +52,15 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     let msg = `Retrieving systems page, ${page}, with size, ${size}.`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
-    const { contents } = await this._configs.get(ZRomulatorConfigId.Games);
-    const { gamesFolder } = contents;
-    const { fallback } = ZRomulatorConfigGamesMetadata.gamesFolder();
-    const _folder = firstDefined(fallback, gamesFolder);
+    const folders = await this._files.systems();
 
-    const cwd = detokenize(_folder, process.env);
-    msg = `Looking for systems in ${cwd}`;
-    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
-    const searchOptions = { cwd };
-    const folders = await this._file.search("*/", searchOptions);
-
-    const systems = folders
-      .map((folder) => folder.path)
-      .map((path) => basename(path))
-      .map((slug) => this._createSystemFromSlug(slug))
-      .filter((system) => system != null);
+    const systems = await Promise.all(
+      folders
+        .map((folder) => folder.path)
+        .map((path) => basename(path))
+        .filter((slug) => isSystemId(slug))
+        .map((slug) => this._createSystemFromSlug(slug)),
+    );
 
     msg = `Found ${systems.length} systems`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
@@ -90,18 +81,44 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   }
 
   public async get(id: string): Promise<IZRomulatorSystem> {
-    const all = await this.list(new ZDataRequestBuilder().build());
-    const system = find(all.data, (system) => system.id === id);
-
-    if (!system) {
-      throw new NotFoundException(`Unable to find system with id, ${id}.`);
+    // The system path should be the slug itself.
+    if (!isSystemId(id)) {
+      const message = `The specified system slug, ${id}, is not supported.`;
+      throw new NotFoundException(message);
     }
 
-    return system;
+    const node = await this._files.systems(id);
+
+    if (node == null) {
+      const message = `System with slug, ${id}, was not found.`;
+      throw new NotFoundException(message);
+    }
+
+    return this._createSystemFromSlug(id);
   }
 
-  private _createSystemFromSlug(slug: string): IZRomulatorSystem | null {
-    // A romulator system's slug should read the metadata.json file from the root
-    return ZRomulatorSystemKnown.from(slug);
+  private async _createSystemFromSlug(
+    slug: ZRomulatorSystemId,
+  ): Promise<IZRomulatorSystem> {
+    const system = new ZRomulatorSystemBuilder().id(slug);
+    const path = `${slug}/info.json`;
+    const info = await this._files.info(path);
+
+    if (info == null) {
+      // Best we can do right now.
+      return system.build();
+    }
+
+    try {
+      const contents = await this._fileStream.read(info.path);
+      const json = JSON.parse(contents.toString());
+      return system.assign(json).redact().build();
+    } catch (e) {
+      // Best we can do
+      const err = createError(e);
+      const msg = `Cannot read system metadata, ${err.message}`;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
+      return system.build();
+    }
   }
 }
