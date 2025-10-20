@@ -40,7 +40,7 @@ vi.mock("node:fs/promises", async () => {
   };
 });
 
-describe("MediaApi", () => {
+describe.sequential("MediaApi", () => {
   const writer = new ZStreamFile({ cache: { maxFiles: 0 } });
   const assets = resolve(__dirname, "../../.test.media-api");
   const games = resolve(assets, "games");
@@ -99,7 +99,7 @@ describe("MediaApi", () => {
     await rm(assets, { recursive: true, force: true });
   });
 
-  describe("List", () => {
+  describe.sequential("List", () => {
     it("should list all media", async () => {
       // Arrange.
       const target = await createTestTarget();
@@ -119,11 +119,11 @@ describe("MediaApi", () => {
     });
   });
 
-  describe("CRUD", () => {
+  describe.sequential("CRUD", () => {
     const batman = new ZRomulatorMediaBuilder().from(nesBatman).build();
     const url = `/${endpoint}/${batman.id}`;
 
-    describe("Read", () => {
+    describe.sequential("Read", () => {
       it("should return the media with the given id", async () => {
         // Arrange.
         const target = await createTestTarget();
@@ -190,7 +190,7 @@ describe("MediaApi", () => {
       });
     });
 
-    describe("Delete", () => {
+    describe.sequential("Delete", () => {
       it("should unlink the file", async () => {
         // Arrange.
         const target = await createTestTarget();
