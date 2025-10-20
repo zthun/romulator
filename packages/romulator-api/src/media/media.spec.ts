@@ -1,6 +1,6 @@
 import type { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { sleepWatchDelay, ZStreamFile } from "@zthun/crumbtrail-fs";
+import { ZStreamFile } from "@zthun/crumbtrail-fs";
 import { ZLoggerSilent, type IZLogger } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import {
@@ -193,16 +193,15 @@ describe.sequential("MediaApi", () => {
     describe.sequential("Delete", () => {
       it("should unlink the file", async () => {
         // Arrange.
+        const _unlink = unlink as Mock;
         const target = await createTestTarget();
 
         // Act.
         const actual = await request(target.getHttpServer()).delete(url);
-        await sleepWatchDelay();
-        const exists = await request(target.getHttpServer()).get(url);
 
         // Assert.
         expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-        expect(exists.status).toEqual(ZHttpCodeClient.NotFound);
+        expect(_unlink).toHaveBeenCalledWith(nesBatman);
       });
 
       it("should return a 403 error if the file cannot be deleted by the running user", async () => {
