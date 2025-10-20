@@ -1,3 +1,4 @@
+import { pick } from "lodash-es";
 import { ZRomulatorSystemId } from "./system-id.mjs";
 import { ZRomulatorSystemType } from "./system-type.mjs";
 
@@ -140,6 +141,14 @@ export class ZRomulatorSystemBuilder {
    */
   public assign(system: Partial<IZRomulatorSystem>) {
     this._system = { ...this._system, ...system };
+    return this;
+  }
+
+  /**
+   * Removes anything that is not a valid property on this object.
+   */
+  public redact() {
+    this._system = pick(this._system, "id", "name", "generation", "type");
     return this;
   }
 
