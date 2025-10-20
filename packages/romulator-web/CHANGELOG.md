@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0](https://github.com/zthun/romulator/compare/v1.5.0...v1.6.0) (2025-10-20)
+
+
+### Bug Fixes
+
+* system page tiles are now centered ([1ee902e](https://github.com/zthun/romulator/commit/1ee902e1df48351c384384f2af2a3e64fc0a501f))
+
+
+
 ## [1.5.0](https://github.com/zthun/romulator/compare/v1.4.0...v1.5.0) (2025-10-14)
 
 

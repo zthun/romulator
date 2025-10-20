@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0](https://github.com/zthun/romulator/compare/v1.5.0...v1.6.0) (2025-10-20)
+
+
+### Features
+
+* add support for assign in the system builder ([106ef1d](https://github.com/zthun/romulator/commit/106ef1db3cd57b610f4b3ae0eb4058c53bf55117))
+* expand system types ([575139d](https://github.com/zthun/romulator/commit/575139d67aa9e5694fcb6d1e88b9d33b647f7b43))
+
+
+### Bug Fixes
+
+* split media type from system to game ([0e8d3a4](https://github.com/zthun/romulator/commit/0e8d3a4ee01c987d6384e0bb30e1d50ede2549e5))
+
+
+
 ## [1.5.0](https://github.com/zthun/romulator/compare/v1.4.0...v1.5.0) (2025-10-14)
 
 **Note:** Version bump only for package @zthun/romulator-client
