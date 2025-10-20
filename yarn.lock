@@ -3642,7 +3642,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^24.8.1":
+"@types/node@npm:*":
   version: 24.8.1
   resolution: "@types/node@npm:24.8.1"
   dependencies:
@@ -3657,6 +3657,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.21.0"
   checksum: 10/76cc44487faa0bf5302c84e5317de4b9727ea4e4b86d59d18d25435f4ccd7e6c584614dea061256f24a097c25a1d82dac1cd134357b42ae28006ba113c97f490
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^24.9.0":
+  version: 24.9.0
+  resolution: "@types/node@npm:24.9.0"
+  dependencies:
+    undici-types: "npm:~7.16.0"
+  checksum: 10/485bb1c2bb713e34935b47d41ecbdb02af8454ad72b013275992d09be885729a65c78733f054534ef9104df24c4cca2eb3a6c3082eae3c6c7ae078a643cacf9d
   languageName: node
   linkType: hard
 
@@ -4369,9 +4378,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/crumbtrail-fs@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "@zthun/crumbtrail-fs@npm:2.3.1"
+"@zthun/crumbtrail-fs@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "@zthun/crumbtrail-fs@npm:2.3.2"
   dependencies:
     "@zthun/helpful-fn": "npm:^9.6.0"
     "@zthun/helpful-query": "npm:^9.7.1"
@@ -4380,18 +4389,18 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     minimatch: "npm:^10.0.3"
     rxjs: "npm:^7.8.2"
-  checksum: 10/7542314e9b9e9e789039b7e1b17272bdbf599b3ff96e1fc0a8f30e12d58648707552652a7b908e0dcfeceb65ebc5c545b1aaef8b6220fdae4a85a6d1ca372e0a
+  checksum: 10/cbd063789af0eb58e07538b82319dfe962659a4962e96acb791a517bce1c0463232096f27f9af8462c4d4f744ccd5a0f023a92097e993754211bb454b391fb5e
   languageName: node
   linkType: hard
 
-"@zthun/crumbtrail-nest@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "@zthun/crumbtrail-nest@npm:2.3.1"
+"@zthun/crumbtrail-nest@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "@zthun/crumbtrail-nest@npm:2.3.2"
   dependencies:
-    "@zthun/crumbtrail-fs": "npm:^2.3.1"
+    "@zthun/crumbtrail-fs": "npm:^2.3.2"
   peerDependencies:
     "@nestjs/common": ^11.1.2
-  checksum: 10/81771a80165ecb58041fdd069c47d8f0c5ce5b8fa872a2ae3631270f932d434ae8e123760ac7deb11e8a23dfe19da4363b317ca83ffd60c70585749d22c74ddf
+  checksum: 10/5fef0909df4c4321e1db58fbf29ca83713f1d2079173841659ac50a1dc702dabe51cff7ba42f1019b828c1ea1a0fe67c884b33ae75073dde1fcc91853c1e0575
   languageName: node
   linkType: hard
 
@@ -4700,15 +4709,15 @@ __metadata:
     "@nestjs/testing": "npm:^11.1.6"
     "@types/express": "npm:^5.0.3"
     "@types/mime-types": "npm:^3.0.1"
-    "@zthun/crumbtrail-fs": "npm:^2.3.1"
-    "@zthun/crumbtrail-nest": "npm:^2.3.1"
+    "@zthun/crumbtrail-fs": "npm:^2.3.2"
+    "@zthun/crumbtrail-nest": "npm:^2.3.2"
     "@zthun/helpful-fn": "npm:^9.6.0"
     "@zthun/helpful-query": "npm:^9.7.1"
     "@zthun/helpful-reflection": "npm:^9.6.0"
     "@zthun/janitor-build-config": "npm:^19.3.6"
     "@zthun/lumberjacky-log": "npm:^3.0.7"
     "@zthun/lumberjacky-nest": "npm:^3.0.7"
-    "@zthun/romulator-client": "npm:^1.5.0"
+    "@zthun/romulator-client": "npm:^1.6.0"
     "@zthun/webigail-http": "npm:^4.0.9"
     "@zthun/webigail-rest": "npm:^4.0.9"
     "@zthun/webigail-url": "npm:^4.0.9"
@@ -4723,7 +4732,7 @@ __metadata:
     supertest: "npm:^7.1.4"
     tsx: "npm:^4.20.6"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.10"
+    vite: "npm:^7.1.11"
     vitest: "npm:^3.2.4"
     vitest-mock-extended: "npm:^3.1.0"
   bin:
@@ -4731,7 +4740,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zthun/romulator-client@npm:^1.5.0, @zthun/romulator-client@workspace:packages/romulator-client":
+"@zthun/romulator-client@npm:^1.6.0, @zthun/romulator-client@workspace:packages/romulator-client":
   version: 0.0.0-use.local
   resolution: "@zthun/romulator-client@workspace:packages/romulator-client"
   dependencies:
@@ -4742,7 +4751,7 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     tsx: "npm:^4.20.6"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.10"
+    vite: "npm:^7.1.11"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -4751,7 +4760,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zthun/romulator-web@workspace:packages/romulator-web"
   dependencies:
-    "@types/node": "npm:^24.8.1"
+    "@types/node": "npm:^24.9.0"
     "@zthun/cirque": "npm:^7.1.10"
     "@zthun/cirque-du-react": "npm:^7.1.10"
     "@zthun/fashion-boutique": "npm:^11.0.1"
@@ -4761,7 +4770,7 @@ __metadata:
     "@zthun/helpful-query": "npm:^9.7.1"
     "@zthun/helpful-react": "npm:^9.7.1"
     "@zthun/janitor-build-config": "npm:^19.3.6"
-    "@zthun/romulator-client": "npm:^1.5.0"
+    "@zthun/romulator-client": "npm:^1.6.0"
     "@zthun/webigail-http": "npm:^4.0.9"
     "@zthun/webigail-rest": "npm:^4.0.9"
     "@zthun/webigail-url": "npm:^4.0.9"
@@ -4771,7 +4780,7 @@ __metadata:
     react-dom: "npm:^19.2.0"
     tsconfig-paths: "npm:^4.2.0"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.10"
+    vite: "npm:^7.1.11"
     vitest: "npm:^3.2.4"
     vitest-mock-extended: "npm:^3.1.0"
   languageName: unknown
@@ -12811,7 +12820,7 @@ __metadata:
     "@commitlint/cli": "npm:^20.1.0"
     "@commitlint/config-conventional": "npm:^20.0.0"
     "@types/lodash-es": "npm:^4.17.12"
-    "@types/node": "npm:^24.8.1"
+    "@types/node": "npm:^24.9.0"
     "@types/react": "npm:^19.2.2"
     "@types/supertest": "npm:^6.0.3"
     "@vitest/coverage-v8": "npm:^3.2.4"
@@ -12827,7 +12836,7 @@ __metadata:
     rimraf: "npm:^6.0.1"
     tsx: "npm:^4.20.6"
     typescript: "npm:^5.9.3"
-    vite: "npm:^7.1.10"
+    vite: "npm:^7.1.11"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -14603,6 +14612,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"undici-types@npm:~7.16.0":
+  version: 7.16.0
+  resolution: "undici-types@npm:7.16.0"
+  checksum: 10/db43439f69c2d94cc29f75cbfe9de86df87061d6b0c577ebe9bb3255f49b22c50162a7d7eb413b0458b6510b8ca299ac7cff38c3a29fbd31af9f504bcf7fbc0d
+  languageName: node
+  linkType: hard
+
 "unicorn-magic@npm:^0.1.0":
   version: 0.1.0
   resolution: "unicorn-magic@npm:0.1.0"
@@ -14898,7 +14914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0 || ^6.0.0 || ^7.0.0-0, vite@npm:^7.1.10, vite@npm:^7.1.9":
+"vite@npm:^5.0.0 || ^6.0.0 || ^7.0.0-0, vite@npm:^7.1.9":
   version: 7.1.10
   resolution: "vite@npm:7.1.10"
   dependencies:
@@ -14950,6 +14966,61 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 10/34482c3698a6e10986036caa91c0114fc59f5a4bdda571d19b863a44a8b231dda09b0e3c63eb459e3b27ce453e695bce476f504b160451706563ce97e841ac5a
+  languageName: node
+  linkType: hard
+
+"vite@npm:^7.1.11":
+  version: 7.1.11
+  resolution: "vite@npm:7.1.11"
+  dependencies:
+    esbuild: "npm:^0.25.0"
+    fdir: "npm:^6.5.0"
+    fsevents: "npm:~2.3.3"
+    picomatch: "npm:^4.0.3"
+    postcss: "npm:^8.5.6"
+    rollup: "npm:^4.43.0"
+    tinyglobby: "npm:^0.2.15"
+  peerDependencies:
+    "@types/node": ^20.19.0 || >=22.12.0
+    jiti: ">=1.21.0"
+    less: ^4.0.0
+    lightningcss: ^1.21.0
+    sass: ^1.70.0
+    sass-embedded: ^1.70.0
+    stylus: ">=0.54.8"
+    sugarss: ^5.0.0
+    terser: ^5.16.0
+    tsx: ^4.8.1
+    yaml: ^2.4.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    jiti:
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    sass-embedded:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+    tsx:
+      optional: true
+    yaml:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: 10/b75ce7a38beeba7800751938df4fe2638cfb77509647329ac824332af51831eaed52ab0a0bae1d9162ac41ef59fff1c754e0acf7e1470dfa7d3da51fc3bf0985
   languageName: node
   linkType: hard
 
