@@ -7,7 +7,7 @@ import {
   Query,
   Req,
 } from "@nestjs/common";
-import { ApiParam, ApiResponse } from "@nestjs/swagger";
+import { ApiParam, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import {
   ZDataRequestBuilder,
   type IZDataRequestQuery,
@@ -17,6 +17,7 @@ import type { Request } from "express";
 import type { IZRomulatorMediaService } from "./media-service.mjs";
 import { ZRomulatorMediaToken } from "./media-service.mjs";
 
+@ApiTags("Media")
 @Controller("media")
 export class ZRomulatorMediaController {
   public constructor(
@@ -24,6 +25,42 @@ export class ZRomulatorMediaController {
     private _media: IZRomulatorMediaService,
   ) {}
 
+  @ApiQuery({
+    name: "page",
+    required: false,
+    type: Number,
+    example: 1,
+    description: "Page number (1-based)",
+  })
+  @ApiQuery({
+    name: "size",
+    required: false,
+    type: Number,
+    example: 20,
+    description: "Items per page.  Defaults to Infinity",
+  })
+  @ApiQuery({
+    name: "search",
+    required: false,
+    type: String,
+    description: "Search query",
+  })
+  @ApiQuery({
+    name: "sort",
+    required: false,
+    type: String,
+    description: "Sort criterion",
+  })
+  @ApiQuery({
+    name: "filter",
+    required: false,
+    type: String,
+    description: "Filter criterion",
+  })
+  @ApiResponse({
+    status: ZHttpCodeSuccess.OK,
+    description: "Returns the requested page of media and the total count",
+  })
   @Get()
   public list(@Query() params: IZDataRequestQuery) {
     const request = new ZDataRequestBuilder().query(params).build();
