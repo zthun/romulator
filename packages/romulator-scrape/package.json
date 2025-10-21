@@ -1,0 +1,32 @@
+{
+  "name": "@zthun/romulator-scrape",
+  "version": "1.7.1",
+  "description": "Romulator scraper that can grab info and media from scrape sources",
+  "author": "Anthony Bonta",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zthun/romulator",
+    "directory": "packages/romulator-scrape"
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@zthun/romulator-client": "^1.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@zthun/janitor-build-config": "^19.4.0",
+    "history": "^5.3.0",
+    "lodash-es": "^4.17.21",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11",
+    "vitest": "^3.2.4",
+    "vitest-mock-extended": "^3.1.0"
+  }
+}

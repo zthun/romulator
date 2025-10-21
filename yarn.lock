@@ -4708,7 +4708,7 @@ __metadata:
     "@zthun/janitor-build-config": "npm:^19.4.0"
     "@zthun/lumberjacky-log": "npm:^3.0.7"
     "@zthun/lumberjacky-nest": "npm:^3.0.7"
-    "@zthun/romulator-client": "npm:^1.7.0"
+    "@zthun/romulator-client": "npm:^1.7.1"
     "@zthun/webigail-http": "npm:^4.0.9"
     "@zthun/webigail-rest": "npm:^4.0.9"
     "@zthun/webigail-url": "npm:^4.0.9"
@@ -4731,7 +4731,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zthun/romulator-client@npm:^1.6.0, @zthun/romulator-client@npm:^1.7.0, @zthun/romulator-client@workspace:packages/romulator-client":
+"@zthun/romulator-client@npm:^1.7.1, @zthun/romulator-client@workspace:packages/romulator-client":
   version: 0.0.0-use.local
   resolution: "@zthun/romulator-client@workspace:packages/romulator-client"
   dependencies:
@@ -4744,6 +4744,22 @@ __metadata:
     typescript: "npm:^5.9.3"
     vite: "npm:^7.1.11"
     vitest: "npm:^3.2.4"
+  languageName: unknown
+  linkType: soft
+
+"@zthun/romulator-scrape@workspace:packages/romulator-scrape":
+  version: 0.0.0-use.local
+  resolution: "@zthun/romulator-scrape@workspace:packages/romulator-scrape"
+  dependencies:
+    "@types/node": "npm:^24.9.1"
+    "@zthun/janitor-build-config": "npm:^19.4.0"
+    "@zthun/romulator-client": "npm:^1.7.1"
+    history: "npm:^5.3.0"
+    lodash-es: "npm:^4.17.21"
+    typescript: "npm:^5.9.3"
+    vite: "npm:^7.1.11"
+    vitest: "npm:^3.2.4"
+    vitest-mock-extended: "npm:^3.1.0"
   languageName: unknown
   linkType: soft
 
@@ -4761,7 +4777,7 @@ __metadata:
     "@zthun/helpful-query": "npm:^9.7.1"
     "@zthun/helpful-react": "npm:^9.7.1"
     "@zthun/janitor-build-config": "npm:^19.4.0"
-    "@zthun/romulator-client": "npm:^1.6.0"
+    "@zthun/romulator-client": "npm:^1.7.1"
     "@zthun/webigail-http": "npm:^4.0.9"
     "@zthun/webigail-rest": "npm:^4.0.9"
     "@zthun/webigail-url": "npm:^4.0.9"
