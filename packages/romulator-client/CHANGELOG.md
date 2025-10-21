@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0](https://github.com/zthun/romulator/compare/v1.6.0...v1.7.0) (2025-10-21)
+
+
+### Features
+
+* system builder can now redact rogue properties ([eadba62](https://github.com/zthun/romulator/commit/eadba6256fe9186a2e2d0f071450a335e782b64b))
+
+
+
 ## [1.6.0](https://github.com/zthun/romulator/compare/v1.5.0...v1.6.0) (2025-10-20)
 
 
