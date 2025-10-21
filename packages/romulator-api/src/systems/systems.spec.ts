@@ -57,8 +57,6 @@ describe("SystemsApi", () => {
   const nesInfo = new ZRomulatorSystemBuilder()
     .id(ZRomulatorSystemId.Nintendo)
     .name("Nintendo NES")
-    .console()
-    .generation(3)
     .build();
 
   const endpoint = "systems";

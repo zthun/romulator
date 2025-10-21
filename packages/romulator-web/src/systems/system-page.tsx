@@ -66,7 +66,7 @@ export function ZRomulatorSystemPage() {
               <ZIconFontAwesome name="puzzle-piece" width={ZSizeFixed.Medium} />
             ),
             heading: system.name,
-            subHeading: `Generation ${system.generation}`,
+            subHeading: system.company,
           }}
         />
         <ZCard
