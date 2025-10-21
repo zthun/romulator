@@ -1,7 +1,7 @@
 /**
- * Describes a type of system.
+ * Describes the type of hardware a system is.
  */
-export enum ZRomulatorSystemType {
+export enum ZRomulatorSystemHardwareType {
   /**
    * An accessory that attaches to another system.
    */

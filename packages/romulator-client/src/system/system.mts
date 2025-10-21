@@ -1,6 +1,9 @@
-import { pick } from "lodash-es";
+import { firstDefined } from "@zthun/helpful-fn";
+import { isUndefined, omitBy, pick } from "lodash-es";
+import type { ZRomulatorSystemContentType } from "./system-content-type.mjs";
+import type { ZRomulatorSystemHardwareType } from "./system-hardware-type.mjs";
 import { ZRomulatorSystemId } from "./system-id.mjs";
-import { ZRomulatorSystemType } from "./system-type.mjs";
+import type { ZRomulatorSystemMediaFormatType } from "./system-media-format-type.mjs";
 
 /**
  * Represents a system in romulator.
@@ -14,17 +17,12 @@ export interface IZRomulatorSystem {
    * Unique identifier for the system.
    *
    * If you think about the directory structure
-   * for ES-DE, for example, the id would map to
-   * the name of the system directory.
+   * for ES-DE or retro-pie, for example, the id
+   * would map to the name of the system directory.
    *
    * This is essentially a slug.
    */
   id: ZRomulatorSystemId;
-
-  /**
-   * The list of file extensions that system supports.
-   */
-  extensions?: string[];
 
   /**
    * The canonical name of the system.
@@ -36,14 +34,50 @@ export interface IZRomulatorSystem {
   name?: string;
 
   /**
-   * The generational index of the system.
+   * The company that published the system.
    */
-  generation?: number;
+  company?: string;
 
   /**
-   * The type of system.
+   * The list of file extensions that system supports.
    */
-  type?: ZRomulatorSystemType;
+  extensions?: string[];
+
+  /**
+   * Type classifications for the system.
+   */
+  classification?: {
+    /**
+     * What type of system the hardware is.
+     *
+     * @example 'console'
+     */
+    hardwareType?: ZRomulatorSystemHardwareType;
+
+    /**
+     * The type of media format.
+     */
+    mediaFormat?: ZRomulatorSystemMediaFormatType;
+
+    /**
+     * The digital format of the game media.
+     */
+    contentType?: ZRomulatorSystemContentType;
+  };
+
+  /**
+   * The years the system was in production until.
+   */
+  productionYears?: {
+    /**
+     * The first year the system went into production.
+     */
+    start: number;
+    /**
+     * The year when production stopped.
+     */
+    end?: number;
+  };
 }
 
 /**
@@ -81,60 +115,71 @@ export class ZRomulatorSystemBuilder {
   }
 
   /**
-   * Sets the system type.
+   * Sets the system hardware type.
    *
    * @param type -
-   *        The type of system.
+   *        The system hardware type.
+   *
    * @returns
    *        This instance.
    */
-  public type(type: ZRomulatorSystemType): this {
-    this._system.type = type;
+  public hardware(type: ZRomulatorSystemHardwareType): this {
+    this._system.classification = firstDefined({}, this._system.classification);
+    this._system.classification.hardwareType = type;
     return this;
   }
 
   /**
-   * Sets the system type to console.
+   * Sets the system media format.
+   *
+   * @param type -
+   *        The system media format.
    *
    * @returns
    *        This instance.
    */
-  public console = this.type.bind(this, ZRomulatorSystemType.Console);
+  public mediaFormat(type: ZRomulatorSystemMediaFormatType): this {
+    this._system.classification = firstDefined({}, this._system.classification);
+    this._system.classification.mediaFormat = type;
+    return this;
+  }
 
   /**
-   * Sets the system type to handheld.
+   * Sets the system content type.
+   *
+   * @param type -
+   *        The system content type.
    *
    * @returns
    *        This instance.
    */
-  public handheld = this.type.bind(this, ZRomulatorSystemType.Handheld);
+  public contentType(type: ZRomulatorSystemContentType): this {
+    this._system.classification = firstDefined({}, this._system.classification);
+    this._system.classification.contentType = type;
+    return this;
+  }
 
   /**
-   * Sets the system type to arcade.
+   * Sets the production run.
+   *
+   * @param start -
+   *        The starting year of production.
+   * @param end -
+   *        The last year of production.
    *
    * @returns
-   *        This instance.
+   *        This object.
    */
-  public arcade = this.type.bind(this, ZRomulatorSystemType.Arcade);
-
-  /**
-   * Sets the system type to computer.
-   *
-   * @returns
-   *        This instance.
-   */
-  public computer = this.type.bind(this, ZRomulatorSystemType.Computer);
-
-  /**
-   * Sets the generational index of the system.
-   *
-   * @param generation -
-   *        The generational index of the system.
-   * @returns
-   *        This instance.
-   */
-  public generation(generation: number): this {
-    this._system.generation = generation;
+  public production(start: number, end?: number) {
+    delete this._system.productionYears;
+    this._system.productionYears = {
+      start,
+      end,
+    };
+    this._system.productionYears = omitBy(
+      this._system.productionYears,
+      isUndefined,
+    ) as { start: number; end?: number };
     return this;
   }
 
@@ -156,7 +201,15 @@ export class ZRomulatorSystemBuilder {
    * Removes anything that is not a valid property on this object.
    */
   public redact() {
-    this._system = pick(this._system, "id", "name", "generation", "type");
+    this._system = pick(
+      this._system,
+      "id",
+      "name",
+      "company",
+      "extensions",
+      "classification",
+      "productionYears",
+    );
     return this;
   }
 
