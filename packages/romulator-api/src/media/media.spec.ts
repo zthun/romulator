@@ -16,6 +16,7 @@ import type { Mock, Mocked } from "vitest";
 import {
   afterAll,
   afterEach,
+  beforeAll,
   beforeEach,
   describe,
   expect,
@@ -30,17 +31,12 @@ import {
 } from "../config/configs-service.mjs";
 import { ZRomulatorMediaModule } from "./media-module.mjs";
 
-vi.mock("node:fs/promises", async () => {
-  const actual: any = await vi.importActual("node:fs/promises");
-  const unlink = vi.fn((...args) => actual.unlink(...args));
+vi.mock("node:fs/promises", async () => ({
+  ...(await vi.importActual("node:fs/promises")),
+  unlink: vi.fn(),
+}));
 
-  return {
-    ...actual,
-    unlink,
-  };
-});
-
-describe.sequential("MediaApi", () => {
+describe("MediaApi", () => {
   const writer = new ZStreamFile({ cache: { maxFiles: 0 } });
   const assets = resolve(__dirname, "../../.test.media-api");
   const games = resolve(assets, "games");
@@ -81,25 +77,25 @@ describe.sequential("MediaApi", () => {
 
     _config = mock<IZRomulatorConfigsService>();
     _config.get.mockResolvedValue(gamesConfig);
-
-    await rm(assets, { recursive: true, force: true });
-
-    await writer.write(nesSystemWheel);
-    await writer.write(nesBatman);
-    await writer.write(snesAladdin);
-
-    (unlink as Mock).mockReset();
   });
 
   afterEach(async () => {
     await _target?.close();
   });
 
+  beforeAll(async () => {
+    await rm(assets, { recursive: true, force: true });
+
+    await writer.write(nesSystemWheel);
+    await writer.write(nesBatman);
+    await writer.write(snesAladdin);
+  });
+
   afterAll(async () => {
     await rm(assets, { recursive: true, force: true });
   });
 
-  describe.sequential("List", () => {
+  describe("List", () => {
     it("should list all media", async () => {
       // Arrange.
       const target = await createTestTarget();
@@ -119,11 +115,11 @@ describe.sequential("MediaApi", () => {
     });
   });
 
-  describe.sequential("CRUD", () => {
+  describe("CRUD", () => {
     const batman = new ZRomulatorMediaBuilder().from(nesBatman).build();
     const url = `/${endpoint}/${batman.id}`;
 
-    describe.sequential("Read", () => {
+    describe("Read", () => {
       it("should return the media with the given id", async () => {
         // Arrange.
         const target = await createTestTarget();
@@ -190,7 +186,7 @@ describe.sequential("MediaApi", () => {
       });
     });
 
-    describe.sequential("Delete", () => {
+    describe("Delete", () => {
       it("should unlink the file", async () => {
         // Arrange.
         const _unlink = unlink as Mock;
