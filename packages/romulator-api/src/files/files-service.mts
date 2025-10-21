@@ -4,12 +4,17 @@ import type {
   IZFileSystemNode,
   IZFileSystemService,
 } from "@zthun/crumbtrail-fs";
-import { ZFileRepository, ZStreamFolder } from "@zthun/crumbtrail-fs";
+import {
+  ZFileRepository,
+  ZStreamFile,
+  ZStreamFolder,
+} from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
 import { detokenize, firstDefined } from "@zthun/helpful-fn";
 import {
   ZDataRequestBuilder,
   ZFilterBinaryBuilder,
+  ZFilterLogicBuilder,
   ZSortBuilder,
 } from "@zthun/helpful-query";
 import {
@@ -18,8 +23,8 @@ import {
   ZRomulatorConfigId,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
-import { first, trimEnd } from "lodash-es";
-import { resolve, sep } from "node:path";
+import { castArray, first, trimEnd } from "lodash-es";
+import { resolve } from "node:path";
 import { env } from "node:process";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
@@ -103,6 +108,24 @@ export interface IZRomulatorFilesService {
   info(path: string): Promise<IZFileSystemNode | null>;
 
   /**
+   * Retrieves all games across all systems.
+   */
+  games(): Promise<IZFileSystemNode[]>;
+
+  /**
+   * Retrieves a game by its path.
+   *
+   * @param path -
+   *        The path of the game to retrieve.
+   */
+  games(path: string): Promise<IZFileSystemNode | null>;
+
+  /**
+   * Gets the contents of the file.
+   */
+  read(info: IZFileSystemNode): Promise<Buffer>;
+
+  /**
    * Initializes the file repository.
    */
   init(): Promise<void>;
@@ -120,6 +143,7 @@ export class ZRomulatorFilesService implements IZRomulatorFilesService {
 
   private _repository: ZFileRepository = new ZFileRepository();
   private _folderStream = new ZStreamFolder();
+  private _fileStream = new ZStreamFile();
   private _globs: string[];
   private _systems: string[];
 
@@ -155,26 +179,28 @@ export class ZRomulatorFilesService implements IZRomulatorFilesService {
   }
 
   private async contents(
-    root: string,
+    roots: string | string[],
     path?: string,
   ): Promise<IZFileSystemNode[] | IZFileSystemNode | null> {
     const repository = await this.seed();
-    const prefix = trimEnd(root, "/");
-    const folder = `${prefix}${sep}`;
+    const folders = castArray(roots).map((root) => `${trimEnd(root, "/")}/`);
 
-    let filter = new ZFilterBinaryBuilder().subject("path");
-    filter =
-      path == null
-        ? filter.startsWith().value(folder)
-        : filter.equal().value(resolve(folder, path));
+    const byPaths = folders.map((folder) => {
+      const byPath = new ZFilterBinaryBuilder().subject("path");
+      const pathFilter =
+        path == null
+          ? byPath.startsWith().value(folder)
+          : byPath.equal().value(resolve(folder, path));
+      return pathFilter.build();
+    });
+
+    const filter =
+      byPaths.length > 1
+        ? new ZFilterLogicBuilder().or().clauses(byPaths).build()
+        : first(byPaths)!;
 
     const sort = new ZSortBuilder().ascending("path").build();
-
-    const request = new ZDataRequestBuilder()
-      .filter(filter.build())
-      .sort(sort)
-      .build();
-
+    const request = new ZDataRequestBuilder().filter(filter).sort(sort).build();
     const nodes = await repository.retrieve(request);
 
     return path == null ? nodes : firstDefined(null, first(nodes));
@@ -218,7 +244,10 @@ export class ZRomulatorFilesService implements IZRomulatorFilesService {
     const games = await this.gamesFolder();
     const folders =
       path == null ? this._systems.map((s) => `${s}/`) : resolve(games, path);
-    const items = await this._fileSystem.search(folders, { cwd: games });
+    const items = await this._fileSystem.search(folders, {
+      cwd: games,
+      stat: false,
+    });
 
     return path == null ? items : firstDefined(null, first(items));
   }
@@ -227,5 +256,20 @@ export class ZRomulatorFilesService implements IZRomulatorFilesService {
   public info(path: string): Promise<IZFileSystemNode | null>;
   public async info(path?: string) {
     return this.contents(await this.infoFolder(), path);
+  }
+
+  public games(): Promise<IZFileSystemNode[]>;
+  public games(path: string): Promise<IZFileSystemNode | null>;
+  public async games(path?: string) {
+    const root = await this.gamesFolder();
+
+    return this.contents(
+      this._systems.map((s) => resolve(root, s)),
+      path,
+    );
+  }
+
+  public read(node: IZFileSystemNode): Promise<Buffer> {
+    return this._fileStream.read(node.path);
   }
 }
