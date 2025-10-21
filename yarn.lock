@@ -4708,7 +4708,7 @@ __metadata:
     "@zthun/janitor-build-config": "npm:^19.4.0"
     "@zthun/lumberjacky-log": "npm:^3.0.7"
     "@zthun/lumberjacky-nest": "npm:^3.0.7"
-    "@zthun/romulator-client": "npm:^1.6.0"
+    "@zthun/romulator-client": "npm:^1.7.0"
     "@zthun/webigail-http": "npm:^4.0.9"
     "@zthun/webigail-rest": "npm:^4.0.9"
     "@zthun/webigail-url": "npm:^4.0.9"
@@ -4731,7 +4731,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zthun/romulator-client@npm:^1.6.0, @zthun/romulator-client@workspace:packages/romulator-client":
+"@zthun/romulator-client@npm:^1.6.0, @zthun/romulator-client@npm:^1.7.0, @zthun/romulator-client@workspace:packages/romulator-client":
   version: 0.0.0-use.local
   resolution: "@zthun/romulator-client@workspace:packages/romulator-client"
   dependencies:
