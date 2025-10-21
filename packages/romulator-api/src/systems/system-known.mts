@@ -39,9 +39,7 @@ export abstract class ZRomulatorSystemKnown {
   public static nes() {
     return new ZRomulatorSystemBuilder()
       .id(ZRomulatorSystemId.Nintendo)
-      .console()
       .name("Nintendo Entertainment System")
-      .generation(3)
       .build();
   }
 
@@ -56,9 +54,7 @@ export abstract class ZRomulatorSystemKnown {
   public static snes() {
     return new ZRomulatorSystemBuilder()
       .id(ZRomulatorSystemId.SuperNintendo)
-      .console()
       .name("Super Nintendo Entertainment System")
-      .generation(4)
       .build();
   }
 
@@ -73,9 +69,7 @@ export abstract class ZRomulatorSystemKnown {
   public static n64() {
     return new ZRomulatorSystemBuilder()
       .id(ZRomulatorSystemId.Nintendo64)
-      .console()
       .name("Nintendo 64")
-      .generation(5)
       .build();
   }
 
@@ -90,9 +84,7 @@ export abstract class ZRomulatorSystemKnown {
   public static gc() {
     return new ZRomulatorSystemBuilder()
       .id(ZRomulatorSystemId.GameCube)
-      .console()
       .name("Nintendo GameCube")
-      .generation(6)
       .build();
   }
 
@@ -107,9 +99,7 @@ export abstract class ZRomulatorSystemKnown {
   public static wii() {
     return new ZRomulatorSystemBuilder()
       .id(ZRomulatorSystemId.Wii)
-      .console()
       .name("Nintendo Wii")
-      .generation(7)
       .build();
   }
 
@@ -124,9 +114,7 @@ export abstract class ZRomulatorSystemKnown {
   public static wiiu() {
     return new ZRomulatorSystemBuilder()
       .id(ZRomulatorSystemId.WiiU)
-      .console()
       .name("Nintendo Wii U")
-      .generation(8)
       .build();
   }
 
@@ -141,9 +129,7 @@ export abstract class ZRomulatorSystemKnown {
   public static switch() {
     return new ZRomulatorSystemBuilder()
       .id(ZRomulatorSystemId.Switch)
-      .console()
       .name("Nintendo Switch")
-      .generation(9)
       .build();
   }
 
