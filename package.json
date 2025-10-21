@@ -16,7 +16,7 @@
   "scripts": {
     "clean": "rimraf --glob 'coverage' '*.tgz' '*.log' 'packages/**/dist' 'packages/**/*.tgz' 'packages/**/*.log' 'packages/**/stats'",
     "check": "tsc --noEmit",
-    "test": "vitest run --coverage",
+    "test": "vitest run --coverage --maxConcurrency=1",
     "lint": "janitor-lint",
     "build": "lerna run build",
     "make": "yarn clean && yarn check && yarn lint && yarn test && yarn build",
