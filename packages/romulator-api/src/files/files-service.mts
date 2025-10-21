@@ -101,6 +101,16 @@ export interface IZRomulatorFilesService {
    *        The node with the given path or null if no such file exists.
    */
   info(path: string): Promise<IZFileSystemNode | null>;
+
+  /**
+   * Initializes the file repository.
+   */
+  init(): Promise<void>;
+
+  /**
+   * Cleans up internal resources.
+   */
+  dispose(): Promise<void>;
 }
 
 @Injectable()
@@ -122,7 +132,6 @@ export class ZRomulatorFilesService implements IZRomulatorFilesService {
     const slugs = Object.values(ZRomulatorSystemId);
     this._globs = [".media/**", ".info/**", ...slugs.map((s) => `${s}/*.*`)];
     this._systems = Object.values(ZRomulatorSystemId);
-    this.seed();
   }
 
   private async gamesFolder() {
@@ -169,6 +178,14 @@ export class ZRomulatorFilesService implements IZRomulatorFilesService {
     const nodes = await repository.retrieve(request);
 
     return path == null ? nodes : firstDefined(null, first(nodes));
+  }
+
+  public async init() {
+    await this.seed();
+  }
+
+  public async dispose() {
+    await this._repository.reset();
   }
 
   public async seed(): Promise<IZFileRepository> {

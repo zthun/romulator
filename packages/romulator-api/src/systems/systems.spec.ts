@@ -25,14 +25,22 @@ import { rm } from "node:fs/promises";
 import { resolve } from "node:path";
 import request from "supertest";
 import type { Mocked } from "vitest";
-import { afterAll, afterEach, beforeEach, describe, expect, it } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "vitest";
 import { mock } from "vitest-mock-extended";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 import { ZRomulatorSystemsModule } from "./systems-module.mjs";
 
-describe.sequential("SystemsApi", () => {
+describe("SystemsApi", () => {
   const fileWriter = new ZStreamFile();
   const folderWriter = new ZStreamFolder();
 
@@ -66,7 +74,13 @@ describe.sequential("SystemsApi", () => {
         .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
         .build() as Required<IZRomulatorConfig>,
     );
+  });
 
+  afterEach(async () => {
+    await _target.close();
+  });
+
+  beforeAll(async () => {
     await rm(assets, { recursive: true, force: true });
 
     await fileWriter.write(resolve(info, nesInfo.id, "info.json"), {
@@ -79,10 +93,6 @@ describe.sequential("SystemsApi", () => {
     await folderWriter.write(nes);
     await folderWriter.write(snes);
     await folderWriter.write(unsupported);
-  });
-
-  afterEach(async () => {
-    await _target.close();
   });
 
   afterAll(async () => {
@@ -104,7 +114,7 @@ describe.sequential("SystemsApi", () => {
     return _target;
   };
 
-  describe.sequential("List", () => {
+  describe("List", () => {
     it("should list all systems", async () => {
       // Arrange.
       const target = await createTestTarget();
@@ -208,7 +218,7 @@ describe.sequential("SystemsApi", () => {
     });
   });
 
-  describe.sequential("Get", () => {
+  describe("Get", () => {
     it("should return the system by its id", async () => {
       // Arrange.
       const target = await createTestTarget();
