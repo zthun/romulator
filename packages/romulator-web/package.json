@@ -1,6 +1,6 @@
 {
   "name": "@zthun/romulator-web",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Romulator frontend",
   "author": "Anthony Bonta",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "@zthun/helpful-query": "^9.7.1",
     "@zthun/helpful-react": "^9.7.1",
     "@zthun/janitor-build-config": "^19.4.0",
-    "@zthun/romulator-client": "^1.6.0",
+    "@zthun/romulator-client": "^1.7.1",
     "@zthun/webigail-http": "^4.0.9",
     "@zthun/webigail-rest": "^4.0.9",
     "@zthun/webigail-url": "^4.0.9",
