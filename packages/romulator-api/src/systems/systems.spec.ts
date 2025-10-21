@@ -18,7 +18,10 @@ import {
   ZRomulatorConfigBuilder,
   ZRomulatorConfigGamesBuilder,
   ZRomulatorSystemBuilder,
+  ZRomulatorSystemContentType,
+  ZRomulatorSystemHardwareType,
   ZRomulatorSystemId,
+  ZRomulatorSystemMediaFormatType,
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { rm } from "node:fs/promises";
@@ -57,6 +60,15 @@ describe("SystemsApi", () => {
   const nesInfo = new ZRomulatorSystemBuilder()
     .id(ZRomulatorSystemId.Nintendo)
     .name("Nintendo NES")
+    .hardware(ZRomulatorSystemHardwareType.Console)
+    .mediaFormat(ZRomulatorSystemMediaFormatType.Cartridge)
+    .contentType(ZRomulatorSystemContentType.ReadOnlyMemory)
+    .production(1983, 1995)
+    .extension("nes")
+    .extension("fds")
+    .extension("fig")
+    .extension("bin")
+    .extension("unf")
     .build();
 
   const endpoint = "systems";

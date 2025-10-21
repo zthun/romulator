@@ -1,5 +1,4 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { ZStreamFile } from "@zthun/crumbtrail-fs";
 import { createError, firstDefined } from "@zthun/helpful-fn";
 import type { IZDataRequest, IZPage } from "@zthun/helpful-query";
 import {
@@ -14,12 +13,11 @@ import {
   type IZLogger,
 } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
-import type { IZRomulatorSystem } from "@zthun/romulator-client";
-import {
-  isSystemId,
-  ZRomulatorSystemBuilder,
+import type {
+  IZRomulatorSystem,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
+import { isSystemId, ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import { basename } from "node:path";
 import type { IZRomulatorFilesService } from "../files/files-service.mjs";
 import { ZRomulatorFilesToken } from "../files/files-service.mjs";
@@ -34,9 +32,6 @@ export interface IZRomulatorSystemsService {
 @Injectable()
 export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   private _logger: IZLogger;
-  private _fileStream = new ZStreamFile({
-    cache: { maxFiles: Object.keys(ZRomulatorSystemId).length + 1 },
-  });
 
   public constructor(
     @Inject(ZRomulatorFilesToken)
@@ -110,7 +105,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     }
 
     try {
-      const contents = await this._fileStream.read(info.path);
+      const contents = await this._files.read(info);
       const json = JSON.parse(contents.toString());
       return system.assign(json).redact().build();
     } catch (e) {
