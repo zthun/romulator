@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0](https://github.com/zthun/romulator/compare/v1.6.0...v1.7.0) (2025-10-21)
+
+**Note:** Version bump only for package @zthun/romulator-web
+
+
+
+
+
 ## [1.6.0](https://github.com/zthun/romulator/compare/v1.5.0...v1.6.0) (2025-10-20)
 
 
