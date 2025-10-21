@@ -20,6 +20,12 @@ export interface IZRomulatorSystem {
    * This is essentially a slug.
    */
   id: ZRomulatorSystemId;
+
+  /**
+   * The list of file extensions that system supports.
+   */
+  extensions?: string[];
+
   /**
    * The canonical name of the system.
    *
@@ -28,10 +34,12 @@ export interface IZRomulatorSystem {
    * and every region.
    */
   name?: string;
+
   /**
    * The generational index of the system.
    */
   generation?: number;
+
   /**
    * The type of system.
    */
