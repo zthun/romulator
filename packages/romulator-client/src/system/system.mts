@@ -72,7 +72,7 @@ export interface IZRomulatorSystem {
     /**
      * The first year the system went into production.
      */
-    start: number;
+    start?: number;
     /**
      * The year when production stopped.
      */
@@ -179,7 +179,22 @@ export class ZRomulatorSystemBuilder {
     this._system.productionYears = omitBy(
       this._system.productionYears,
       isUndefined,
-    ) as { start: number; end?: number };
+    );
+    return this;
+  }
+
+  /**
+   * Adds to the extension list.
+   *
+   * @param extension -
+   *        The extension or list of extensions to add.
+   *
+   * @returns
+   *        This object.
+   */
+  public extension(extension: string | string[]) {
+    const extensions = firstDefined([], this._system.extensions);
+    this._system.extensions = extensions.concat(extension);
     return this;
   }
 
