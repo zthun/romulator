@@ -1,8 +1,8 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import { detokenize, firstDefined } from "@zthun/helpful-fn";
-import type { IZDataRequest, IZPage } from "@zthun/helpful-query";
+import { detokenize, firstDefined, firstTruthy } from "@zthun/helpful-fn";
+import type { IZDataMatch, IZDataRequest, IZPage } from "@zthun/helpful-query";
 import {
   ZDataRequestBuilder,
   ZDataSourceStatic,
@@ -32,7 +32,6 @@ import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 import { ZRomulatorSystemKnown } from "../systems/system-known.mjs";
-import { ZRomulatorDataMatchGame } from "./data-match-game.mjs";
 
 export const ZRomulatorGamesToken = Symbol("romulator-games-service");
 
@@ -41,7 +40,9 @@ export interface IZRomulatorGamesService extends IZRestfulGet<IZRomulatorGame> {
 }
 
 @Injectable()
-export class ZRomulatorGamesService implements IZRomulatorGamesService {
+export class ZRomulatorGamesService
+  implements IZRomulatorGamesService, IZDataMatch<IZRomulatorGame, string>
+{
   private readonly _logger: IZLogger;
 
   public constructor(
@@ -90,7 +91,7 @@ export class ZRomulatorGamesService implements IZRomulatorGamesService {
     });
 
     const options = new ZDataSourceStaticOptionsBuilder<IZRomulatorGame>()
-      .search(new ZRomulatorDataMatchGame())
+      .search(this)
       .build();
     const source = new ZDataSourceStatic(games, options);
 
@@ -116,5 +117,20 @@ export class ZRomulatorGamesService implements IZRomulatorGamesService {
     }
 
     return match;
+  }
+
+  public match(data: IZRomulatorGame, filter: string): boolean {
+    const needle = filter?.trim().toLowerCase();
+    const { name = "", system = "" } = data;
+    const target = ZRomulatorSystemKnown.from(system);
+    const systemName = firstTruthy("", target?.name);
+
+    if (!needle?.length) {
+      return true;
+    }
+
+    return [name, system, systemName]
+      .filter((s) => s.length)
+      .some((k) => k.toLowerCase().includes(needle));
   }
 }
