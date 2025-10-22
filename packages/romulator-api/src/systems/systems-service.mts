@@ -19,7 +19,7 @@ import type {
 } from "@zthun/romulator-client";
 import { isSystemId, ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import { basename } from "node:path";
-import type { IZRomulatorFilesService } from "../files/files-service.mjs";
+import type { IZRomulatorFilesRepository } from "../files/files-service.mjs";
 import { ZRomulatorFilesToken } from "../files/files-service.mjs";
 
 export const ZRomulatorSystemsToken = Symbol("romulator-systems-service");
@@ -35,7 +35,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
 
   public constructor(
     @Inject(ZRomulatorFilesToken)
-    private readonly _files: IZRomulatorFilesService,
+    private readonly _files: IZRomulatorFilesRepository,
     @Inject(ZLoggerToken) readonly logger: IZLogger,
   ) {
     this._logger = new ZLoggerContext("ZRomulatorSystemsService", logger);
