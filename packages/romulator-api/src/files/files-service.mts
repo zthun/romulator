@@ -108,20 +108,13 @@ export interface IZRomulatorFilesService {
   info(path: string): Promise<IZFileSystemNode | null>;
 
   /**
-   * Retrieves all games across all systems.
-   */
-  games(): Promise<IZFileSystemNode[]>;
-
-  /**
-   * Retrieves a game by its path.
-   *
-   * @param path -
-   *        The path of the game to retrieve.
-   */
-  games(path: string): Promise<IZFileSystemNode | null>;
-
-  /**
    * Gets the contents of the file.
+   *
+   * @param info -
+   *        The file to read and store.
+   *
+   * @returns
+   *        The buffer of data that the file contained.
    */
   read(info: IZFileSystemNode): Promise<Buffer>;
 
