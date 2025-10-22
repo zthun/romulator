@@ -3,6 +3,10 @@ import { ZLoggerModule } from "@zthun/lumberjacky-nest";
 import { ZRomulatorFilesModule } from "../files/files-module.mjs";
 import { ZRomulatorMediaController } from "./media-controller.mjs";
 import {
+  ZRomulatorMediaGenerator,
+  ZRomulatorMediaGeneratorToken,
+} from "./media-generator.mjs";
+import {
   ZRomulatorMediaService,
   ZRomulatorMediaToken,
 } from "./media-service.mjs";
@@ -11,7 +15,14 @@ import {
   imports: [ZLoggerModule, ZRomulatorFilesModule],
   controllers: [ZRomulatorMediaController],
   providers: [
-    { provide: ZRomulatorMediaToken, useClass: ZRomulatorMediaService },
+    {
+      provide: ZRomulatorMediaGeneratorToken,
+      useClass: ZRomulatorMediaGenerator,
+    },
+    {
+      provide: ZRomulatorMediaToken,
+      useClass: ZRomulatorMediaService,
+    },
   ],
 })
 export class ZRomulatorMediaModule {}

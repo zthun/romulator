@@ -26,13 +26,16 @@ import {
   type IZRomulatorMedia,
 } from "@zthun/romulator-client";
 import type { IZRestfulDelete, IZRestfulGet } from "@zthun/webigail-rest";
-import { ZMimeTypeApplication } from "@zthun/webigail-url";
+import { ZMimeTypeImage } from "@zthun/webigail-url";
 import { findIndex } from "lodash-es";
 import { lookup } from "mime-types";
 import { createReadStream } from "node:fs";
 import { unlink } from "node:fs/promises";
+import { Readable } from "node:stream";
 import type { IZRomulatorFilesService } from "../files/files-service.mjs";
 import { ZRomulatorFilesToken } from "../files/files-service.mjs";
+import type { IZRomulatorMediaGenerator } from "./media-generator.mjs";
+import { ZRomulatorMediaGeneratorToken } from "./media-generator.mjs";
 
 export const ZRomulatorMediaToken = Symbol("romulator-media-service");
 
@@ -48,8 +51,12 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
   private _logger: IZLogger;
 
   public constructor(
-    @Inject(ZRomulatorFilesToken) private _files: IZRomulatorFilesService,
-    @Inject(ZLoggerToken) logger: IZLogger,
+    @Inject(ZRomulatorMediaGeneratorToken)
+    private _generator: IZRomulatorMediaGenerator,
+    @Inject(ZRomulatorFilesToken)
+    private _files: IZRomulatorFilesService,
+    @Inject(ZLoggerToken)
+    logger: IZLogger,
   ) {
     this._logger = new ZLoggerContext("ZRomulatorMediaService", logger);
   }
@@ -81,22 +88,28 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
     return new ZPageBuilder<IZRomulatorMedia>().data(page).count(count).build();
   }
 
+  private async query(id: string): Promise<IZRomulatorMedia | null> {
+    const mediaList = await this.findAllMedia();
+    const index = findIndex(mediaList, (m) => m.id === id);
+
+    return firstDefined(null, mediaList[index]);
+  }
+
   public async get(id: string): Promise<IZRomulatorMedia> {
     const time = new Date();
     let log = `Searching for media with id ${id}.`;
     this._logger.log(new ZLogEntryBuilder().info().message(log).build());
-    const mediaList = await this.findAllMedia();
-    const index = findIndex(mediaList, (m) => m.id === id);
+    const media = await this.query(id);
+
     const span = new Date().getTime() - time.getTime();
 
-    if (index < 0) {
+    if (media == null) {
       const msg = `Could not find any media with id, ${id}.`;
       log = `${msg} Search took ${span} milliseconds`;
       this._logger.log(new ZLogEntryBuilder().warning().message(log).build());
       throw new NotFoundException(msg);
     }
 
-    const media = mediaList[index];
     log = `Found media, ${media.url} after ${span} milliseconds`;
     this._logger.log(new ZLogEntryBuilder().info().message(log).build());
 
@@ -104,12 +117,16 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
   }
 
   public async download(id: string, accept: string): Promise<StreamableFile> {
-    let log = `Download request received for ${id}`;
+    const log = `Download request received for ${id}`;
     this._logger.log(new ZLogEntryBuilder().info().message(log).build());
-    const fallback = ZMimeTypeApplication.OctetStream;
-    const { fileName, url } = await this.get(id);
-    const lookupResult = lookup(firstDefined("", fileName));
-    const mime = firstTruthy(fallback, lookupResult) as string;
+    const media = await this.query(id);
+    const url = firstDefined("", media?.url);
+    const fileName = firstDefined("", media?.fileName);
+    const mime: string = firstTruthy(
+      ZMimeTypeImage.SVG,
+      lookup(fileName),
+    ) as string;
+
     const accepts = accept.split(",").map((h) => h.split(";")[0].trim());
 
     const acceptable = accepts.some((a) => {
@@ -130,10 +147,24 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
       throw new NotAcceptableException(msg);
     }
 
-    log = `Streaming ${url}`;
-    this._logger.log(new ZLogEntryBuilder().info().message(log).build());
+    const generate = async () => {
+      // Note that this isn't perfect and is just a fallback to a wheel for now.
+      // When we get to retrieving other media besides wheels, we will generate
+      // everything, but for now, this will be fine enough.
+      const log = `Media, ${id}, does not exist.  Generating one`;
+      this._logger.log(new ZLogEntryBuilder().warning().message(log).build());
 
-    return new StreamableFile(createReadStream(firstDefined("", url)), {
+      const parts = id.split("-");
+      parts.pop();
+      const name = parts.join(" ");
+      const buffer = await this._generator.generateWheel(name);
+
+      return Readable.from(buffer);
+    };
+
+    const stream = media == null ? await generate() : createReadStream(url);
+
+    return new StreamableFile(stream, {
       type: mime,
       disposition: `inline; filename=${fileName}`,
     });
