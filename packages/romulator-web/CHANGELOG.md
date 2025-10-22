@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.0](https://github.com/zthun/romulator/compare/v1.7.1...v1.8.0) (2025-10-22)
+
+
+### Bug Fixes
+
+* page tiles on systems page should now align the same ([59bfb61](https://github.com/zthun/romulator/commit/59bfb613982e186471ffc257e76028ae75609028))
+
+
+
 ## [1.7.1](https://github.com/zthun/romulator/compare/v1.7.0...v1.7.1) (2025-10-21)
 
 **Note:** Version bump only for package @zthun/romulator-web
