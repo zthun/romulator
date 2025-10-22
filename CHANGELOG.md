@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0](https://github.com/zthun/romulator/compare/v1.8.0...v1.9.0) (2025-10-22)
+
+
+### Features
+
+* a new wheel/marquee is generated when you request media images that do not exist ([e36ab33](https://github.com/zthun/romulator/commit/e36ab33412b77ad0a55c7432ba0f926322e599fa))
+
+
+
 ## [1.8.0](https://github.com/zthun/romulator/compare/v1.7.1...v1.8.0) (2025-10-22)
 
 
