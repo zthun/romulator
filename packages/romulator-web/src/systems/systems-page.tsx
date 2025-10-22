@@ -1,4 +1,5 @@
 import {
+  useCss,
   useFashionTheme,
   useNavigate,
   ZBox,
@@ -10,6 +11,7 @@ import {
   ZStack,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
+import { css } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { useState } from "react";
@@ -30,6 +32,18 @@ export function ZRomulatorSystemsPage() {
   const navigate = useNavigate();
   const systems = useSystemsService();
   const [request, setRequest] = useState(DefaultSystemRequest);
+
+  const _className = useCss(css`
+    .ZRomulatorSystemsPage-tile {
+      width: 24rem;
+      height: 12rem;
+    }
+
+    .ZRomulatorSystemsPage-wheel > img {
+      max-width: 23rem;
+      max-height: 11rem;
+    }
+  `);
 
   const renderTile = (system: IZRomulatorSystem) => {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
@@ -52,14 +66,18 @@ export function ZRomulatorSystemsPage() {
           align={{ items: "center" }}
           height={ZSizeVaried.Full}
         >
-          <ZImageSource src={wheel} width={ZSizeVaried.Full} />
+          <ZImageSource
+            className="ZRomulatorSystemsPage-wheel"
+            src={wheel}
+            width={ZSizeVaried.Full}
+          />
         </ZStack>
       </ZBox>
     );
   };
 
   return (
-    <ZStack gap={ZSizeFixed.Medium}>
+    <ZStack className={_className} gap={ZSizeFixed.Medium}>
       <ZBreadcrumbsLocation />
       <ZCard
         width={ZSizeVaried.Full}
