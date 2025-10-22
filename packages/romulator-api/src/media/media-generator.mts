@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { html } from "@zthun/helpful-fn";
 
 /**
  * The injection token for the media generator.
@@ -24,7 +25,7 @@ export interface IZRomulatorMediaGenerator {
    * @returns
    *        A buffer with the generated wheel.
    */
-  generateWheel(name: string): Promise<Buffer>;
+  generate(name: string): Promise<Buffer>;
 }
 
 /**
@@ -32,18 +33,33 @@ export interface IZRomulatorMediaGenerator {
  */
 @Injectable()
 export class ZRomulatorMediaGenerator implements IZRomulatorMediaGenerator {
-  public generateWheel(name: string): Promise<Buffer> {
+  public generate(name: string): Promise<Buffer> {
     const width = 373;
     const height = 187;
     const fallbackName = name?.trim().length ? name.trim() : "?";
     const uppercaseName = fallbackName.toUpperCase();
     const escapedName = this.escapeSvgText(uppercaseName);
 
-    const svg = [
-      `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`,
-      `<text x="50%" y="50%" fill="#FFFFFF" font-family="sans-serif" font-size="48" dominant-baseline="middle" text-anchor="middle">${escapedName}</text>`,
-      "</svg>",
-    ].join("");
+    const svg = html`
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="${width}"
+        height="${height}"
+        viewBox="0 0 ${width} ${height}"
+      >
+        <text
+          x="50%"
+          y="50%"
+          fill="#fff"
+          font-size="48"
+          text-anchor="middle"
+          textLength="${width}"
+          lengthAdjust="spacingAndGlyphs"
+        >
+          ${escapedName}
+        </text>
+      </svg>
+    `;
 
     return Promise.resolve(Buffer.from(svg));
   }

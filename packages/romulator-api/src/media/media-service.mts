@@ -148,7 +148,7 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
     }
 
     const generate = async () => {
-      // Note that this isn't perfect and is just a fallback to a wheel for now.
+      // Note that this isn't perfect and is just a fallback to a wheel + marquee for now.
       // When we get to retrieving other media besides wheels, we will generate
       // everything, but for now, this will be fine enough.
       const log = `Media, ${id}, does not exist.  Generating one`;
@@ -157,7 +157,7 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
       const parts = id.split("-");
       parts.pop();
       const name = parts.join(" ");
-      const buffer = await this._generator.generateWheel(name);
+      const buffer = await this._generator.generate(name);
 
       return Readable.from(buffer);
     };
