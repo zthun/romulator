@@ -232,10 +232,6 @@
     "zxnext",
     "zxspectrum"
   ],
-  "dictionaries": [
-    "typescript",
-    "node",
-    "npm",
-    "en_US"
-  ]
+  "dictionaries": ["typescript", "node", "npm", "en_US"],
+  "ignorePaths": ["**/systems.json"]
 }

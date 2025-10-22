@@ -68,10 +68,7 @@
     {
       "id": "ags",
       "name": "Adventure Game Studio Game Engine",
-      "extensions": [
-        ".desktop",
-        ".sh"
-      ]
+      "extensions": [".desktop", ".sh"]
     },
     {
       "id": "amiga",
@@ -288,34 +285,19 @@
     {
       "id": "android",
       "name": "Google Android",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"],
       "type": "smartphone"
     },
     {
       "id": "androidapps",
       "name": "Android Apps",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"],
       "type": "smartphone"
     },
     {
       "id": "androidgames",
       "name": "Android Games",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"],
       "type": "smartphone"
     },
     {
@@ -337,14 +319,7 @@
     {
       "id": "apple2gs",
       "name": "Apple IIGS",
-      "extensions": [
-        ".2mg",
-        ".2MG",
-        ".7z",
-        ".7z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".2mg", ".2MG", ".7z", ".7z", ".zip", ".ZIP"],
       "type": "computer",
       "company": "Apple"
     },
@@ -372,14 +347,7 @@
     {
       "id": "arcadia",
       "name": "Emerson Arcadia 2001",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "archimedes",
@@ -467,12 +435,7 @@
     {
       "id": "astrocde",
       "name": "Bally Astrocade",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "atari2600",
@@ -815,14 +778,7 @@
     {
       "id": "cdimono1",
       "name": "Philips CD-i",
-      "extensions": [
-        ".chd",
-        ".CHD",
-        ".cue",
-        ".CUE",
-        ".iso",
-        ".ISO"
-      ]
+      "extensions": [".chd", ".CHD", ".cue", ".CUE", ".iso", ".ISO"]
     },
     {
       "id": "cdtv",
@@ -953,7 +909,6 @@
       "id": "consolearcade",
       "name": "Console Arcade Systems",
       "extensions": [
-        ".arcadedef",
         ".desktop",
         ".iso",
         ".ISO",
@@ -971,42 +926,22 @@
     {
       "id": "cps",
       "name": "Capcom Play System",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "cps1",
       "name": "Capcom Play System I",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "cps2",
       "name": "Capcom Play System II",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "cps3",
       "name": "Capcom Play System III",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "crvision",
@@ -1045,11 +980,7 @@
     {
       "id": "desktop",
       "name": "Desktop Applications",
-      "extensions": [
-        ".AppImage",
-        ".desktop",
-        ".sh"
-      ]
+      "extensions": [".AppImage", ".desktop", ".sh"]
     },
     {
       "id": "doom",
@@ -1151,11 +1082,7 @@
     {
       "id": "easyrpg",
       "name": "EasyRPG Game Engine",
-      "extensions": [
-        ".easyrpg",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".easyrpg", ".zip", ".ZIP"],
       "type": "virtual-machine"
     },
     {
@@ -1222,19 +1149,12 @@
     {
       "id": "emulators",
       "name": "Emulators",
-      "extensions": [
-        ".AppImage",
-        ".desktop",
-        ".sh"
-      ]
+      "extensions": [".AppImage", ".desktop", ".sh"]
     },
     {
       "id": "epic",
       "name": "Epic Games Store",
-      "extensions": [
-        ".desktop",
-        ".sh"
-      ]
+      "extensions": [".desktop", ".sh"]
     },
     {
       "id": "famicom",
@@ -1261,25 +1181,13 @@
     {
       "id": "fba",
       "name": "FinalBurn Alpha",
-      "extensions": [
-        ".iso",
-        ".ISO",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".iso", ".ISO", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "arcade"
     },
     {
       "id": "fbneo",
       "name": "FinalBurn Neo",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"],
       "type": "arcade"
     },
     {
@@ -1305,12 +1213,7 @@
     {
       "id": "flash",
       "name": "Adobe Flash",
-      "extensions": [
-        ".ruf",
-        ".RUF",
-        ".swf",
-        ".SWF"
-      ]
+      "extensions": [".ruf", ".RUF", ".swf", ".SWF"]
     },
     {
       "id": "fm7",
@@ -1369,49 +1272,25 @@
     {
       "id": "fpinball",
       "name": "Future Pinball",
-      "extensions": [
-        ".fpt",
-        ".FPT"
-      ]
+      "extensions": [".fpt", ".FPT"]
     },
     {
       "id": "gamate",
       "name": "Bit Corporation Gamate",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "console-portable"
     },
     {
       "id": "gameandwatch",
       "name": "Nintendo Game and Watch",
-      "extensions": [
-        ".mgw",
-        ".MGW",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".mgw", ".MGW", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "console-portable",
       "company": "Nintendo"
     },
     {
       "id": "gamecom",
       "name": "Tiger Electronics Game.com",
-      "extensions": [
-        ".tgc",
-        ".TGC",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".tgc", ".TGC", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "gamegear",
@@ -1630,14 +1509,7 @@
     {
       "id": "gmaster",
       "name": "Hartung Game Master",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "gx4000",
@@ -1689,22 +1561,12 @@
     {
       "id": "j2me",
       "name": "Java 2 Micro Edition (J2ME)",
-      "extensions": [
-        ".jar",
-        ".JAR",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".jar", ".JAR", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "kodi",
       "name": "Kodi Home Theatre Software",
-      "extensions": [
-        ".desktop",
-        ".sh"
-      ]
+      "extensions": [".desktop", ".sh"]
     },
     {
       "id": "laserdisc",
@@ -1726,31 +1588,18 @@
     {
       "id": "lcdgames",
       "name": "LCD Handheld Games",
-      "extensions": [
-        ".mgw",
-        ".MGW",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".mgw", ".MGW", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "lowresnx",
       "name": "LowRes NX Fantasy Console",
-      "extensions": [
-        ".nx",
-        ".NX"
-      ],
+      "extensions": [".nx", ".NX"],
       "type": "virtual-machine"
     },
     {
       "id": "lutris",
       "name": "Lutris Open Gaming Platform",
-      "extensions": [
-        ".desktop",
-        ".sh"
-      ]
+      "extensions": [".desktop", ".sh"]
     },
     {
       "id": "lutro",
@@ -1770,12 +1619,7 @@
     {
       "id": "macintosh",
       "name": "Apple Macintosh",
-      "extensions": [
-        ".dsk",
-        ".DSK",
-        ".game",
-        ".GAME"
-      ],
+      "extensions": [".dsk", ".DSK", ".game", ".GAME"],
       "type": "computer",
       "company": "Apple"
     },
@@ -1803,12 +1647,7 @@
     {
       "id": "mame-advmame",
       "name": "AdvanceMAME",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"],
       "type": "arcade"
     },
     {
@@ -2072,48 +1911,24 @@
     {
       "id": "megaduck",
       "name": "Creatronic Mega Duck",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "mess",
       "name": "Multi Emulator Super System",
-      "extensions": [
-        ".chd",
-        ".CHD",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".chd", ".CHD", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "arcade",
       "company": "Capcom"
     },
     {
       "id": "model2",
       "name": "Sega Model 2",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "model3",
       "name": "Sega Model 3",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"],
       "type": "arcade",
       "company": "SEGA"
     },
@@ -2335,9 +2150,7 @@
     {
       "id": "mugen",
       "name": "M.U.G.E.N Game Engine",
-      "extensions": [
-        ".mugen"
-      ]
+      "extensions": [".mugen"]
     },
     {
       "id": "multivision",
@@ -2522,38 +2335,21 @@
     {
       "id": "neogeo",
       "name": "SNK Neo Geo",
-      "extensions": [
-        ".neo",
-        ".NEO",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".neo", ".NEO", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "arcade",
       "company": "SNK"
     },
     {
       "id": "neogeocd",
       "name": "SNK Neo Geo CD",
-      "extensions": [
-        ".chd",
-        ".CHD",
-        ".cue",
-        ".CUE"
-      ],
+      "extensions": [".chd", ".CHD", ".cue", ".CUE"],
       "type": "console",
       "company": "SNK"
     },
     {
       "id": "neogeocdjp",
       "name": "SNK Neo Geo CD",
-      "extensions": [
-        ".chd",
-        ".CHD",
-        ".cue",
-        ".CUE"
-      ]
+      "extensions": [".chd", ".CHD", ".cue", ".CUE"]
     },
     {
       "id": "nes",
@@ -2580,11 +2376,7 @@
     {
       "id": "ngage",
       "name": "Nokia N-Gage",
-      "extensions": [
-        ".ngage",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".ngage", ".zip", ".ZIP"]
     },
     {
       "id": "ngp",
@@ -2629,22 +2421,13 @@
     {
       "id": "odyssey2",
       "name": "Magnavox Odyssey 2",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "console"
     },
     {
       "id": "openbor",
       "name": "OpenBOR Game Engine",
-      "extensions": [
-        ".AppImage"
-      ],
+      "extensions": [".AppImage"],
       "type": "virtual-machine"
     },
     {
@@ -2869,12 +2652,7 @@
     {
       "id": "pico8",
       "name": "PICO-8 Fantasy Console",
-      "extensions": [
-        ".p8",
-        ".P8",
-        ".png",
-        ".PNG"
-      ],
+      "extensions": [".p8", ".P8", ".png", ".PNG"],
       "type": "virtual-machine"
     },
     {
@@ -2950,14 +2728,7 @@
     {
       "id": "pokemini",
       "name": "Nintendo Pokémon Mini",
-      "extensions": [
-        ".min",
-        ".MIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".min", ".MIN", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "console-portable",
       "company": "Nintendo"
     },
@@ -3017,26 +2788,14 @@
     {
       "id": "ps3",
       "name": "Sony PlayStation 3",
-      "extensions": [
-        ".desktop",
-        ".ps3",
-        ".PS3",
-        ".ps3dir",
-        ".PS3DIR"
-      ],
+      "extensions": [".desktop", ".ps3", ".PS3", ".ps3dir", ".PS3DIR"],
       "type": "console",
       "company": "Sony"
     },
     {
       "id": "ps4",
       "name": "Sony PlayStation 4",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".desktop",
-        ".ps4",
-        ".PS4"
-      ],
+      "extensions": [".bin", ".BIN", ".desktop", ".ps4", ".PS4"],
       "type": "console",
       "company": "Sony"
     },
@@ -3067,9 +2826,7 @@
     {
       "id": "psvita",
       "name": "Sony PlayStation Vita",
-      "extensions": [
-        ".psvita"
-      ]
+      "extensions": [".psvita"]
     },
     {
       "id": "psx",
@@ -3124,26 +2881,12 @@
     {
       "id": "pv1000",
       "name": "Casio PV-1000",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "quake",
       "name": "Quake",
-      "extensions": [
-        ".desktop",
-        ".pak",
-        ".PAK",
-        ".pk3",
-        ".PK3",
-        ".sh"
-      ]
+      "extensions": [".desktop", ".pak", ".PAK", ".pk3", ".PK3", ".sh"]
     },
     {
       "id": "samcoupe",
@@ -3247,26 +2990,13 @@
     {
       "id": "scummvm",
       "name": "ScummVM Game Engine",
-      "extensions": [
-        ".scummvm",
-        ".SCUMMVM",
-        ".svm",
-        ".SVM"
-      ],
+      "extensions": [".scummvm", ".SCUMMVM", ".svm", ".SVM"],
       "type": "virtual-machine"
     },
     {
       "id": "scv",
       "name": "Epoch Super Cassette Vision",
-      "extensions": [
-        ".0",
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".0", ".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "sega32x",
@@ -3589,9 +3319,7 @@
     {
       "id": "solarus",
       "name": "Solarus Game Engine",
-      "extensions": [
-        ".solarus"
-      ],
+      "extensions": [".solarus"],
       "type": "virtual-machine"
     },
     {
@@ -3628,20 +3356,12 @@
     {
       "id": "steam",
       "name": "Valve Steam",
-      "extensions": [
-        ".desktop",
-        ".sh"
-      ]
+      "extensions": [".desktop", ".sh"]
     },
     {
       "id": "stv",
       "name": "Sega Titan Video Game System",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "sufami",
@@ -3692,28 +3412,12 @@
     {
       "id": "supervision",
       "name": "Watara Supervision",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".sv",
-        ".SV",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".bin", ".BIN", ".sv", ".SV", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "supracan",
       "name": "Funtech Super A'Can",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "switch",
@@ -3736,13 +3440,7 @@
     {
       "id": "symbian",
       "name": "Symbian",
-      "extensions": [
-        ".sis",
-        ".SIS",
-        ".sisx",
-        ".SISX",
-        ".symbian"
-      ]
+      "extensions": [".sis", ".SIS", ".sisx", ".SISX", ".symbian"]
     },
     {
       "id": "tanodragon",
@@ -3826,26 +3524,14 @@
     {
       "id": "ti99",
       "name": "Texas Instruments TI-99",
-      "extensions": [
-        ".rpk",
-        ".RPK",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".rpk", ".RPK", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "computer",
       "company": "Texas Instruments"
     },
     {
       "id": "tic80",
       "name": "TIC-80 Fantasy Computer",
-      "extensions": [
-        ".png",
-        ".PNG",
-        ".tic",
-        ".TIC"
-      ],
+      "extensions": [".png", ".PNG", ".tic", ".TIC"],
       "type": "virtual-machine"
     },
     {
@@ -3912,35 +3598,17 @@
     {
       "id": "trs-80",
       "name": "Tandy TRS-80",
-      "extensions": [
-        ".cmd",
-        ".CMD",
-        ".dsk",
-        ".DSK"
-      ]
+      "extensions": [".cmd", ".CMD", ".dsk", ".DSK"]
     },
     {
       "id": "type-x",
       "name": "Taito Type X",
-      "extensions": [
-        ".AppImage",
-        ".desktop",
-        ".exe",
-        ".EXE",
-        ".sh"
-      ]
+      "extensions": [".AppImage", ".desktop", ".exe", ".EXE", ".sh"]
     },
     {
       "id": "uzebox",
       "name": "Uzebox Open Source Console",
-      "extensions": [
-        ".uze",
-        ".UZE",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".uze", ".UZE", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "console"
     },
     {
@@ -4035,27 +3703,13 @@
     {
       "id": "videopac",
       "name": "Philips Videopac G7000",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "console"
     },
     {
       "id": "vircon32",
       "name": "Vircon32 Virtual Console",
-      "extensions": [
-        ".v32",
-        ".V32",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".v32", ".V32", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "virtual-machine"
     },
     {
@@ -4079,32 +3733,17 @@
     {
       "id": "vpinball",
       "name": "Visual Pinball",
-      "extensions": [
-        ".vpt",
-        ".VPT",
-        ".vpx",
-        ".VPX"
-      ]
+      "extensions": [".vpt", ".VPT", ".vpx", ".VPX"]
     },
     {
       "id": "vsmile",
       "name": "VTech V.Smile",
-      "extensions": [
-        ".bin",
-        ".BIN",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".bin", ".BIN", ".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "wasm4",
       "name": "WASM-4 Fantasy Console",
-      "extensions": [
-        ".wasm",
-        ".WASM"
-      ]
+      "extensions": [".wasm", ".WASM"]
     },
     {
       "id": "wii",
@@ -4171,11 +3810,7 @@
     {
       "id": "windows",
       "name": "Microsoft Windows",
-      "extensions": [
-        ".AppImage",
-        ".desktop",
-        ".sh"
-      ],
+      "extensions": [".AppImage", ".desktop", ".sh"],
       "type": "computer",
       "company": "Microsoft"
     },
@@ -4316,10 +3951,7 @@
     {
       "id": "xbox",
       "name": "Microsoft Xbox",
-      "extensions": [
-        ".iso",
-        ".ISO"
-      ],
+      "extensions": [".iso", ".ISO"],
       "type": "console",
       "company": "Microsoft"
     },
@@ -4341,12 +3973,7 @@
     {
       "id": "xboxone",
       "name": "Microsoft Xbox One",
-      "extensions": [
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ]
+      "extensions": [".7z", ".7Z", ".zip", ".ZIP"]
     },
     {
       "id": "zmachine",
@@ -4379,27 +4006,13 @@
     {
       "id": "zx81",
       "name": "Sinclair ZX81",
-      "extensions": [
-        ".p",
-        ".P",
-        ".tzx",
-        ".TZX",
-        ".7z",
-        ".7Z",
-        ".zip",
-        ".ZIP"
-      ],
+      "extensions": [".p", ".P", ".tzx", ".TZX", ".7z", ".7Z", ".zip", ".ZIP"],
       "type": "computer"
     },
     {
       "id": "zxnext",
       "name": "Sinclair ZX Spectrum Next",
-      "extensions": [
-        ".nex",
-        ".NEX",
-        ".sna",
-        ".SNA"
-      ]
+      "extensions": [".nex", ".NEX", ".sna", ".SNA"]
     },
     {
       "id": "zxspectrum",
