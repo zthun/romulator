@@ -15,6 +15,7 @@
     "android",
     "androidapps",
     "androidgames",
+    "apos",
     "apple2",
     "apple2gs",
     "arcade",
@@ -232,6 +233,13 @@
     "zxnext",
     "zxspectrum"
   ],
-  "dictionaries": ["typescript", "node", "npm", "en_US"],
-  "ignorePaths": ["**/systems.json"]
+  "dictionaries": [
+    "typescript",
+    "node",
+    "npm",
+    "en_US"
+  ],
+  "ignorePaths": [
+    "**/systems.json"
+  ]
 }

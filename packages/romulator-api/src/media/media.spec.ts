@@ -9,6 +9,7 @@ import {
   ZRomulatorMediaBuilder,
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
+import { ZMimeTypeImage } from "@zthun/webigail-url";
 import { rm, unlink } from "node:fs/promises";
 import { resolve } from "node:path";
 import request from "supertest";
@@ -173,16 +174,44 @@ describe("MediaApi", () => {
         expect(actual.status).toEqual(ZHttpCodeClient.NotAcceptable);
       });
 
-      it("should return a 404 error if no such media exists", async () => {
+      it("should return a 404 error if no such media exists and JSON was requested", async () => {
         // Arrange.
         const target = await createTestTarget();
         const url = `/${endpoint}/lol-wut`;
 
         // Act.
-        const actual = await request(target.getHttpServer()).get(url);
+        const actual = await request(target.getHttpServer())
+          .get(url)
+          .set("Accept", "application/json");
 
         // Assert.
         expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
+      });
+
+      it("should generate an svg of the media if no such media exists and an image was requested", async () => {
+        // Arrange.
+        const target = await createTestTarget();
+        const url = `/${endpoint}/arcade-wheel`;
+
+        // Act.
+        const actual = await request(target.getHttpServer()).get(url);
+
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+        expect(actual.header["content-type"]).toEqual(ZMimeTypeImage.SVG);
+      });
+
+      it("should generate an svg of the media if no such media exists, an image was requested, and the name is not valid at all", async () => {
+        // Arrange.
+        const target = await createTestTarget();
+        const url = `/${endpoint}/junk`;
+
+        // Act.
+        const actual = await request(target.getHttpServer()).get(url);
+
+        // Assert.
+        expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+        expect(actual.header["content-type"]).toEqual(ZMimeTypeImage.SVG);
       });
     });
 
