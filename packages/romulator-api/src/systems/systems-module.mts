@@ -11,7 +11,11 @@ import {
   imports: [ZRomulatorFilesModule, ZLoggerModule],
   controllers: [ZRomulatorSystemsController],
   providers: [
-    { provide: ZRomulatorSystemsToken, useClass: ZRomulatorSystemsService },
+    {
+      provide: ZRomulatorSystemsToken,
+      useClass: ZRomulatorSystemsService,
+    },
   ],
+  exports: [ZRomulatorSystemsToken],
 })
 export class ZRomulatorSystemsModule {}
