@@ -1,16 +1,14 @@
 import type { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import {
-  ZFileSystemNodeBuilder,
-  type IZFileSystemService,
-} from "@zthun/crumbtrail-fs";
-import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
+import { ZStreamFile, ZStreamFolder } from "@zthun/crumbtrail-fs";
 import {
   ZFilterBinaryBuilder,
   ZFilterSerialize,
   ZSortBuilder,
   ZSortSerialize,
 } from "@zthun/helpful-query";
+import { ZLoggerSilent } from "@zthun/lumberjacky-log";
+import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import type {
   IZRomulatorConfig,
   IZRomulatorConfigGames,
@@ -18,15 +16,22 @@ import type {
 import {
   ZRomulatorConfigBuilder,
   ZRomulatorConfigGamesBuilder,
-  ZRomulatorGameBuilder,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
-import { kebabCase } from "lodash-es";
-import { basename, extname, resolve } from "node:path";
+import { rm } from "node:fs/promises";
+import { resolve } from "node:path";
 import request from "supertest";
 import type { Mocked } from "vitest";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "vitest";
 import { mock } from "vitest-mock-extended";
 import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
 import {
@@ -36,56 +41,39 @@ import {
 import { ZRomulatorGamesModule } from "./games-module.mjs";
 
 describe("GamesApi", () => {
-  const games = "/path/to/games";
   const endpoint = "games";
-
-  const config = ZRomulatorConfigKnown.games();
-
-  const battletoadsNode = new ZFileSystemNodeBuilder()
-    .file()
-    .path(resolve(games, "nes", "Battletoads (USA).zip"))
-    .build();
-  const actRaiserNode = new ZFileSystemNodeBuilder()
-    .file()
-    .path(resolve(games, "snes", "ActRaiser (USA).zip"))
-    .build();
-
-  const nodes = [battletoadsNode, actRaiserNode];
-
-  const battletoadsGame = new ZRomulatorGameBuilder()
-    .id(
-      `${ZRomulatorSystemId.Nintendo}-${kebabCase(
-        basename(battletoadsNode.path, extname(battletoadsNode.path)),
-      )}`,
-    )
-    .system(ZRomulatorSystemId.Nintendo)
-    .name(basename(battletoadsNode.path, extname(battletoadsNode.path)))
-    .file(battletoadsNode.path)
-    .build();
-
-  const actRaiserGame = new ZRomulatorGameBuilder()
-    .id(
-      `${ZRomulatorSystemId.SuperNintendo}-${kebabCase(
-        basename(actRaiserNode.path, extname(actRaiserNode.path)),
-      )}`,
-    )
-    .system(ZRomulatorSystemId.SuperNintendo)
-    .name(basename(actRaiserNode.path, extname(actRaiserNode.path)))
-    .file(actRaiserNode.path)
-    .build();
+  const assets = resolve(__dirname, "../../.test.games-api");
+  const info = resolve(assets, ".info");
+  const media = resolve(assets, ".media");
+  const nes = resolve(assets, ZRomulatorSystemId.Nintendo);
+  const megadrive = resolve(assets, ZRomulatorSystemId.MegaDrive);
+  const gameMario = resolve(nes, "super-mario-bros.zip");
+  const gameZelda = resolve(nes, "legend-of-zelda.nes");
+  const gameStarTropics = resolve(nes, "star-tropics.7z");
+  const saveZelda = resolve(nes, "legend-of-zelda.sav");
+  const gameGunstarHeroes = resolve(megadrive, "gunstar-heroes.zip");
+  const gameSonic = resolve(megadrive, "sonic.zip");
+  const allGames = [
+    gameMario,
+    gameGunstarHeroes,
+    gameZelda,
+    gameStarTropics,
+    gameSonic,
+  ];
+  const fileStream = new ZStreamFile({ cache: { maxFiles: 0 } });
+  const folderStream = new ZStreamFolder();
 
   let _target: INestApplication<any>;
-  let _file: Mocked<IZFileSystemService>;
   let _config: Mocked<IZRomulatorConfigsService>;
 
   const createTestTarget = async () => {
     const module = await Test.createTestingModule({
       imports: [ZRomulatorGamesModule],
     })
-      .overrideProvider(ZFileSystemToken)
-      .useValue(_file)
       .overrideProvider(ZRomulatorConfigsToken)
       .useValue(_config)
+      .overrideProvider(ZLoggerToken)
+      .useValue(new ZLoggerSilent())
       .compile();
 
     _target = module.createNestApplication();
@@ -94,14 +82,15 @@ describe("GamesApi", () => {
   };
 
   beforeEach(() => {
-    _file = mock<IZFileSystemService>();
-    _file.search.mockResolvedValue(nodes);
+    const gamesConfig = new ZRomulatorConfigGamesBuilder()
+      .gamesFolder(assets)
+      .build();
 
     _config = mock<IZRomulatorConfigsService>();
     _config.get.mockResolvedValue(
       new ZRomulatorConfigBuilder<IZRomulatorConfigGames>()
-        .copy(config)
-        .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
+        .copy(ZRomulatorConfigKnown.games())
+        .contents(gamesConfig)
         .build() as Required<IZRomulatorConfig>,
     );
   });
@@ -110,26 +99,113 @@ describe("GamesApi", () => {
     await _target?.close();
   });
 
+  beforeAll(async () => {
+    await folderStream.write(info);
+    await folderStream.write(media);
+
+    await fileStream.write(gameMario);
+    await fileStream.write(gameZelda);
+    await fileStream.write(saveZelda);
+    await fileStream.write(gameStarTropics);
+    await fileStream.write(gameGunstarHeroes);
+    await fileStream.write(gameSonic);
+
+    await fileStream.write(
+      resolve(info, `${ZRomulatorSystemId.Nintendo}.json`),
+      {
+        buffer: Buffer.from(
+          JSON.stringify(
+            [
+              {
+                file: gameMario,
+                name: "Super Mario Bros.",
+              },
+              {
+                file: gameZelda,
+                name: "Legend of Zelda, The",
+              },
+              {
+                file: gameStarTropics,
+                name: "Star Tropics",
+              },
+            ],
+            undefined,
+            2,
+          ),
+        ),
+      },
+    );
+
+    await fileStream.write(
+      resolve(info, `${ZRomulatorSystemId.MegaDrive}.json`),
+      {
+        buffer: Buffer.from(
+          JSON.stringify(
+            [
+              {
+                file: gameGunstarHeroes,
+                name: "Gunstar Heroes",
+              },
+              {
+                file: gameSonic,
+                name: "Sonic The Hedgehog",
+              },
+            ],
+            undefined,
+            2,
+          ),
+        ),
+      },
+    );
+
+    await fileStream.write(resolve(info, "systems.json"), {
+      buffer: Buffer.from(
+        JSON.stringify(
+          [
+            {
+              id: ZRomulatorSystemId.Nintendo,
+              name: "Nintendo NES",
+              extensions: ["nes"],
+            },
+            {
+              id: ZRomulatorSystemId.MegaDrive,
+              name: "Sega MegaDrive",
+              extensions: ["gen", "bin"],
+            },
+          ],
+          undefined,
+          2,
+        ),
+      ),
+    });
+  });
+
+  afterAll(async () => {
+    await rm(assets, { recursive: true, force: true });
+  });
+
   describe("List", () => {
-    it("should list all games", async () => {
+    it("should list all games that match the system extensions", async () => {
       // Arrange.
       const target = await createTestTarget();
-      const expected = [battletoadsGame, actRaiserGame];
 
       // Act.
       const actual = await request(target.getHttpServer()).get(`/${endpoint}`);
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body.data).toEqual(expected);
-      expect(actual.body.count).toEqual(expected.length);
+      expect(actual.body.data).toEqual(
+        expect.arrayContaining(
+          allGames.map((g) => expect.objectContaining({ file: g })),
+        ),
+      );
+      expect(actual.body.count).toEqual(allGames.length);
     });
 
     it("should list all games if search is white space", async () => {
       // Arrange.
       // Arrange.
       const target = await createTestTarget();
-      const expected = [battletoadsGame, actRaiserGame];
 
       // Act.
       const actual = await request(target.getHttpServer()).get(
@@ -138,16 +214,25 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.data).toEqual(
+        expect.arrayContaining(
+          allGames.map((file) => expect.objectContaining({ file })),
+        ),
+      );
     });
 
     it("should sort games by name", async () => {
       // Arrange.
       const target = await createTestTarget();
-      const expected = [battletoadsGame, actRaiserGame];
-      const sort = new ZSortSerialize().serialize(
-        new ZSortBuilder().descending("name").build(),
-      );
+      const byName = new ZSortBuilder().ascending("name").build();
+      const sort = new ZSortSerialize().serialize(byName);
+      const expected = [
+        gameGunstarHeroes,
+        gameZelda,
+        gameSonic,
+        gameMario,
+        gameStarTropics,
+      ];
 
       // Act.
       const actual = await request(target.getHttpServer()).get(
@@ -156,20 +241,21 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.data).toEqual(
+        expected.map((file) => expect.objectContaining({ file })),
+      );
     });
 
     it("should filter games", async () => {
       // Arrange.
       const target = await createTestTarget();
-      const expected = [actRaiserGame];
-      const filter = new ZFilterSerialize().serialize(
-        new ZFilterBinaryBuilder()
-          .subject("system")
-          .equal()
-          .value(ZRomulatorSystemId.SuperNintendo)
-          .build(),
-      );
+      const expected = [gameMario, gameStarTropics, gameZelda];
+      const bySystem = new ZFilterBinaryBuilder()
+        .subject("system")
+        .equal()
+        .value(ZRomulatorSystemId.Nintendo)
+        .build();
+      const filter = new ZFilterSerialize().serialize(bySystem);
 
       // Act.
       const actual = await request(target.getHttpServer()).get(
@@ -178,14 +264,15 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body.data).toEqual(expected);
-      expect(actual.body.count).toEqual(1);
+      expect(actual.body.data).toEqual(
+        expected.map((file) => expect.objectContaining({ file })),
+      );
+      expect(actual.body.count).toEqual(expected.length);
     });
 
     it("should page the games", async () => {
       // Arrange.
       const target = await createTestTarget();
-      const expected = [actRaiserGame];
 
       // Act.
       const actual = await request(target.getHttpServer()).get(
@@ -194,18 +281,19 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body.data).toEqual(expected);
-      expect(actual.body.count).toEqual(nodes.length);
+      expect(actual.body.data).toEqual(
+        expect.arrayContaining([expect.objectContaining({ file: gameSonic })]),
+      );
     });
 
     it("should search games by name", async () => {
       // Arrange.
       const target = await createTestTarget();
-      const expected = [battletoadsGame];
+      const expected = [gameZelda];
 
       // Act.
       const actual = await request(target.getHttpServer()).get(
-        `/${endpoint}?search=battle`,
+        `/${endpoint}?search=zeLda`,
       );
 
       // Assert.
@@ -217,16 +305,20 @@ describe("GamesApi", () => {
     it("should search games by system name", async () => {
       // Arrange.
       const target = await createTestTarget();
-      const expected = [actRaiserGame];
+      const expected = [gameGunstarHeroes, gameSonic];
 
       // Act.
       const actual = await request(target.getHttpServer()).get(
-        `/${endpoint}?search=super%20nintendo`,
+        `/${endpoint}?search=megadrive`,
       );
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.data).toEqual(
+        expect.arrayContaining(
+          expected.map((file) => expect.objectContaining({ file })),
+        ),
+      );
       expect(actual.body.count).toEqual(expected.length);
     });
   });
@@ -235,15 +327,22 @@ describe("GamesApi", () => {
     it("should return the game by its id", async () => {
       // Arrange.
       const target = await createTestTarget();
+      const id = "nes-super-mario-bros";
 
       // Act.
       const actual = await request(target.getHttpServer()).get(
-        `/${endpoint}/${battletoadsGame.id}`,
+        `/${endpoint}/${id}`,
       );
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(battletoadsGame);
+      expect(actual.body).toEqual(
+        expect.objectContaining({
+          id,
+          file: gameMario,
+          system: ZRomulatorSystemId.Nintendo,
+        }),
+      );
     });
 
     it("should return a 404 if the game does not exist", async () => {
