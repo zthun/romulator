@@ -1,23 +1,23 @@
 import { Inject, Module } from "@nestjs/common";
 import { ZFileSystemModule } from "@zthun/crumbtrail-nest";
 import { ZRomulatorConfigsModule } from "../config/configs-module.mjs";
-import type { IZRomulatorFilesService } from "./files-service.mjs";
+import type { IZRomulatorFilesRepository } from "./files-repository.mjs";
 import {
-  ZRomulatorFilesService,
+  ZRomulatorFilesRepository,
   ZRomulatorFilesToken,
-} from "./files-service.mjs";
+} from "./files-repository.mjs";
 
 @Module({
   imports: [ZFileSystemModule, ZRomulatorConfigsModule],
   providers: [
-    { provide: ZRomulatorFilesToken, useClass: ZRomulatorFilesService },
+    { provide: ZRomulatorFilesToken, useClass: ZRomulatorFilesRepository },
   ],
   exports: [ZRomulatorFilesToken],
 })
 export class ZRomulatorFilesModule {
   public constructor(
     @Inject(ZRomulatorFilesToken)
-    private readonly _files: IZRomulatorFilesService,
+    private readonly _files: IZRomulatorFilesRepository,
   ) {}
 
   public async onModuleInit() {
