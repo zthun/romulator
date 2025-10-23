@@ -27,6 +27,14 @@ export abstract class ZRomulatorSystemKnown {
     return methods.map((m) => m.call(null));
   }
 
+  @ZTag(KnownSystem)
+  public static megadrive() {
+    return new ZRomulatorSystemBuilder()
+      .id(ZRomulatorSystemId.MegaDrive)
+      .name("Sega MegaDrive")
+      .build();
+  }
+
   /**
    * Creates a system that represents the Nintendo
    * Entertainment System (NES).
