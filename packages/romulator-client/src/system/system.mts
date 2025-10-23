@@ -1,8 +1,15 @@
 import { firstDefined } from "@zthun/helpful-fn";
-import { isUndefined, omitBy, pick } from "lodash-es";
+import {
+  castArray,
+  get,
+  isUndefined,
+  omitBy,
+  uniqBy,
+  upperCase,
+} from "lodash-es";
 import type { ZRomulatorSystemContentType } from "./system-content-type.mjs";
 import type { ZRomulatorSystemHardwareType } from "./system-hardware-type.mjs";
-import { ZRomulatorSystemId } from "./system-id.mjs";
+import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
 import type { ZRomulatorSystemMediaFormatType } from "./system-media-format-type.mjs";
 
 /**
@@ -25,6 +32,13 @@ export interface IZRomulatorSystem {
   id: ZRomulatorSystemId;
 
   /**
+   * The list of file extensions that system supports.
+   *
+   * Extensions, zip and 7z, should always be in this list.
+   */
+  extensions: string[];
+
+  /**
    * The canonical name of the system.
    *
    * This is the most globally recognized name,
@@ -37,11 +51,6 @@ export interface IZRomulatorSystem {
    * The company that published the system.
    */
   company?: string;
-
-  /**
-   * The list of file extensions that system supports.
-   */
-  extensions?: string[];
 
   /**
    * Type classifications for the system.
@@ -86,6 +95,7 @@ export interface IZRomulatorSystem {
 export class ZRomulatorSystemBuilder {
   private _system: IZRomulatorSystem = {
     id: ZRomulatorSystemId.Nintendo,
+    extensions: ["zip", "7z"],
   };
 
   /**
@@ -93,11 +103,13 @@ export class ZRomulatorSystemBuilder {
    *
    * @param id -
    *        The unique identifier for the system.
+   *
    * @returns
    *        This instance.
    */
   public id(id: ZRomulatorSystemId): this {
     this._system.id = id;
+
     return this;
   }
 
@@ -106,11 +118,28 @@ export class ZRomulatorSystemBuilder {
    *
    * @param name -
    *        The canonical name of the system.
+   *
    * @returns
    *        This instance.
    */
   public name(name: string): this {
     this._system.name = name;
+
+    return this;
+  }
+
+  /**
+   * Sets the company that published the system.
+   *
+   * @param name -
+   *        The name of the company.
+   *
+   * @returns
+   *        This instance.
+   */
+  public company(name: string): this {
+    this._system.company = name;
+
     return this;
   }
 
@@ -126,6 +155,7 @@ export class ZRomulatorSystemBuilder {
   public hardware(type: ZRomulatorSystemHardwareType): this {
     this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.hardwareType = type;
+
     return this;
   }
 
@@ -141,6 +171,7 @@ export class ZRomulatorSystemBuilder {
   public mediaFormat(type: ZRomulatorSystemMediaFormatType): this {
     this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.mediaFormat = type;
+
     return this;
   }
 
@@ -180,6 +211,7 @@ export class ZRomulatorSystemBuilder {
       this._system.productionYears,
       isUndefined,
     );
+
     return this;
   }
 
@@ -194,7 +226,11 @@ export class ZRomulatorSystemBuilder {
    */
   public extension(extension: string | string[]) {
     const extensions = firstDefined([], this._system.extensions);
-    this._system.extensions = extensions.concat(extension);
+    this._system.extensions = uniqBy<string>(
+      extensions.concat(extension),
+      upperCase,
+    ).map((e) => e.toLowerCase());
+
     return this;
   }
 
@@ -213,19 +249,39 @@ export class ZRomulatorSystemBuilder {
   }
 
   /**
-   * Removes anything that is not a valid property on this object.
+   * Parses an unknown object to try and build a system from it.
+   *
+   * @param candidate -
+   *        The candidate to try and parse.
+   *
+   * @returns
+   *        This object.
    */
-  public redact() {
-    this._system = pick(
-      this._system,
-      "id",
-      "name",
-      "company",
-      "extensions",
-      "classification",
-      "productionYears",
-    );
-    return this;
+  public parse(candidate: unknown) {
+    if (candidate == null || typeof candidate !== "object") {
+      return this;
+    }
+
+    const id = get(candidate, "id");
+    const name = get(candidate, "name");
+    const company = get(candidate, "company");
+    const extensions = castArray(get(candidate, "extensions"))
+      .filter((ext) => ext != null)
+      .filter((ext) => typeof ext === "string");
+
+    if (isSystemId(id)) {
+      this.id(id);
+    }
+
+    if (name != null && typeof name === "string") {
+      this.name(name);
+    }
+
+    if (company != null && typeof company === "string") {
+      this.company(company);
+    }
+
+    return this.extension(extensions);
   }
 
   /**
