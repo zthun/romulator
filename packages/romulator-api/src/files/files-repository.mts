@@ -24,7 +24,7 @@ import { env } from "node:process";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 
-export const ZRomulatorFilesToken = Symbol("files");
+export const ZRomulatorFilesRepositoryToken = Symbol("files-repository");
 
 /**
  * Represents the repository that you can use to

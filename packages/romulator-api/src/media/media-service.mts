@@ -33,7 +33,7 @@ import { createReadStream } from "node:fs";
 import { unlink } from "node:fs/promises";
 import { Readable } from "node:stream";
 import type { IZRomulatorFilesRepository } from "../files/files-repository.mjs";
-import { ZRomulatorFilesToken } from "../files/files-repository.mjs";
+import { ZRomulatorFilesRepositoryToken } from "../files/files-repository.mjs";
 import type { IZRomulatorMediaGenerator } from "./media-generator.mjs";
 import { ZRomulatorMediaGeneratorToken } from "./media-generator.mjs";
 
@@ -53,7 +53,7 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
   public constructor(
     @Inject(ZRomulatorMediaGeneratorToken)
     private _generator: IZRomulatorMediaGenerator,
-    @Inject(ZRomulatorFilesToken)
+    @Inject(ZRomulatorFilesRepositoryToken)
     private _files: IZRomulatorFilesRepository,
     @Inject(ZLoggerToken)
     logger: IZLogger,

@@ -17,7 +17,7 @@ import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { isSystemId, ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import { basename } from "node:path";
 import type { IZRomulatorFilesRepository } from "../files/files-repository.mjs";
-import { ZRomulatorFilesToken } from "../files/files-repository.mjs";
+import { ZRomulatorFilesRepositoryToken } from "../files/files-repository.mjs";
 import type { IZRomulatorFilesSystemsJsonRepository } from "../files/files-system-json-repository.mjs";
 import { ZRomulatorFilesSystemsJsonRepositoryToken } from "../files/files-system-json-repository.mjs";
 
@@ -33,7 +33,7 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   private _logger: IZLogger;
 
   public constructor(
-    @Inject(ZRomulatorFilesToken)
+    @Inject(ZRomulatorFilesRepositoryToken)
     private readonly _filesRepository: IZRomulatorFilesRepository,
     @Inject(ZRomulatorFilesSystemsJsonRepositoryToken)
     private readonly _systemsRepository: IZRomulatorFilesSystemsJsonRepository,

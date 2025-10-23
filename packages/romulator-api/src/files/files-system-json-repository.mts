@@ -10,7 +10,7 @@ import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import { isSystemId, type ZRomulatorSystemId } from "@zthun/romulator-client";
 import { castArray } from "lodash-es";
 import {
-  ZRomulatorFilesToken,
+  ZRomulatorFilesRepositoryToken,
   type IZRomulatorFilesRepository,
 } from "./files-repository.mjs";
 
@@ -48,7 +48,7 @@ export class ZRomulatorFilesSystemsJsonRepository
    * Initializes a new instance of this object.
    */
   public constructor(
-    @Inject(ZRomulatorFilesToken)
+    @Inject(ZRomulatorFilesRepositoryToken)
     private _files: IZRomulatorFilesRepository,
     @Inject(ZLoggerToken)
     logger: IZLogger,

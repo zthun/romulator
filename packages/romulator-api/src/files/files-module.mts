@@ -5,7 +5,7 @@ import { ZRomulatorConfigsModule } from "../config/configs-module.mjs";
 import type { IZRomulatorFilesRepository } from "./files-repository.mjs";
 import {
   ZRomulatorFilesRepository,
-  ZRomulatorFilesToken,
+  ZRomulatorFilesRepositoryToken,
 } from "./files-repository.mjs";
 import {
   ZRomulatorFilesSystemsJsonRepository,
@@ -16,7 +16,7 @@ import {
   imports: [ZFileSystemModule, ZRomulatorConfigsModule, ZLoggerModule],
   providers: [
     {
-      provide: ZRomulatorFilesToken,
+      provide: ZRomulatorFilesRepositoryToken,
       useClass: ZRomulatorFilesRepository,
     },
     {
@@ -24,11 +24,14 @@ import {
       useClass: ZRomulatorFilesSystemsJsonRepository,
     },
   ],
-  exports: [ZRomulatorFilesToken, ZRomulatorFilesSystemsJsonRepositoryToken],
+  exports: [
+    ZRomulatorFilesRepositoryToken,
+    ZRomulatorFilesSystemsJsonRepositoryToken,
+  ],
 })
 export class ZRomulatorFilesModule {
   public constructor(
-    @Inject(ZRomulatorFilesToken)
+    @Inject(ZRomulatorFilesRepositoryToken)
     private readonly _files: IZRomulatorFilesRepository,
   ) {}
 
