@@ -29,10 +29,10 @@
     "@types/node": "^24.9.1",
     "@types/react": "^19.2.2",
     "@types/supertest": "^6.0.3",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@zthun/janitor-build-config": "^19.4.0",
-    "@zthun/janitor-lint": "^19.4.0",
-    "@zthun/janitor-lint-config": "^19.4.0",
+    "@vitest/coverage-v8": "^4.0.1",
+    "@zthun/janitor-build-config": "^19.4.1",
+    "@zthun/janitor-lint": "^19.4.1",
+    "@zthun/janitor-lint-config": "^19.4.1",
     "happy-dom": "^20.0.8",
     "husky": "^9.1.7",
     "lerna": "^9.0.0",
@@ -43,7 +43,7 @@
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vite": "^7.1.11",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.1"
   },
   "resolutions": {
     "rollup": "npm:@rollup/wasm-node@*"

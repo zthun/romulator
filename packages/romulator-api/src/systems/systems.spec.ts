@@ -84,6 +84,10 @@ describe("SystemsApi", () => {
         .contents(new ZRomulatorConfigGamesBuilder().gamesFolder(games).build())
         .build() as Required<IZRomulatorConfig>,
     );
+
+    await fileWriter.write(resolve(info, "systems.json"), {
+      buffer: Buffer.from(JSON.stringify(nesInfo)),
+    });
   });
 
   afterEach(async () => {
@@ -92,10 +96,6 @@ describe("SystemsApi", () => {
 
   beforeAll(async () => {
     await rm(assets, { recursive: true, force: true });
-
-    await fileWriter.write(resolve(info, nesInfo.id, "info.json"), {
-      buffer: Buffer.from(JSON.stringify(nesInfo)),
-    });
 
     await folderWriter.write(media);
     await folderWriter.write(info);
@@ -244,6 +244,43 @@ describe("SystemsApi", () => {
       );
     });
 
+    it("should return the system with just the id if the systems.json file does not exist", async () => {
+      // Arrange.
+      await rm(resolve(info, "systems.json"), { recursive: true, force: true });
+      const target = await createTestTarget();
+      const expected = new ZRomulatorSystemBuilder()
+        .id(ZRomulatorSystemId.Nintendo)
+        .build();
+      const url = `/${endpoint}/${expected.id}`;
+
+      // Act.
+      const actual = await request(target.getHttpServer()).get(url);
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+      expect(actual.body).toEqual(expected);
+    });
+
+    it("should return the system with just the id if the systems.json is corrupted", async () => {
+      // Arrange.
+      await fileWriter.write(resolve(info, "systems.json"), {
+        buffer: Buffer.from("This file is garbage now"),
+      });
+
+      const target = await createTestTarget();
+      const expected = new ZRomulatorSystemBuilder()
+        .id(ZRomulatorSystemId.Nintendo)
+        .build();
+      const url = `/${endpoint}/${expected.id}`;
+
+      // Act.
+      const actual = await request(target.getHttpServer()).get(url);
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+      expect(actual.body).toEqual(expected);
+    });
+
     it("should return a 404 if the system is not supported", async () => {
       // Arrange.
       const target = await createTestTarget();
@@ -266,57 +303,6 @@ describe("SystemsApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeClient.NotFound);
-    });
-
-    it("should read the system metadata", async () => {
-      // Arrange.
-      const target = await createTestTarget();
-      const url = `/${endpoint}/${ZRomulatorSystemId.Nintendo}`;
-
-      // Act.
-      const actual = await request(target.getHttpServer()).get(url);
-
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(nesInfo);
-    });
-
-    it("should not put properties on the metadata if garbage is in the info file", async () => {
-      // Arrange.
-      const url = `/${endpoint}/${ZRomulatorSystemId.Nintendo}`;
-      const withGarbage = {
-        ...structuredClone(nesInfo),
-        "lol-wut": "SECRETS!",
-      };
-      const nfo = resolve(info, nesInfo.id, "info.json");
-      const buffer = Buffer.from(JSON.stringify(withGarbage));
-      await fileWriter.write(nfo, { buffer });
-      const target = await createTestTarget();
-
-      // Act.
-      const actual = await request(target.getHttpServer()).get(url);
-
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(nesInfo);
-    });
-
-    it("should just return the system if the system metadata is not formatted json", async () => {
-      // Arrange.
-      const url = `/${endpoint}/${ZRomulatorSystemId.Nintendo}`;
-      const nfo = resolve(info, nesInfo.id, "info.json");
-      const buffer = Buffer.from('{ "name": "Nintendo", "id": "nes"');
-      await fileWriter.write(nfo, { buffer });
-      const target = await createTestTarget();
-
-      // Act.
-      const actual = await request(target.getHttpServer()).get(url);
-
-      // Assert.
-      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body).toEqual(
-        expect.objectContaining({ id: ZRomulatorSystemId.Nintendo }),
-      );
     });
   });
 });
