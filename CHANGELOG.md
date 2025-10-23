@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0](https://github.com/zthun/romulator/compare/v1.9.0...v1.10.0) (2025-10-23)
+
+
+### Features
+
+* the files system json repository is responsible for reading systems.json and extracting the information ([4bf17c1](https://github.com/zthun/romulator/commit/4bf17c1069bb19eb1cf20b7e8a5cc643de24cfe8))
+
+
+### Bug Fixes
+
+* systems tiles should now scale to the page ([4c28a81](https://github.com/zthun/romulator/commit/4c28a8188d26f8257ef68839ece6ea2f2fa8d167))
+
+
+
 ## [1.9.0](https://github.com/zthun/romulator/compare/v1.8.0...v1.9.0) (2025-10-22)
 
 

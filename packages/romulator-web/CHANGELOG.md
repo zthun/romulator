@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0](https://github.com/zthun/romulator/compare/v1.9.0...v1.10.0) (2025-10-23)
+
+
+### Bug Fixes
+
+* systems tiles should now scale to the page ([4c28a81](https://github.com/zthun/romulator/commit/4c28a8188d26f8257ef68839ece6ea2f2fa8d167))
+
+
+
 ## [1.8.0](https://github.com/zthun/romulator/compare/v1.7.1...v1.8.0) (2025-10-22)
 
 
