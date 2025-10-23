@@ -18,11 +18,6 @@ export class ZRomulatorEnvironmentBuilder {
     };
   }
 
-  public api(url: string) {
-    this._env.api = url;
-    return this;
-  }
-
   public build() {
     return structuredClone(this._env);
   }
