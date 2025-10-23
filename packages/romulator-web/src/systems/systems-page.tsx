@@ -34,11 +34,6 @@ export function ZRomulatorSystemsPage() {
   const [request, setRequest] = useState(DefaultSystemRequest);
 
   const _className = useCss(css`
-    .ZRomulatorSystemsPage-tile {
-      width: 24rem;
-      height: 12rem;
-    }
-
     .ZRomulatorSystemsPage-wheel > img {
       max-width: 23rem;
       max-height: 11rem;
@@ -65,6 +60,7 @@ export function ZRomulatorSystemsPage() {
           justify={{ content: "center" }}
           align={{ items: "center" }}
           height={ZSizeVaried.Full}
+          width={ZSizeVaried.Full}
         >
           <ZImageSource
             className="ZRomulatorSystemsPage-wheel"
@@ -93,10 +89,11 @@ export function ZRomulatorSystemsPage() {
           className="ZRomulatorSystemsPage-root"
           GridProps={{
             columns: {
-              xl: "1fr 1fr 1fr 1fr",
-              lg: "1fr 1fr 1fr",
-              md: "1fr 1fr",
-              sm: "1fr",
+              xl: "1fr 1fr 1fr 1fr 1fr 1fr",
+              lg: "1fr 1fr 1fr 1fr",
+              md: "1fr 1fr 1fr",
+              sm: "1fr 1fr",
+              xs: "1fr",
             },
             gap: ZSizeFixed.Medium,
           }}
