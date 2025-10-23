@@ -235,20 +235,6 @@ export class ZRomulatorSystemBuilder {
   }
 
   /**
-   * Assigns system data to this system.
-   *
-   * @param system -
-   *        The partial system data to assign.
-   *
-   * @returns
-   *        This object.
-   */
-  public assign(system: Partial<IZRomulatorSystem>) {
-    this._system = { ...this._system, ...system };
-    return this;
-  }
-
-  /**
    * Parses an unknown object to try and build a system from it.
    *
    * @param candidate -
