@@ -1,12 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ZStreamFile } from "@zthun/crumbtrail-fs";
-import { createError, mib } from "@zthun/helpful-fn";
-import {
-  ZLogEntryBuilder,
-  ZLoggerContext,
-  type IZLogger,
-} from "@zthun/lumberjacky-log";
-import { ZLoggerToken } from "@zthun/lumberjacky-nest";
+import { firstDefined } from "@zthun/helpful-fn";
 import type {
   IZRomulatorSystem,
   ZRomulatorSystemId,
@@ -44,50 +37,18 @@ export interface IZRomulatorFilesSystemsRepository {
 export class ZRomulatorFilesSystemsRepository
   implements IZRomulatorFilesSystemsRepository
 {
-  private _logger: IZLogger;
-  private _stream = new ZStreamFile({
-    cache: {
-      maxFiles: 1,
-      fileSize: BigInt(mib(5)),
-    },
-  });
-
   /**
    * Initializes a new instance of this object.
    */
   public constructor(
     @Inject(ZRomulatorFilesRepositoryToken)
     private _filesRepository: IZRomulatorFilesRepository,
-    @Inject(ZLoggerToken)
-    logger: IZLogger,
-  ) {
-    this._logger = new ZLoggerContext(
-      "ZRomulatorFilesSystemsRepository",
-      logger,
-    );
-  }
-
-  private async _read(): Promise<unknown[]> {
-    const info = await this._filesRepository.info("systems");
-
-    if (info == null) {
-      return [];
-    }
-
-    try {
-      const contents = await this._stream.read(info.path);
-      const json = JSON.parse(contents.toString());
-      return castArray<unknown>(json);
-    } catch (e) {
-      const err = createError(e);
-      const msg = `Unable to read ${info.path}: ${err.message}`;
-      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
-      return [];
-    }
-  }
+  ) {}
 
   public async systems(): Promise<Map<ZRomulatorSystemId, IZRomulatorSystem>> {
-    const candidates = await this._read();
+    const info = await this._filesRepository.info("systems");
+    const json = await this._filesRepository.json(info);
+    const candidates = castArray(firstDefined([], json));
     const folders = await this._filesRepository.systems();
 
     function hasId(candidate: any): candidate is { id: string } {
