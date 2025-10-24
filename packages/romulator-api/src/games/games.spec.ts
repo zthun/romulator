@@ -40,7 +40,7 @@ import {
 } from "../config/configs-service.mjs";
 import { ZRomulatorGamesModule } from "./games-module.mjs";
 
-describe.skip("GamesApi", () => {
+describe("GamesApi", () => {
   const endpoint = "games";
   const assets = resolve(__dirname, "../../.test.games-api");
   const info = resolve(assets, ".info");
@@ -203,7 +203,6 @@ describe.skip("GamesApi", () => {
     });
 
     it("should list all games if search is white space", async () => {
-      // Arrange.
       // Arrange.
       const target = await createTestTarget();
 

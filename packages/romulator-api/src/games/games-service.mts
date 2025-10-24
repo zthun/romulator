@@ -20,8 +20,10 @@ import type {
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
 import type { IZRestfulGet } from "@zthun/webigail-rest";
-import type { IZRomulatorFilesGamesRepository } from "../files/files-games-repository.mjs";
-import { ZRomulatorFilesGamesRepositoryToken } from "../files/files-games-repository.mjs";
+import {
+  ZRomulatorFilesGamesRepositoryToken,
+  type IZRomulatorFilesGamesRepository,
+} from "../files/files-games-repository.mjs";
 import {
   ZRomulatorFilesSystemsRepositoryToken,
   type IZRomulatorFilesSystemsRepository,
@@ -41,7 +43,7 @@ export class ZRomulatorGamesService implements IZRomulatorGamesService {
     @Inject(ZRomulatorFilesSystemsRepositoryToken)
     private readonly _systemsRepository: IZRomulatorFilesSystemsRepository,
     @Inject(ZRomulatorFilesGamesRepositoryToken)
-    private readonly _gamesRepository: IZRomulatorFilesGamesRepository,
+    private readonly _filesRepository: IZRomulatorFilesGamesRepository,
     @Inject(ZLoggerToken)
     readonly logger: IZLogger,
   ) {
@@ -53,7 +55,7 @@ export class ZRomulatorGamesService implements IZRomulatorGamesService {
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
     const systems = await this._systemsRepository.systems();
-    const games = await this._gamesRepository.games();
+    const games = await this._filesRepository.games();
 
     const match = (data: IZRomulatorGame, filter: string): boolean => {
       const needle = filter?.trim().toLowerCase();
