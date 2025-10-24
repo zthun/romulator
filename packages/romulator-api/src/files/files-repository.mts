@@ -10,14 +10,18 @@ import { detokenize, firstDefined } from "@zthun/helpful-fn";
 import {
   ZDataRequestBuilder,
   ZFilterBinaryBuilder,
+  ZFilterCollectionBuilder,
+  ZFilterLogicBuilder,
   ZSortBuilder,
 } from "@zthun/helpful-query";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import {
   ZRomulatorConfigGamesBuilder,
   ZRomulatorConfigGamesMetadata,
   ZRomulatorConfigId,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
+import { flatten, trimStart } from "lodash-es";
 import { resolve } from "node:path";
 import { env } from "node:process";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
@@ -48,6 +52,18 @@ export interface IZRomulatorFilesRepository {
    *        A list of all system folders found in the games folder.
    */
   systems(): Promise<IZFileSystemNode[]>;
+
+  /**
+   * Retrieves all games for the given systems list.
+   *
+   * @param systems -
+   *        The list of systems to query games by.
+   *
+   * @returns
+   *        A list of file system nodes that represent a game
+   *        in the system directory.
+   */
+  games(systems: IZRomulatorSystem[]): Promise<IZFileSystemNode[]>;
 
   /**
    * Retrieves the file that represents the systems info or games info
@@ -170,5 +186,36 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
       cwd: games,
       stat: false,
     });
+  }
+
+  public async games(systems: IZRomulatorSystem[]) {
+    const repository = await this.init();
+    const folder = await this.gamesFolder();
+
+    const queries = systems.map((s) => {
+      const dir = `${folder}/${s.id}`;
+
+      const byExtension = new ZFilterCollectionBuilder()
+        .subject("extension")
+        .in()
+        .values(s.extensions.map((e) => `.${trimStart(e, ".")}`))
+        .build();
+      const inPath = new ZFilterBinaryBuilder()
+        .subject("parent")
+        .equal()
+        .value(dir)
+        .build();
+      const filter = new ZFilterLogicBuilder()
+        .and()
+        .clause(inPath)
+        .clause(byExtension)
+        .build();
+      const request = new ZDataRequestBuilder().filter(filter).build();
+      return repository.retrieve(request);
+    });
+
+    const results = await Promise.all(queries);
+
+    return flatten(results);
   }
 }
