@@ -1,4 +1,4 @@
-import { isUndefined, omitBy } from "lodash-es";
+import { get, isUndefined, omitBy } from "lodash-es";
 import type { ZRomulatorSystemId } from "../system/system-id.mjs";
 
 /**
@@ -87,6 +87,30 @@ export class ZRomulatorGameBuilder {
    */
   public system(system: ZRomulatorSystemId): this {
     this._game.system = system;
+    return this;
+  }
+
+  /**
+   * Attempts to parse a game from a game entry in a system.json game
+   * list.
+   *
+   * @param candidate -
+   *        The candidate to parse.
+   *
+   * @returns
+   *        This object.
+   */
+  public parse(candidate: unknown): this {
+    if (candidate == null || typeof candidate !== "object") {
+      return this;
+    }
+
+    const name = get(candidate, "name");
+
+    if (name != null && typeof name === "string") {
+      this.name(name);
+    }
+
     return this;
   }
 
