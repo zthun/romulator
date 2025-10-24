@@ -2,6 +2,10 @@ import { Inject, Module } from "@nestjs/common";
 import { ZFileSystemModule } from "@zthun/crumbtrail-nest";
 import { ZLoggerModule } from "@zthun/lumberjacky-nest";
 import { ZRomulatorConfigsModule } from "../config/configs-module.mjs";
+import {
+  ZRomulatorFilesGamesRepository,
+  ZRomulatorFilesGamesRepositoryToken,
+} from "./files-games-repository.mjs";
 import type { IZRomulatorFilesRepository } from "./files-repository.mjs";
 import {
   ZRomulatorFilesRepository,
@@ -23,10 +27,15 @@ import {
       provide: ZRomulatorFilesSystemsRepositoryToken,
       useClass: ZRomulatorFilesSystemsRepository,
     },
+    {
+      provide: ZRomulatorFilesGamesRepositoryToken,
+      useClass: ZRomulatorFilesGamesRepository,
+    },
   ],
   exports: [
     ZRomulatorFilesRepositoryToken,
     ZRomulatorFilesSystemsRepositoryToken,
+    ZRomulatorFilesGamesRepositoryToken,
   ],
 })
 export class ZRomulatorFilesModule {
