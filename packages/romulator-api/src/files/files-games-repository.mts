@@ -1,8 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import type {
-  IZRomulatorSystem,
-  ZRomulatorSystemId,
-} from "@zthun/romulator-client";
+import type { IZRomulatorGame } from "@zthun/romulator-client";
 
 export const ZRomulatorFilesGamesRepositoryToken = Symbol(
   "files-games-repository",
@@ -23,14 +20,14 @@ export interface IZRomulatorFilesGamesRepository {
    *        directory decorated with the content data in the matching
    *        system json file in the .info directory.
    */
-  games(): Promise<Map<string, IZRomulatorSystem>>;
+  games(): Promise<Map<string, IZRomulatorGame>>;
 }
 
 @Injectable()
 export class ZRomulatorFilesGamesRepository
   implements IZRomulatorFilesGamesRepository
 {
-  public async games(): Promise<Map<ZRomulatorSystemId, IZRomulatorSystem>> {
+  public async games(): Promise<Map<string, IZRomulatorGame>> {
     return new Map();
   }
 }
