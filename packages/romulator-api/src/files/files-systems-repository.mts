@@ -7,34 +7,42 @@ import {
   type IZLogger,
 } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
-import { isSystemId, type ZRomulatorSystemId } from "@zthun/romulator-client";
+import type {
+  IZRomulatorSystem,
+  ZRomulatorSystemId,
+} from "@zthun/romulator-client";
+import { isSystemId, ZRomulatorSystemBuilder } from "@zthun/romulator-client";
 import { castArray } from "lodash-es";
+import { basename } from "node:path";
 import {
   ZRomulatorFilesRepositoryToken,
   type IZRomulatorFilesRepository,
 } from "./files-repository.mjs";
 
-export const ZRomulatorFilesSystemsJsonRepositoryToken = Symbol(
-  "files-systems-json-repository",
+export const ZRomulatorFilesSystemsRepositoryToken = Symbol(
+  "files-systems-repository",
 );
 
 /**
- * A repository responsible for reading systems.json from the games info directory.
+ * A repository responsible for joining IZFileSystemNode objects
+ * with the contents of system.json.
  */
-export interface IZRomulatorFilesSystemsJsonRepository {
+export interface IZRomulatorFilesSystemsRepository {
   /**
-   * Reads all system entries in the systems.json file and returns a mapping.
+   * Reads all system entries in the systems.json file and combines
+   * them with the existing system list in the games directory
    *
    * @returns
-   *        A mapping of system ids to system entries.  Any corrupted entries
-   *        or entries that are not supported will be excluded from this map.
+   *        A list of all the systems that are in the games
+   *        directory decorated with the content data in systems.json
+   *        in the .info directory.
    */
-  systems(): Promise<Map<ZRomulatorSystemId, unknown>>;
+  systems(): Promise<IZRomulatorSystem[]>;
 }
 
 @Injectable()
-export class ZRomulatorFilesSystemsJsonRepository
-  implements IZRomulatorFilesSystemsJsonRepository
+export class ZRomulatorFilesSystemsRepository
+  implements IZRomulatorFilesSystemsRepository
 {
   private _logger: IZLogger;
   private _stream = new ZStreamFile({
@@ -49,15 +57,18 @@ export class ZRomulatorFilesSystemsJsonRepository
    */
   public constructor(
     @Inject(ZRomulatorFilesRepositoryToken)
-    private _files: IZRomulatorFilesRepository,
+    private _filesRepository: IZRomulatorFilesRepository,
     @Inject(ZLoggerToken)
     logger: IZLogger,
   ) {
-    this._logger = new ZLoggerContext("ZRomulatorSystemsRepository", logger);
+    this._logger = new ZLoggerContext(
+      "ZRomulatorFilesSystemsRepository",
+      logger,
+    );
   }
 
   private async _read(): Promise<unknown[]> {
-    const info = await this._files.info("systems");
+    const info = await this._filesRepository.info("systems");
 
     if (info == null) {
       return [];
@@ -75,8 +86,9 @@ export class ZRomulatorFilesSystemsJsonRepository
     }
   }
 
-  public async systems(): Promise<Map<ZRomulatorSystemId, unknown>> {
+  public async systems(): Promise<IZRomulatorSystem[]> {
     const candidates = await this._read();
+    const folders = await this._filesRepository.systems();
 
     function hasId(candidate: any): candidate is { id: string } {
       return Object.prototype.hasOwnProperty.call(candidate, "id");
@@ -87,6 +99,14 @@ export class ZRomulatorFilesSystemsJsonRepository
       .filter((c) => isSystemId(c.id))
       .map((c) => [c.id as ZRomulatorSystemId, c as unknown]);
 
-    return Promise.resolve(new Map(entries));
+    const lookup = new Map(entries);
+
+    return folders
+      .map((folder) => folder.path)
+      .map((path) => basename(path))
+      .filter((slug) => isSystemId(slug))
+      .map((slug) =>
+        new ZRomulatorSystemBuilder().parse(lookup.get(slug)).id(slug).build(),
+      );
   }
 }

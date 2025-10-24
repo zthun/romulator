@@ -8,9 +8,9 @@ import {
   ZRomulatorFilesRepositoryToken,
 } from "./files-repository.mjs";
 import {
-  ZRomulatorFilesSystemsJsonRepository,
-  ZRomulatorFilesSystemsJsonRepositoryToken,
-} from "./files-system-json-repository.mjs";
+  ZRomulatorFilesSystemsRepository,
+  ZRomulatorFilesSystemsRepositoryToken,
+} from "./files-systems-repository.mjs";
 
 @Module({
   imports: [ZFileSystemModule, ZRomulatorConfigsModule, ZLoggerModule],
@@ -20,13 +20,13 @@ import {
       useClass: ZRomulatorFilesRepository,
     },
     {
-      provide: ZRomulatorFilesSystemsJsonRepositoryToken,
-      useClass: ZRomulatorFilesSystemsJsonRepository,
+      provide: ZRomulatorFilesSystemsRepositoryToken,
+      useClass: ZRomulatorFilesSystemsRepository,
     },
   ],
   exports: [
     ZRomulatorFilesRepositoryToken,
-    ZRomulatorFilesSystemsJsonRepositoryToken,
+    ZRomulatorFilesSystemsRepositoryToken,
   ],
 })
 export class ZRomulatorFilesModule {
