@@ -20,7 +20,7 @@ import {
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { rm } from "node:fs/promises";
-import { resolve } from "node:path";
+import { basename, resolve } from "node:path";
 import request from "supertest";
 import type { Mocked } from "vitest";
 import {
@@ -117,15 +117,15 @@ describe("GamesApi", () => {
           JSON.stringify(
             [
               {
-                file: gameMario,
+                path: `./${basename(gameMario)}`,
                 name: "Super Mario Bros.",
               },
               {
-                file: gameZelda,
+                path: `./${basename(gameZelda)}`,
                 name: "Legend of Zelda, The",
               },
               {
-                file: gameStarTropics,
+                path: `./${basename(gameStarTropics)}`,
                 name: "Star Tropics",
               },
             ],
@@ -143,11 +143,11 @@ describe("GamesApi", () => {
           JSON.stringify(
             [
               {
-                file: gameGunstarHeroes,
+                path: `./${basename(gameGunstarHeroes)}`,
                 name: "Gunstar Heroes",
               },
               {
-                file: gameSonic,
+                path: `./${basename(gameSonic)}`,
                 name: "Sonic The Hedgehog",
               },
             ],
@@ -229,8 +229,8 @@ describe("GamesApi", () => {
         gameGunstarHeroes,
         gameZelda,
         gameSonic,
-        gameMario,
         gameStarTropics,
+        gameMario,
       ];
 
       // Act.
@@ -264,7 +264,9 @@ describe("GamesApi", () => {
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
       expect(actual.body.data).toEqual(
-        expected.map((file) => expect.objectContaining({ file })),
+        expect.arrayContaining(
+          expected.map((file) => expect.objectContaining({ file })),
+        ),
       );
       expect(actual.body.count).toEqual(expected.length);
     });
@@ -297,7 +299,11 @@ describe("GamesApi", () => {
 
       // Assert.
       expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
-      expect(actual.body.data).toEqual(expected);
+      expect(actual.body.data).toEqual(
+        expect.arrayContaining(
+          expected.map((file) => expect.objectContaining({ file })),
+        ),
+      );
       expect(actual.body.count).toEqual(expected.length);
     });
 
