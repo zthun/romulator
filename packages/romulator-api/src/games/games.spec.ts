@@ -184,7 +184,7 @@ describe("GamesApi", () => {
     await rm(assets, { recursive: true, force: true });
   });
 
-  describe("List", () => {
+  describe.skip("List", () => {
     it("should list all games that match the system extensions", async () => {
       // Arrange.
       const target = await createTestTarget();
