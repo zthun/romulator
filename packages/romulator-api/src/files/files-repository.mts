@@ -18,7 +18,6 @@ import {
   ZRomulatorConfigId,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
-import { first } from "lodash-es";
 import { resolve } from "node:path";
 import { env } from "node:process";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
@@ -49,21 +48,6 @@ export interface IZRomulatorFilesRepository {
    *        A list of all system folders found in the games folder.
    */
   systems(): Promise<IZFileSystemNode[]>;
-
-  /**
-   * Retrieves a single system found in the games folder.
-   *
-   * @param id -
-   *        The id of the system, which is also the name of the folder.
-   *
-   * @returns
-   *        The node that represents the system slug.  Returns null if
-   *        the folder does not exist or is not supported.  Note
-   *        that the path is relative to the configured games folder. If you
-   *        want to supply a fully qualified absolute path, then this string
-   *        should start with the root of an OS drive (not recommended).
-   */
-  systems(id: ZRomulatorSystemId): Promise<IZFileSystemNode | null>;
 
   /**
    * Retrieves the file that represents the systems info or games info
@@ -173,9 +157,7 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     return this._repository.get(path);
   }
 
-  public systems(): Promise<IZFileSystemNode[]>;
-  public systems(id: ZRomulatorSystemId): Promise<IZFileSystemNode | null>;
-  public async systems(id?: ZRomulatorSystemId) {
+  public async systems() {
     // Systems use directories.  There's a maximum limit of about 200 systems.
     // Since we don't actually need to read any metadata or scan through thousands
     // of unknown folders, we can use the supported system ids to just grab the
@@ -183,13 +165,10 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     // grab the systems from the file system and it should be fast enough.  These are all
     // folders, so we don't even need the stats for them and we can assume folders.
     const games = await this.gamesFolder();
-    const folders =
-      id == null ? this._systems.map((s) => `${s}/`) : resolve(games, id);
-    const items = await this._fileSystem.search(folders, {
+    const folders = this._systems.map((s) => `${s}/`);
+    return await this._fileSystem.search(folders, {
       cwd: games,
       stat: false,
     });
-
-    return id == null ? items : firstDefined(null, first(items));
   }
 }
