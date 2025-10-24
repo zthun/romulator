@@ -37,7 +37,7 @@ export interface IZRomulatorFilesSystemsRepository {
    *        directory decorated with the content data in systems.json
    *        in the .info directory.
    */
-  systems(): Promise<IZRomulatorSystem[]>;
+  systems(): Promise<Map<ZRomulatorSystemId, IZRomulatorSystem>>;
 }
 
 @Injectable()
@@ -86,7 +86,7 @@ export class ZRomulatorFilesSystemsRepository
     }
   }
 
-  public async systems(): Promise<IZRomulatorSystem[]> {
+  public async systems(): Promise<Map<ZRomulatorSystemId, IZRomulatorSystem>> {
     const candidates = await this._read();
     const folders = await this._filesRepository.systems();
 
@@ -101,12 +101,14 @@ export class ZRomulatorFilesSystemsRepository
 
     const lookup = new Map(entries);
 
-    return folders
+    const systems = folders
       .map((folder) => folder.path)
       .map((path) => basename(path))
       .filter((slug) => isSystemId(slug))
       .map((slug) =>
         new ZRomulatorSystemBuilder().parse(lookup.get(slug)).id(slug).build(),
       );
+
+    return new Map(systems.map((s) => [s.id, s]));
   }
 }

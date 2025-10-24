@@ -46,7 +46,9 @@ export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
     let msg = `Retrieving systems page, ${page}, with size, ${size}.`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
-    const systems = await this._systemsRepository.systems();
+    const systemMap = await this._systemsRepository.systems();
+    const systems = systemMap.values().toArray();
+
     msg = `Found ${systems.length} systems`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
