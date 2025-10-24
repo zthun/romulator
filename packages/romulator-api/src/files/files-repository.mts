@@ -4,9 +4,14 @@ import type {
   IZFileSystemNode,
   IZFileSystemService,
 } from "@zthun/crumbtrail-fs";
-import { ZFileRepository, ZStreamFolder } from "@zthun/crumbtrail-fs";
+import {
+  ZFileRepository,
+  ZStreamFile,
+  ZStreamFolder,
+} from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import { detokenize, firstDefined } from "@zthun/helpful-fn";
+import type { ZOptional } from "@zthun/helpful-fn";
+import { createError, detokenize, firstDefined, mib } from "@zthun/helpful-fn";
 import {
   ZDataRequestBuilder,
   ZFilterBinaryBuilder,
@@ -14,6 +19,12 @@ import {
   ZFilterLogicBuilder,
   ZSortBuilder,
 } from "@zthun/helpful-query";
+import {
+  ZLogEntryBuilder,
+  ZLoggerContext,
+  type IZLogger,
+} from "@zthun/lumberjacky-log";
+import { ZLoggerToken } from "@zthun/lumberjacky-nest";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import {
   ZRomulatorConfigGamesBuilder,
@@ -34,6 +45,33 @@ export const ZRomulatorFilesRepositoryToken = Symbol("files-repository");
  * scan the games folder for media, info, games, and systems.
  */
 export interface IZRomulatorFilesRepository {
+  /**
+   * The absolute path to the configured games
+   * folder.
+   *
+   * @returns
+   *        The absolute path to the games folder.
+   */
+  gamesFolder(): Promise<string>;
+
+  /**
+   * The path to the media folder.
+   *
+   * @returns
+   *        The path to the .media folder inside the
+   *        games folder.
+   */
+  mediaFolder(): Promise<string>;
+
+  /**
+   * The path to the info folder.
+   *
+   * @returns
+   *        The path to the .info folder inside the
+   *        games folder.
+   */
+  infoFolder(): Promise<string>;
+
   /**
    * Retrieves all media found in the games .media folder.
    *
@@ -80,6 +118,17 @@ export interface IZRomulatorFilesRepository {
   info(id: "systems" | ZRomulatorSystemId): Promise<IZFileSystemNode | null>;
 
   /**
+   * Reads a file and returns the json representation.
+   *
+   * @param node -
+   *        The node to read.  If this is falsy, then null is returned.
+   *
+   * @returns
+   *        The file contents as json, or null if the contents cannot be read.
+   */
+  json(node: ZOptional<IZFileSystemNode>): Promise<unknown>;
+
+  /**
    * Initializes the file repository.
    */
   init(): Promise<any>;
@@ -95,8 +144,16 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
   private static readonly MediaFolderName = ".media";
   private static readonly InfoFolderName = ".info";
 
+  private _logger: IZLogger;
   private _repository: ZFileRepository = new ZFileRepository();
   private _folderStream = new ZStreamFolder();
+  private _fileStream = new ZStreamFile({
+    cache: {
+      fileSize: BigInt(mib(1)),
+      maxFiles: 250,
+    },
+  });
+
   private _globs: string[];
   private _systems: string[];
 
@@ -105,13 +162,16 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     private readonly _configs: IZRomulatorConfigsService,
     @Inject(ZFileSystemToken)
     private readonly _fileSystem: IZFileSystemService,
+    @Inject(ZLoggerToken)
+    readonly logger: IZLogger,
   ) {
     const slugs = Object.values(ZRomulatorSystemId);
     this._globs = [".media/**", ".info/**", ...slugs.map((s) => `${s}/*.*`)];
     this._systems = Object.values(ZRomulatorSystemId);
+    this._logger = new ZLoggerContext("ZRomulatorFilesRepository", logger);
   }
 
-  private async gamesFolder() {
+  public async gamesFolder() {
     const config = await this._configs.get(ZRomulatorConfigId.Games);
     const { gamesFolder } = new ZRomulatorConfigGamesBuilder()
       .copy(config.contents)
@@ -121,12 +181,12 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     return detokenize(_gamesFolder, env);
   }
 
-  private async mediaFolder() {
+  public async mediaFolder() {
     const gamesFolder = await this.gamesFolder();
     return resolve(gamesFolder, ZRomulatorFilesRepository.MediaFolderName);
   }
 
-  private async infoFolder() {
+  public async infoFolder() {
     const gamesFolder = await this.gamesFolder();
     return resolve(gamesFolder, ZRomulatorFilesRepository.InfoFolderName);
   }
@@ -171,6 +231,22 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     const path = resolve(folder, `${id}.json`);
 
     return this._repository.get(path);
+  }
+
+  public async json(node: IZFileSystemNode): Promise<unknown> {
+    if (node == null) {
+      return null;
+    }
+
+    try {
+      const contents = await this._fileStream.read(node.path);
+      return JSON.parse(contents.toString());
+    } catch (e) {
+      const err = createError(e);
+      const msg = `Unable to read ${node.path}: ${err.message}`;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
+      return null;
+    }
   }
 
   public async systems() {
