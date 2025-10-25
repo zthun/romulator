@@ -21,7 +21,7 @@ import {
   ZRomulatorSystemContentType,
   ZRomulatorSystemHardwareType,
   ZRomulatorSystemId,
-  ZRomulatorSystemMediaFormatType,
+  ZRomulatorSystemMediaFormat,
 } from "@zthun/romulator-client";
 import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { rm } from "node:fs/promises";
@@ -61,7 +61,7 @@ describe("SystemsApi", () => {
     .id(ZRomulatorSystemId.Nintendo)
     .name("Nintendo NES")
     .hardware(ZRomulatorSystemHardwareType.Console)
-    .mediaFormat(ZRomulatorSystemMediaFormatType.Cartridge)
+    .mediaFormat(ZRomulatorSystemMediaFormat.Cartridge)
     .contentType(ZRomulatorSystemContentType.ReadOnlyMemory)
     .production(1983, 1995)
     .extension("nes")
