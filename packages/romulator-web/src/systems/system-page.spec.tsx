@@ -172,6 +172,18 @@ describe("SystemPage", () => {
       expect(actual).toBeTruthy();
     });
 
+    it("should render the system media card", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+      await target.load();
+
+      // Act.
+      const actual = target.media();
+
+      // Assert.
+      expect(actual).toBeTruthy();
+    });
+
     it("should render the games list", async () => {
       // Arrange.
       const target = await createTestTarget();
