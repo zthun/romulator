@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0](https://github.com/zthun/romulator/compare/v1.11.0...v1.12.0) (2025-10-25)
+
+
+### Features
+
+* add the system key values to the information card ([3cf7e92](https://github.com/zthun/romulator/commit/3cf7e92edeb45b44c97822b0fc5e5be9da0ec986))
+* classification types now support unknown ([d366ba3](https://github.com/zthun/romulator/commit/d366ba32d47cba6d372701e728965a74dda6c2fb))
+* system builder can now parse the production years ([6db05a6](https://github.com/zthun/romulator/commit/6db05a68eb0fa4bf3d084a32e939bf57260fcbd3))
+* system now parses the classification from systems.json ([3208350](https://github.com/zthun/romulator/commit/3208350e8f47fdc944607f1e0a46622ec9f46537))
+
+
+
 ## [1.11.0](https://github.com/zthun/romulator/compare/v1.10.0...v1.11.0) (2025-10-25)
 
 
