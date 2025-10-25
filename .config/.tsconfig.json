@@ -15,6 +15,6 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
-    "target": "esnext"
+    "target": "es2020"
   }
 }
