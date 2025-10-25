@@ -119,13 +119,14 @@ describe("ZRomulatorSystem", () => {
     describe("Extensions", () => {
       it("should set the extensions", () => {
         const extensions = ["7z", "nes", "zip"];
+        const expected = [".7z", ".nes", ".zip"];
         expect(
           createTestTarget().parse({ extensions }).build().extensions,
-        ).toEqual(expect.arrayContaining(extensions));
+        ).toEqual(expect.arrayContaining(expected));
       });
 
       it("should keep the extensions if the extension list is not an array", () => {
-        const extensions = ["7z", "nes", "zip"];
+        const extensions = [".7z", ".nes", ".zip"];
         expect(
           createTestTarget().parse({ extensions }).build().extensions,
         ).toEqual(expect.arrayContaining(extensions));
@@ -133,7 +134,7 @@ describe("ZRomulatorSystem", () => {
 
       it("should add one extension if the extension list is a single string", () => {
         const extensions = "nes";
-        const expected = ["zip", "7z", "nes"];
+        const expected = [".zip", ".7z", ".nes"];
         expect(
           createTestTarget().parse({ extensions }).build().extensions,
         ).toEqual(expect.arrayContaining(expected));
@@ -141,7 +142,7 @@ describe("ZRomulatorSystem", () => {
 
       it("should keep the extension list unique", () => {
         const extensions = ["zip", "nes", "nes"];
-        const expected = ["zip", "7z", "nes"];
+        const expected = [".zip", ".7z", ".nes"];
         const { extensions: actual } = createTestTarget()
           .parse({ extensions })
           .build();
@@ -151,7 +152,7 @@ describe("ZRomulatorSystem", () => {
       });
 
       it("should always add zip and 7z", () => {
-        const extensions = ["zip", "7z"];
+        const extensions = [".zip", ".7z"];
         expect(createTestTarget().parse({}).build().extensions).toEqual(
           expect.arrayContaining(extensions),
         );
@@ -159,7 +160,7 @@ describe("ZRomulatorSystem", () => {
 
       it("should be case insensitive", () => {
         const extensions = ["NES", "nes"];
-        const expected = ["7z", "zip", "nes"];
+        const expected = [".7z", ".zip", ".nes"];
 
         expect(
           createTestTarget().parse({ extensions }).build().extensions,

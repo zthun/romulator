@@ -32,7 +32,7 @@ import {
   ZRomulatorConfigId,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
-import { flatten, trimStart } from "lodash-es";
+import { flatten } from "lodash-es";
 import { resolve } from "node:path";
 import { env } from "node:process";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
@@ -274,7 +274,7 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
       const byExtension = new ZFilterCollectionBuilder()
         .subject("extension")
         .in()
-        .values(s.extensions.map((e) => `.${trimStart(e, ".")}`))
+        .values(s.extensions)
         .build();
       const inPath = new ZFilterBinaryBuilder()
         .subject("parent")

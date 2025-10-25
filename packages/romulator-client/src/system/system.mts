@@ -1,5 +1,5 @@
-import { firstDefined } from "@zthun/helpful-fn";
-import { castArray, get, uniqBy, upperCase } from "lodash-es";
+import { castExtension } from "@zthun/helpful-fn";
+import { castArray, get, lowerCase, uniqBy } from "lodash-es";
 import {
   isSystemContentType,
   ZRomulatorSystemContentType,
@@ -116,7 +116,7 @@ export class ZRomulatorSystemBuilder {
       end: "current",
     },
 
-    extensions: ["zip", "7z"],
+    extensions: [".zip", ".7z"],
   };
 
   /**
@@ -268,11 +268,13 @@ export class ZRomulatorSystemBuilder {
    *        This object.
    */
   public extension(extension: string | string[]) {
-    const extensions = firstDefined([], this._system.extensions);
-    this._system.extensions = uniqBy<string>(
-      extensions.concat(extension),
-      upperCase,
-    ).map((e) => e.toLowerCase());
+    const { extensions: current } = this._system;
+    const extensions = castArray(extension).map((e) => castExtension(e));
+    const unique = uniqBy(current.concat(extensions), lowerCase);
+
+    this._system.extensions = unique
+      .filter((e) => e != null)
+      .map((e) => e?.toLowerCase());
 
     return this;
   }
@@ -300,7 +302,8 @@ export class ZRomulatorSystemBuilder {
   private parseExtensions(candidate: object) {
     const extensions = castArray(get(candidate, "extensions"))
       .filter((ext) => ext != null)
-      .filter((ext) => typeof ext === "string");
+      .filter((ext) => typeof ext === "string")
+      .map((ext) => castExtension(ext));
 
     return this.extension(extensions);
   }
