@@ -35,6 +35,10 @@ export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
     return ZCircusBy.optional(this.driver, ZCardComponentModel, "system-info");
   }
 
+  public media(): Promise<ZCardComponentModel | null> {
+    return ZCircusBy.optional(this.driver, ZCardComponentModel, "system-media");
+  }
+
   private async fieldValue(key: string): Promise<string> {
     const klass = `.ZRomulatorSystemPage-${kebabCase(key)}`;
     const element = await this.driver.select(klass);

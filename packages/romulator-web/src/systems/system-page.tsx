@@ -3,10 +3,13 @@ import {
   useParams,
   ZAlert,
   ZBreadcrumbsLocation,
+  ZBubble,
   ZCaption,
   ZCard,
+  ZCarousel,
   ZGrid,
   ZIconFontAwesome,
+  ZImageSource,
   ZLabel,
   ZStack,
   ZSuspenseProgress,
@@ -22,13 +25,19 @@ import {
   isStateLoading,
   useSyncState,
 } from "@zthun/helpful-react";
+import type {
+  IZRomulatorSystem,
+  ZRomulatorMediaType,
+} from "@zthun/romulator-client";
 import {
   ZRomulatorSystemContentType,
   ZRomulatorSystemHardwareType,
   ZRomulatorSystemMediaFormat,
+  ZRomulatorSystemMediaType,
 } from "@zthun/romulator-client";
 import { kebabCase, startCase } from "lodash-es";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 import { ZRomulatorGamesList } from "../games/games-list.js";
 import { useSystem } from "./systems-service.mjs";
 
@@ -66,6 +75,7 @@ export function ZRomulatorSystemPage() {
   const { id } = useParams();
   const { error } = useFashionTheme();
   const [system] = useSystem(firstDefined("", id));
+  const [mediaIndex, setMediaIndex] = useState(0);
   const gameFilter = useMemo(
     () =>
       new ZFilterBinaryBuilder().subject("system").equal().value(id).build(),
@@ -73,7 +83,7 @@ export function ZRomulatorSystemPage() {
   );
 
   const baseGameRequest = useMemo(
-    () => new ZDataRequestBuilder().size(12).filter(gameFilter).build(),
+    () => new ZDataRequestBuilder().size(36).filter(gameFilter).build(),
     [gameFilter],
   );
 
@@ -96,6 +106,113 @@ export function ZRomulatorSystemPage() {
     </>
   );
 
+  const renderSystemInfoCard = (system: IZRomulatorSystem) => {
+    const { name, company, classification, productionYears } = system;
+    const { hardwareType, mediaFormat, contentType } = classification;
+    const { start, end } = productionYears;
+
+    const _hardware = HardwareTypeDisplay[hardwareType];
+    const _media = MediaFormatDisplay[mediaFormat];
+    const _content = ContentTypeDisplay[contentType];
+
+    return (
+      <ZCard
+        name="system-info"
+        TitleProps={{
+          avatar: (
+            <ZIconFontAwesome name="puzzle-piece" width={ZSizeFixed.Medium} />
+          ),
+          heading: "Information",
+          subHeading: "Details about this system",
+        }}
+      >
+        <ZGrid
+          columns="auto auto"
+          gap={ZSizeFixed.Medium}
+          width={ZSizeVaried.Fit}
+          align={{ items: "center" }}
+        >
+          {renderSystemInfoField("Name", name)}
+          {renderSystemInfoField("Company", company)}
+          {renderSystemInfoField("Hardware Type", hardwareType, _hardware)}
+          {renderSystemInfoField("Media Format", mediaFormat, _media)}
+          {renderSystemInfoField("Content Type", contentType, _content)}
+          {renderSystemInfoField("Production Start", String(start))}
+          {renderSystemInfoField(
+            "Production End",
+            String(end),
+            startCase(String(end)),
+          )}
+        </ZGrid>
+      </ZCard>
+    );
+  };
+
+  const renderSystemGameListCard = (system: IZRomulatorSystem) => {
+    const { extensions } = system;
+
+    return (
+      <ZCard
+        name="game-list"
+        TitleProps={{
+          avatar: <ZIconFontAwesome name="gamepad" width={ZSizeFixed.Medium} />,
+          heading: "Games",
+          subHeading: extensions.join(", "),
+        }}
+      >
+        <ZRomulatorGamesList
+          value={userRequest}
+          onValueChange={setGameRequest}
+        />
+      </ZCard>
+    );
+  };
+
+  const renderSystemMedia = (
+    type: ZRomulatorMediaType,
+    system: IZRomulatorSystem,
+  ) => {
+    const { api } = new ZRomulatorEnvironmentBuilder().build();
+    const id = `${system.id}-${type}`;
+    const media = `${api}/media/${id}`;
+
+    return (
+      <ZBubble width={ZSizeFixed.ExtraLarge}>
+        <ZImageSource
+          className="ZRomulatorSystemsPage-wheel"
+          src={media}
+          width={ZSizeVaried.Full}
+        />
+      </ZBubble>
+    );
+  };
+
+  const renderSystemMediaCard = (system: IZRomulatorSystem) => {
+    const media = [
+      ZRomulatorSystemMediaType.Picture,
+      ZRomulatorSystemMediaType.Controller,
+      ZRomulatorSystemMediaType.Wheel,
+    ];
+
+    return (
+      <ZCard
+        name="system-media"
+        TitleProps={{
+          avatar: <ZIconFontAwesome name="image" width={ZSizeFixed.Medium} />,
+          heading: "Media",
+          subHeading: startCase(media[mediaIndex]),
+        }}
+      >
+        <ZCarousel
+          count={media.length}
+          renderAtIndex={(i) => renderSystemMedia(media[i], system)}
+          value={mediaIndex}
+          onValueChange={setMediaIndex}
+        />
+      </ZCard>
+    );
+  };
+
   const renderPageContent = () => {
     if (isStateLoading(system)) {
       return (
@@ -113,67 +230,15 @@ export function ZRomulatorSystemPage() {
       );
     }
 
-    const { name, company, classification, extensions, productionYears } =
-      system;
-    const { hardwareType, mediaFormat, contentType } = classification;
-    const { start, end } = productionYears;
-
-    const _hardware = HardwareTypeDisplay[hardwareType];
-    const _media = MediaFormatDisplay[mediaFormat];
-    const _content = ContentTypeDisplay[contentType];
-
     return (
-      <ZStack gap={ZSizeFixed.Medium}>
-        <ZGrid columns="auto 1fr">
-          <ZCard
-            name="system-info"
-            TitleProps={{
-              avatar: (
-                <ZIconFontAwesome
-                  name="puzzle-piece"
-                  width={ZSizeFixed.Medium}
-                />
-              ),
-              heading: "Information",
-              subHeading: "Details about this system",
-            }}
-          >
-            <ZGrid
-              columns="auto auto"
-              gap={ZSizeFixed.Medium}
-              width={ZSizeVaried.Fit}
-              align={{ items: "center" }}
-            >
-              {renderSystemInfoField("Name", name)}
-              {renderSystemInfoField("Company", company)}
-              {renderSystemInfoField("Hardware Type", hardwareType, _hardware)}
-              {renderSystemInfoField("Media Format", mediaFormat, _media)}
-              {renderSystemInfoField("Content Type", contentType, _content)}
-              {renderSystemInfoField("Production Start", String(start))}
-              {renderSystemInfoField(
-                "Production End",
-                String(end),
-                startCase(String(end)),
-              )}
-            </ZGrid>
-          </ZCard>
-        </ZGrid>
-        <ZCard
-          name="game-list"
-          TitleProps={{
-            avatar: (
-              <ZIconFontAwesome name="gamepad" width={ZSizeFixed.Medium} />
-            ),
-            heading: "Games",
-            subHeading: extensions.join(", "),
-          }}
-        >
-          <ZRomulatorGamesList
-            value={userRequest}
-            onValueChange={setGameRequest}
-          />
-        </ZCard>
-      </ZStack>
+      <ZGrid columns={{ xl: "1fr auto", sm: "1fr" }} gap={ZSizeFixed.Medium}>
+        {renderSystemGameListCard(system)}
+
+        <ZStack gap={ZSizeFixed.Medium}>
+          {renderSystemInfoCard(system)}
+          {renderSystemMediaCard(system)}
+        </ZStack>
+      </ZGrid>
     );
   };
 
