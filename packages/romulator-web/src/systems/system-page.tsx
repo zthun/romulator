@@ -83,7 +83,7 @@ export function ZRomulatorSystemPage() {
   );
 
   const baseGameRequest = useMemo(
-    () => new ZDataRequestBuilder().size(12).filter(gameFilter).build(),
+    () => new ZDataRequestBuilder().size(36).filter(gameFilter).build(),
     [gameFilter],
   );
 
@@ -231,13 +231,14 @@ export function ZRomulatorSystemPage() {
     }
 
     return (
-      <ZStack gap={ZSizeFixed.Medium}>
-        <ZGrid columns={{ xl: "1fr 1fr", sm: "1fr" }} gap={ZSizeFixed.Medium}>
+      <ZGrid columns={{ xl: "1fr auto", sm: "1fr" }} gap={ZSizeFixed.Medium}>
+        {renderSystemGameListCard(system)}
+
+        <ZStack gap={ZSizeFixed.Medium}>
           {renderSystemInfoCard(system)}
           {renderSystemMediaCard(system)}
-        </ZGrid>
-        {renderSystemGameListCard(system)}
-      </ZStack>
+        </ZStack>
+      </ZGrid>
     );
   };
 
