@@ -187,6 +187,30 @@ describe("ZRomulatorSystem", () => {
         expect(actualContentType).toEqual(contentType);
       });
 
+      it("should keep all classifications if classification is not an object", () => {
+        // Arrange.
+        const target = createTestTarget();
+
+        // Act.
+        const system = target
+          .hardware(hardwareType)
+          .mediaFormat(mediaFormat)
+          .contentType(contentType)
+          .parse({ classification: "lol-wut" })
+          .build();
+        const { classification = {} } = system;
+        const {
+          hardwareType: actualHardwareType,
+          mediaFormat: actualMediaFormat,
+          contentType: actualContentType,
+        } = classification;
+
+        // Assert.
+        expect(actualHardwareType).toEqual(hardwareType);
+        expect(actualMediaFormat).toEqual(mediaFormat);
+        expect(actualContentType).toEqual(contentType);
+      });
+
       describe("HardwareType", () => {
         it("should keep the original value if the target does not exist", () => {
           const classification = { mediaFormat, contentType };

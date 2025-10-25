@@ -7,10 +7,19 @@ import {
   uniqBy,
   upperCase,
 } from "lodash-es";
-import type { ZRomulatorSystemContentType } from "./system-content-type.mjs";
-import type { ZRomulatorSystemHardwareType } from "./system-hardware-type.mjs";
+import {
+  isSystemContentType,
+  type ZRomulatorSystemContentType,
+} from "./system-content-type.mjs";
+import {
+  isSystemHardwareType,
+  type ZRomulatorSystemHardwareType,
+} from "./system-hardware-type.mjs";
 import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
-import type { ZRomulatorSystemMediaFormat } from "./system-media-format-type.mjs";
+import {
+  isSystemMediaFormat,
+  type ZRomulatorSystemMediaFormat,
+} from "./system-media-format-type.mjs";
 
 /**
  * Represents a system in romulator.
@@ -254,6 +263,7 @@ export class ZRomulatorSystemBuilder {
     const extensions = castArray(get(candidate, "extensions"))
       .filter((ext) => ext != null)
       .filter((ext) => typeof ext === "string");
+    const classification = get(candidate, "classification");
 
     if (isSystemId(id)) {
       this.id(id);
@@ -265,6 +275,24 @@ export class ZRomulatorSystemBuilder {
 
     if (company != null && typeof company === "string") {
       this.company(company);
+    }
+
+    if (classification != null && typeof classification === "object") {
+      const hardwareType = get(classification, "hardwareType");
+      const mediaFormat = get(classification, "mediaFormat");
+      const contentType = get(classification, "contentType");
+
+      if (isSystemHardwareType(hardwareType)) {
+        this.hardware(hardwareType);
+      }
+
+      if (isSystemMediaFormat(mediaFormat)) {
+        this.mediaFormat(mediaFormat);
+      }
+
+      if (isSystemContentType(contentType)) {
+        this.contentType(contentType);
+      }
     }
 
     return this.extension(extensions);
