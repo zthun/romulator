@@ -9,16 +9,16 @@ import {
 } from "lodash-es";
 import {
   isSystemContentType,
-  type ZRomulatorSystemContentType,
+  ZRomulatorSystemContentType,
 } from "./system-content-type.mjs";
 import {
   isSystemHardwareType,
-  type ZRomulatorSystemHardwareType,
+  ZRomulatorSystemHardwareType,
 } from "./system-hardware-type.mjs";
 import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
 import {
   isSystemMediaFormat,
-  type ZRomulatorSystemMediaFormat,
+  ZRomulatorSystemMediaFormat,
 } from "./system-media-format-type.mjs";
 
 /**
@@ -48,6 +48,28 @@ export interface IZRomulatorSystem {
   extensions: string[];
 
   /**
+   * Type classifications for the system.
+   */
+  classification: {
+    /**
+     * What type of system the hardware is.
+     *
+     * @example 'console'
+     */
+    hardwareType: ZRomulatorSystemHardwareType;
+
+    /**
+     * The type of media format.
+     */
+    mediaFormat: ZRomulatorSystemMediaFormat;
+
+    /**
+     * The digital format of the game media.
+     */
+    contentType: ZRomulatorSystemContentType;
+  };
+
+  /**
    * The canonical name of the system.
    *
    * This is the most globally recognized name,
@@ -60,28 +82,6 @@ export interface IZRomulatorSystem {
    * The company that published the system.
    */
   company?: string;
-
-  /**
-   * Type classifications for the system.
-   */
-  classification?: {
-    /**
-     * What type of system the hardware is.
-     *
-     * @example 'console'
-     */
-    hardwareType?: ZRomulatorSystemHardwareType;
-
-    /**
-     * The type of media format.
-     */
-    mediaFormat?: ZRomulatorSystemMediaFormat;
-
-    /**
-     * The digital format of the game media.
-     */
-    contentType?: ZRomulatorSystemContentType;
-  };
 
   /**
    * The years the system was in production until.
@@ -104,6 +104,11 @@ export interface IZRomulatorSystem {
 export class ZRomulatorSystemBuilder {
   private _system: IZRomulatorSystem = {
     id: ZRomulatorSystemId.Nintendo,
+    classification: {
+      hardwareType: ZRomulatorSystemHardwareType.Unknown,
+      mediaFormat: ZRomulatorSystemMediaFormat.Unknown,
+      contentType: ZRomulatorSystemContentType.Unknown,
+    },
     extensions: ["zip", "7z"],
   };
 
@@ -162,7 +167,6 @@ export class ZRomulatorSystemBuilder {
    *        This instance.
    */
   public hardware(type: ZRomulatorSystemHardwareType): this {
-    this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.hardwareType = type;
 
     return this;
@@ -178,7 +182,6 @@ export class ZRomulatorSystemBuilder {
    *        This instance.
    */
   public mediaFormat(type: ZRomulatorSystemMediaFormat): this {
-    this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.mediaFormat = type;
 
     return this;
@@ -194,7 +197,6 @@ export class ZRomulatorSystemBuilder {
    *        This instance.
    */
   public contentType(type: ZRomulatorSystemContentType): this {
-    this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.contentType = type;
     return this;
   }
