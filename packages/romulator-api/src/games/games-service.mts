@@ -75,7 +75,7 @@ export class ZRomulatorGamesService implements IZRomulatorGamesService {
     const options = new ZDataSourceStaticOptionsBuilder<IZRomulatorGame>()
       .search({ match })
       .build();
-    const source = new ZDataSourceStatic(games.values().toArray(), options);
+    const source = new ZDataSourceStatic(Array.from(games.values()), options);
 
     const $sort = new ZSortBuilder()
       .sorts(firstDefined([], req.sort))

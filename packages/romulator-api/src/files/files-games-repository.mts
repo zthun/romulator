@@ -53,7 +53,7 @@ export class ZRomulatorFilesGamesRepository
     const gamesFolder = await this._filesRepository.gamesFolder();
     const games: IZRomulatorGame[] = [];
     const systemLookup = await this._systemsRepository.systems();
-    const systems = systemLookup.values().toArray();
+    const systems = Array.from(systemLookup.values());
     const gameFiles = await this._filesRepository.games(systems);
     const systemsInUse = uniq(gameFiles.map((g) => g.parent))
       .map((dir) => new ZFileSystemNodeBuilder().path(dir).folder().build())
