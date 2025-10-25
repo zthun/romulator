@@ -209,7 +209,39 @@ export class ZRomulatorSystemBuilder {
   }
 
   /**
-   * Sets the production run.
+   * Sets the production start value.
+   *
+   * @param start -
+   *        The year the system was released into production.
+   *        Use '?' if you do not know this information.
+   *
+   * @returns
+   *        This object.
+   */
+  public productionStart(start: number | "?") {
+    this._system.productionYears.start = start;
+
+    return this;
+  }
+
+  /**
+   * Sets the production end of life value.
+   *
+   * @param end -
+   *        The end of life year.  Set to current
+   *        to mark no end of life.
+   *
+   * @returns
+   *        This object.
+   */
+  public productionEnd(end: number | "current") {
+    this._system.productionYears.end = end;
+
+    return this;
+  }
+
+  /**
+   * Sets the full production run.
    *
    * @param start -
    *        The starting year of production.
@@ -223,10 +255,7 @@ export class ZRomulatorSystemBuilder {
     start: number | "?" = "?",
     end: number | "current" = "current",
   ) {
-    this._system.productionYears.start = start;
-    this._system.productionYears.end = end;
-
-    return this;
+    return this.productionStart(start).productionEnd(end);
   }
 
   /**
@@ -248,6 +277,92 @@ export class ZRomulatorSystemBuilder {
     return this;
   }
 
+  private parseId(candidate: object) {
+    const id = get(candidate, "id");
+
+    return isSystemId(id) ? this.id(id) : this;
+  }
+
+  private parseName(candidate: object) {
+    const name = get(candidate, "name");
+
+    return name != null && typeof name === "string" ? this.name(name) : this;
+  }
+
+  private parseCompany(candidate: object) {
+    const company = get(candidate, "company");
+
+    return company != null && typeof company === "string"
+      ? this.company(company)
+      : this;
+  }
+
+  private parseExtensions(candidate: object) {
+    const extensions = castArray(get(candidate, "extensions"))
+      .filter((ext) => ext != null)
+      .filter((ext) => typeof ext === "string");
+
+    return this.extension(extensions);
+  }
+
+  private parseHardwareType(classification: object) {
+    const hardwareType = get(classification, "hardwareType");
+
+    return isSystemHardwareType(hardwareType)
+      ? this.hardware(hardwareType)
+      : this;
+  }
+
+  private parseMediaFormat(classification: object) {
+    const mediaFormat = get(classification, "mediaFormat");
+
+    return isSystemMediaFormat(mediaFormat)
+      ? this.mediaFormat(mediaFormat)
+      : this;
+  }
+
+  private parseContentType(classification: object) {
+    const contentType = get(classification, "contentType");
+
+    return isSystemContentType(contentType)
+      ? this.contentType(contentType)
+      : this;
+  }
+
+  private parseClassification(candidate: object) {
+    const classification = get(candidate, "classification");
+
+    return classification != null && typeof classification === "object"
+      ? this.parseHardwareType(classification)
+          .parseMediaFormat(classification)
+          .parseContentType(classification)
+      : this;
+  }
+
+  private parseProductionStart(productionYears: object) {
+    const start = get(productionYears, "start");
+
+    return typeof start === "number" || start === "?"
+      ? this.productionStart(start)
+      : this;
+  }
+
+  private parseProductionEnd(productionYears: object) {
+    const end = get(productionYears, "end");
+
+    return typeof end === "number" || end === "current"
+      ? this.productionEnd(end)
+      : this;
+  }
+
+  private parseProductionYears(candidate: object) {
+    const production = get(candidate, "productionYears");
+
+    return production != null && typeof production === "object"
+      ? this.parseProductionStart(production).parseProductionEnd(production)
+      : this;
+  }
+
   /**
    * Parses an unknown object to try and build a system from it.
    *
@@ -262,45 +377,14 @@ export class ZRomulatorSystemBuilder {
       return this;
     }
 
-    const id = get(candidate, "id");
-    const name = get(candidate, "name");
-    const company = get(candidate, "company");
-    const extensions = castArray(get(candidate, "extensions"))
-      .filter((ext) => ext != null)
-      .filter((ext) => typeof ext === "string");
-    const classification = get(candidate, "classification");
+    this.parseId(candidate)
+      .parseName(candidate)
+      .parseCompany(candidate)
+      .parseExtensions(candidate)
+      .parseClassification(candidate)
+      .parseProductionYears(candidate);
 
-    if (isSystemId(id)) {
-      this.id(id);
-    }
-
-    if (name != null && typeof name === "string") {
-      this.name(name);
-    }
-
-    if (company != null && typeof company === "string") {
-      this.company(company);
-    }
-
-    if (classification != null && typeof classification === "object") {
-      const hardwareType = get(classification, "hardwareType");
-      const mediaFormat = get(classification, "mediaFormat");
-      const contentType = get(classification, "contentType");
-
-      if (isSystemHardwareType(hardwareType)) {
-        this.hardware(hardwareType);
-      }
-
-      if (isSystemMediaFormat(mediaFormat)) {
-        this.mediaFormat(mediaFormat);
-      }
-
-      if (isSystemContentType(contentType)) {
-        this.contentType(contentType);
-      }
-    }
-
-    return this.extension(extensions);
+    return this;
   }
 
   /**

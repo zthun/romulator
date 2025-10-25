@@ -325,6 +325,74 @@ describe("ZRomulatorSystem", () => {
         });
       });
     });
+
+    describe("ProductionYears", () => {
+      const start = 1983;
+      const end = 1989;
+
+      it("should keep the production years if the candidate does not have them", () => {
+        const expected = { start, end };
+
+        expect(
+          createTestTarget().production(start, end).parse({}).build()
+            .productionYears,
+        ).toEqual(expected);
+      });
+
+      it("should keep the production years if the start is not a number", () => {
+        const productionYears = { start: "not-a-number", end };
+
+        expect(
+          createTestTarget()
+            .production(start, end)
+            .parse({ productionYears })
+            .build().productionYears,
+        ).toEqual({ start, end });
+      });
+
+      it("should keep the production years if the end is not a number", () => {
+        const productionYears = { start, end: "not-a-number" };
+
+        expect(
+          createTestTarget()
+            .production(start, end)
+            .parse({ productionYears })
+            .build().productionYears,
+        ).toEqual({ start, end });
+      });
+
+      it("should set the production years", () => {
+        const productionYears = { start: 1985, end: 1993 };
+
+        expect(
+          createTestTarget().parse({ productionYears }).build().productionYears,
+        ).toEqual(productionYears);
+      });
+
+      it("should update the start but keep the original end if the end is not provided", () => {
+        const expectedStart = 1990;
+        const productionYears = { start: expectedStart };
+
+        expect(
+          createTestTarget()
+            .production(start, end)
+            .parse({ productionYears })
+            .build().productionYears,
+        ).toEqual({ start: expectedStart, end });
+      });
+
+      it("should update the end but keep the original start if the start is not provided", () => {
+        const expectedEnd = 1995;
+        const productionYears = { end: expectedEnd };
+
+        expect(
+          createTestTarget()
+            .production(start, end)
+            .parse({ productionYears })
+            .build().productionYears,
+        ).toEqual({ start, end: expectedEnd });
+      });
+    });
   });
 });
 
