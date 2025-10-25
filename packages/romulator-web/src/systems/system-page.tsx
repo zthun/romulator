@@ -22,6 +22,7 @@ import {
   isStateLoading,
   useSyncState,
 } from "@zthun/helpful-react";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import {
   ZRomulatorSystemContentType,
   ZRomulatorSystemHardwareType,
@@ -96,6 +97,68 @@ export function ZRomulatorSystemPage() {
     </>
   );
 
+  const renderSystemInfoCard = (system: IZRomulatorSystem) => {
+    const { name, company, classification, productionYears } = system;
+    const { hardwareType, mediaFormat, contentType } = classification;
+    const { start, end } = productionYears;
+
+    const _hardware = HardwareTypeDisplay[hardwareType];
+    const _media = MediaFormatDisplay[mediaFormat];
+    const _content = ContentTypeDisplay[contentType];
+
+    return (
+      <ZCard
+        name="system-info"
+        TitleProps={{
+          avatar: (
+            <ZIconFontAwesome name="puzzle-piece" width={ZSizeFixed.Medium} />
+          ),
+          heading: "Information",
+          subHeading: "Details about this system",
+        }}
+      >
+        <ZGrid
+          columns="auto auto"
+          gap={ZSizeFixed.Medium}
+          width={ZSizeVaried.Fit}
+          align={{ items: "center" }}
+        >
+          {renderSystemInfoField("Name", name)}
+          {renderSystemInfoField("Company", company)}
+          {renderSystemInfoField("Hardware Type", hardwareType, _hardware)}
+          {renderSystemInfoField("Media Format", mediaFormat, _media)}
+          {renderSystemInfoField("Content Type", contentType, _content)}
+          {renderSystemInfoField("Production Start", String(start))}
+          {renderSystemInfoField(
+            "Production End",
+            String(end),
+            startCase(String(end)),
+          )}
+        </ZGrid>
+      </ZCard>
+    );
+  };
+
+  const renderSystemGameListCard = (system: IZRomulatorSystem) => {
+    const { extensions } = system;
+
+    return (
+      <ZCard
+        name="game-list"
+        TitleProps={{
+          avatar: <ZIconFontAwesome name="gamepad" width={ZSizeFixed.Medium} />,
+          heading: "Games",
+          subHeading: extensions.join(", "),
+        }}
+      >
+        <ZRomulatorGamesList
+          value={userRequest}
+          onValueChange={setGameRequest}
+        />
+      </ZCard>
+    );
+  };
+
   const renderPageContent = () => {
     if (isStateLoading(system)) {
       return (
@@ -113,66 +176,12 @@ export function ZRomulatorSystemPage() {
       );
     }
 
-    const { name, company, classification, extensions, productionYears } =
-      system;
-    const { hardwareType, mediaFormat, contentType } = classification;
-    const { start, end } = productionYears;
-
-    const _hardware = HardwareTypeDisplay[hardwareType];
-    const _media = MediaFormatDisplay[mediaFormat];
-    const _content = ContentTypeDisplay[contentType];
-
     return (
       <ZStack gap={ZSizeFixed.Medium}>
-        <ZGrid columns="auto 1fr">
-          <ZCard
-            name="system-info"
-            TitleProps={{
-              avatar: (
-                <ZIconFontAwesome
-                  name="puzzle-piece"
-                  width={ZSizeFixed.Medium}
-                />
-              ),
-              heading: "Information",
-              subHeading: "Details about this system",
-            }}
-          >
-            <ZGrid
-              columns="auto auto"
-              gap={ZSizeFixed.Medium}
-              width={ZSizeVaried.Fit}
-              align={{ items: "center" }}
-            >
-              {renderSystemInfoField("Name", name)}
-              {renderSystemInfoField("Company", company)}
-              {renderSystemInfoField("Hardware Type", hardwareType, _hardware)}
-              {renderSystemInfoField("Media Format", mediaFormat, _media)}
-              {renderSystemInfoField("Content Type", contentType, _content)}
-              {renderSystemInfoField("Production Start", String(start))}
-              {renderSystemInfoField(
-                "Production End",
-                String(end),
-                startCase(String(end)),
-              )}
-            </ZGrid>
-          </ZCard>
+        <ZGrid columns={{ xl: "1fr 1fr" }}>
+          {renderSystemInfoCard(system)}
         </ZGrid>
-        <ZCard
-          name="game-list"
-          TitleProps={{
-            avatar: (
-              <ZIconFontAwesome name="gamepad" width={ZSizeFixed.Medium} />
-            ),
-            heading: "Games",
-            subHeading: extensions.join(", "),
-          }}
-        >
-          <ZRomulatorGamesList
-            value={userRequest}
-            onValueChange={setGameRequest}
-          />
-        </ZCard>
+        {renderSystemGameListCard(system)}
       </ZStack>
     );
   };
