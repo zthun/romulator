@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.0](https://github.com/zthun/romulator/compare/v1.12.0...v1.13.0) (2025-10-25)
+
+
+### Features
+
+* the system builder now normalizes all extensions ([f1d36b5](https://github.com/zthun/romulator/commit/f1d36b5ede80a6b2236906cbec1401b605fc902a))
+
+
+
 ## [1.12.0](https://github.com/zthun/romulator/compare/v1.11.0...v1.12.0) (2025-10-25)
 
 **Note:** Version bump only for package @zthun/romulator-api
