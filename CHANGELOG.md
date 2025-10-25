@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.0](https://github.com/zthun/romulator/compare/v1.10.0...v1.11.0) (2025-10-25)
+
+
+### Features
+
+* file repository can now query games from the games folder ([9cd9881](https://github.com/zthun/romulator/commit/9cd98816548b8402b7c5ca1c1542708c37d89f78))
+* files repository can now provide the config folders ([60079ea](https://github.com/zthun/romulator/commit/60079ea693ce6c514af24e73036a8584caf8713f))
+* game can now parse an unknown object ([b02bd81](https://github.com/zthun/romulator/commit/b02bd81e160b9907fb87ded34a1e5997a880b3a8))
+* the games repository returns all games found in the games folder ([659e8bc](https://github.com/zthun/romulator/commit/659e8bc59d0344132a2608c8504311a1c44c68c7))
+
+
+
 ## [1.10.0](https://github.com/zthun/romulator/compare/v1.9.0...v1.10.0) (2025-10-23)
 
 

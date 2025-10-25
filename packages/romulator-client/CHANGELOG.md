@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.0](https://github.com/zthun/romulator/compare/v1.10.0...v1.11.0) (2025-10-25)
+
+
+### Features
+
+* game can now parse an unknown object ([b02bd81](https://github.com/zthun/romulator/commit/b02bd81e160b9907fb87ded34a1e5997a880b3a8))
+
+
+
 ## [1.10.0](https://github.com/zthun/romulator/compare/v1.9.0...v1.10.0) (2025-10-23)
 
 **Note:** Version bump only for package @zthun/romulator-client
