@@ -173,6 +173,14 @@ const ZRomulatorSystemIdMap = keyBy(Object.values(ZRomulatorSystemId));
 
 /**
  * Gets whether a candidate string represents a system id.
+ *
+ * This check is case sensitive.
+ *
+ * @param candidate -
+ *        The candidate to check.
+ *
+ * @returns
+ *        True if candidate is a string that represents a system id.
  */
 export function isSystemId(candidate: any): candidate is ZRomulatorSystemId {
   return (
