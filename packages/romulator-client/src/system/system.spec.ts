@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { ZRomulatorSystemContentType } from "./system-content-type.mjs";
+import { ZRomulatorSystemHardwareType } from "./system-hardware-type.mjs";
 import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
+import { ZRomulatorSystemMediaFormat } from "./system-media-format-type.mjs";
 import { ZRomulatorSystemBuilder } from "./system.mjs";
 
 describe("ZRomulatorSystem", () => {
@@ -152,6 +155,141 @@ describe("ZRomulatorSystem", () => {
         expect(
           createTestTarget().parse({ extensions }).build().extensions,
         ).toEqual(expect.arrayContaining(expected));
+      });
+    });
+
+    describe("Classifications", () => {
+      const hardwareType = ZRomulatorSystemHardwareType.VirtualMachine;
+      const mediaFormat = ZRomulatorSystemMediaFormat.FloppyDisk;
+      const contentType = ZRomulatorSystemContentType.Folder;
+
+      it("should keep all classifications if there is no classification", () => {
+        // Arrange.
+        const target = createTestTarget();
+
+        // Act.
+        const system = target
+          .hardware(hardwareType)
+          .mediaFormat(mediaFormat)
+          .contentType(contentType)
+          .parse({})
+          .build();
+        const { classification = {} } = system;
+        const {
+          hardwareType: actualHardwareType,
+          mediaFormat: actualMediaFormat,
+          contentType: actualContentType,
+        } = classification;
+
+        // Assert.
+        expect(actualHardwareType).toEqual(hardwareType);
+        expect(actualMediaFormat).toEqual(mediaFormat);
+        expect(actualContentType).toEqual(contentType);
+      });
+
+      describe("HardwareType", () => {
+        it("should keep the original value if the target does not exist", () => {
+          const classification = { mediaFormat, contentType };
+
+          expect(
+            createTestTarget()
+              .hardware(hardwareType)
+              .parse({ classification })
+              .build().classification?.hardwareType,
+          ).toEqual(hardwareType);
+        });
+
+        it("should keep the original value if the target is now a valid type", () => {
+          const classification = {
+            hardwareType: "lol-wut",
+          };
+
+          expect(
+            createTestTarget()
+              .hardware(hardwareType)
+              .parse({ classification })
+              .build().classification?.hardwareType,
+          ).toEqual(hardwareType);
+        });
+
+        it("should set the value", () => {
+          const expected = ZRomulatorSystemHardwareType.Accessory;
+          const classification = { hardwareType: expected };
+          expect(
+            createTestTarget().parse({ classification }).build().classification
+              ?.hardwareType,
+          ).toEqual(expected);
+        });
+      });
+
+      describe("MediaFormat", () => {
+        it("should keep the original value if the target does not exist", () => {
+          const classification = { hardwareType, contentType };
+
+          expect(
+            createTestTarget()
+              .mediaFormat(mediaFormat)
+              .parse({ classification })
+              .build().classification?.mediaFormat,
+          ).toEqual(mediaFormat);
+        });
+
+        it("should keep the original value if the target is now a valid type", () => {
+          const classification = {
+            mediaFormat: "lol-wut",
+          };
+
+          expect(
+            createTestTarget()
+              .mediaFormat(mediaFormat)
+              .parse({ classification })
+              .build().classification?.mediaFormat,
+          ).toEqual(mediaFormat);
+        });
+
+        it("should set the value", () => {
+          const expected = ZRomulatorSystemMediaFormat.Cd;
+          const classification = { mediaFormat: expected };
+          expect(
+            createTestTarget().parse({ classification }).build().classification
+              ?.mediaFormat,
+          ).toEqual(expected);
+        });
+      });
+
+      describe("ContentType", () => {
+        it("should keep the original value if the target does not exist", () => {
+          const classification = { hardwareType, mediaFormat };
+
+          expect(
+            createTestTarget()
+              .contentType(contentType)
+              .parse({ classification })
+              .build().classification?.contentType,
+          ).toEqual(contentType);
+        });
+
+        it("should keep the original value if the target is now a valid type", () => {
+          const classification = {
+            contentType: "lol-wut",
+          };
+
+          expect(
+            createTestTarget()
+              .contentType(contentType)
+              .parse({ classification })
+              .build().classification?.contentType,
+          ).toEqual(contentType);
+        });
+
+        it("should set the value", () => {
+          const expected = ZRomulatorSystemContentType.File;
+          const classification = { contentType: expected };
+          expect(
+            createTestTarget().parse({ classification }).build().classification
+              ?.contentType,
+          ).toEqual(expected);
+        });
       });
     });
   });
