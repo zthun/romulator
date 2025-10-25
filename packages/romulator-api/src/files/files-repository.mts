@@ -4,33 +4,74 @@ import type {
   IZFileSystemNode,
   IZFileSystemService,
 } from "@zthun/crumbtrail-fs";
-import { ZFileRepository, ZStreamFolder } from "@zthun/crumbtrail-fs";
+import {
+  ZFileRepository,
+  ZStreamFile,
+  ZStreamFolder,
+} from "@zthun/crumbtrail-fs";
 import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import { detokenize, firstDefined } from "@zthun/helpful-fn";
+import type { ZOptional } from "@zthun/helpful-fn";
+import { createError, detokenize, firstDefined, mib } from "@zthun/helpful-fn";
 import {
   ZDataRequestBuilder,
   ZFilterBinaryBuilder,
+  ZFilterCollectionBuilder,
+  ZFilterLogicBuilder,
   ZSortBuilder,
 } from "@zthun/helpful-query";
+import {
+  ZLogEntryBuilder,
+  ZLoggerContext,
+  type IZLogger,
+} from "@zthun/lumberjacky-log";
+import { ZLoggerToken } from "@zthun/lumberjacky-nest";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import {
   ZRomulatorConfigGamesBuilder,
   ZRomulatorConfigGamesMetadata,
   ZRomulatorConfigId,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
-import { first } from "lodash-es";
+import { flatten, trimStart } from "lodash-es";
 import { resolve } from "node:path";
 import { env } from "node:process";
 import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
 import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
 
-export const ZRomulatorFilesToken = Symbol("files");
+export const ZRomulatorFilesRepositoryToken = Symbol("files-repository");
 
 /**
  * Represents the repository that you can use to
  * scan the games folder for media, info, games, and systems.
  */
 export interface IZRomulatorFilesRepository {
+  /**
+   * The absolute path to the configured games
+   * folder.
+   *
+   * @returns
+   *        The absolute path to the games folder.
+   */
+  gamesFolder(): Promise<string>;
+
+  /**
+   * The path to the media folder.
+   *
+   * @returns
+   *        The path to the .media folder inside the
+   *        games folder.
+   */
+  mediaFolder(): Promise<string>;
+
+  /**
+   * The path to the info folder.
+   *
+   * @returns
+   *        The path to the .info folder inside the
+   *        games folder.
+   */
+  infoFolder(): Promise<string>;
+
   /**
    * Retrieves all media found in the games .media folder.
    *
@@ -51,19 +92,16 @@ export interface IZRomulatorFilesRepository {
   systems(): Promise<IZFileSystemNode[]>;
 
   /**
-   * Retrieves a single system found in the games folder.
+   * Retrieves all games for the given systems list.
    *
-   * @param id -
-   *        The id of the system, which is also the name of the folder.
+   * @param systems -
+   *        The list of systems to query games by.
    *
    * @returns
-   *        The node that represents the system slug.  Returns null if
-   *        the folder does not exist or is not supported.  Note
-   *        that the path is relative to the configured games folder. If you
-   *        want to supply a fully qualified absolute path, then this string
-   *        should start with the root of an OS drive (not recommended).
+   *        A list of file system nodes that represent a game
+   *        in the system directory.
    */
-  systems(id: ZRomulatorSystemId): Promise<IZFileSystemNode | null>;
+  games(systems: IZRomulatorSystem[]): Promise<IZFileSystemNode[]>;
 
   /**
    * Retrieves the file that represents the systems info or games info
@@ -78,6 +116,17 @@ export interface IZRomulatorFilesRepository {
    *        exists.
    */
   info(id: "systems" | ZRomulatorSystemId): Promise<IZFileSystemNode | null>;
+
+  /**
+   * Reads a file and returns the json representation.
+   *
+   * @param node -
+   *        The node to read.  If this is falsy, then null is returned.
+   *
+   * @returns
+   *        The file contents as json, or null if the contents cannot be read.
+   */
+  json(node: ZOptional<IZFileSystemNode>): Promise<unknown>;
 
   /**
    * Initializes the file repository.
@@ -95,8 +144,16 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
   private static readonly MediaFolderName = ".media";
   private static readonly InfoFolderName = ".info";
 
+  private _logger: IZLogger;
   private _repository: ZFileRepository = new ZFileRepository();
   private _folderStream = new ZStreamFolder();
+  private _fileStream = new ZStreamFile({
+    cache: {
+      fileSize: BigInt(mib(1)),
+      maxFiles: 250,
+    },
+  });
+
   private _globs: string[];
   private _systems: string[];
 
@@ -105,13 +162,16 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     private readonly _configs: IZRomulatorConfigsService,
     @Inject(ZFileSystemToken)
     private readonly _fileSystem: IZFileSystemService,
+    @Inject(ZLoggerToken)
+    readonly logger: IZLogger,
   ) {
     const slugs = Object.values(ZRomulatorSystemId);
     this._globs = [".media/**", ".info/**", ...slugs.map((s) => `${s}/*.*`)];
     this._systems = Object.values(ZRomulatorSystemId);
+    this._logger = new ZLoggerContext("ZRomulatorFilesRepository", logger);
   }
 
-  private async gamesFolder() {
+  public async gamesFolder() {
     const config = await this._configs.get(ZRomulatorConfigId.Games);
     const { gamesFolder } = new ZRomulatorConfigGamesBuilder()
       .copy(config.contents)
@@ -121,12 +181,12 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     return detokenize(_gamesFolder, env);
   }
 
-  private async mediaFolder() {
+  public async mediaFolder() {
     const gamesFolder = await this.gamesFolder();
     return resolve(gamesFolder, ZRomulatorFilesRepository.MediaFolderName);
   }
 
-  private async infoFolder() {
+  public async infoFolder() {
     const gamesFolder = await this.gamesFolder();
     return resolve(gamesFolder, ZRomulatorFilesRepository.InfoFolderName);
   }
@@ -173,9 +233,23 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     return this._repository.get(path);
   }
 
-  public systems(): Promise<IZFileSystemNode[]>;
-  public systems(id: ZRomulatorSystemId): Promise<IZFileSystemNode | null>;
-  public async systems(id?: ZRomulatorSystemId) {
+  public async json(node: IZFileSystemNode): Promise<unknown> {
+    if (node == null) {
+      return null;
+    }
+
+    try {
+      const contents = await this._fileStream.read(node.path);
+      return JSON.parse(contents.toString());
+    } catch (e) {
+      const err = createError(e);
+      const msg = `Unable to read ${node.path}: ${err.message}`;
+      this._logger.log(new ZLogEntryBuilder().error().message(msg).build());
+      return null;
+    }
+  }
+
+  public async systems() {
     // Systems use directories.  There's a maximum limit of about 200 systems.
     // Since we don't actually need to read any metadata or scan through thousands
     // of unknown folders, we can use the supported system ids to just grab the
@@ -183,13 +257,41 @@ export class ZRomulatorFilesRepository implements IZRomulatorFilesRepository {
     // grab the systems from the file system and it should be fast enough.  These are all
     // folders, so we don't even need the stats for them and we can assume folders.
     const games = await this.gamesFolder();
-    const folders =
-      id == null ? this._systems.map((s) => `${s}/`) : resolve(games, id);
-    const items = await this._fileSystem.search(folders, {
+    const folders = this._systems.map((s) => `${s}/`);
+    return await this._fileSystem.search(folders, {
       cwd: games,
       stat: false,
     });
+  }
 
-    return id == null ? items : firstDefined(null, first(items));
+  public async games(systems: IZRomulatorSystem[]) {
+    const repository = await this.init();
+    const folder = await this.gamesFolder();
+
+    const queries = systems.map((s) => {
+      const dir = `${folder}/${s.id}`;
+
+      const byExtension = new ZFilterCollectionBuilder()
+        .subject("extension")
+        .in()
+        .values(s.extensions.map((e) => `.${trimStart(e, ".")}`))
+        .build();
+      const inPath = new ZFilterBinaryBuilder()
+        .subject("parent")
+        .equal()
+        .value(dir)
+        .build();
+      const filter = new ZFilterLogicBuilder()
+        .and()
+        .clause(inPath)
+        .clause(byExtension)
+        .build();
+      const request = new ZDataRequestBuilder().filter(filter).build();
+      return repository.retrieve(request);
+    });
+
+    const results = await Promise.all(queries);
+
+    return flatten(results);
   }
 }

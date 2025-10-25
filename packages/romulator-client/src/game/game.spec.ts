@@ -62,4 +62,51 @@ describe("Game", () => {
       expect(result.name).toEqual("Super Mario Bros.");
     });
   });
+
+  describe("Parse", () => {
+    it("should return the same state if the candidate is null", () => {
+      const expected = createTestTarget().build();
+
+      expect(createTestTarget().parse(null).build()).toEqual(expected);
+    });
+
+    it("should return the same state if the candidate is undefined", () => {
+      const expected = createTestTarget().build();
+
+      expect(createTestTarget().parse(undefined).build()).toEqual(expected);
+    });
+
+    it("should return the same state if the candidate is not an object", () => {
+      const expected = createTestTarget().build();
+
+      expect(createTestTarget().parse("not-a-candidate").build()).toEqual(
+        expected,
+      );
+    });
+
+    describe("Name", () => {
+      it("should set the name if there is a string name on the candidate", () => {
+        const name = "Batman The Video Game";
+
+        expect(createTestTarget().parse({ name }).build().name).toEqual(name);
+      });
+
+      it("should keep the name if the name is not a string", () => {
+        const name = 42;
+        const expected = "Original";
+
+        expect(
+          createTestTarget().name(expected).parse({ name }).build().name,
+        ).toEqual(expected);
+      });
+
+      it("should keep the name if the name does not exist", () => {
+        const expected = "Original";
+
+        expect(
+          createTestTarget().name(expected).parse({}).build().name,
+        ).toEqual(expected);
+      });
+    });
+  });
 });

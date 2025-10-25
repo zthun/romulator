@@ -24,6 +24,7 @@ const DefaultSystemSortOrder = new ZSortBuilder()
   .build();
 
 const DefaultSystemRequest = new ZDataRequestBuilder()
+  .size(12)
   .sort(DefaultSystemSortOrder)
   .build();
 

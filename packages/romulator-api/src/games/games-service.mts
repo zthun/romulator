@@ -1,12 +1,11 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import type { IZFileSystemService } from "@zthun/crumbtrail-fs";
-import { ZFileSystemToken } from "@zthun/crumbtrail-nest";
-import { detokenize, firstDefined, firstTruthy } from "@zthun/helpful-fn";
-import type { IZDataMatch, IZDataRequest, IZPage } from "@zthun/helpful-query";
+import { firstDefined, firstTruthy } from "@zthun/helpful-fn";
+import type { IZDataRequest, IZPage } from "@zthun/helpful-query";
 import {
   ZDataRequestBuilder,
   ZDataSourceStatic,
   ZDataSourceStaticOptionsBuilder,
+  ZFilterBinaryBuilder,
   ZPageBuilder,
   ZSortBuilder,
 } from "@zthun/helpful-query";
@@ -20,18 +19,15 @@ import type {
   IZRomulatorGame,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
-import {
-  ZRomulatorConfigGamesBuilder,
-  ZRomulatorConfigGamesMetadata,
-  ZRomulatorGameBuilder,
-} from "@zthun/romulator-client";
 import type { IZRestfulGet } from "@zthun/webigail-rest";
-import { kebabCase } from "lodash-es";
-import { basename, dirname, parse } from "node:path";
-import { ZRomulatorConfigKnown } from "../config/config-known.mjs";
-import type { IZRomulatorConfigsService } from "../config/configs-service.mjs";
-import { ZRomulatorConfigsToken } from "../config/configs-service.mjs";
-import { ZRomulatorSystemKnown } from "../systems/system-known.mjs";
+import {
+  ZRomulatorFilesGamesRepositoryToken,
+  type IZRomulatorFilesGamesRepository,
+} from "../files/files-games-repository.mjs";
+import {
+  ZRomulatorFilesSystemsRepositoryToken,
+  type IZRomulatorFilesSystemsRepository,
+} from "../files/files-systems-repository.mjs";
 
 export const ZRomulatorGamesToken = Symbol("romulator-games-service");
 
@@ -40,60 +36,46 @@ export interface IZRomulatorGamesService extends IZRestfulGet<IZRomulatorGame> {
 }
 
 @Injectable()
-export class ZRomulatorGamesService
-  implements IZRomulatorGamesService, IZDataMatch<IZRomulatorGame, string>
-{
+export class ZRomulatorGamesService implements IZRomulatorGamesService {
   private readonly _logger: IZLogger;
 
   public constructor(
-    @Inject(ZFileSystemToken)
-    private readonly _file: IZFileSystemService,
-    @Inject(ZRomulatorConfigsToken)
-    private readonly _config: IZRomulatorConfigsService,
-    @Inject(ZLoggerToken) logger: IZLogger,
+    @Inject(ZRomulatorFilesSystemsRepositoryToken)
+    private readonly _systemsRepository: IZRomulatorFilesSystemsRepository,
+    @Inject(ZRomulatorFilesGamesRepositoryToken)
+    private readonly _filesRepository: IZRomulatorFilesGamesRepository,
+    @Inject(ZLoggerToken)
+    readonly logger: IZLogger,
   ) {
     this._logger = new ZLoggerContext("ZRomulatorGamesService", logger);
   }
 
   public async list(req: IZDataRequest): Promise<IZPage<IZRomulatorGame>> {
-    const config = ZRomulatorConfigKnown.games();
-    const { contents } = await this._config.get(config.id);
-    const { gamesFolder } = new ZRomulatorConfigGamesBuilder()
-      .copy(contents)
-      .build();
-    const { fallback } = ZRomulatorConfigGamesMetadata.gamesFolder();
-
-    const cwd = detokenize(firstDefined(fallback, gamesFolder), process.env);
-    const time = new Date();
-
-    let msg = `Searching for games in ${cwd}`;
+    const msg = `Searching for games`;
     this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
-    const systems = ZRomulatorSystemKnown.all().map((system) => system.id);
-    const glob = `{${systems.join(",")}}/**/*.zip`;
-    const nodes = await this._file.search(glob, { cwd, stat: false });
-    const span = new Date().getTime() - time.getTime();
+    const systems = await this._systemsRepository.systems();
+    const games = await this._filesRepository.games();
 
-    msg = `Found ${nodes.length} games. Search took ${span} milliseconds.`;
-    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
+    const match = (data: IZRomulatorGame, filter: string): boolean => {
+      const needle = filter?.trim().toLowerCase();
+      const { name = "", system = "" } = data;
+      const systemId = system as ZRomulatorSystemId;
+      const systemName = firstTruthy("", systems.get(systemId)?.name);
 
-    const games = nodes.map(({ path }) => {
-      const dir = basename(dirname(path)) as ZRomulatorSystemId;
-      const { name: file } = parse(path);
-      const id = `${dir}-${kebabCase(file)}`;
+      if (!needle?.length) {
+        return true;
+      }
 
-      return new ZRomulatorGameBuilder()
-        .id(id)
-        .system(dir)
-        .file(path)
-        .name(file)
-        .build();
-    });
+      return [name, system, systemName]
+        .filter((s) => s.length)
+        .some((k) => k.toLowerCase().includes(needle));
+    };
 
     const options = new ZDataSourceStaticOptionsBuilder<IZRomulatorGame>()
-      .search(this)
+      .search({ match })
       .build();
-    const source = new ZDataSourceStatic(games, options);
+    const source = new ZDataSourceStatic(Array.from(games.values()), options);
 
     const $sort = new ZSortBuilder()
       .sorts(firstDefined([], req.sort))
@@ -109,28 +91,21 @@ export class ZRomulatorGamesService
   }
 
   public async get(id: string): Promise<IZRomulatorGame> {
-    const { data: games } = await this.list(new ZDataRequestBuilder().build());
-    const match = games.find((game) => game.id === id);
+    const filter = new ZFilterBinaryBuilder()
+      .subject("id")
+      .equal()
+      .value(id)
+      .build();
+    const request = new ZDataRequestBuilder().filter(filter).size(1).build();
 
-    if (!match) {
-      throw new NotFoundException(`Unable to find game with id, ${id}.`);
+    const { data: games } = await this.list(request);
+    const [game] = games;
+
+    if (game == null) {
+      const message = `Game, ${id}, was not found.`;
+      throw new NotFoundException(message);
     }
 
-    return match;
-  }
-
-  public match(data: IZRomulatorGame, filter: string): boolean {
-    const needle = filter?.trim().toLowerCase();
-    const { name = "", system = "" } = data;
-    const target = ZRomulatorSystemKnown.from(system);
-    const systemName = firstTruthy("", target?.name);
-
-    if (!needle?.length) {
-      return true;
-    }
-
-    return [name, system, systemName]
-      .filter((s) => s.length)
-      .some((k) => k.toLowerCase().includes(needle));
+    return game;
   }
 }

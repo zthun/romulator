@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
-import { ZFileSystemModule } from "@zthun/crumbtrail-nest";
 import { ZLoggerModule } from "@zthun/lumberjacky-nest";
-import { ZRomulatorConfigsModule } from "../config/configs-module.mjs";
+import { ZRomulatorFilesModule } from "../files/files-module.mjs";
 import { ZRomulatorGamesController } from "./games-controller.mjs";
 import {
   ZRomulatorGamesService,
@@ -9,7 +8,7 @@ import {
 } from "./games-service.mjs";
 
 @Module({
-  imports: [ZRomulatorConfigsModule, ZFileSystemModule, ZLoggerModule],
+  imports: [ZRomulatorFilesModule, ZLoggerModule],
   controllers: [ZRomulatorGamesController],
   providers: [
     {
