@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.0](https://github.com/zthun/romulator/compare/v1.13.0...v1.14.0) (2025-10-25)
+
+
+### Features
+
+* reduce media down to controller, picture, and wheel ([f4fdb85](https://github.com/zthun/romulator/commit/f4fdb8581c7a890653971b6033eb39cb04077d9b))
+
+
+### Bug Fixes
+
+* remove the fixed extensions for system media type ([fd8b7b6](https://github.com/zthun/romulator/commit/fd8b7b6a4e0462cab5072ae852c30dab531d7f24))
+
+
+
 ## [1.13.0](https://github.com/zthun/romulator/compare/v1.12.0...v1.13.0) (2025-10-25)
 
 
