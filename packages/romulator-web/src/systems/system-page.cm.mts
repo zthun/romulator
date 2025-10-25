@@ -6,6 +6,7 @@ import {
   ZGridViewComponentModel,
   ZSuspenseComponentModel,
 } from "@zthun/fashion-boutique";
+import { kebabCase } from "lodash-es";
 
 export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorSystemPage-root";
@@ -33,6 +34,21 @@ export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
   public system(): Promise<ZCardComponentModel | null> {
     return ZCircusBy.optional(this.driver, ZCardComponentModel, "system-info");
   }
+
+  private async fieldValue(key: string): Promise<string> {
+    const klass = `.ZRomulatorSystemPage-${kebabCase(key)}`;
+    const element = await this.driver.select(klass);
+
+    return element.attribute("data-value", "");
+  }
+
+  public name = this.fieldValue.bind(this, "Name");
+  public company = this.fieldValue.bind(this, "Company");
+  public hardwareType = this.fieldValue.bind(this, "Hardware Type");
+  public mediaFormat = this.fieldValue.bind(this, "Media Format");
+  public contentType = this.fieldValue.bind(this, "Content Type");
+  public productionStart = this.fieldValue.bind(this, "Production Start");
+  public productionEnd = this.fieldValue.bind(this, "Production End");
 
   public games(): Promise<ZGridViewComponentModel | null> {
     return ZCircusBy.optional(this.driver, ZGridViewComponentModel);

@@ -1,16 +1,18 @@
 import { firstDefined } from "@zthun/helpful-fn";
+import { castArray, get, uniqBy, upperCase } from "lodash-es";
 import {
-  castArray,
-  get,
-  isUndefined,
-  omitBy,
-  uniqBy,
-  upperCase,
-} from "lodash-es";
-import type { ZRomulatorSystemContentType } from "./system-content-type.mjs";
-import type { ZRomulatorSystemHardwareType } from "./system-hardware-type.mjs";
+  isSystemContentType,
+  ZRomulatorSystemContentType,
+} from "./system-content-type.mjs";
+import {
+  isSystemHardwareType,
+  ZRomulatorSystemHardwareType,
+} from "./system-hardware-type.mjs";
 import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
-import type { ZRomulatorSystemMediaFormatType } from "./system-media-format-type.mjs";
+import {
+  isSystemMediaFormat,
+  ZRomulatorSystemMediaFormat,
+} from "./system-media-format-type.mjs";
 
 /**
  * Represents a system in romulator.
@@ -39,53 +41,57 @@ export interface IZRomulatorSystem {
   extensions: string[];
 
   /**
+   * Type classifications for the system.
+   */
+  classification: {
+    /**
+     * What type of system the hardware is.
+     *
+     * @example 'console'
+     */
+    hardwareType: ZRomulatorSystemHardwareType;
+
+    /**
+     * The type of media format.
+     */
+    mediaFormat: ZRomulatorSystemMediaFormat;
+
+    /**
+     * The digital format of the game media.
+     */
+    contentType: ZRomulatorSystemContentType;
+  };
+
+  /**
    * The canonical name of the system.
    *
    * This is the most globally recognized name,
    * not the historical accurate name for each
    * and every region.
    */
-  name?: string;
+  name: string;
 
   /**
    * The company that published the system.
    */
-  company?: string;
-
-  /**
-   * Type classifications for the system.
-   */
-  classification?: {
-    /**
-     * What type of system the hardware is.
-     *
-     * @example 'console'
-     */
-    hardwareType?: ZRomulatorSystemHardwareType;
-
-    /**
-     * The type of media format.
-     */
-    mediaFormat?: ZRomulatorSystemMediaFormatType;
-
-    /**
-     * The digital format of the game media.
-     */
-    contentType?: ZRomulatorSystemContentType;
-  };
+  company: string;
 
   /**
    * The years the system was in production until.
    */
-  productionYears?: {
+  productionYears: {
     /**
      * The first year the system went into production.
+     *
+     * Uses ? if we are not sure.
      */
-    start?: number;
+    start: number | "?";
     /**
      * The year when production stopped.
+     *
+     * Current implies that production is still happening.
      */
-    end?: number;
+    end: number | "current";
   };
 }
 
@@ -95,6 +101,21 @@ export interface IZRomulatorSystem {
 export class ZRomulatorSystemBuilder {
   private _system: IZRomulatorSystem = {
     id: ZRomulatorSystemId.Nintendo,
+    name: "",
+
+    classification: {
+      hardwareType: ZRomulatorSystemHardwareType.Unknown,
+      mediaFormat: ZRomulatorSystemMediaFormat.Unknown,
+      contentType: ZRomulatorSystemContentType.Unknown,
+    },
+
+    company: "",
+
+    productionYears: {
+      start: "?",
+      end: "current",
+    },
+
     extensions: ["zip", "7z"],
   };
 
@@ -153,7 +174,6 @@ export class ZRomulatorSystemBuilder {
    *        This instance.
    */
   public hardware(type: ZRomulatorSystemHardwareType): this {
-    this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.hardwareType = type;
 
     return this;
@@ -168,8 +188,7 @@ export class ZRomulatorSystemBuilder {
    * @returns
    *        This instance.
    */
-  public mediaFormat(type: ZRomulatorSystemMediaFormatType): this {
-    this._system.classification = firstDefined({}, this._system.classification);
+  public mediaFormat(type: ZRomulatorSystemMediaFormat): this {
     this._system.classification.mediaFormat = type;
 
     return this;
@@ -185,13 +204,44 @@ export class ZRomulatorSystemBuilder {
    *        This instance.
    */
   public contentType(type: ZRomulatorSystemContentType): this {
-    this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.contentType = type;
     return this;
   }
 
   /**
-   * Sets the production run.
+   * Sets the production start value.
+   *
+   * @param start -
+   *        The year the system was released into production.
+   *        Use '?' if you do not know this information.
+   *
+   * @returns
+   *        This object.
+   */
+  public productionStart(start: number | "?") {
+    this._system.productionYears.start = start;
+
+    return this;
+  }
+
+  /**
+   * Sets the production end of life value.
+   *
+   * @param end -
+   *        The end of life year.  Set to current
+   *        to mark no end of life.
+   *
+   * @returns
+   *        This object.
+   */
+  public productionEnd(end: number | "current") {
+    this._system.productionYears.end = end;
+
+    return this;
+  }
+
+  /**
+   * Sets the full production run.
    *
    * @param start -
    *        The starting year of production.
@@ -201,18 +251,11 @@ export class ZRomulatorSystemBuilder {
    * @returns
    *        This object.
    */
-  public production(start: number, end?: number) {
-    delete this._system.productionYears;
-    this._system.productionYears = {
-      start,
-      end,
-    };
-    this._system.productionYears = omitBy(
-      this._system.productionYears,
-      isUndefined,
-    );
-
-    return this;
+  public production(
+    start: number | "?" = "?",
+    end: number | "current" = "current",
+  ) {
+    return this.productionStart(start).productionEnd(end);
   }
 
   /**
@@ -234,6 +277,92 @@ export class ZRomulatorSystemBuilder {
     return this;
   }
 
+  private parseId(candidate: object) {
+    const id = get(candidate, "id");
+
+    return isSystemId(id) ? this.id(id) : this;
+  }
+
+  private parseName(candidate: object) {
+    const name = get(candidate, "name");
+
+    return name != null && typeof name === "string" ? this.name(name) : this;
+  }
+
+  private parseCompany(candidate: object) {
+    const company = get(candidate, "company");
+
+    return company != null && typeof company === "string"
+      ? this.company(company)
+      : this;
+  }
+
+  private parseExtensions(candidate: object) {
+    const extensions = castArray(get(candidate, "extensions"))
+      .filter((ext) => ext != null)
+      .filter((ext) => typeof ext === "string");
+
+    return this.extension(extensions);
+  }
+
+  private parseHardwareType(classification: object) {
+    const hardwareType = get(classification, "hardwareType");
+
+    return isSystemHardwareType(hardwareType)
+      ? this.hardware(hardwareType)
+      : this;
+  }
+
+  private parseMediaFormat(classification: object) {
+    const mediaFormat = get(classification, "mediaFormat");
+
+    return isSystemMediaFormat(mediaFormat)
+      ? this.mediaFormat(mediaFormat)
+      : this;
+  }
+
+  private parseContentType(classification: object) {
+    const contentType = get(classification, "contentType");
+
+    return isSystemContentType(contentType)
+      ? this.contentType(contentType)
+      : this;
+  }
+
+  private parseClassification(candidate: object) {
+    const classification = get(candidate, "classification");
+
+    return classification != null && typeof classification === "object"
+      ? this.parseHardwareType(classification)
+          .parseMediaFormat(classification)
+          .parseContentType(classification)
+      : this;
+  }
+
+  private parseProductionStart(productionYears: object) {
+    const start = get(productionYears, "start");
+
+    return typeof start === "number" || start === "?"
+      ? this.productionStart(start)
+      : this;
+  }
+
+  private parseProductionEnd(productionYears: object) {
+    const end = get(productionYears, "end");
+
+    return typeof end === "number" || end === "current"
+      ? this.productionEnd(end)
+      : this;
+  }
+
+  private parseProductionYears(candidate: object) {
+    const production = get(candidate, "productionYears");
+
+    return production != null && typeof production === "object"
+      ? this.parseProductionStart(production).parseProductionEnd(production)
+      : this;
+  }
+
   /**
    * Parses an unknown object to try and build a system from it.
    *
@@ -248,26 +377,14 @@ export class ZRomulatorSystemBuilder {
       return this;
     }
 
-    const id = get(candidate, "id");
-    const name = get(candidate, "name");
-    const company = get(candidate, "company");
-    const extensions = castArray(get(candidate, "extensions"))
-      .filter((ext) => ext != null)
-      .filter((ext) => typeof ext === "string");
+    this.parseId(candidate)
+      .parseName(candidate)
+      .parseCompany(candidate)
+      .parseExtensions(candidate)
+      .parseClassification(candidate)
+      .parseProductionYears(candidate);
 
-    if (isSystemId(id)) {
-      this.id(id);
-    }
-
-    if (name != null && typeof name === "string") {
-      this.name(name);
-    }
-
-    if (company != null && typeof company === "string") {
-      this.company(company);
-    }
-
-    return this.extension(extensions);
+    return this;
   }
 
   /**

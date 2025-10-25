@@ -17,7 +17,10 @@ import type { IZRomulatorGame } from "@zthun/romulator-client";
 import {
   ZRomulatorGameBuilder,
   ZRomulatorSystemBuilder,
+  ZRomulatorSystemContentType,
+  ZRomulatorSystemHardwareType,
   ZRomulatorSystemId,
+  ZRomulatorSystemMediaFormat,
 } from "@zthun/romulator-client";
 import type { History } from "history";
 import { createMemoryHistory } from "history";
@@ -42,6 +45,11 @@ describe("SystemPage", () => {
   const nes = new ZRomulatorSystemBuilder()
     .id(ZRomulatorSystemId.Nintendo)
     .name("Nintendo Entertainment System")
+    .company("Nintendo")
+    .hardware(ZRomulatorSystemHardwareType.Console)
+    .mediaFormat(ZRomulatorSystemMediaFormat.Cartridge)
+    .contentType(ZRomulatorSystemContentType.ReadOnlyMemory)
+    .production(1983, 1995)
     .build();
 
   const batman = new ZRomulatorGameBuilder()
@@ -174,6 +182,66 @@ describe("SystemPage", () => {
 
       // Assert.
       expect(actual).toBeTruthy();
+    });
+  });
+
+  describe("Information", () => {
+    async function shouldRenderInformation(
+      expected: string,
+      fieldFn: (target: ZRomulatorSystemPageComponentModel) => Promise<string>,
+    ) {
+      // Arrange.
+      const target = await createTestTarget();
+      await target.load();
+
+      // Act.
+      const actual = await fieldFn(target);
+
+      // Assert.
+      expect(actual).toEqual(expected);
+    }
+
+    it("should render the system name", async () => {
+      await shouldRenderInformation(nes.name, (t) => t.name());
+    });
+
+    it("should render the system company", async () => {
+      await shouldRenderInformation(nes.company, (t) => t.company());
+    });
+
+    it("should render the system hardware type", async () => {
+      const { classification } = nes;
+      const { hardwareType } = classification;
+
+      await shouldRenderInformation(hardwareType, (t) => t.hardwareType());
+    });
+
+    it("should render the system media format", async () => {
+      const { classification } = nes;
+      const { mediaFormat } = classification;
+
+      await shouldRenderInformation(mediaFormat, (t) => t.mediaFormat());
+    });
+
+    it("should render the content type", async () => {
+      const { classification } = nes;
+      const { contentType } = classification;
+
+      await shouldRenderInformation(contentType, (t) => t.contentType());
+    });
+
+    it("should render the production start date", async () => {
+      const { productionYears } = nes;
+      const { start } = productionYears;
+
+      await shouldRenderInformation(String(start), (t) => t.productionStart());
+    });
+
+    it("should render the production end date", async () => {
+      const { productionYears } = nes;
+      const { end } = productionYears;
+
+      await shouldRenderInformation(String(end), (t) => t.productionEnd());
     });
   });
 
