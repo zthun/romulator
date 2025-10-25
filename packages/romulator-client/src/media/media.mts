@@ -102,10 +102,10 @@ export class ZRomulatorMediaBuilder {
     const ext = extname(fileName);
     const title = basename(fileName, ext);
 
-    if (isSystemMediaType(fileName) && isSystemId(parent)) {
+    if (isSystemMediaType(title) && isSystemId(parent)) {
       // This is media for system hardware
       const id = `${parent}-${kebabCase(title)}`;
-      return builder.id(id).system(parent).type(fileName).game(undefined);
+      return builder.id(id).system(parent).type(title).game(undefined);
     }
 
     if (fileName && isGameMediaType(parent) && isSystemId(grandparent)) {
