@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0](https://github.com/zthun/romulator/compare/v1.11.0...v1.12.0) (2025-10-25)
+
+
+### Features
+
+* add the system key values to the information card ([3cf7e92](https://github.com/zthun/romulator/commit/3cf7e92edeb45b44c97822b0fc5e5be9da0ec986))
+
+
+
 ## [1.11.0](https://github.com/zthun/romulator/compare/v1.10.0...v1.11.0) (2025-10-25)
 
 **Note:** Version bump only for package @zthun/romulator-web
