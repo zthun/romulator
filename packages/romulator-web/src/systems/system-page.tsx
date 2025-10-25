@@ -113,7 +113,8 @@ export function ZRomulatorSystemPage() {
       );
     }
 
-    const { name, company, classification, productionYears } = system;
+    const { name, company, classification, extensions, productionYears } =
+      system;
     const { hardwareType, mediaFormat, contentType } = classification;
     const { start, end } = productionYears;
 
@@ -164,7 +165,7 @@ export function ZRomulatorSystemPage() {
               <ZIconFontAwesome name="gamepad" width={ZSizeFixed.Medium} />
             ),
             heading: "Games",
-            subHeading: `Your ${system.name} Games`,
+            subHeading: extensions.join(", "),
           }}
         >
           <ZRomulatorGamesList
