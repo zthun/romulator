@@ -52,16 +52,6 @@ export enum ZRomulatorSystemMediaType {
    */
   Controller = "controller",
   /**
-   * A icon for the system.
-   *
-   * These are normally 32x32.
-   */
-  Icon = "icon",
-  /**
-   * An illustration of the system.
-   */
-  Illustration = "illustration",
-  /**
    * A picture of the system.
    *
    * These are real life looking photos of what
