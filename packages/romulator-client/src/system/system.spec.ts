@@ -1,8 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { ZRomulatorSystemContentType } from "./system-content-type.mjs";
-import { ZRomulatorSystemHardwareType } from "./system-hardware-type.mjs";
+import {
+  isSystemContentType,
+  ZRomulatorSystemContentType,
+} from "./system-content-type.mjs";
+import {
+  isSystemHardwareType,
+  ZRomulatorSystemHardwareType,
+} from "./system-hardware-type.mjs";
 import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
-import { ZRomulatorSystemMediaFormat } from "./system-media-format-type.mjs";
+import {
+  isSystemMediaFormat,
+  ZRomulatorSystemMediaFormat,
+} from "./system-media-format-type.mjs";
 import { ZRomulatorSystemBuilder } from "./system.mjs";
 
 describe("ZRomulatorSystem", () => {
@@ -319,12 +328,12 @@ describe("ZRomulatorSystem", () => {
   });
 });
 
-describe.skip("IsSystemId", () => {
-  it("should return true for supported systems", () => {
+describe("IsSystemId", () => {
+  it("should return true for supported values", () => {
     expect(isSystemId(ZRomulatorSystemId.Switch)).toBeTruthy();
   });
 
-  it("should return false for unsupported systems", () => {
+  it("should return false for unsupported values", () => {
     expect(isSystemId("ps105")).toBeFalsy();
   });
 
@@ -338,5 +347,75 @@ describe.skip("IsSystemId", () => {
 
   it("should return false for null", () => {
     expect(isSystemId(null)).toBeFalsy();
+  });
+});
+
+describe("IsSystemContentType", () => {
+  it("should return true for supported values", () => {
+    expect(isSystemContentType(ZRomulatorSystemContentType.Disk)).toBeTruthy();
+  });
+
+  it("should return false for unsupported values", () => {
+    expect(isSystemContentType("cloud")).toBeFalsy();
+  });
+
+  it("should return false for non strings", () => {
+    expect(isSystemContentType(42)).toBeFalsy();
+  });
+
+  it("should return false for undefined", () => {
+    expect(isSystemContentType(undefined)).toBeFalsy();
+  });
+
+  it("should return false for null", () => {
+    expect(isSystemContentType(null)).toBeFalsy();
+  });
+});
+
+describe("IsSystemHardwareType", () => {
+  it("should return true for supported values", () => {
+    expect(
+      isSystemHardwareType(ZRomulatorSystemHardwareType.Flipper),
+    ).toBeTruthy();
+  });
+
+  it("should return false for unsupported values", () => {
+    expect(isSystemHardwareType("toaster")).toBeFalsy();
+  });
+
+  it("should return false for non strings", () => {
+    expect(isSystemHardwareType(42)).toBeFalsy();
+  });
+
+  it("should return false for undefined", () => {
+    expect(isSystemHardwareType(undefined)).toBeFalsy();
+  });
+
+  it("should return false for null", () => {
+    expect(isSystemHardwareType(null)).toBeFalsy();
+  });
+});
+
+describe("IsSystemMediaFormat", () => {
+  it("should return true for supported values", () => {
+    expect(
+      isSystemMediaFormat(ZRomulatorSystemMediaFormat.FloppyDisk),
+    ).toBeTruthy();
+  });
+
+  it("should return false for unsupported values", () => {
+    expect(isSystemMediaFormat("tape")).toBeFalsy();
+  });
+
+  it("should return false for non strings", () => {
+    expect(isSystemMediaFormat(42)).toBeFalsy();
+  });
+
+  it("should return false for undefined", () => {
+    expect(isSystemMediaFormat(undefined)).toBeFalsy();
+  });
+
+  it("should return false for null", () => {
+    expect(isSystemMediaFormat(null)).toBeFalsy();
   });
 });
