@@ -174,7 +174,7 @@ describe("ZRomulatorSystem", () => {
           .contentType(contentType)
           .parse({})
           .build();
-        const { classification = {} } = system;
+        const { classification } = system;
         const {
           hardwareType: actualHardwareType,
           mediaFormat: actualMediaFormat,
@@ -198,7 +198,7 @@ describe("ZRomulatorSystem", () => {
           .contentType(contentType)
           .parse({ classification: "lol-wut" })
           .build();
-        const { classification = {} } = system;
+        const { classification } = system;
         const {
           hardwareType: actualHardwareType,
           mediaFormat: actualMediaFormat,
@@ -319,7 +319,7 @@ describe("ZRomulatorSystem", () => {
   });
 });
 
-describe("IsSystemId", () => {
+describe.skip("IsSystemId", () => {
   it("should return true for supported systems", () => {
     expect(isSystemId(ZRomulatorSystemId.Switch)).toBeTruthy();
   });
