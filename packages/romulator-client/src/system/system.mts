@@ -1,12 +1,5 @@
 import { firstDefined } from "@zthun/helpful-fn";
-import {
-  castArray,
-  get,
-  isUndefined,
-  omitBy,
-  uniqBy,
-  upperCase,
-} from "lodash-es";
+import { castArray, get, uniqBy, upperCase } from "lodash-es";
 import {
   isSystemContentType,
   ZRomulatorSystemContentType,
@@ -76,25 +69,29 @@ export interface IZRomulatorSystem {
    * not the historical accurate name for each
    * and every region.
    */
-  name?: string;
+  name: string;
 
   /**
    * The company that published the system.
    */
-  company?: string;
+  company: string;
 
   /**
    * The years the system was in production until.
    */
-  productionYears?: {
+  productionYears: {
     /**
      * The first year the system went into production.
+     *
+     * Uses ? if we are not sure.
      */
-    start?: number;
+    start: number | "?";
     /**
      * The year when production stopped.
+     *
+     * Current implies that production is still happening.
      */
-    end?: number;
+    end: number | "current";
   };
 }
 
@@ -104,11 +101,21 @@ export interface IZRomulatorSystem {
 export class ZRomulatorSystemBuilder {
   private _system: IZRomulatorSystem = {
     id: ZRomulatorSystemId.Nintendo,
+    name: "",
+
     classification: {
       hardwareType: ZRomulatorSystemHardwareType.Unknown,
       mediaFormat: ZRomulatorSystemMediaFormat.Unknown,
       contentType: ZRomulatorSystemContentType.Unknown,
     },
+
+    company: "",
+
+    productionYears: {
+      start: "?",
+      end: "current",
+    },
+
     extensions: ["zip", "7z"],
   };
 
@@ -212,16 +219,12 @@ export class ZRomulatorSystemBuilder {
    * @returns
    *        This object.
    */
-  public production(start: number, end?: number) {
-    delete this._system.productionYears;
-    this._system.productionYears = {
-      start,
-      end,
-    };
-    this._system.productionYears = omitBy(
-      this._system.productionYears,
-      isUndefined,
-    );
+  public production(
+    start: number | "?" = "?",
+    end: number | "current" = "current",
+  ) {
+    this._system.productionYears.start = start;
+    this._system.productionYears.end = end;
 
     return this;
   }
