@@ -5,6 +5,10 @@ import { keyBy } from "lodash-es";
  */
 export enum ZRomulatorSystemMediaFormat {
   /**
+   * No idea
+   */
+  Unknown = "unknown",
+  /**
    * Cartridge based systems.
    */
   Cartridge = "cartridge",

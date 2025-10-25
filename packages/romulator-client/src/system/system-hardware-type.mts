@@ -5,6 +5,10 @@ import { keyBy } from "lodash-es";
  */
 export enum ZRomulatorSystemHardwareType {
   /**
+   * No idea what this is.
+   */
+  Unknown = "unknown",
+  /**
    * An accessory that attaches to another system.
    */
   Accessory = "accessory",

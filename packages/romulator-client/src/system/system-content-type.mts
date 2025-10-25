@@ -5,6 +5,10 @@ import { keyBy } from "lodash-es";
  */
 export enum ZRomulatorSystemContentType {
   /**
+   * No idea
+   */
+  Unknown = "unknown",
+  /**
    * Uses memory roms.
    */
   ReadOnlyMemory = "rom",
