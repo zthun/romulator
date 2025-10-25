@@ -23,8 +23,6 @@ export class ZRomulatorMenuComponentModel extends ZCircusComponentModel {
 
   public systems = this.listItem.bind(this, "systems");
   public games = this.listItem.bind(this, "games");
-  public audits = this.listItem.bind(this, "audits");
-  public steam = this.listItem.bind(this, "steam");
   public settings = this.listItem.bind(this, "settings");
 
   public drawer(): Promise<ZDialogComponentModel> {

@@ -103,13 +103,5 @@ describe("ZRomulatorMenu", () => {
     it("should navigate to the settings page", async () => {
       await shouldNavigateTo("/settings", "settings");
     });
-
-    it("should navigate to the audits page", async () => {
-      await shouldNavigateTo("/audits", "audits");
-    });
-
-    it("should navigate to the steam page", async () => {
-      await shouldNavigateTo("/steam", "steam");
-    });
   });
 });

@@ -86,32 +86,6 @@ export function ZRomulatorMenu() {
           </ZListItem>
 
           <ZListItem
-            name="audits"
-            interactive
-            cursor="pointer"
-            onClick={navigateAndClose.bind(null, "/audits")}
-          >
-            <ZContentTitle
-              avatar={<ZIconFontAwesome name="magnifying-glass" />}
-              heading={<ZH3 compact>Audits</ZH3>}
-              subHeading={<ZCaption>Audit your games</ZCaption>}
-            />
-          </ZListItem>
-
-          <ZListItem
-            name="steam"
-            interactive
-            cursor="pointer"
-            onClick={navigateAndClose.bind(null, "/steam")}
-          >
-            <ZContentTitle
-              avatar={<ZIconFontAwesome name="steam" family="brands" />}
-              heading={<ZH3 compact>Steam</ZH3>}
-              subHeading={<ZCaption>Integrate your games with Steam</ZCaption>}
-            />
-          </ZListItem>
-
-          <ZListItem
             name="settings"
             interactive
             cursor="pointer"
