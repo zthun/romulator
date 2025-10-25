@@ -1,3 +1,5 @@
+import { keyBy } from "lodash-es";
+
 /**
  * Describes the type of hardware a system is.
  */
@@ -46,4 +48,31 @@ export enum ZRomulatorSystemHardwareType {
    * Virtual machine based system.
    */
   VirtualMachine = "virtual-machine",
+}
+
+const ZRomulatorSystemHardwareTypeMap = keyBy(
+  Object.values(ZRomulatorSystemHardwareType),
+);
+
+/**
+ * Gets whether a candidate string represents a system hardware type.
+ *
+ * This check is case sensitive.
+ *
+ * @param candidate -
+ *        The candidate to check.
+ *
+ * @returns
+ *        True if candidate is a string that represents a system hardware type.
+ */
+export function isSystemHardwareType(
+  candidate: any,
+): candidate is ZRomulatorSystemHardwareType {
+  return (
+    typeof candidate === "string" &&
+    Object.prototype.hasOwnProperty.call(
+      ZRomulatorSystemHardwareTypeMap,
+      candidate,
+    )
+  );
 }
