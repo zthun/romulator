@@ -50,34 +50,30 @@ export enum ZRomulatorSystemMediaType {
   /**
    * An image of a system's controller.
    */
-  Controller = "controller.png",
+  Controller = "controller",
   /**
    * A icon for the system.
    *
    * These are normally 32x32.
    */
-  Icon = "icon.png",
+  Icon = "icon",
   /**
    * An illustration of the system.
    */
-  Illustration = "illustration.png",
+  Illustration = "illustration",
   /**
    * A picture of the system.
    *
    * These are real life looking photos of what
    * a system looks like.
    */
-  Picture = "picture.png",
-  /**
-   * A video trailer for the system.
-   */
-  Video = "video.mp4",
+  Picture = "picture",
   /**
    * A wheel for a system.
    *
    * This is basically the logo.
    */
-  Wheel = "wheel.png",
+  Wheel = "wheel",
 }
 
 /**
