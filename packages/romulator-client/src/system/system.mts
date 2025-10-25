@@ -10,7 +10,7 @@ import {
 import type { ZRomulatorSystemContentType } from "./system-content-type.mjs";
 import type { ZRomulatorSystemHardwareType } from "./system-hardware-type.mjs";
 import { isSystemId, ZRomulatorSystemId } from "./system-id.mjs";
-import type { ZRomulatorSystemMediaFormatType } from "./system-media-format-type.mjs";
+import type { ZRomulatorSystemMediaFormat } from "./system-media-format-type.mjs";
 
 /**
  * Represents a system in romulator.
@@ -66,7 +66,7 @@ export interface IZRomulatorSystem {
     /**
      * The type of media format.
      */
-    mediaFormat?: ZRomulatorSystemMediaFormatType;
+    mediaFormat?: ZRomulatorSystemMediaFormat;
 
     /**
      * The digital format of the game media.
@@ -168,7 +168,7 @@ export class ZRomulatorSystemBuilder {
    * @returns
    *        This instance.
    */
-  public mediaFormat(type: ZRomulatorSystemMediaFormatType): this {
+  public mediaFormat(type: ZRomulatorSystemMediaFormat): this {
     this._system.classification = firstDefined({}, this._system.classification);
     this._system.classification.mediaFormat = type;
 
