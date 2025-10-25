@@ -39,6 +39,7 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
     "vite": "^7.1.12",
+    "vite-plugin-node-polyfills": "^0.24.0",
     "vitest": "^4.0.3",
     "vitest-mock-extended": "^3.1.0"
   }
