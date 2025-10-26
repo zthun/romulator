@@ -15,7 +15,7 @@ import {
   ZSuspenseProgress,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
-import { firstDefined } from "@zthun/helpful-fn";
+import { firstDefined, ZOrientation } from "@zthun/helpful-fn";
 import {
   ZDataRequestBuilder,
   ZFilterBinaryBuilder,
@@ -203,12 +203,19 @@ export function ZRomulatorSystemPage() {
           subHeading: startCase(media[mediaIndex]),
         }}
       >
-        <ZCarousel
-          count={media.length}
-          renderAtIndex={(i) => renderSystemMedia(media[i], system)}
-          value={mediaIndex}
-          onValueChange={setMediaIndex}
-        />
+        <ZStack
+          orientation={ZOrientation.Horizontal}
+          width={ZSizeVaried.Full}
+          align={{ items: "center" }}
+          justify={{ content: "center" }}
+        >
+          <ZCarousel
+            count={media.length}
+            renderAtIndex={(i) => renderSystemMedia(media[i], system)}
+            value={mediaIndex}
+            onValueChange={setMediaIndex}
+          />
+        </ZStack>
       </ZCard>
     );
   };
@@ -231,7 +238,7 @@ export function ZRomulatorSystemPage() {
     }
 
     return (
-      <ZGrid columns={{ xl: "1fr auto", sm: "1fr" }} gap={ZSizeFixed.Medium}>
+      <ZGrid columns={{ xl: "1fr auto", md: "1fr" }} gap={ZSizeFixed.Medium}>
         {renderSystemGameListCard(system)}
 
         <ZStack gap={ZSizeFixed.Medium}>
