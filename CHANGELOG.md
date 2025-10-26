@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.1](https://github.com/zthun/romulator/compare/v1.14.0...v1.14.1) (2025-10-26)
+
+
+### Bug Fixes
+
+* carousel should be centered ([f1eada2](https://github.com/zthun/romulator/commit/f1eada2dd7f9ed106673af111dabdc8d0f7be209))
+
+
+
 ## [1.14.0](https://github.com/zthun/romulator/compare/v1.13.0...v1.14.0) (2025-10-25)
 
 
