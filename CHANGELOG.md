@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.0](https://github.com/zthun/romulator/compare/v1.14.1...v1.15.0) (2025-10-27)
+
+
+### Features
+
+* game menu item sub heading is now Browse your library ([4bc7154](https://github.com/zthun/romulator/commit/4bc7154a392560eb0afe46888cbab1f879c4c419))
+* games page shows a list of all games across all systems ([9f029bd](https://github.com/zthun/romulator/commit/9f029bd79b486d084bd691a6edef765a5d8d9753))
+
+
+### Bug Fixes
+
+* tile lists are now constrained to the height properly ([0a7ca31](https://github.com/zthun/romulator/commit/0a7ca31452805ae40d764418f4d81f96ad6d9a40))
+
+
+
 ## [1.14.1](https://github.com/zthun/romulator/compare/v1.14.0...v1.14.1) (2025-10-26)
 
 
