@@ -30,7 +30,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
   const renderTile = (value: IZRomulatorGame) => {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
     const id = `${value.id}-marquees`;
-    const wheel = `${api}/media/${id}`;
+    const marquee = `${api}/media/${id}`;
 
     return (
       <ZTile
@@ -45,7 +45,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
           align={{ items: "center" }}
           height={ZSizeVaried.Full}
         >
-          <ZImageSource src={wheel} width={ZSizeVaried.Full} />
+          <ZImageSource src={marquee} width={ZSizeVaried.Full} />
         </ZStack>
       </ZTile>
     );
