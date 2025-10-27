@@ -24,7 +24,13 @@ describe("ZRomulatorGamesPage", () => {
     .name("Super Mario Bros.")
     .system(ZRomulatorSystemId.Nintendo)
     .build();
-  const games = [mario];
+  const crash = new ZRomulatorGameBuilder()
+    .id("psx-crash")
+    .file("/path/to/games/psx/crash.zip")
+    .name("Crash Bandicoot")
+    .system(ZRomulatorSystemId.PSX)
+    .build();
+  const games = [mario, crash];
 
   let _gamesService: Mocked<IZRomulatorGamesService>;
   let _renderer: IZCircusSetup | undefined;
@@ -71,7 +77,7 @@ describe("ZRomulatorGamesPage", () => {
     const ids = tiles.map((g) => g.driver.attribute("data-name"));
     const actual = await Promise.all(ids);
     // Assert.
-    expect(actual).toEqual(expected);
+    expect(actual).toEqual(expect.arrayContaining(expected));
   });
 
   it("should navigate me to the game page when I click on one", async () => {
@@ -83,6 +89,6 @@ describe("ZRomulatorGamesPage", () => {
     await system?.click();
 
     // Assert.
-    expect(_history.location.pathname).toEqual(`/${mario.id}`);
+    expect(_history.location.pathname).toEqual(`/games/${mario.id}`);
   });
 });

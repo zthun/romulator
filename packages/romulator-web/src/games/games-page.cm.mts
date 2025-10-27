@@ -21,7 +21,7 @@ export class ZRomulatorGamesPageComponentModel extends ZCircusComponentModel {
     return ZCircusBy.all(
       grid.driver,
       ZBoxComponentModel,
-      ".ZRomulatorGamesPage-tile",
+      ".ZRomulatorGameTile-root",
     );
   }
 }
