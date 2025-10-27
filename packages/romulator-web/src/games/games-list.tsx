@@ -1,4 +1,5 @@
 import {
+  useCss,
   useFashionTheme,
   useNavigate,
   ZGridView,
@@ -8,6 +9,7 @@ import {
   type IZComponentValue,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
+import { css, cssJoinDefined } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, type IZDataRequest } from "@zthun/helpful-query";
 import { useAmbassadorState } from "@zthun/helpful-react";
 import type { IZRomulatorGame } from "@zthun/romulator-client";
@@ -27,6 +29,17 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
   const { body } = useFashionTheme();
   const navigate = useNavigate();
 
+  const _className = useCss(css`
+    & {
+      height: 10rem;
+    }
+
+    & .ZRomulatorGameTile-marquee > img {
+      width: 100%;
+      max-height: 8rem;
+    }
+  `);
+
   const renderTile = (value: IZRomulatorGame) => {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
     const id = `${value.id}-marquees`;
@@ -34,7 +47,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
 
     return (
       <ZTile
-        className="ZRomulatorGameTile-root"
+        className={cssJoinDefined("ZRomulatorGameTile-root", _className)}
         fashion={body}
         key={value.id}
         name={value.id}
@@ -45,7 +58,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
           align={{ items: "center" }}
           height={ZSizeVaried.Full}
         >
-          <ZImageSource src={marquee} width={ZSizeVaried.Full} />
+          <ZImageSource className="ZRomulatorGameTile-marquee" src={marquee} />
         </ZStack>
       </ZTile>
     );
