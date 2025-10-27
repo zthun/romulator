@@ -51,7 +51,7 @@ export function ZRomulatorSystemsPage() {
         className="ZRomulatorSystemsPage-tile"
         fashion={body}
         key={system.id}
-        data-name={system.id}
+        name={system.id}
         onActivate={navigate.bind(null, system.id)}
       >
         <ZStack
