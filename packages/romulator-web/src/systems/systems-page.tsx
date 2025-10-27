@@ -2,7 +2,6 @@ import {
   useCss,
   useFashionTheme,
   useNavigate,
-  ZBox,
   ZBreadcrumbsLocation,
   ZCard,
   ZGridView,
@@ -16,6 +15,7 @@ import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { useState } from "react";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
+import { ZTile } from "../tile/tile.js";
 import { useSystemsService } from "./systems-service.mjs";
 
 const DefaultSystemSortOrder = new ZSortBuilder()
@@ -36,8 +36,8 @@ export function ZRomulatorSystemsPage() {
 
   const _className = useCss(css`
     .ZRomulatorSystemsPage-wheel > img {
-      max-width: 23rem;
-      max-height: 11rem;
+      max-width: 24rem;
+      max-height: 12rem;
     }
   `);
 
@@ -47,15 +47,12 @@ export function ZRomulatorSystemsPage() {
     const wheel = `${api}/media/${id}`;
 
     return (
-      <ZBox
+      <ZTile
         className="ZRomulatorSystemsPage-tile"
         fashion={body}
-        interactive
         key={system.id}
-        cursor="pointer"
-        padding={ZSizeFixed.Small}
         data-name={system.id}
-        onClick={() => navigate(system.id)}
+        onActivate={navigate.bind(null, system.id)}
       >
         <ZStack
           justify={{ content: "center" }}
@@ -69,7 +66,7 @@ export function ZRomulatorSystemsPage() {
             width={ZSizeVaried.Full}
           />
         </ZStack>
-      </ZBox>
+      </ZTile>
     );
   };
 
