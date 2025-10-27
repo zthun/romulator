@@ -30,11 +30,11 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
   const navigate = useNavigate();
 
   const _className = useCss(css`
-    & {
+    .ZRomulatorGameTile-root {
       height: 10rem;
     }
 
-    & .ZRomulatorGameTile-marquee > img {
+    .ZRomulatorGameTile-marquee > img {
       width: 100%;
       max-height: 10rem;
     }
@@ -47,7 +47,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
 
     return (
       <ZTile
-        className={cssJoinDefined("ZRomulatorGameTile-root", _className)}
+        className={"ZRomulatorGameTile-root"}
         fashion={body}
         key={value.id}
         name={value.id}
@@ -66,6 +66,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
 
   return (
     <ZGridView
+      className={cssJoinDefined(".ZRomulatorGameList-root", _className)}
       GridProps={{
         columns: {
           xl: "1fr 1fr 1fr 1fr 1fr 1fr",
