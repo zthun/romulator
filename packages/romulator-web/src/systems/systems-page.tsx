@@ -49,6 +49,7 @@ export function ZRomulatorSystemsPage() {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
     const id = `${system.id}-wheel`;
     const wheel = `${api}/media/${id}`;
+    const onActivate = () => navigate(system.id);
 
     return (
       <ZTile
@@ -56,7 +57,7 @@ export function ZRomulatorSystemsPage() {
         fashion={body}
         key={system.id}
         name={system.id}
-        onActivate={navigate.bind(null, system.id)}
+        onActivate={onActivate}
       >
         <ZStack
           justify={{ content: "center" }}

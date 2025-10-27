@@ -44,6 +44,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
     const id = `${value.id}-marquees`;
     const marquee = `${api}/media/${id}`;
+    const onActivate = () => navigate(`/games/${value.id}`);
 
     return (
       <ZTile
@@ -51,7 +52,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
         fashion={body}
         key={value.id}
         name={value.id}
-        onActivate={navigate.bind(null, `/games/${value.id}`)}
+        onActivate={onActivate}
       >
         <ZStack
           justify={{ content: "center" }}
