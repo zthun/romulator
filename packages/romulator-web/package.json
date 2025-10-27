@@ -21,9 +21,9 @@
     "@types/node": "^24.9.1",
     "@zthun/cirque": "^7.1.11",
     "@zthun/cirque-du-react": "^7.1.11",
-    "@zthun/fashion-boutique": "^12.0.1",
-    "@zthun/fashion-tailor": "^12.0.1",
-    "@zthun/fashion-theme": "^12.0.1",
+    "@zthun/fashion-boutique": "^12.1.1",
+    "@zthun/fashion-tailor": "^12.1.1",
+    "@zthun/fashion-theme": "^12.1.1",
     "@zthun/helpful-fn": "^9.10.0",
     "@zthun/helpful-query": "^9.10.0",
     "@zthun/helpful-react": "^9.10.0",
@@ -40,7 +40,7 @@
     "typescript": "^5.9.3",
     "vite": "^7.1.12",
     "vite-plugin-node-polyfills": "^0.24.0",
-    "vitest": "^4.0.3",
+    "vitest": "^4.0.4",
     "vitest-mock-extended": "^3.1.0"
   }
 }

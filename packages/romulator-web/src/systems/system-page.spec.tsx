@@ -178,7 +178,7 @@ describe("SystemPage", () => {
       await target.load();
 
       // Act.
-      const actual = target.media();
+      const actual = await target.media();
 
       // Assert.
       expect(actual).toBeTruthy();
@@ -190,7 +190,7 @@ describe("SystemPage", () => {
       await target.load();
 
       // Act.
-      const actual = target.games();
+      const actual = await target.games();
 
       // Assert.
       expect(actual).toBeTruthy();

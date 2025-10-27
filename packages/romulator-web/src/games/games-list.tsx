@@ -1,13 +1,15 @@
 import {
+  useCss,
   useFashionTheme,
   useNavigate,
-  ZBox,
   ZGridView,
   ZImageSource,
   ZStack,
+  ZTile,
   type IZComponentValue,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
+import { css, cssJoinDefined } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, type IZDataRequest } from "@zthun/helpful-query";
 import { useAmbassadorState } from "@zthun/helpful-react";
 import type { IZRomulatorGame } from "@zthun/romulator-client";
@@ -27,35 +29,45 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
   const { body } = useFashionTheme();
   const navigate = useNavigate();
 
+  const _className = useCss(css`
+    .ZRomulatorGameTile-root {
+      height: 10rem;
+    }
+
+    .ZRomulatorGameTile-marquee > img {
+      width: 100%;
+      max-height: 10rem;
+    }
+  `);
+
   const renderTile = (value: IZRomulatorGame) => {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
     const id = `${value.id}-marquees`;
-    const wheel = `${api}/media/${id}`;
+    const marquee = `${api}/media/${id}`;
+    const onActivate = () => navigate(`/games/${value.id}`);
 
     return (
-      <ZBox
-        className="ZRomulatorGameTile-root"
+      <ZTile
+        className={"ZRomulatorGameTile-root"}
         fashion={body}
-        interactive
         key={value.id}
-        cursor="pointer"
-        padding={ZSizeFixed.Small}
-        data-name={value.id}
-        onClick={() => navigate(`/games/${value.id}`)}
+        name={value.id}
+        onActivate={onActivate}
       >
         <ZStack
           justify={{ content: "center" }}
           align={{ items: "center" }}
           height={ZSizeVaried.Full}
         >
-          <ZImageSource src={wheel} width={ZSizeVaried.Full} />
+          <ZImageSource className="ZRomulatorGameTile-marquee" src={marquee} />
         </ZStack>
-      </ZBox>
+      </ZTile>
     );
   };
 
   return (
     <ZGridView
+      className={cssJoinDefined(".ZRomulatorGameList-root", _className)}
       GridProps={{
         columns: {
           xl: "1fr 1fr 1fr 1fr 1fr 1fr",

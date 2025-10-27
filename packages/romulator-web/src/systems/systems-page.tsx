@@ -2,13 +2,13 @@ import {
   useCss,
   useFashionTheme,
   useNavigate,
-  ZBox,
   ZBreadcrumbsLocation,
   ZCard,
   ZGridView,
   ZIconFontAwesome,
   ZImageSource,
   ZStack,
+  ZTile,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { css } from "@zthun/helpful-fn";
@@ -35,9 +35,13 @@ export function ZRomulatorSystemsPage() {
   const [request, setRequest] = useState(DefaultSystemRequest);
 
   const _className = useCss(css`
+    .ZRomulatorSystemsPage-tile {
+      height: 10rem;
+    }
+
     .ZRomulatorSystemsPage-wheel > img {
-      max-width: 23rem;
-      max-height: 11rem;
+      width: 100%;
+      max-height: 10rem;
     }
   `);
 
@@ -45,17 +49,15 @@ export function ZRomulatorSystemsPage() {
     const { api } = new ZRomulatorEnvironmentBuilder().build();
     const id = `${system.id}-wheel`;
     const wheel = `${api}/media/${id}`;
+    const onActivate = () => navigate(system.id);
 
     return (
-      <ZBox
+      <ZTile
         className="ZRomulatorSystemsPage-tile"
         fashion={body}
-        interactive
         key={system.id}
-        cursor="pointer"
-        padding={ZSizeFixed.Small}
-        data-name={system.id}
-        onClick={() => navigate(system.id)}
+        name={system.id}
+        onActivate={onActivate}
       >
         <ZStack
           justify={{ content: "center" }}
@@ -63,13 +65,9 @@ export function ZRomulatorSystemsPage() {
           height={ZSizeVaried.Full}
           width={ZSizeVaried.Full}
         >
-          <ZImageSource
-            className="ZRomulatorSystemsPage-wheel"
-            src={wheel}
-            width={ZSizeVaried.Full}
-          />
+          <ZImageSource className="ZRomulatorSystemsPage-wheel" src={wheel} />
         </ZStack>
-      </ZBox>
+      </ZTile>
     );
   };
 

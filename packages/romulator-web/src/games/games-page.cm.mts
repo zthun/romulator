@@ -4,24 +4,24 @@ import {
   ZTileComponentModel,
 } from "@zthun/fashion-boutique";
 
-export class ZRomulatorSystemsPageComponentModel extends ZCircusComponentModel {
-  public static readonly Selector = ".ZRomulatorSystemsPage-root";
+export class ZRomulatorGamesPageComponentModel extends ZCircusComponentModel {
+  public static readonly Selector = ".ZRomulatorGamesPage-root";
 
   public grid(): Promise<ZGridViewComponentModel> {
     return Promise.resolve(new ZGridViewComponentModel(this.driver));
   }
 
-  public async system(id: string): Promise<ZTileComponentModel | null> {
+  public async game(id: string): Promise<ZTileComponentModel | null> {
     const grid = await this.grid();
     return ZCircusBy.optional(grid.driver, ZTileComponentModel, id);
   }
 
-  public async systems(): Promise<ZTileComponentModel[]> {
+  public async games(): Promise<ZTileComponentModel[]> {
     const grid = await this.grid();
     return ZCircusBy.all(
       grid.driver,
       ZTileComponentModel,
-      ".ZRomulatorSystemsPage-tile",
+      ".ZRomulatorGameTile-root",
     );
   }
 }
