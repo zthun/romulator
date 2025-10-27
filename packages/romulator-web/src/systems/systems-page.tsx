@@ -11,7 +11,7 @@ import {
   ZTile,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
-import { css } from "@zthun/helpful-fn";
+import { css, cssJoinDefined } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { useState } from "react";
@@ -35,9 +35,13 @@ export function ZRomulatorSystemsPage() {
   const [request, setRequest] = useState(DefaultSystemRequest);
 
   const _className = useCss(css`
-    .ZRomulatorSystemsPage-wheel > img {
-      max-width: 24rem;
-      max-height: 12rem;
+    & {
+      height: 10rem;
+    }
+
+    & .ZRomulatorSystemsPage-wheel > img {
+      width: 100%;
+      max-height: 10rem;
     }
   `);
 
@@ -48,7 +52,7 @@ export function ZRomulatorSystemsPage() {
 
     return (
       <ZTile
-        className="ZRomulatorSystemsPage-tile"
+        className={cssJoinDefined("ZRomulatorSystemsPage-tile", _className)}
         fashion={body}
         key={system.id}
         name={system.id}
@@ -60,11 +64,7 @@ export function ZRomulatorSystemsPage() {
           height={ZSizeVaried.Full}
           width={ZSizeVaried.Full}
         >
-          <ZImageSource
-            className="ZRomulatorSystemsPage-wheel"
-            src={wheel}
-            width={ZSizeVaried.Full}
-          />
+          <ZImageSource className="ZRomulatorSystemsPage-wheel" src={wheel} />
         </ZStack>
       </ZTile>
     );

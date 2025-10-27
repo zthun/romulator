@@ -36,7 +36,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
 
     & .ZRomulatorGameTile-marquee > img {
       width: 100%;
-      max-height: 8rem;
+      max-height: 10rem;
     }
   `);
 
