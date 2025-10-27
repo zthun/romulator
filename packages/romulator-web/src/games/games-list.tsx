@@ -4,6 +4,7 @@ import {
   ZGridView,
   ZImageSource,
   ZStack,
+  ZTile,
   type IZComponentValue,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
@@ -11,7 +12,6 @@ import { ZDataRequestBuilder, type IZDataRequest } from "@zthun/helpful-query";
 import { useAmbassadorState } from "@zthun/helpful-react";
 import type { IZRomulatorGame } from "@zthun/romulator-client";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
-import { ZTile } from "../tile/tile.js";
 import { useGamesService } from "./games-service.mjs";
 
 export interface IZRomulatorGamesList extends IZComponentValue<IZDataRequest> {}

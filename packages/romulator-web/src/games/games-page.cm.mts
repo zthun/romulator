@@ -1,7 +1,7 @@
 import { ZCircusBy, ZCircusComponentModel } from "@zthun/cirque";
 import {
-  ZBoxComponentModel,
   ZGridViewComponentModel,
+  ZTileComponentModel,
 } from "@zthun/fashion-boutique";
 
 export class ZRomulatorGamesPageComponentModel extends ZCircusComponentModel {
@@ -11,16 +11,16 @@ export class ZRomulatorGamesPageComponentModel extends ZCircusComponentModel {
     return Promise.resolve(new ZGridViewComponentModel(this.driver));
   }
 
-  public async game(id: string): Promise<ZBoxComponentModel | null> {
+  public async game(id: string): Promise<ZTileComponentModel | null> {
     const grid = await this.grid();
-    return ZCircusBy.optional(grid.driver, ZBoxComponentModel, id);
+    return ZCircusBy.optional(grid.driver, ZTileComponentModel, id);
   }
 
-  public async games(): Promise<ZBoxComponentModel[]> {
+  public async games(): Promise<ZTileComponentModel[]> {
     const grid = await this.grid();
     return ZCircusBy.all(
       grid.driver,
-      ZBoxComponentModel,
+      ZTileComponentModel,
       ".ZRomulatorGameTile-root",
     );
   }

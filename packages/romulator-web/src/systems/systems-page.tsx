@@ -8,6 +8,7 @@ import {
   ZIconFontAwesome,
   ZImageSource,
   ZStack,
+  ZTile,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { css } from "@zthun/helpful-fn";
@@ -15,7 +16,6 @@ import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import { useState } from "react";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
-import { ZTile } from "../tile/tile.js";
 import { useSystemsService } from "./systems-service.mjs";
 
 const DefaultSystemSortOrder = new ZSortBuilder()
