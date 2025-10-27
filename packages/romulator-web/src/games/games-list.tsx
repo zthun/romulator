@@ -1,7 +1,6 @@
 import {
   useFashionTheme,
   useNavigate,
-  ZBox,
   ZGridView,
   ZImageSource,
   ZStack,
@@ -12,6 +11,7 @@ import { ZDataRequestBuilder, type IZDataRequest } from "@zthun/helpful-query";
 import { useAmbassadorState } from "@zthun/helpful-react";
 import type { IZRomulatorGame } from "@zthun/romulator-client";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
+import { ZTile } from "../tile/tile.js";
 import { useGamesService } from "./games-service.mjs";
 
 export interface IZRomulatorGamesList extends IZComponentValue<IZDataRequest> {}
@@ -33,15 +33,12 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
     const wheel = `${api}/media/${id}`;
 
     return (
-      <ZBox
+      <ZTile
         className="ZRomulatorGameTile-root"
         fashion={body}
-        interactive
         key={value.id}
-        cursor="pointer"
-        padding={ZSizeFixed.Small}
-        data-name={value.id}
-        onClick={() => navigate(`/games/${value.id}`)}
+        name={value.id}
+        onActivate={navigate.bind(null, `/games/${value.id}`)}
       >
         <ZStack
           justify={{ content: "center" }}
@@ -50,7 +47,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
         >
           <ZImageSource src={wheel} width={ZSizeVaried.Full} />
         </ZStack>
-      </ZBox>
+      </ZTile>
     );
   };
 
