@@ -16,8 +16,10 @@ import {
   ZDataSourceStatic,
   ZFilterBinaryBuilder,
 } from "@zthun/helpful-query";
+import type { ZRomulatorMediaType } from "@zthun/romulator-client";
 import {
   ZRomulatorGameBuilder,
+  ZRomulatorGameMediaType,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
 import type { History } from "history";
@@ -26,6 +28,7 @@ import { noop } from "lodash-es";
 import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
+import type { ZRomulatorMediaCardComponentModel } from "../media/media-card.cm.mjs";
 import { ZRomulatorGamePageComponentModel } from "./game-page.cm.mjs";
 import { ZRomulatorGamePage } from "./game-page.js";
 import type { IZRomulatorGamesService } from "./games-service.mjs";
@@ -120,6 +123,67 @@ describe("ZGamePage", () => {
 
       // Assert.
       expect(actual).toBeTruthy();
+    });
+  });
+
+  describe("Media", () => {
+    const shouldRenderMedia = async (
+      expected: ZRomulatorMediaType,
+      fn: (
+        target: ZRomulatorGamePageComponentModel,
+      ) => Promise<ZRomulatorMediaCardComponentModel | null>,
+    ) => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const media = await fn(target);
+      const actual = await media?.type();
+
+      // Assert.
+      expect(actual).toEqual(expected);
+    };
+
+    it("should render the back cover", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.BackCover, (t) =>
+        t.backCover(),
+      );
+    });
+
+    it("should render the 3d box", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.Box3d, (t) => t.box3d());
+    });
+
+    it("should render the front cover", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.Cover, (t) => t.cover());
+    });
+
+    it("should render the fan art", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.FanArt, (t) =>
+        t.fanArt(),
+      );
+    });
+
+    it("should render the marquee", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.Marquee, (t) =>
+        t.marquee(),
+      );
+    });
+
+    it("should render the physical media", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.PhysicalMedia, (t) =>
+        t.physicalMedia(),
+      );
+    });
+
+    it("should render the screenshot", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.Screenshot, (t) =>
+        t.screenshot(),
+      );
+    });
+
+    it("should render the title", async () => {
+      await shouldRenderMedia(ZRomulatorGameMediaType.Title, (t) => t.title());
     });
   });
 });
