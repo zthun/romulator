@@ -1,4 +1,5 @@
 import type { IZDataSource } from "@zthun/helpful-query";
+import { useAsyncState } from "@zthun/helpful-react";
 import type { IZRomulatorGame } from "@zthun/romulator-client";
 import { ZHttpService } from "@zthun/webigail-http";
 import type { IZRestfulGet } from "@zthun/webigail-rest";
@@ -23,3 +24,9 @@ export const ZRomulatorGamesServiceContext = createContext(
 );
 
 export const useGamesService = () => useContext(ZRomulatorGamesServiceContext);
+
+export const useGame = (id: string) => {
+  const service = useGamesService();
+
+  return useAsyncState(() => service.get(id), [id]);
+};

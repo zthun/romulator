@@ -96,8 +96,12 @@ describe("Media", () => {
   });
 
   describe("IsMediaType", () => {
-    it("should return true for supported media", () => {
+    it("should return true for supported game media", () => {
       expect(isMediaType(ZRomulatorGameMediaType.Cover)).toBeTruthy();
+    });
+
+    it("should return true for supported system media", () => {
+      expect(isMediaType(ZRomulatorSystemMediaType.Picture)).toBeTruthy();
     });
 
     it("should return false for unsupported media", () => {

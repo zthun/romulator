@@ -21,6 +21,7 @@ import {
   ZRomulatorSystemHardwareType,
   ZRomulatorSystemId,
   ZRomulatorSystemMediaFormat,
+  ZRomulatorSystemMediaType,
 } from "@zthun/romulator-client";
 import type { History } from "history";
 import { createMemoryHistory } from "history";
@@ -159,44 +160,6 @@ describe("SystemPage", () => {
     });
   });
 
-  describe("System", () => {
-    it("should render the system information card", async () => {
-      // Arrange.
-      const target = await createTestTarget();
-      await target.load();
-
-      // Act.
-      const actual = await target.system();
-
-      // Assert.
-      expect(actual).toBeTruthy();
-    });
-
-    it("should render the system media card", async () => {
-      // Arrange.
-      const target = await createTestTarget();
-      await target.load();
-
-      // Act.
-      const actual = await target.media();
-
-      // Assert.
-      expect(actual).toBeTruthy();
-    });
-
-    it("should render the games list", async () => {
-      // Arrange.
-      const target = await createTestTarget();
-      await target.load();
-
-      // Act.
-      const actual = await target.games();
-
-      // Assert.
-      expect(actual).toBeTruthy();
-    });
-  });
-
   describe("Information", () => {
     async function shouldRenderInformation(
       expected: string,
@@ -290,6 +253,50 @@ describe("SystemPage", () => {
 
       // Assert.
       expect(history.location.pathname).toEqual(`/games/${batman.id}`);
+    });
+  });
+
+  describe("Media", () => {
+    it("should render the controller", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const image = await target.controller();
+      const identifier = await image.identifier();
+      const actual = await image.type();
+
+      // Assert.
+      expect(identifier).toEqual(nes.id);
+      expect(actual).toEqual(ZRomulatorSystemMediaType.Controller);
+    });
+
+    it("should render the picture", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const image = await target.picture();
+      const identifier = await image.identifier();
+      const actual = await image.type();
+
+      // Assert.
+      expect(identifier).toEqual(nes.id);
+      expect(actual).toEqual(ZRomulatorSystemMediaType.Picture);
+    });
+
+    it("should render the wheel", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+
+      // Act.
+      const image = await target.wheel();
+      const identifier = await image.identifier();
+      const actual = await image.type();
+
+      // Assert.
+      expect(identifier).toEqual(nes.id);
+      expect(actual).toEqual(ZRomulatorSystemMediaType.Wheel);
     });
   });
 });
