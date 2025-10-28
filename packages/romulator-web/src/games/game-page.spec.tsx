@@ -20,6 +20,7 @@ import type { ZRomulatorMediaType } from "@zthun/romulator-client";
 import {
   ZRomulatorGameBuilder,
   ZRomulatorGameMediaType,
+  ZRomulatorPlayersBuilder,
   ZRomulatorSystemId,
 } from "@zthun/romulator-client";
 import type { History } from "history";
@@ -44,6 +45,26 @@ describe("ZGamePage", () => {
     .id("nes-mario")
     .file("/path/to/games/nes/mario.zip")
     .system(ZRomulatorSystemId.Nintendo)
+    .developer("Nintendo")
+    .publisher("Nintendo")
+    .release("1985-11-17")
+    .players(new ZRomulatorPlayersBuilder().twoPlayer().build())
+    .description(
+      "The Princess has been kidnapped by the evil Bowser, " +
+        "and it is up to Mario and brother Luigi to save the day.\n\n" +
+        "The first ever platform adventure for the Mario Brothers " +
+        "has the player exploring level after level, with Bowser to " +
+        "contend with as the end of level boss. Power-ups include " +
+        "the Super Mushroom, which increases Mario's size and power, " +
+        "the fire flower, allowing him to shoot fireballs at enemies, " +
+        "and the ever important star man for a short burst of " +
+        "invincibility.\n\nEach level includes a bonus section " +
+        "filled with coins plus a shortcut through the level, plenty " +
+        "of bad buys and obstacles to get past, and an end of " +
+        "level flag, in which the higher the player grabs it, " +
+        "the more points are awarded to them. Certain levels " +
+        "also include warp points, which takes the player to higher levels.",
+    )
     .build();
 
   let _driver: IZCircusDriver | undefined;
@@ -184,6 +205,57 @@ describe("ZGamePage", () => {
 
     it("should render the title", async () => {
       await shouldRenderMedia(ZRomulatorGameMediaType.Title, (t) => t.title());
+    });
+  });
+
+  describe("Info", () => {
+    async function shouldRenderInformation(
+      expected: string,
+      fieldFn: (target: ZRomulatorGamePageComponentModel) => Promise<string>,
+    ) {
+      // Arrange.
+      const target = await createTestTarget();
+      await target.load();
+
+      // Act.
+      const actual = await fieldFn(target);
+
+      // Assert.
+      expect(actual).toEqual(expected);
+    }
+
+    it("should render the game name", async () => {
+      await shouldRenderInformation(mario.name, (t) => t.name());
+    });
+
+    it("should render the game file", async () => {
+      await shouldRenderInformation(mario.file, (t) => t.file());
+    });
+
+    it("should render the game release date", async () => {
+      await shouldRenderInformation(mario.release, (t) => t.release());
+    });
+
+    it("should render the game developer", async () => {
+      await shouldRenderInformation(mario.developer, (t) => t.developer());
+    });
+
+    it("should render the game publisher", async () => {
+      await shouldRenderInformation(mario.publisher, (t) => t.publisher());
+    });
+  });
+
+  describe("Synopsis", () => {
+    it("should render the game description", async () => {
+      // Arrange.
+      const target = await createTestTarget();
+      await target.load();
+
+      // Act.
+      const actual = await target.description();
+
+      // Assert.
+      expect(actual).toEqual(mario.description);
     });
   });
 });
