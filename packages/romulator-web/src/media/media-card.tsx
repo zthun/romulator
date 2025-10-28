@@ -1,12 +1,12 @@
-import type { IZComponentName } from "@zthun/fashion-boutique";
 import {
+  useCss,
   ZCard,
   ZIconFontAwesome,
   ZImageSource,
   ZStack,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
-import { ZOrientation } from "@zthun/helpful-fn";
+import { css, cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
 import {
   ZRomulatorGameMediaType,
   ZRomulatorSystemMediaType,
@@ -51,7 +51,7 @@ const ZRomulatorMediaTypeDescription: Record<ZRomulatorMediaType, string> = {
 /**
  * Props for the media card.
  */
-export interface IZRomulatorMediaCard extends IZComponentName {
+export interface IZRomulatorMediaCard {
   /**
    * The id of the game or system.
    */
@@ -63,15 +63,25 @@ export interface IZRomulatorMediaCard extends IZComponentName {
 }
 
 export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
-  const { name, identifier, type } = props;
+  const { identifier, type } = props;
   const { api } = new ZRomulatorEnvironmentBuilder().build();
   const id = `${identifier}-${type}`;
   const media = `${api}/media/${id}`;
 
+  const _className = useCss(css`
+    & .ZRomulatorMediaCard-image-container {
+      height: 20rem;
+    }
+
+    & .ZRomulatorMediaCard-image-container img {
+      object-fit: scale-down;
+    }
+  `);
+
   return (
     <ZCard
-      className="ZRomulatorMediaCard-root"
-      name={name}
+      className={cssJoinDefined("ZRomulatorMediaCard-root", _className)}
+      name={type}
       TitleProps={{
         avatar: <ZIconFontAwesome name="image" width={ZSizeFixed.Medium} />,
         heading: ZRomulatorMediaTypeName[type],
@@ -81,12 +91,18 @@ export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
       data-identifier={identifier}
     >
       <ZStack
+        className="ZRomulatorMediaCard-image-container"
         orientation={ZOrientation.Horizontal}
         width={ZSizeVaried.Full}
+        height={ZSizeVaried.Full}
         align={{ items: "center" }}
         justify={{ content: "center" }}
       >
-        <ZImageSource src={media} width={ZSizeVaried.Full} />
+        <ZImageSource
+          src={media}
+          width={ZSizeVaried.Full}
+          height={ZSizeVaried.Full}
+        />
       </ZStack>
     </ZCard>
   );
