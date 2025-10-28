@@ -44,9 +44,9 @@ export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
     );
   }
 
-  public controller = this.media.bind(this, "system-controller");
-  public picture = this.media.bind(this, "system-picture");
-  public wheel = this.media.bind(this, "system-wheel");
+  public controller = this.media.bind(this, "controller");
+  public picture = this.media.bind(this, "picture");
+  public wheel = this.media.bind(this, "wheel");
 
   private async fieldValue(key: string): Promise<string> {
     const klass = `.ZRomulatorSystemPage-${kebabCase(key)}`;

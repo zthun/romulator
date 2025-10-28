@@ -81,6 +81,7 @@ export function ZRomulatorSystemPage() {
   );
 
   const [userRequest, setGameRequest] = useSyncState(baseGameRequest);
+  const media = useMemo(() => Object.values(ZRomulatorSystemMediaType), []);
 
   const renderSystemInfoField = (
     label: string,
@@ -161,6 +162,12 @@ export function ZRomulatorSystemPage() {
     );
   };
 
+  const renderSystemMedia = (system: IZRomulatorSystem) => {
+    return media.map((type) => (
+      <ZRomulatorMediaCard key={type} identifier={system.id} type={type} />
+    ));
+  };
+
   const renderPageContent = () => {
     if (isStateLoading(system)) {
       return (
@@ -188,23 +195,7 @@ export function ZRomulatorSystemPage() {
 
         <ZStack gap={ZSizeFixed.Medium}>
           {renderSystemInfoCard(system)}
-          <ZRomulatorMediaCard
-            name="system-picture"
-            identifier={system.id}
-            type={ZRomulatorSystemMediaType.Picture}
-          />
-
-          <ZRomulatorMediaCard
-            name="system-controller"
-            identifier={system.id}
-            type={ZRomulatorSystemMediaType.Controller}
-          />
-
-          <ZRomulatorMediaCard
-            name="system-wheel"
-            identifier={system.id}
-            type={ZRomulatorSystemMediaType.Wheel}
-          />
+          {renderSystemMedia(system)}
         </ZStack>
       </ZGrid>
     );
