@@ -111,7 +111,7 @@ export function ZRomulatorSystemPage() {
 
     return (
       <ZCard
-        name="system-info"
+        name="info"
         TitleProps={{
           avatar: (
             <ZIconFontAwesome name="puzzle-piece" width={ZSizeFixed.Medium} />
