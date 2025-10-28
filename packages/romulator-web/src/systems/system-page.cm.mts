@@ -7,6 +7,7 @@ import {
   ZSuspenseComponentModel,
 } from "@zthun/fashion-boutique";
 import { kebabCase } from "lodash-es";
+import { ZRomulatorMediaCardComponentModel } from "../media/media-card.cm.mjs";
 
 export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
   public static readonly Selector = ".ZRomulatorSystemPage-root";
@@ -35,9 +36,17 @@ export class ZRomulatorSystemPageComponentModel extends ZCircusComponentModel {
     return ZCircusBy.optional(this.driver, ZCardComponentModel, "system-info");
   }
 
-  public media(): Promise<ZCardComponentModel | null> {
-    return ZCircusBy.optional(this.driver, ZCardComponentModel, "system-media");
+  private media(name: string): Promise<ZRomulatorMediaCardComponentModel> {
+    return ZCircusBy.first(
+      this.driver,
+      ZRomulatorMediaCardComponentModel,
+      name,
+    );
   }
+
+  public controller = this.media.bind(this, "system-controller");
+  public picture = this.media.bind(this, "system-picture");
+  public wheel = this.media.bind(this, "system-wheel");
 
   private async fieldValue(key: string): Promise<string> {
     const klass = `.ZRomulatorSystemPage-${kebabCase(key)}`;

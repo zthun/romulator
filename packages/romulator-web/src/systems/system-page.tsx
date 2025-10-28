@@ -3,19 +3,16 @@ import {
   useParams,
   ZAlert,
   ZBreadcrumbsLocation,
-  ZBubble,
   ZCaption,
   ZCard,
-  ZCarousel,
   ZGrid,
   ZIconFontAwesome,
-  ZImageSource,
   ZLabel,
   ZStack,
   ZSuspenseProgress,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
-import { firstDefined, ZOrientation } from "@zthun/helpful-fn";
+import { firstDefined } from "@zthun/helpful-fn";
 import {
   ZDataRequestBuilder,
   ZFilterBinaryBuilder,
@@ -25,10 +22,7 @@ import {
   isStateLoading,
   useSyncState,
 } from "@zthun/helpful-react";
-import type {
-  IZRomulatorSystem,
-  ZRomulatorMediaType,
-} from "@zthun/romulator-client";
+import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import {
   ZRomulatorSystemContentType,
   ZRomulatorSystemHardwareType,
@@ -36,9 +30,9 @@ import {
   ZRomulatorSystemMediaType,
 } from "@zthun/romulator-client";
 import { kebabCase, startCase } from "lodash-es";
-import { useMemo, useState } from "react";
-import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
+import { useMemo } from "react";
 import { ZRomulatorGamesList } from "../games/games-list.js";
+import { ZRomulatorMediaCard } from "../media/media-card.js";
 import { useSystem } from "./systems-service.mjs";
 
 // TODO:  These enum headers should be done in i18n.  Keeping them here for now is fine.
@@ -75,7 +69,6 @@ export function ZRomulatorSystemPage() {
   const { id } = useParams();
   const { error } = useFashionTheme();
   const [system] = useSystem(firstDefined("", id));
-  const [mediaIndex, setMediaIndex] = useState(0);
   const gameFilter = useMemo(
     () =>
       new ZFilterBinaryBuilder().subject("system").equal().value(id).build(),
@@ -168,58 +161,6 @@ export function ZRomulatorSystemPage() {
     );
   };
 
-  const renderSystemMedia = (
-    type: ZRomulatorMediaType,
-    system: IZRomulatorSystem,
-  ) => {
-    const { api } = new ZRomulatorEnvironmentBuilder().build();
-    const id = `${system.id}-${type}`;
-    const media = `${api}/media/${id}`;
-
-    return (
-      <ZBubble width={ZSizeFixed.ExtraLarge}>
-        <ZImageSource
-          className="ZRomulatorSystemsPage-wheel"
-          src={media}
-          width={ZSizeVaried.Full}
-        />
-      </ZBubble>
-    );
-  };
-
-  const renderSystemMediaCard = (system: IZRomulatorSystem) => {
-    const media = [
-      ZRomulatorSystemMediaType.Picture,
-      ZRomulatorSystemMediaType.Controller,
-      ZRomulatorSystemMediaType.Wheel,
-    ];
-
-    return (
-      <ZCard
-        name="system-media"
-        TitleProps={{
-          avatar: <ZIconFontAwesome name="image" width={ZSizeFixed.Medium} />,
-          heading: "Media",
-          subHeading: startCase(media[mediaIndex]),
-        }}
-      >
-        <ZStack
-          orientation={ZOrientation.Horizontal}
-          width={ZSizeVaried.Full}
-          align={{ items: "center" }}
-          justify={{ content: "center" }}
-        >
-          <ZCarousel
-            count={media.length}
-            renderAtIndex={(i) => renderSystemMedia(media[i], system)}
-            value={mediaIndex}
-            onValueChange={setMediaIndex}
-          />
-        </ZStack>
-      </ZCard>
-    );
-  };
-
   const renderPageContent = () => {
     if (isStateLoading(system)) {
       return (
@@ -238,12 +179,32 @@ export function ZRomulatorSystemPage() {
     }
 
     return (
-      <ZGrid columns={{ xl: "1fr auto", md: "1fr" }} gap={ZSizeFixed.Medium}>
+      <ZGrid
+        columns={{ xl: "1fr auto", md: "1fr" }}
+        gap={ZSizeFixed.Medium}
+        align={{ items: "start" }}
+      >
         {renderSystemGameListCard(system)}
 
         <ZStack gap={ZSizeFixed.Medium}>
           {renderSystemInfoCard(system)}
-          {renderSystemMediaCard(system)}
+          <ZRomulatorMediaCard
+            name="system-picture"
+            identifier={system.id}
+            type={ZRomulatorSystemMediaType.Picture}
+          />
+
+          <ZRomulatorMediaCard
+            name="system-controller"
+            identifier={system.id}
+            type={ZRomulatorSystemMediaType.Controller}
+          />
+
+          <ZRomulatorMediaCard
+            name="system-wheel"
+            identifier={system.id}
+            type={ZRomulatorSystemMediaType.Wheel}
+          />
         </ZStack>
       </ZGrid>
     );
