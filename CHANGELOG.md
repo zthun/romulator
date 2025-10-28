@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.0](https://github.com/zthun/romulator/compare/v1.15.0...v1.16.0) (2025-10-28)
+
+
+### Features
+
+* game page shows information for a single game ([846b562](https://github.com/zthun/romulator/commit/846b5628bc35f866342e70dad88bb5844c6346d5))
+* media now renders for the game page ([c317ae7](https://github.com/zthun/romulator/commit/c317ae7f15b6cd50d65d5b211a5b09b77249ce12))
+
+
+
 ## [1.15.0](https://github.com/zthun/romulator/compare/v1.14.1...v1.15.0) (2025-10-27)
 
 
