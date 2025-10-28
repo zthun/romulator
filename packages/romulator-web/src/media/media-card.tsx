@@ -14,7 +14,7 @@ import {
 } from "@zthun/romulator-client";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
-// TODO:  Same as the other.  These need to be localized properly.
+// TODO: Localization
 const ZRomulatorMediaTypeName: Record<ZRomulatorMediaType, string> = {
   [ZRomulatorGameMediaType.BackCover]: "Back Cover",
   [ZRomulatorGameMediaType.Box3d]: "3D Box",
@@ -31,20 +31,21 @@ const ZRomulatorMediaTypeName: Record<ZRomulatorMediaType, string> = {
   [ZRomulatorSystemMediaType.Wheel]: "Wheel Logo",
 };
 
+// TODO: Localization
 const ZRomulatorMediaTypeDescription: Record<ZRomulatorMediaType, string> = {
-  [ZRomulatorGameMediaType.BackCover]: "",
-  [ZRomulatorGameMediaType.Box3d]: "",
-  [ZRomulatorGameMediaType.Cover]: "",
-  [ZRomulatorGameMediaType.FanArt]: "",
-  [ZRomulatorGameMediaType.Manual]: "",
-  [ZRomulatorGameMediaType.Marquee]: "",
-  [ZRomulatorGameMediaType.PhysicalMedia]: "",
-  [ZRomulatorGameMediaType.Screenshot]: "",
-  [ZRomulatorGameMediaType.Title]: "",
-  [ZRomulatorGameMediaType.Video]: "",
-  [ZRomulatorSystemMediaType.Controller]: "",
-  [ZRomulatorSystemMediaType.Picture]: "",
-  [ZRomulatorSystemMediaType.Wheel]: "",
+  [ZRomulatorGameMediaType.BackCover]: "Rear artwork from the game packaging.",
+  [ZRomulatorGameMediaType.Box3d]: "3D render showcasing the game box.",
+  [ZRomulatorGameMediaType.Cover]: "Front cover art highlighting the game.",
+  [ZRomulatorGameMediaType.FanArt]: "Community-created artwork for the game.",
+  [ZRomulatorGameMediaType.Manual]: "Digital version of the game manual.",
+  [ZRomulatorGameMediaType.Marquee]: "Arcade marquee graphic used on cabinets.",
+  [ZRomulatorGameMediaType.PhysicalMedia]: "Disc or cartridge for the game.",
+  [ZRomulatorGameMediaType.Screenshot]: "In-game action.",
+  [ZRomulatorGameMediaType.Title]: "Screen when the game loads.",
+  [ZRomulatorGameMediaType.Video]: "Gameplay or trailer video preview.",
+  [ZRomulatorSystemMediaType.Controller]: "Primary controller image.",
+  [ZRomulatorSystemMediaType.Picture]: "Image of system hardware.",
+  [ZRomulatorSystemMediaType.Wheel]: "Logo for the system.",
 };
 
 /**
@@ -74,6 +75,7 @@ export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
       TitleProps={{
         avatar: <ZIconFontAwesome name="image" width={ZSizeFixed.Medium} />,
         heading: ZRomulatorMediaTypeName[type],
+        subHeading: ZRomulatorMediaTypeDescription[type],
       }}
       data-type={type}
       data-identifier={identifier}
