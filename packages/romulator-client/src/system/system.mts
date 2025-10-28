@@ -268,7 +268,7 @@ export class ZRomulatorSystemBuilder {
    *        This object.
    */
   public extension(extension: string | string[]) {
-    const { extensions: current } = this._system;
+    const current = this._system.extensions.slice();
     const extensions = castArray(extension).map((e) => castExtension(e));
     const unique = uniqBy(current.concat(extensions), lowerCase);
 
