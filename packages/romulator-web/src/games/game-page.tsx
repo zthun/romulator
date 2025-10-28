@@ -50,10 +50,9 @@ export function ZRomulatorGamePage() {
   const renderMediaGallery = (game: IZRomulatorGame) => (
     <ZGrid
       columns={{
-        xl: "1fr 1fr 1fr 1fr",
-        lg: "1fr 1fr 1fr",
-        md: "1fr 1fr",
-        sm: "1fr",
+        xl: "1fr 1fr 1fr",
+        lg: "1fr 1fr",
+        md: "1fr",
       }}
       gap={ZSizeFixed.Medium}
     >
@@ -112,7 +111,7 @@ export function ZRomulatorGamePage() {
           subHeading: "Game description",
         }}
       >
-        <pre>
+        <pre style={{ textWrap: "wrap" }}>
           <ZParagraph compact>{game.description}</ZParagraph>
         </pre>
       </ZCard>
@@ -138,7 +137,7 @@ export function ZRomulatorGamePage() {
 
     return (
       <ZGrid
-        columns="auto 1fr"
+        columns={{ xl: "28rem auto", md: "1fr" }}
         gap={ZSizeFixed.Medium}
         align={{ items: "start" }}
       >
