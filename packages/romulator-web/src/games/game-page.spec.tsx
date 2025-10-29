@@ -92,7 +92,7 @@ describe("ZGamePage", () => {
     });
 
     _media = mock<IZRomulatorMediaService>();
-    _media.url.mockResolvedValue("/path/to/image.png");
+    _media.url.mockReturnValue("/path/to/image.png");
   });
 
   afterEach(async () => {
