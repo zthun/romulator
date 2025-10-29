@@ -58,6 +58,20 @@ export interface IZRomulatorMediaService {
    *        media, regardless of whether it exists.
    */
   url(target: ZRomulatorSystemId, type: ZRomulatorSystemMediaType): string;
+
+  /**
+   * The url for a media entity.
+   *
+   * @param target -
+   *        The target id to get the media for.
+   * @param type -
+   *        The type of media to retrieve.
+   *
+   * @returns
+   *        The media endpoint url that points to the
+   *        media, regardless of whether it exists.
+   */
+  url(target: string, type: ZRomulatorMediaType): string;
 }
 
 /**
