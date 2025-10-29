@@ -21,7 +21,7 @@ describe("ZRomulatorMediaService", () => {
   describe("URL", () => {
     const shouldReturnUrl = async (
       expected: string,
-      gameOrSystem: IZRomulatorGame | IZRomulatorSystem,
+      gameOrSystem: IZRomulatorGame | IZRomulatorSystem | ZRomulatorSystemId,
       type: ZRomulatorMediaType,
     ) => {
       // Arrange.
@@ -73,6 +73,24 @@ describe("ZRomulatorMediaService", () => {
             .build();
 
           await shouldReturnUrl(expected, nes, type);
+        });
+      });
+    });
+
+    describe("SystemId", () => {
+      const dreamcast = ZRomulatorSystemId.Dreamcast;
+
+      Object.values(ZRomulatorSystemMediaType).forEach((type) => {
+        it(`should return the media url for a system with type, ${type}`, async () => {
+          const id = dreamcast;
+          const segment = `${id}-${type}`;
+          const expected = new ZUrlBuilder()
+            .parse(environment.api)
+            .append("media")
+            .append(segment)
+            .build();
+
+          await shouldReturnUrl(expected, dreamcast, type);
         });
       });
     });
