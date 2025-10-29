@@ -1,5 +1,9 @@
 import { get, isUndefined, omitBy } from "lodash-es";
-import type { ZRomulatorSystemId } from "../system/system-id.mjs";
+import {
+  ZRomulatorPlayersBuilder,
+  type IZRomulatorPlayers,
+} from "../players/players.mjs";
+import { ZRomulatorSystemId } from "../system/system-id.mjs";
 
 /**
  * Represents a rom file or image.
@@ -19,24 +23,59 @@ export interface IZRomulatorGame {
    * Battletoads and Double Dragon has the same name
    * across 3 different systems.
    */
-  name?: string;
+  name: string;
 
   /**
    * The fully qualified path to the game file.
    */
-  file?: string;
+  file: string;
 
   /**
    * The system id that this game belongs to.
    */
-  system?: ZRomulatorSystemId;
+  system: ZRomulatorSystemId;
+
+  /**
+   * The date the game was released.
+   */
+  release: string;
+
+  /**
+   * The developer studio.
+   */
+  developer: string;
+
+  /**
+   * The publisher studio.
+   */
+  publisher: string;
+
+  /**
+   * The game description.
+   */
+  description: string;
+
+  /**
+   * The player information.
+   */
+  players: IZRomulatorPlayers;
 }
 
 /**
  * A builder for the IZRomulatorGame model.
  */
 export class ZRomulatorGameBuilder {
-  private _game: IZRomulatorGame = { id: "" };
+  private _game: IZRomulatorGame = {
+    id: "",
+    name: "",
+    file: "",
+    system: ZRomulatorSystemId.Adam,
+    release: "",
+    description: "",
+    developer: "",
+    publisher: "",
+    players: new ZRomulatorPlayersBuilder().build(),
+  };
 
   /**
    * Sets the unique id for the game.
@@ -91,6 +130,114 @@ export class ZRomulatorGameBuilder {
   }
 
   /**
+   * Sets the release date for the game.
+   *
+   * @param release -
+   *        The release information for the game.
+   * @returns
+   *        This instance.
+   */
+  public release(release: string): this {
+    this._game.release = release;
+    return this;
+  }
+
+  /**
+   * Sets the developer studio for the game.
+   *
+   * @param developer -
+   *        The developer name.
+   * @returns
+   *        This instance.
+   */
+  public developer(developer: string): this {
+    this._game.developer = developer;
+    return this;
+  }
+
+  /**
+   * Sets the publisher studio for the game.
+   *
+   * @param publisher -
+   *        The publisher name.
+   * @returns
+   *        This instance.
+   */
+  public publisher(publisher: string): this {
+    this._game.publisher = publisher;
+    return this;
+  }
+
+  /**
+   * Sets the description for the game.
+   *
+   * @param description -
+   *        The game description.
+   * @returns
+   *        This instance.
+   */
+  public description(description: string): this {
+    this._game.description = description;
+    return this;
+  }
+
+  /**
+   * Sets the player configuration for the game.
+   *
+   * @param players -
+   *        The player configuration.
+   * @returns
+   *        This instance.
+   */
+  public players(players: IZRomulatorPlayers): this {
+    this._game.players = new ZRomulatorPlayersBuilder().copy(players).build();
+    return this;
+  }
+
+  private parseDeveloper(candidate: object): this {
+    const developer = get(candidate, "developer");
+
+    return typeof developer === "string" ? this.developer(developer) : this;
+  }
+
+  private parsePublisher(candidate: object): this {
+    const publisher = get(candidate, "publisher");
+
+    return typeof publisher === "string" ? this.publisher(publisher) : this;
+  }
+
+  private parseReleaseDate(candidate: object): this {
+    const release = get(candidate, "release");
+
+    return typeof release == "string" ? this.release(release) : this;
+  }
+
+  private parsePlayers(candidate: object): this {
+    const players = get(candidate, "players");
+
+    return this.players(
+      new ZRomulatorPlayersBuilder()
+        .copy(this._game.players)
+        .parse(players)
+        .build(),
+    );
+  }
+
+  private parseDescription(candidate: object): this {
+    const description = get(candidate, "description");
+
+    return typeof description === "string"
+      ? this.description(description)
+      : this;
+  }
+
+  private parseName(candidate: object): this {
+    const name = get(candidate, "name");
+
+    return typeof name === "string" ? this.name(name) : this;
+  }
+
+  /**
    * Attempts to parse a game from a game entry in a system.json game
    * list.
    *
@@ -105,13 +252,12 @@ export class ZRomulatorGameBuilder {
       return this;
     }
 
-    const name = get(candidate, "name");
-
-    if (name != null && typeof name === "string") {
-      this.name(name);
-    }
-
-    return this;
+    return this.parseName(candidate)
+      .parseDescription(candidate)
+      .parsePlayers(candidate)
+      .parseReleaseDate(candidate)
+      .parseDeveloper(candidate)
+      .parsePublisher(candidate);
   }
 
   /**
