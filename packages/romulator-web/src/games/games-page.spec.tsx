@@ -12,6 +12,10 @@ import { createMemoryHistory } from "history";
 import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
+import {
+  ZRomulatorMediaServiceContext,
+  type IZRomulatorMediaService,
+} from "../media/media-service.js";
 import { ZRomulatorGamesPageComponentModel } from "./games-page.cm.mjs";
 import { ZRomulatorGamesPage } from "./games-page.js";
 import type { IZRomulatorGamesService } from "./games-service.mjs";
@@ -33,6 +37,8 @@ describe("ZRomulatorGamesPage", () => {
   const games = [mario, crash];
 
   let _gamesService: Mocked<IZRomulatorGamesService>;
+  let _mediaService: Mocked<IZRomulatorMediaService>;
+
   let _renderer: IZCircusSetup | undefined;
   let _driver: IZCircusDriver | undefined;
   let _history: MemoryHistory;
@@ -49,6 +55,9 @@ describe("ZRomulatorGamesPage", () => {
     _gamesService.retrieve.mockImplementation(source.retrieve.bind(source));
     _gamesService.count.mockImplementation(source.count.bind(source));
 
+    _mediaService = mock<IZRomulatorMediaService>();
+    _mediaService.url.mockReturnValue("/path/to/media");
+
     _history = createMemoryHistory();
   });
 
@@ -56,7 +65,9 @@ describe("ZRomulatorGamesPage", () => {
     const element = (
       <ZTestRouter navigator={_history} location={_history.location}>
         <ZRomulatorGamesServiceContext value={_gamesService}>
-          <ZRomulatorGamesPage />
+          <ZRomulatorMediaServiceContext value={_mediaService}>
+            <ZRomulatorGamesPage />
+          </ZRomulatorMediaServiceContext>
         </ZRomulatorGamesServiceContext>
       </ZTestRouter>
     );

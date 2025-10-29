@@ -33,6 +33,10 @@ import {
   ZRomulatorGamesServiceContext,
   type IZRomulatorGamesService,
 } from "../games/games-service.mjs";
+import {
+  ZRomulatorMediaServiceContext,
+  type IZRomulatorMediaService,
+} from "../media/media-service.js";
 import { ZRomulatorSystemPageComponentModel } from "./system-page.cm.mjs";
 import { ZRomulatorSystemPage } from "./system-page.js";
 import type { IZRomulatorSystemsService } from "./systems-service.mjs";
@@ -71,8 +75,10 @@ describe("SystemPage", () => {
 
   let _driver: IZCircusDriver;
   let _renderer: IZCircusSetup;
+
   let _systems: Mocked<IZRomulatorSystemsService>;
   let _games: Mocked<IZRomulatorGamesService>;
+  let _media: Mocked<IZRomulatorMediaService>;
 
   beforeEach(() => {
     const source = new ZDataSourceStatic([nes]);
@@ -99,6 +105,9 @@ describe("SystemPage", () => {
     _games = mock<IZRomulatorGamesService>();
     _games.retrieve.mockImplementation(async (req) => __games.retrieve(req));
     _games.count.mockImplementation(async (req) => __games.count(req));
+
+    _media = mock<IZRomulatorMediaService>();
+    _media.url.mockReturnValue("/path/to/media.png");
   });
 
   afterEach(async () => {
@@ -114,16 +123,21 @@ describe("SystemPage", () => {
     const { history = createSystemMemoryHistory(nes.id) } = props;
 
     const element = (
-      <ZRomulatorSystemsServiceContext value={_systems}>
-        <ZRomulatorGamesServiceContext value={_games}>
-          <ZTestRouter navigator={history} location={history.location}>
-            <ZRouteMap>
-              <ZRoute path="/systems/:id" element={<ZRomulatorSystemPage />} />
-              <ZRoute path="*" element={<ZNotFound />} />
-            </ZRouteMap>
-          </ZTestRouter>
-        </ZRomulatorGamesServiceContext>
-      </ZRomulatorSystemsServiceContext>
+      <ZRomulatorMediaServiceContext value={_media}>
+        <ZRomulatorSystemsServiceContext value={_systems}>
+          <ZRomulatorGamesServiceContext value={_games}>
+            <ZTestRouter navigator={history} location={history.location}>
+              <ZRouteMap>
+                <ZRoute
+                  path="/systems/:id"
+                  element={<ZRomulatorSystemPage />}
+                />
+                <ZRoute path="*" element={<ZNotFound />} />
+              </ZRouteMap>
+            </ZTestRouter>
+          </ZRomulatorGamesServiceContext>
+        </ZRomulatorSystemsServiceContext>
+      </ZRomulatorMediaServiceContext>
     );
 
     _renderer = new ZCircusSetupRenderer(element);
