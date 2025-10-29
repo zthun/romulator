@@ -1,6 +1,7 @@
 import { ZCircusBy, ZCircusComponentModel } from "@zthun/cirque";
 import {
   ZAlertComponentModel,
+  ZButtonComponentModel,
   ZCardComponentModel,
   ZSuspenseComponentModel,
 } from "@zthun/fashion-boutique";
@@ -51,6 +52,10 @@ export class ZRomulatorGamePageComponentModel extends ZCircusComponentModel {
     return ZCircusBy.optional(this.driver, ZCardComponentModel, "synopsis");
   }
 
+  public system(): Promise<ZCardComponentModel | null> {
+    return ZCircusBy.optional(this.driver, ZCardComponentModel, "system");
+  }
+
   private media(
     type: ZRomulatorGameMediaType,
   ): Promise<ZRomulatorMediaCardComponentModel | null> {
@@ -90,5 +95,20 @@ export class ZRomulatorGamePageComponentModel extends ZCircusComponentModel {
     const content = await synopsis?.content();
 
     return firstDefined("", await content?.text());
+  }
+
+  public async navigateToSystem(): Promise<ZButtonComponentModel | null> {
+    const system = await this.system();
+    const container = await system?.footer();
+
+    if (container == null) {
+      return null;
+    }
+
+    return await ZCircusBy.first(
+      container,
+      ZButtonComponentModel,
+      "navigate-to-system",
+    );
   }
 }

@@ -1,8 +1,10 @@
 import {
   useFashionTheme,
+  useNavigate,
   useParams,
   ZAlert,
   ZBreadcrumbsLocation,
+  ZButton,
   ZCaption,
   ZCard,
   ZGrid,
@@ -12,7 +14,7 @@ import {
   ZStack,
   ZSuspenseProgress,
 } from "@zthun/fashion-boutique";
-import { ZSizeFixed } from "@zthun/fashion-tailor";
+import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { firstDefined } from "@zthun/helpful-fn";
 import { isStateErrored, isStateLoading } from "@zthun/helpful-react";
 import type { IZRomulatorGame } from "@zthun/romulator-client";
@@ -22,13 +24,15 @@ import {
 } from "@zthun/romulator-client";
 import { kebabCase } from "lodash-es";
 import { useMemo } from "react";
+import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 import { ZRomulatorMediaCard } from "../media/media-card.js";
 import { useGame } from "./games-service.mjs";
 
 export function ZRomulatorGamePage() {
   const { id } = useParams();
-  const { error } = useFashionTheme();
+  const { error, primary } = useFashionTheme();
   const [game] = useGame(firstDefined("", id));
+  const navigate = useNavigate();
 
   const excluded = useMemo(
     () => [ZRomulatorGameMediaType.Video, ZRomulatorGameMediaType.Manual],
@@ -118,6 +122,41 @@ export function ZRomulatorGamePage() {
     );
   };
 
+  const renderSystemCard = (game: IZRomulatorGame) => {
+    const { api } = new ZRomulatorEnvironmentBuilder().build();
+    const media = `${api}/media/${game.system}-wheel`;
+    const route = `/systems/${game.system}`;
+
+    return (
+      <ZCard
+        name="system"
+        TitleProps={{
+          avatar: (
+            <ZIconFontAwesome name="puzzle-piece" width={ZSizeFixed.Medium} />
+          ),
+          heading: "System",
+          subHeading: "What system this game is on",
+        }}
+        footer={
+          <ZButton
+            fashion={primary}
+            avatar={
+              <ZIconFontAwesome name="arrow-left" width={ZSizeFixed.Small} />
+            }
+            width={ZSizeVaried.Full}
+            label="Check it out"
+            name="navigate-to-system"
+            onClick={() => navigate(route)}
+          />
+        }
+      >
+        <ZStack justify={{ content: "center" }}>
+          <img src={media} style={{ objectFit: "scale-down" }} />
+        </ZStack>
+      </ZCard>
+    );
+  };
+
   const renderContent = () => {
     if (isStateLoading(game)) {
       return (
@@ -144,6 +183,7 @@ export function ZRomulatorGamePage() {
         <ZStack gap={ZSizeFixed.Medium}>
           {renderInfoCard(game)}
           {renderSynopsisCard(game)}
+          {renderSystemCard(game)}
         </ZStack>
         {renderMediaGallery(game)}
       </ZGrid>

@@ -258,4 +258,33 @@ describe("ZGamePage", () => {
       expect(actual).toEqual(mario.description);
     });
   });
+
+  describe("System", () => {
+    it("should not display while loading", async () => {
+      // Arrange.
+      _games.get.mockReturnValue(new Promise(noop));
+      const target = await createTestTarget();
+
+      // Act.
+      const actual = await target.navigateToSystem();
+
+      // Assert.
+      expect(actual).toBeNull();
+    });
+
+    it("should navigate to the system", async () => {
+      // Arrange.
+      const history = createGameMemoryHistory(mario.id);
+      const expected = `/systems/${mario.system}`;
+      const target = await createTestTarget({ history });
+      await target.load();
+
+      // Act.
+      const navigate = await target.navigateToSystem();
+      await navigate?.click();
+
+      // Assert.
+      expect(history.location.pathname).toEqual(expected);
+    });
+  });
 });
