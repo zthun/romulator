@@ -48,7 +48,7 @@
   "devDependencies": {
     "@nestjs/cli": "^11.0.10",
     "@nestjs/testing": "^11.1.8",
-    "@types/express": "^5.0.4",
+    "@types/express": "^5.0.5",
     "@types/mime-types": "^3.0.1",
     "@zthun/janitor-build-config": "^19.4.1",
     "supertest": "^7.1.4",
