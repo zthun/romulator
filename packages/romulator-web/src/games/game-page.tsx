@@ -21,16 +21,18 @@ import type { IZRomulatorGame } from "@zthun/romulator-client";
 import {
   ZRomulatorGameMediaType,
   ZRomulatorPlayersSerialize,
+  ZRomulatorSystemMediaType,
 } from "@zthun/romulator-client";
 import { kebabCase } from "lodash-es";
 import { useMemo } from "react";
-import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 import { ZRomulatorMediaCard } from "../media/media-card.js";
+import { useMediaService } from "../media/media-service.js";
 import { useGame } from "./games-service.mjs";
 
 export function ZRomulatorGamePage() {
   const { id } = useParams();
   const { error, primary } = useFashionTheme();
+  const media = useMediaService();
   const [game] = useGame(firstDefined("", id));
   const navigate = useNavigate();
 
@@ -123,8 +125,7 @@ export function ZRomulatorGamePage() {
   };
 
   const renderSystemCard = (game: IZRomulatorGame) => {
-    const { api } = new ZRomulatorEnvironmentBuilder().build();
-    const media = `${api}/media/${game.system}-wheel`;
+    const src = media.url(game.system, ZRomulatorSystemMediaType.Wheel);
     const route = `/systems/${game.system}`;
 
     return (
@@ -151,7 +152,7 @@ export function ZRomulatorGamePage() {
         }
       >
         <ZStack justify={{ content: "center" }}>
-          <img src={media} style={{ objectFit: "scale-down" }} />
+          <img src={src} style={{ objectFit: "scale-down" }} />
         </ZStack>
       </ZCard>
     );
