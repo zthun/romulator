@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.0](https://github.com/zthun/romulator/compare/v1.16.0...v1.17.0) (2025-10-29)
+
+
+### Features
+
+* game builder now parses new fields ([b135470](https://github.com/zthun/romulator/commit/b135470854403ac711bbc36cfae8c453c3d6af99))
+* game information and description now show on the game page ([b9575e0](https://github.com/zthun/romulator/commit/b9575e05dfe0b92db18605bc3bfb133ee3027863))
+* players describes a player range ([0b4189f](https://github.com/zthun/romulator/commit/0b4189ff83e91d4fd405c07042b16c8e181692c1))
+* players serialize converts a players structure into a string ([8adcd98](https://github.com/zthun/romulator/commit/8adcd98ad7b5164c1781a9039601ffa37bf33a14))
+
+
+
 ## [1.16.0](https://github.com/zthun/romulator/compare/v1.15.0...v1.16.0) (2025-10-28)
 
 
