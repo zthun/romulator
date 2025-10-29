@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.0](https://github.com/zthun/romulator/compare/v1.17.0...v1.18.0) (2025-10-29)
+
+
+### Features
+
+* you can now view the system the game is under ([62748c9](https://github.com/zthun/romulator/commit/62748c900b18124ff9daff7bbec5b7a496774207))
+
+
+
 ## [1.17.0](https://github.com/zthun/romulator/compare/v1.16.0...v1.17.0) (2025-10-29)
 
 

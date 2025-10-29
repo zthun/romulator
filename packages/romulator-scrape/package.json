@@ -1,6 +1,6 @@
 {
   "name": "@zthun/romulator-scrape",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "description": "Romulator scraper that can grab info and media from scrape sources",
   "author": "Anthony Bonta",
   "license": "MIT",
