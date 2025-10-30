@@ -1,5 +1,5 @@
 import type { IZCircusDriver, IZCircusSetup } from "@zthun/cirque";
-import { ZCircusBy } from "@zthun/cirque";
+import { ZCircusBy, ZCircusDestroy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import { ZTestRouter } from "@zthun/fashion-boutique";
 import { ZDataSourceStatic } from "@zthun/helpful-query";
@@ -37,10 +37,7 @@ describe("ZRomulatorSystemsPage", () => {
   let _driver: IZCircusDriver | undefined;
   let _history: MemoryHistory;
 
-  afterEach(async () => {
-    await _driver?.destroy?.call(_driver);
-    await _renderer?.destroy?.call(_renderer);
-  });
+  afterEach(() => ZCircusDestroy.sequential(_driver, _renderer));
 
   beforeEach(() => {
     const source = new ZDataSourceStatic(systems);

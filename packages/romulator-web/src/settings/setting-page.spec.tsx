@@ -1,5 +1,6 @@
 import {
   ZCircusBy,
+  ZCircusDestroy,
   type IZCircusDriver,
   type IZCircusSetup,
 } from "@zthun/cirque";
@@ -73,10 +74,7 @@ describe("ZRomulatorSettingPage", () => {
     });
   });
 
-  afterEach(async () => {
-    await _driver?.destroy?.call(_driver);
-    await _renderer?.destroy?.call(_renderer);
-  });
+  afterEach(() => ZCircusDestroy.sequential(_driver, _renderer));
 
   describe("Header", () => {
     it("should set the page title to the name of the config", async () => {

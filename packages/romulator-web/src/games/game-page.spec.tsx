@@ -1,5 +1,6 @@
 import {
   ZCircusBy,
+  ZCircusDestroy,
   type IZCircusDriver,
   type IZCircusSetup,
 } from "@zthun/cirque";
@@ -95,10 +96,7 @@ describe("ZGamePage", () => {
     _media.url.mockReturnValue("/path/to/image.png");
   });
 
-  afterEach(async () => {
-    await _driver?.destroy?.call(_driver);
-    await _renderer?.destroy?.call(_renderer);
-  });
+  afterEach(() => ZCircusDestroy.sequential(_driver, _renderer));
 
   function createGameMemoryHistory(game: string): History {
     return createMemoryHistory({ initialEntries: [`/games/${game}`] });

@@ -1,5 +1,5 @@
 import type { IZCircusDriver, IZCircusSetup } from "@zthun/cirque";
-import { ZCircusBy } from "@zthun/cirque";
+import { ZCircusBy, ZCircusDestroy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import {
   ZNotFound,
@@ -110,10 +110,7 @@ describe("SystemPage", () => {
     _media.url.mockReturnValue("/path/to/media.png");
   });
 
-  afterEach(async () => {
-    await _driver?.destroy?.call(_driver);
-    await _renderer?.destroy?.call(_renderer);
-  });
+  afterEach(() => ZCircusDestroy.sequential(_driver, _renderer));
 
   function createSystemMemoryHistory(system: string) {
     return createMemoryHistory({ initialEntries: [`/systems/${system}`] });
