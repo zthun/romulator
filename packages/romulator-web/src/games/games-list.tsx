@@ -12,8 +12,11 @@ import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { css, cssJoinDefined } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, type IZDataRequest } from "@zthun/helpful-query";
 import { useAmbassadorState } from "@zthun/helpful-react";
-import type { IZRomulatorGame } from "@zthun/romulator-client";
-import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
+import {
+  ZRomulatorGameMediaType,
+  type IZRomulatorGame,
+} from "@zthun/romulator-client";
+import { useMediaService } from "../media/media-service.js";
 import { useGamesService } from "./games-service.mjs";
 
 export interface IZRomulatorGamesList extends IZComponentValue<IZDataRequest> {}
@@ -26,6 +29,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
     new ZDataRequestBuilder().build(),
   );
   const games = useGamesService();
+  const media = useMediaService();
   const { body } = useFashionTheme();
   const navigate = useNavigate();
 
@@ -41,9 +45,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
   `);
 
   const renderTile = (value: IZRomulatorGame) => {
-    const { api } = new ZRomulatorEnvironmentBuilder().build();
-    const id = `${value.id}-marquees`;
-    const marquee = `${api}/media/${id}`;
+    const src = media.url(value, ZRomulatorGameMediaType.Marquee);
     const onActivate = () => navigate(`/games/${value.id}`);
 
     return (
@@ -59,7 +61,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
           align={{ items: "center" }}
           height={ZSizeVaried.Full}
         >
-          <ZImageSource className="ZRomulatorGameTile-marquee" src={marquee} />
+          <ZImageSource className="ZRomulatorGameTile-marquee" src={src} />
         </ZStack>
       </ZTile>
     );

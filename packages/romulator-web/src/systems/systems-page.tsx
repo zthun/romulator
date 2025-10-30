@@ -13,9 +13,12 @@ import {
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { css } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
-import type { IZRomulatorSystem } from "@zthun/romulator-client";
+import {
+  ZRomulatorSystemMediaType,
+  type IZRomulatorSystem,
+} from "@zthun/romulator-client";
 import { useState } from "react";
-import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
+import { useMediaService } from "../media/media-service.js";
 import { useSystemsService } from "./systems-service.mjs";
 
 const DefaultSystemSortOrder = new ZSortBuilder()
@@ -32,6 +35,7 @@ export function ZRomulatorSystemsPage() {
   const { body } = useFashionTheme();
   const navigate = useNavigate();
   const systems = useSystemsService();
+  const media = useMediaService();
   const [request, setRequest] = useState(DefaultSystemRequest);
 
   const _className = useCss(css`
@@ -46,9 +50,7 @@ export function ZRomulatorSystemsPage() {
   `);
 
   const renderTile = (system: IZRomulatorSystem) => {
-    const { api } = new ZRomulatorEnvironmentBuilder().build();
-    const id = `${system.id}-wheel`;
-    const wheel = `${api}/media/${id}`;
+    const src = media.url(system, ZRomulatorSystemMediaType.Wheel);
     const onActivate = () => navigate(system.id);
 
     return (
@@ -65,7 +67,7 @@ export function ZRomulatorSystemsPage() {
           height={ZSizeVaried.Full}
           width={ZSizeVaried.Full}
         >
-          <ZImageSource className="ZRomulatorSystemsPage-wheel" src={wheel} />
+          <ZImageSource className="ZRomulatorSystemsPage-wheel" src={src} />
         </ZStack>
       </ZTile>
     );

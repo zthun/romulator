@@ -12,7 +12,7 @@ import {
   ZRomulatorSystemMediaType,
   type ZRomulatorMediaType,
 } from "@zthun/romulator-client";
-import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
+import { useMediaService } from "./media-service.js";
 
 // TODO: Localization
 const ZRomulatorMediaTypeName: Record<ZRomulatorMediaType, string> = {
@@ -64,9 +64,8 @@ export interface IZRomulatorMediaCard {
 
 export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
   const { identifier, type } = props;
-  const { api } = new ZRomulatorEnvironmentBuilder().build();
-  const id = `${identifier}-${type}`;
-  const media = `${api}/media/${id}`;
+  const media = useMediaService();
+  const src = media.url(identifier, type);
 
   const _className = useCss(css`
     & .ZRomulatorMediaCard-image-container {
@@ -99,7 +98,7 @@ export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
         justify={{ content: "center" }}
       >
         <ZImageSource
-          src={media}
+          src={src}
           width={ZSizeVaried.Full}
           height={ZSizeVaried.Full}
         />

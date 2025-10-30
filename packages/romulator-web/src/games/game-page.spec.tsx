@@ -1,5 +1,6 @@
 import {
   ZCircusBy,
+  ZCircusDestroy,
   type IZCircusDriver,
   type IZCircusSetup,
 } from "@zthun/cirque";
@@ -30,6 +31,8 @@ import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
 import type { ZRomulatorMediaCardComponentModel } from "../media/media-card.cm.mjs";
+import type { IZRomulatorMediaService } from "../media/media-service.js";
+import { ZRomulatorMediaServiceContext } from "../media/media-service.js";
 import { ZRomulatorGamePageComponentModel } from "./game-page.cm.mjs";
 import { ZRomulatorGamePage } from "./game-page.js";
 import type { IZRomulatorGamesService } from "./games-service.mjs";
@@ -71,6 +74,7 @@ describe("ZGamePage", () => {
   let _renderer: IZCircusSetup | undefined;
 
   let _games: Mocked<IZRomulatorGamesService>;
+  let _media: Mocked<IZRomulatorMediaService>;
 
   beforeEach(() => {
     const games = new ZDataSourceStatic([mario]);
@@ -87,12 +91,12 @@ describe("ZGamePage", () => {
 
       return required(item);
     });
+
+    _media = mock<IZRomulatorMediaService>();
+    _media.url.mockReturnValue("/path/to/image.png");
   });
 
-  afterEach(async () => {
-    await _driver?.destroy?.call(_driver);
-    await _renderer?.destroy?.call(_renderer);
-  });
+  afterEach(() => ZCircusDestroy.sequential(_driver, _renderer));
 
   function createGameMemoryHistory(game: string): History {
     return createMemoryHistory({ initialEntries: [`/games/${game}`] });
@@ -102,14 +106,16 @@ describe("ZGamePage", () => {
     const { history = createGameMemoryHistory(mario.id) } = props;
 
     const element = (
-      <ZRomulatorGamesServiceContext value={_games}>
-        <ZTestRouter navigator={history} location={history.location}>
-          <ZRouteMap>
-            <ZRoute path="/games/:id" element={<ZRomulatorGamePage />} />
-            <ZRoute path="*" element={<ZNotFound />} />
-          </ZRouteMap>
-        </ZTestRouter>
-      </ZRomulatorGamesServiceContext>
+      <ZRomulatorMediaServiceContext value={_media}>
+        <ZRomulatorGamesServiceContext value={_games}>
+          <ZTestRouter navigator={history} location={history.location}>
+            <ZRouteMap>
+              <ZRoute path="/games/:id" element={<ZRomulatorGamePage />} />
+              <ZRoute path="*" element={<ZNotFound />} />
+            </ZRouteMap>
+          </ZTestRouter>
+        </ZRomulatorGamesServiceContext>
+      </ZRomulatorMediaServiceContext>
     );
 
     _renderer = new ZCircusSetupRenderer(element);

@@ -1,5 +1,5 @@
 import type { IZCircusDriver, IZCircusSetup } from "@zthun/cirque";
-import { ZCircusBy } from "@zthun/cirque";
+import { ZCircusBy, ZCircusDestroy } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import { ZTestRouter } from "@zthun/fashion-boutique";
 import { createMemoryHistory, type MemoryHistory } from "history";
@@ -29,10 +29,7 @@ describe("ZRomulatorMenu", () => {
     _history = createMemoryHistory();
   });
 
-  afterEach(async () => {
-    await _driver?.destroy?.call(_driver);
-    await _renderer?.destroy?.call(_renderer);
-  });
+  afterEach(() => ZCircusDestroy.sequential(_driver, _renderer));
 
   describe("Open", () => {
     it("should open the menu when the menu is clicked", async () => {
