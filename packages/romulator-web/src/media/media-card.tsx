@@ -2,7 +2,7 @@ import {
   useCss,
   ZCard,
   ZIconFontAwesome,
-  ZImageSource,
+  ZImage,
   ZStack,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
@@ -71,10 +71,6 @@ export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
     & .ZRomulatorMediaCard-image-container {
       height: 20rem;
     }
-
-    & .ZRomulatorMediaCard-image-container img {
-      object-fit: scale-down;
-    }
   `);
 
   return (
@@ -97,11 +93,7 @@ export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
         align={{ items: "center" }}
         justify={{ content: "center" }}
       >
-        <ZImageSource
-          src={src}
-          width={ZSizeVaried.Full}
-          height={ZSizeVaried.Full}
-        />
+        <ZImage src={src} width={ZSizeVaried.Full} fit="scale-down" />
       </ZStack>
     </ZCard>
   );

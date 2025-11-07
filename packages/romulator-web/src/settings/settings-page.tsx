@@ -71,7 +71,6 @@ export function ZRomulatorSettingsPage() {
             },
             gap: ZSizeFixed.Medium,
           }}
-          SearchProps={false}
           dataSource={settings}
           value={request}
           renderItem={renderTile}

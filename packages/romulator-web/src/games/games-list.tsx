@@ -3,7 +3,9 @@ import {
   useFashionTheme,
   useNavigate,
   ZGridView,
-  ZImageSource,
+  ZImage,
+  ZPagination,
+  ZSearch,
   ZStack,
   ZTile,
   type IZComponentValue,
@@ -26,7 +28,7 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
   const [request, setRequest] = useAmbassadorState(
     value,
     onValueChange,
-    new ZDataRequestBuilder().build(),
+    new ZDataRequestBuilder().size(24).build(),
   );
   const games = useGamesService();
   const media = useMediaService();
@@ -36,11 +38,6 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
   const _className = useCss(css`
     .ZRomulatorGameTile-root {
       height: 10rem;
-    }
-
-    .ZRomulatorGameTile-marquee > img {
-      width: 100%;
-      max-height: 10rem;
     }
   `);
 
@@ -61,7 +58,13 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
           align={{ items: "center" }}
           height={ZSizeVaried.Full}
         >
-          <ZImageSource className="ZRomulatorGameTile-marquee" src={src} />
+          <ZImage
+            className="ZRomulatorGameTile-marquee"
+            src={src}
+            width={ZSizeVaried.Full}
+            height={ZSizeVaried.Full}
+            fit="scale-down"
+          />
         </ZStack>
       </ZTile>
     );
@@ -72,18 +75,24 @@ export function ZRomulatorGamesList(props: IZRomulatorGamesList) {
       className={cssJoinDefined(".ZRomulatorGameList-root", _className)}
       GridProps={{
         columns: {
-          xl: "1fr 1fr 1fr 1fr 1fr 1fr",
-          lg: "1fr 1fr 1fr 1fr",
-          md: "1fr 1fr 1fr",
-          sm: "1fr 1fr",
-          xs: "1fr",
+          xl: "1fr 1fr 1fr 1fr",
+          lg: "1fr 1fr 1fr",
+          md: "1fr 1fr",
+          sm: "1fr",
         },
         gap: ZSizeFixed.Medium,
       }}
+      heading={<ZSearch value={request} onValueChange={setRequest} />}
+      footer={
+        <ZPagination
+          value={request}
+          onValueChange={setRequest}
+          dataSource={games}
+        />
+      }
       dataSource={games}
       renderItem={renderTile}
       value={request}
-      onValueChange={setRequest}
     />
   );
 }

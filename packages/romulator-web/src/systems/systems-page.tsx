@@ -6,7 +6,9 @@ import {
   ZCard,
   ZGridView,
   ZIconFontAwesome,
-  ZImageSource,
+  ZImage,
+  ZPagination,
+  ZSearch,
   ZStack,
   ZTile,
 } from "@zthun/fashion-boutique";
@@ -27,7 +29,7 @@ const DefaultSystemSortOrder = new ZSortBuilder()
   .build();
 
 const DefaultSystemRequest = new ZDataRequestBuilder()
-  .size(12)
+  .size(48)
   .sort(DefaultSystemSortOrder)
   .build();
 
@@ -41,11 +43,6 @@ export function ZRomulatorSystemsPage() {
   const _className = useCss(css`
     .ZRomulatorSystemsPage-tile {
       height: 10rem;
-    }
-
-    .ZRomulatorSystemsPage-wheel > img {
-      width: 100%;
-      max-height: 10rem;
     }
   `);
 
@@ -67,7 +64,13 @@ export function ZRomulatorSystemsPage() {
           height={ZSizeVaried.Full}
           width={ZSizeVaried.Full}
         >
-          <ZImageSource className="ZRomulatorSystemsPage-wheel" src={src} />
+          <ZImage
+            className="ZRomulatorSystemsPage-wheel"
+            src={src}
+            width={ZSizeVaried.Full}
+            height={ZSizeVaried.Full}
+            fit="scale-down"
+          />
         </ZStack>
       </ZTile>
     );
@@ -90,7 +93,7 @@ export function ZRomulatorSystemsPage() {
           className="ZRomulatorSystemsPage-root"
           GridProps={{
             columns: {
-              xl: "1fr 1fr 1fr 1fr 1fr 1fr",
+              xl: "1fr 1fr 1fr 1fr",
               lg: "1fr 1fr 1fr 1fr",
               md: "1fr 1fr 1fr",
               sm: "1fr 1fr",
@@ -98,10 +101,17 @@ export function ZRomulatorSystemsPage() {
             },
             gap: ZSizeFixed.Medium,
           }}
+          heading={<ZSearch value={request} onValueChange={setRequest} />}
+          footer={
+            <ZPagination
+              dataSource={systems}
+              value={request}
+              onValueChange={setRequest}
+            />
+          }
           dataSource={systems}
           renderItem={renderTile}
           value={request}
-          onValueChange={setRequest}
         />
       </ZCard>
     </ZStack>

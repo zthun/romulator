@@ -76,7 +76,7 @@ export function ZRomulatorSystemPage() {
   );
 
   const baseGameRequest = useMemo(
-    () => new ZDataRequestBuilder().size(36).filter(gameFilter).build(),
+    () => new ZDataRequestBuilder().size(48).filter(gameFilter).build(),
     [gameFilter],
   );
 
