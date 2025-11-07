@@ -237,7 +237,7 @@ describe("SystemPage", () => {
       const target = await createTestTarget();
       await target.load();
       const games = await target.games();
-      await games?.load();
+      await (await games?.suspense())?.load();
 
       // Act.
       const _batman = await target.game(batman.id);
@@ -256,7 +256,7 @@ describe("SystemPage", () => {
       const target = await createTestTarget({ history });
       await target.load();
       const games = await target.games();
-      await games?.load();
+      await (await games?.suspense())?.load();
 
       // Act.
       const _batman = await target.game(batman.id);

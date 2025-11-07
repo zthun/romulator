@@ -18,15 +18,15 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^24.9.2",
+    "@types/node": "^24.10.0",
     "@zthun/cirque": "^7.2.0",
     "@zthun/cirque-du-react": "^7.2.0",
-    "@zthun/fashion-boutique": "^12.1.2",
-    "@zthun/fashion-tailor": "^12.1.2",
-    "@zthun/fashion-theme": "^12.1.2",
-    "@zthun/helpful-fn": "^9.10.1",
-    "@zthun/helpful-query": "^9.10.1",
-    "@zthun/helpful-react": "^9.10.1",
+    "@zthun/fashion-boutique": "^13.0.0",
+    "@zthun/fashion-tailor": "^13.0.0",
+    "@zthun/fashion-theme": "^13.0.0",
+    "@zthun/helpful-fn": "^9.11.0",
+    "@zthun/helpful-query": "^9.11.0",
+    "@zthun/helpful-react": "^9.11.0",
     "@zthun/janitor-build-config": "^19.4.2",
     "@zthun/romulator-client": "^1.18.1",
     "@zthun/webigail-http": "^5.0.1",
@@ -38,9 +38,9 @@
     "react-dom": "^19.2.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
-    "vite": "^7.1.12",
+    "vite": "^7.2.1",
     "vite-plugin-node-polyfills": "^0.24.0",
-    "vitest": "^4.0.5",
+    "vitest": "^4.0.7",
     "vitest-mock-extended": "^3.1.0"
   }
 }

@@ -27,9 +27,9 @@
     "@nestjs/swagger": "^11.2.1",
     "@zthun/crumbtrail-fs": "^2.4.1",
     "@zthun/crumbtrail-nest": "^2.4.1",
-    "@zthun/helpful-fn": "^9.10.1",
-    "@zthun/helpful-query": "^9.10.1",
-    "@zthun/helpful-reflection": "^9.10.1",
+    "@zthun/helpful-fn": "^9.11.0",
+    "@zthun/helpful-query": "^9.11.0",
+    "@zthun/helpful-reflection": "^9.11.0",
     "@zthun/lumberjacky-log": "^4.0.1",
     "@zthun/lumberjacky-nest": "^4.0.1",
     "@zthun/romulator-client": "^1.18.1",
@@ -54,8 +54,8 @@
     "supertest": "^7.1.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vite": "^7.1.12",
-    "vitest": "^4.0.5",
+    "vite": "^7.2.1",
+    "vitest": "^4.0.7",
     "vitest-mock-extended": "^3.1.0"
   },
   "files": [
