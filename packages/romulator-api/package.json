@@ -21,10 +21,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.8",
-    "@nestjs/core": "^11.1.8",
-    "@nestjs/platform-express": "^11.1.8",
-    "@nestjs/swagger": "^11.2.1",
+    "@nestjs/common": "^11.1.9",
+    "@nestjs/core": "^11.1.9",
+    "@nestjs/platform-express": "^11.1.9",
+    "@nestjs/swagger": "^11.2.3",
     "@zthun/crumbtrail-fs": "^2.4.1",
     "@zthun/crumbtrail-nest": "^2.4.1",
     "@zthun/helpful-fn": "^9.11.0",
@@ -41,21 +41,21 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "lodash-es": "^4.17.21",
-    "mime-types": "^3.0.1",
+    "mime-types": "^3.0.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.10",
-    "@nestjs/testing": "^11.1.8",
+    "@nestjs/cli": "^11.0.12",
+    "@nestjs/testing": "^11.1.9",
     "@types/express": "^5.0.5",
     "@types/mime-types": "^3.0.1",
-    "@zthun/janitor-build-config": "^19.4.2",
+    "@zthun/janitor-build-config": "^19.5.1",
     "supertest": "^7.1.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vite": "^7.2.1",
-    "vitest": "^4.0.7",
+    "vite": "^7.2.4",
+    "vitest": "^4.0.13",
     "vitest-mock-extended": "^3.1.0"
   },
   "files": [
