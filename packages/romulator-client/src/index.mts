@@ -2,6 +2,8 @@ export * from "./config/config-games-metadata.mjs";
 export * from "./config/config-games.mjs";
 export * from "./config/config.mjs";
 export * from "./game/game.mjs";
+export * from "./job/job-type.mjs";
+export * from "./job/job.mjs";
 export * from "./media/media-type.mjs";
 export * from "./media/media.mjs";
 export * from "./players/players-serialize.mjs";
