@@ -20,13 +20,13 @@
     "@zthun/romulator-client": "^1.18.2"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
-    "@zthun/janitor-build-config": "^19.4.2",
+    "@types/node": "^24.10.4",
+    "@zthun/janitor-build-config": "^19.5.4",
     "history": "^5.3.0",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.22",
     "typescript": "^5.9.3",
-    "vite": "^7.2.1",
-    "vitest": "^4.0.7",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.16",
     "vitest-mock-extended": "^3.1.0"
   }
 }
