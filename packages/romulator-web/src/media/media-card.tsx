@@ -93,7 +93,12 @@ export function ZRomulatorMediaCard(props: IZRomulatorMediaCard) {
         align={{ items: "center" }}
         justify={{ content: "center" }}
       >
-        <ZImage src={src} width={ZSizeVaried.Full} fit="scale-down" />
+        <ZImage
+          src={src}
+          width={ZSizeVaried.Full}
+          height={ZSizeVaried.Full}
+          fit="scale-down"
+        />
       </ZStack>
     </ZCard>
   );
