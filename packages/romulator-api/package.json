@@ -51,6 +51,7 @@
     "@types/express": "^5.0.6",
     "@types/mime-types": "^3.0.1",
     "@zthun/janitor-build-config": "^19.5.4",
+    "@zthun/janitor-ts-config": "^19.5.3",
     "supertest": "^7.1.4",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
