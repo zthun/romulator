@@ -1,6 +1,6 @@
 {
   "name": "@zthun/romulator-api",
-  "version": "1.18.2",
+  "version": "1.18.3",
   "description": "A service for your rom directory for managing media and the directory structure.",
   "author": "Anthony Bonta",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "@zthun/helpful-reflection": "^9.11.2",
     "@zthun/lumberjacky-log": "^4.0.3",
     "@zthun/lumberjacky-nest": "^4.0.3",
-    "@zthun/romulator-client": "^1.18.2",
+    "@zthun/romulator-client": "^1.18.3",
     "@zthun/webigail-http": "^5.0.3",
     "@zthun/webigail-rest": "^5.0.4",
     "@zthun/webigail-url": "^5.0.3",
