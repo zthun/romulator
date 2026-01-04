@@ -7,9 +7,7 @@ import type { IZRomulatorPlayers } from "./players.mjs";
  * The serialized form of players is a single digit if min and max are equal, or
  * a range string of #min-#max if they are different.
  */
-export class ZRomulatorPlayersSerialize
-  implements IZSerialize<IZRomulatorPlayers>
-{
+export class ZRomulatorPlayersSerialize implements IZSerialize<IZRomulatorPlayers> {
   public serialize(
     candidate: ZOptional<IZRomulatorPlayers>,
   ): string | undefined {

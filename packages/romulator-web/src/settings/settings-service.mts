@@ -14,7 +14,8 @@ import { createContext, useContext } from "react";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
 export interface IZRomulatorSettingsService
-  extends IZDataSource<IZRomulatorConfig>,
+  extends
+    IZDataSource<IZRomulatorConfig>,
     IZRestfulGet<IZRomulatorConfig>,
     IZDataSource<IZRomulatorConfig>,
     IZRestfulUpdate<IZRomulatorConfig> {}

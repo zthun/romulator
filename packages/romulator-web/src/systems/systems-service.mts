@@ -11,8 +11,7 @@ import { createContext, useContext } from "react";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
 export interface IZRomulatorSystemsService
-  extends IZRestfulGet<IZRomulatorSystem>,
-    IZDataSource<IZRomulatorSystem> {}
+  extends IZRestfulGet<IZRomulatorSystem>, IZDataSource<IZRomulatorSystem> {}
 
 export class ZRomulatorSystemsService implements IZRomulatorSystemsService {
   private _rest: ZLazy<IZRestfulService<IZRomulatorSystem>>;

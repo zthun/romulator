@@ -29,8 +29,7 @@ import { ZRomulatorConfigKnown } from "./config-known.mjs";
 export const ZRomulatorConfigsToken = Symbol("configs");
 
 export interface IZRomulatorConfigsService
-  extends IZRestfulUpdate<IZRomulatorConfig>,
-    IZRestfulGet<IZRomulatorConfig> {
+  extends IZRestfulUpdate<IZRomulatorConfig>, IZRestfulGet<IZRomulatorConfig> {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorConfig>>;
 }
 

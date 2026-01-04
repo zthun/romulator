@@ -40,8 +40,7 @@ import { ZRomulatorMediaGeneratorToken } from "./media-generator.mjs";
 export const ZRomulatorMediaToken = Symbol("romulator-media-service");
 
 export interface IZRomulatorMediaService
-  extends IZRestfulGet<IZRomulatorMedia>,
-    IZRestfulDelete {
+  extends IZRestfulGet<IZRomulatorMedia>, IZRestfulDelete {
   list(req: IZDataRequest): Promise<IZPage<IZRomulatorMedia>>;
   download(id: string, accept: string): Promise<StreamableFile>;
 }

@@ -9,8 +9,7 @@ import { createContext, useContext } from "react";
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
 export interface IZRomulatorGamesService
-  extends IZRestfulGet<IZRomulatorGame>,
-    IZDataSource<IZRomulatorGame> {}
+  extends IZRestfulGet<IZRomulatorGame>, IZDataSource<IZRomulatorGame> {}
 
 export function createDefaultGamesService(): IZRomulatorGamesService {
   const { api } = new ZRomulatorEnvironmentBuilder().build();
