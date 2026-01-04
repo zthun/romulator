@@ -1,9 +1,14 @@
 {
-  "extends": "./.config/.tsconfig.json",
+  "extends": [
+    "@zthun/janitor-ts-config/base",
+    "@zthun/janitor-ts-config/browser",
+    "@zthun/janitor-ts-config/react"
+  ],
   "compilerOptions": {
     "baseUrl": "packages",
     "paths": {
-      "@zthun/romulator-client": ["romulator-client/src/index.mts"]
+      "@zthun/romulator-client": ["romulator-client/src/index.mts"],
+      "@zthun/romulator-scrape": ["romulator-scrape/src/index.mts"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.mts"]
