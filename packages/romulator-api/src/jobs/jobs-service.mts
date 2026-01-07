@@ -34,7 +34,8 @@ import { ZDir } from "../dir/dir.js";
 export const ZRomulatorJobsToken = Symbol("romulator-jobs-service");
 
 export interface IZRomulatorJobsService
-  extends IZRestfulGet<IZJob<unknown>>,
+  extends
+    IZRestfulGet<IZJob<unknown>>,
     IZRestfulCreate<IZJob<unknown>>,
     IZRestfulDelete {
   list(req: IZDataRequest): Promise<IZPage<IZJob<unknown>>>;
