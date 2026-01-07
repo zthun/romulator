@@ -35,9 +35,7 @@ export interface IZRomulatorFilesGamesRepository {
 }
 
 @Injectable()
-export class ZRomulatorFilesGamesRepository
-  implements IZRomulatorFilesGamesRepository
-{
+export class ZRomulatorFilesGamesRepository implements IZRomulatorFilesGamesRepository {
   public constructor(
     @Inject(ZRomulatorFilesSystemsRepositoryToken)
     private readonly _systemsRepository: IZRomulatorFilesSystemsRepository,

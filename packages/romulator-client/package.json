@@ -1,6 +1,6 @@
 {
   "name": "@zthun/romulator-client",
-  "version": "1.18.2",
+  "version": "1.18.3",
   "description": "A client for declaring models and invoking the romulator api",
   "author": "Anthony Bonta",
   "license": "MIT",
@@ -25,17 +25,18 @@
     "access": "public"
   },
   "dependencies": {
-    "@zthun/helpful-fn": "^9.11.0",
-    "@zthun/helpful-query": "^9.11.0",
-    "lodash-es": "^4.17.21"
+    "@zthun/helpful-fn": "^9.11.2",
+    "@zthun/helpful-query": "^9.11.3",
+    "lodash-es": "^4.17.22"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
-    "@zthun/janitor-build-config": "^19.5.1",
-    "tsx": "^4.20.6",
+    "@zthun/janitor-build-config": "^19.5.4",
+    "@zthun/janitor-ts-config": "^19.5.3",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "vite": "^7.2.4",
-    "vitest": "^4.0.13"
+    "vite": "^7.3.0",
+    "vitest": "^4.0.16"
   },
   "files": [
     "dist"

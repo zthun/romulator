@@ -34,9 +34,7 @@ export interface IZRomulatorFilesSystemsRepository {
 }
 
 @Injectable()
-export class ZRomulatorFilesSystemsRepository
-  implements IZRomulatorFilesSystemsRepository
-{
+export class ZRomulatorFilesSystemsRepository implements IZRomulatorFilesSystemsRepository {
   /**
    * Initializes a new instance of this object.
    */
