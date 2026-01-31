@@ -24,3 +24,20 @@ export enum ZJobType {
    */
   Scrape = "scrape",
 }
+
+/**
+ * Gets whether a candidate value represents a job type.
+ *
+ * @param candidate -
+ *        The object to check.
+ *
+ * @returns
+ *        True if candidate can be a ZJobType object.  False otherwise.
+ */
+export function isJobType(candidate: unknown): candidate is ZJobType {
+  return (
+    candidate != null &&
+    typeof candidate == "string" &&
+    Object.values<string>(ZJobType).includes(candidate)
+  );
+}
