@@ -10,6 +10,10 @@ describe("ZJobBuilder", () => {
       const id = "job-id";
       expect(createTestTarget().id(id).build().id).toEqual(id);
     });
+
+    it("should generate the id", () => {
+      expect(createTestTarget().guid().build().id).toBeTruthy();
+    });
   });
 
   describe("Type", () => {
@@ -24,6 +28,15 @@ describe("ZJobBuilder", () => {
       const context = { answer: "42" };
       expect(createTestTarget().context(context).build().context).toEqual(
         context,
+      );
+    });
+  });
+
+  describe("Created", () => {
+    it("should set the created date", () => {
+      const expected = new Date().toJSON();
+      expect(createTestTarget().createdAt(expected).build().createdAt).toEqual(
+        expected,
       );
     });
   });

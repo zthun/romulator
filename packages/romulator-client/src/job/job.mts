@@ -1,3 +1,4 @@
+import { createGuid } from "@zthun/helpful-fn";
 import { isUndefined, omitBy } from "lodash-es";
 import { ZJobType } from "./job-type.mjs";
 
@@ -9,6 +10,7 @@ export interface IZJob {
    * The id of the job.
    */
   id?: string;
+
   /**
    * The job type.
    */
@@ -18,6 +20,11 @@ export interface IZJob {
    * The parameters for the job.
    */
   context?: any;
+
+  /**
+   * The creation date of the job.
+   */
+  createdAt?: string;
 }
 
 /**
@@ -31,8 +38,10 @@ export class ZJobBuilder {
   /**
    * Sets the unique identifier for the job.
    *
-   * @param val - Job id.
-   * @returns This builder.
+   * @param val -
+   *        Job id.
+   * @returns
+   *        This builder.
    */
   public id(val: string) {
     this._job.id = val;
@@ -40,10 +49,22 @@ export class ZJobBuilder {
   }
 
   /**
+   * Sets the id to a new generated guid.
+   *
+   * @returns
+   *        This object.
+   */
+  public guid() {
+    return this.id(createGuid());
+  }
+
+  /**
    * Sets the job type.
    *
-   * @param val - The job type.
-   * @returns This builder.
+   * @param val -
+   *        The job type.
+   * @returns
+   *        This builder.
    */
   public type(val: ZJobType) {
     this._job.type = val;
@@ -53,8 +74,10 @@ export class ZJobBuilder {
   /**
    * Sets the job context or parameters.
    *
-   * @param val - Context to attach to the job.
-   * @returns This builder.
+   * @param val -
+   *        Context to attach to the job.
+   * @returns
+   *        This builder.
    */
   public context(val: any) {
     this._job.context = val;
@@ -62,10 +85,26 @@ export class ZJobBuilder {
   }
 
   /**
+   * Sets the date and time when the job was created.
+   *
+   * @param val -
+   *        The iso string representation of the job creation date.
+   *
+   * @returns
+   *        This object.
+   */
+  public createdAt(val: string) {
+    this._job.createdAt = val;
+    return this;
+  }
+
+  /**
    * Copies the values from another job into this builder.
    *
-   * @param other - The job to duplicate.
-   * @returns This builder.
+   * @param other -
+   *        The job to duplicate.
+   * @returns
+   *        This builder.
    */
   public copy(other: IZJob) {
     this._job = structuredClone(other);
@@ -75,7 +114,8 @@ export class ZJobBuilder {
   /**
    * Builds a clean IZJob instance with undefined values removed.
    *
-   * @returns The constructed job.
+   * @returns
+   *        The constructed job.
    */
   public build() {
     const clone = structuredClone(this._job);
