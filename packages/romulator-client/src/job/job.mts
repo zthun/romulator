@@ -39,23 +39,24 @@ export class ZJobBuilder {
    * Sets the unique identifier for the job.
    *
    * @param val -
-   *        Job id.
+   *        Job id.  If this is falsy, then the id
+   *        is cleared.
    * @returns
    *        This builder.
    */
-  public id(val: string) {
+  public id(val?: string) {
     this._job.id = val;
     return this;
   }
 
   /**
-   * Sets the id to a new generated guid.
+   * Sets the id to a new generated guid if the id is not set.
    *
    * @returns
    *        This object.
    */
   public guid() {
-    return this.id(createGuid());
+    return this._job.id ? this : this.id(createGuid());
   }
 
   /**
@@ -70,6 +71,22 @@ export class ZJobBuilder {
     this._job.type = val;
     return this;
   }
+
+  /**
+   * Sets the job type to ping.
+   *
+   * @returns
+   *        This object.
+   */
+  public ping = this.type.bind(this, ZJobType.Ping);
+
+  /**
+   * Sets the job type to scrape.
+   *
+   * @returns
+   *        This object.
+   */
+  public scrape = this.type.bind(this, ZJobType.Scrape);
 
   /**
    * Sets the job context or parameters.
@@ -93,8 +110,24 @@ export class ZJobBuilder {
    * @returns
    *        This object.
    */
-  public createdAt(val: string) {
+  public createdAt(val?: string) {
     this._job.createdAt = val;
+    return this;
+  }
+
+  /**
+   * Removes information about the job that does not need to be written
+   * to a job file.
+   *
+   * This removes any created and updated date as the file's audit
+   * information is source of truth for these.
+   *
+   * @returns
+   *        This object.
+   */
+  public redact() {
+    delete this._job.createdAt;
+
     return this;
   }
 

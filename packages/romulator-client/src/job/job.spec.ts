@@ -1,3 +1,4 @@
+import { createGuid } from "@zthun/helpful-fn";
 import { describe, expect, it } from "vitest";
 import { ZJobType } from "./job-type.mjs";
 import { ZJobBuilder } from "./job.mjs";
@@ -13,6 +14,13 @@ describe("ZJobBuilder", () => {
 
     it("should generate the id", () => {
       expect(createTestTarget().guid().build().id).toBeTruthy();
+    });
+
+    it("should keep the id if one was already generated or set", () => {
+      const expected = createGuid();
+      expect(createTestTarget().id(expected).guid().build().id).toEqual(
+        expected,
+      );
     });
   });
 
@@ -38,6 +46,15 @@ describe("ZJobBuilder", () => {
       expect(createTestTarget().createdAt(expected).build().createdAt).toEqual(
         expected,
       );
+    });
+  });
+
+  describe("Redact", () => {
+    it("should remove the createdAt field", () => {
+      expect(
+        createTestTarget().createdAt(new Date().toJSON()).redact().build()
+          .createdAt,
+      ).toBeUndefined();
     });
   });
 
