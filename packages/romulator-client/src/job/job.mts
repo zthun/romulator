@@ -4,7 +4,7 @@ import { ZJobType } from "./job-type.mjs";
 /**
  * Represents a job in the romulator system.
  */
-export interface IZJob<TJobParameters> {
+export interface IZJob {
   /**
    * The id of the job.
    */
@@ -17,14 +17,14 @@ export interface IZJob<TJobParameters> {
   /**
    * The parameters for the job.
    */
-  context?: TJobParameters;
+  context?: any;
 }
 
 /**
  * A builder that constructs IZJob instances.
  */
-export class ZJobBuilder<TJobParameters> {
-  private _job: IZJob<TJobParameters> = {
+export class ZJobBuilder {
+  private _job: IZJob = {
     type: ZJobType.Ping,
   };
 
@@ -56,7 +56,7 @@ export class ZJobBuilder<TJobParameters> {
    * @param val - Context to attach to the job.
    * @returns This builder.
    */
-  public context(val: TJobParameters) {
+  public context(val: any) {
     this._job.context = val;
     return this;
   }
@@ -67,7 +67,7 @@ export class ZJobBuilder<TJobParameters> {
    * @param other - The job to duplicate.
    * @returns This builder.
    */
-  public copy(other: IZJob<TJobParameters>) {
+  public copy(other: IZJob) {
     this._job = structuredClone(other);
     return this;
   }
@@ -79,6 +79,6 @@ export class ZJobBuilder<TJobParameters> {
    */
   public build() {
     const clone = structuredClone(this._job);
-    return omitBy(clone, isUndefined) as IZJob<TJobParameters>;
+    return omitBy(clone, isUndefined) as IZJob;
   }
 }

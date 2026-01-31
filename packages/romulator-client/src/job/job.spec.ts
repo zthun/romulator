@@ -3,7 +3,7 @@ import { ZJobType } from "./job-type.mjs";
 import { ZJobBuilder } from "./job.mjs";
 
 describe("ZJobBuilder", () => {
-  const createTestTarget = () => new ZJobBuilder<Record<string, string>>();
+  const createTestTarget = () => new ZJobBuilder();
 
   describe("Id", () => {
     it("should set the id", () => {
