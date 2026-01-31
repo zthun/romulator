@@ -96,7 +96,7 @@ export class ZRomulatorMediaService implements IZRomulatorMediaService {
 
   public async get(id: string): Promise<IZRomulatorMedia> {
     const time = new Date();
-    let log = `Searching for media with id ${id}.`;
+    let log = `Searching for media with id, ${id}.`;
     this._logger.log(new ZLogEntryBuilder().info().message(log).build());
     const media = await this.query(id);
 
