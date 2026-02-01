@@ -1,33 +1,35 @@
-import { BadRequestException, NotFoundException } from "@nestjs/common";
+import type { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { ZLoggerSilent, type IZLogger } from "@zthun/lumberjacky-log";
+import { ZStreamFile } from "@zthun/crumbtrail-fs";
+import { createGuid } from "@zthun/helpful-fn";
+import { ZFilterBinaryBuilder, ZFilterSerialize } from "@zthun/helpful-query";
+import { ZLoggerSilent } from "@zthun/lumberjacky-log";
 import { ZLoggerToken } from "@zthun/lumberjacky-nest";
+import type { IZJob } from "@zthun/romulator-client";
 import { ZJobBuilder, ZJobType } from "@zthun/romulator-client";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
+import { rm } from "node:fs/promises";
+import { resolve } from "node:path";
+import request from "supertest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { ZDir } from "../dir/dir.js";
-import { ZRomulatorJobsController } from "./jobs-controller.mjs";
 import { ZRomulatorJobsModule } from "./jobs-module.mjs";
 
-describe("JobsApi", () => {
-  const assets = resolve(__dirname, "../../.test.jobs");
+describe.sequential("JobsApi", () => {
+  const endpoint = "jobs";
+  const stream = new ZStreamFile({ cache: { maxFiles: 0 } });
+  const jobsFolder = resolve(__dirname, "../../.test.jobs");
 
-  let _logger: IZLogger;
-  let _controller: ZRomulatorJobsController;
+  let _target: INestApplication;
 
-  const spy = () => vi.spyOn(ZDir, "jobs").mockReturnValue(assets);
+  const createJobFile = (id = createGuid()) => {
+    return resolve(jobsFolder, `${id}.rjb`);
+  };
 
-  const writeJob = async (job = new ZJobBuilder().id("id").build()) => {
-    const now = new Date();
-    const year = `${now.getFullYear()}`;
-    const month = `${now.getMonth() + 1}`.padStart(2, "0");
-    const day = `${now.getDate()}`.padStart(2, "0");
-    const destination = join(assets, year, month, day);
-    await mkdir(destination, { recursive: true });
-    const file = join(destination, `${job.id}.json`);
-    await writeFile(file, JSON.stringify(job));
-    return file;
+  const writeJob = async (job: IZJob) => {
+    const redacted = new ZJobBuilder().copy(job).guid().redact().build();
+    const buffer = Buffer.from(JSON.stringify(redacted));
+    await stream.write(createJobFile(redacted.id), { buffer });
   };
 
   const createTestTarget = async () => {
@@ -35,109 +37,122 @@ describe("JobsApi", () => {
       imports: [ZRomulatorJobsModule],
     })
       .overrideProvider(ZLoggerToken)
-      .useValue(_logger)
+      .useValue(new ZLoggerSilent())
       .compile();
 
-    _controller = module.get(ZRomulatorJobsController);
+    _target = module.createNestApplication();
+    await _target.init();
+
+    return _target;
   };
 
-  beforeEach(async () => {
-    _logger = new ZLoggerSilent();
-    spy();
-    await createTestTarget();
+  beforeAll(() => {
+    vi.spyOn(ZDir, "jobs").mockReturnValue(jobsFolder);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     vi.restoreAllMocks();
-    await rm(assets, { recursive: true, force: true });
+    await rm(jobsFolder, { recursive: true, force: true });
   });
 
   describe("List", () => {
-    it("should list all jobs", async () => {
+    const ping = new ZJobBuilder().ping().build();
+    const scrape = new ZJobBuilder().scrape().build();
+
+    beforeAll(async () => {
+      await rm(jobsFolder, { recursive: true, force: true });
+
+      await writeJob(ping);
+      await writeJob(scrape);
+
+      // Empty files should be ignored.
+      await stream.write(createJobFile());
+
+      // Binary, non json should be ignored.
+      const binary = Buffer.from([0x33, 0x46, 0x55]);
+      await stream.write(createJobFile(), { buffer: binary });
+
+      // Jobs with incorrect types should be ignored.
+      const _unsupported = { id: createGuid(), type: "unsupported" };
+      const unsupported = Buffer.from(JSON.stringify(_unsupported));
+      await stream.write(createJobFile(), { buffer: unsupported });
+
+      // Jobs with no id should be ignored.
+      const _missingId = { type: ZJobType.Ping };
+      const missingId = Buffer.from(JSON.stringify(_missingId));
+      await stream.write(createJobFile(), { buffer: missingId });
+
+      // Jobs that have invalid JSON should be ignored.
+      const _badJson = '{ "id": "22", here-be-dragons: true }';
+      const badJson = Buffer.from(_badJson);
+      await stream.write(createJobFile(), { buffer: badJson });
+    });
+
+    it("should list all jobs in the jobs folder that represent jobs", async () => {
       // Arrange.
-      const one = new ZJobBuilder().id("a-job").type(ZJobType.Ping).build();
-      const two = new ZJobBuilder().id("b-job").type(ZJobType.Ping).build();
-      await writeJob(one);
-      await writeJob(two);
+      const target = await createTestTarget();
 
       // Act.
-      const page = await _controller.list({});
+      const actual = await request(target.getHttpServer()).get(`/${endpoint}`);
 
       // Assert.
-      expect(page.data).toEqual([one, two]);
-      expect(page.count).toEqual(2);
+      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+      expect(actual.body.count).toEqual(2);
+    });
+
+    it("should only list jobs that match a given filter", async () => {
+      // Arrange.
+      const filter = new ZFilterBinaryBuilder()
+        .subject("type")
+        .equal()
+        .value(ZJobType.Ping)
+        .build();
+      const query = new ZFilterSerialize().serialize(filter);
+      const url = `/${endpoint}?filter=${query}`;
+      const target = await createTestTarget();
+
+      // Act.
+      const actual = await request(target.getHttpServer()).get(url);
+
+      // Assert.
+      expect(actual.status).toEqual(ZHttpCodeSuccess.OK);
+      expect(actual.body.data.length).toEqual(1);
+      expect(actual.body.data).toEqual([expect.objectContaining(ping)]);
     });
   });
 
   describe("Get", () => {
+    const ping = new ZJobBuilder().guid().ping().build();
+
+    beforeAll(async () => {
+      await rm(jobsFolder, { recursive: true, force: true });
+
+      await writeJob(ping);
+    });
+
     it("should retrieve a job by id", async () => {
       // Arrange.
-      const expected = new ZJobBuilder().id("ping").type(ZJobType.Ping).build();
-      await writeJob(expected);
+      const url = `/${endpoint}/${ping.id}`;
+      const target = await createTestTarget();
 
       // Act.
-      const actual = await _controller.get(expected.id as string);
+      const result = await request(target.getHttpServer()).get(url);
 
       // Assert.
-      expect(actual).toEqual(expected);
+      expect(result.status).toEqual(ZHttpCodeSuccess.OK);
+      expect(result.body).toEqual(expect.objectContaining(ping));
     });
 
     it("should return not found if the job is missing", async () => {
-      await expect(_controller.get("unknown")).rejects.toBeInstanceOf(
-        NotFoundException,
-      );
-    });
-  });
-
-  describe("Create", () => {
-    it("should create a ping job in the background", async () => {
-      // Act.
-      const result = await _controller.create({ type: ZJobType.Ping });
-
-      // Assert.
-      expect(result.type).toEqual(ZJobType.Ping);
-      const now = new Date();
-      const year = `${now.getFullYear()}`;
-      const month = `${now.getMonth() + 1}`.padStart(2, "0");
-      const day = `${now.getDate()}`.padStart(2, "0");
-      const path = join(assets, year, month, day, `${result.id}.json`);
-
-      const start = Date.now();
-      const timeout = 2000;
-      let content = "{}";
-
-      while (Date.now() - start < timeout) {
-        try {
-          content = await readFile(path, "utf-8");
-          break;
-        } catch {
-          await new Promise((resolve) => setTimeout(resolve, 10));
-        }
-      }
-
-      const saved = JSON.parse(content);
-      expect(saved.id).toEqual(result.id);
-      expect(saved.type).toEqual(ZJobType.Ping);
-    });
-
-    it("should reject unsupported job types", async () => {
-      await expect(
-        _controller.create({ type: "unsupported" as ZJobType }),
-      ).rejects.toBeInstanceOf(BadRequestException);
-    });
-  });
-
-  describe("Delete", () => {
-    it("should delete a job by id", async () => {
       // Arrange.
-      const job = new ZJobBuilder().id("delete-me").type(ZJobType.Ping).build();
-      const file = await writeJob(job);
+      const url = `/${endpoint}/no-job-should-have-this-id`;
+      const target = await createTestTarget();
 
       // Act.
-      await _controller.delete(job.id as string);
+      const result = await request(target.getHttpServer()).get(url);
 
       // Assert.
-      await expect(readFile(file, "utf-8")).rejects.toBeTruthy();
+      expect(result.status).toEqual(ZHttpCodeClient.NotFound);
     });
   });
 });
