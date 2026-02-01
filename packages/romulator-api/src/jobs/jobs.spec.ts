@@ -11,7 +11,15 @@ import { ZHttpCodeClient, ZHttpCodeSuccess } from "@zthun/webigail-http";
 import { rm } from "node:fs/promises";
 import { resolve } from "node:path";
 import request from "supertest";
-import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 import { ZDir } from "../dir/dir.js";
 import { ZRomulatorJobsModule } from "./jobs-module.mjs";
 
@@ -20,7 +28,7 @@ describe.sequential("JobsApi", () => {
   const stream = new ZStreamFile({ cache: { maxFiles: 0 } });
   const jobsFolder = resolve(__dirname, "../../.test.jobs");
 
-  let _target: INestApplication;
+  let _target: INestApplication | undefined;
 
   const createJobFile = (id = createGuid()) => {
     return resolve(jobsFolder, `${id}.rjb`);
@@ -48,6 +56,10 @@ describe.sequential("JobsApi", () => {
 
   beforeAll(() => {
     vi.spyOn(ZDir, "jobs").mockReturnValue(jobsFolder);
+  });
+
+  afterEach(async () => {
+    await _target?.close();
   });
 
   afterAll(async () => {
