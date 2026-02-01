@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.18.5 (2026-02-01)</small>
+
+* test: cleanup target application after tests finish ([124c67f](https://github.com/zthun/romulator/commit/124c67f))
+* docs: swagger titles ([21ab39f](https://github.com/zthun/romulator/commit/21ab39f))
+* chore: add jobs endpoints ([9e96876](https://github.com/zthun/romulator/commit/9e96876))
+* chore: fix up yarn from merge ([37b26e6](https://github.com/zthun/romulator/commit/37b26e6))
+* chore: jobs directory ([5419bfd](https://github.com/zthun/romulator/commit/5419bfd))
+* chore: log grammar ([bb7e206](https://github.com/zthun/romulator/commit/bb7e206))
+* chore: update yarn lockfile [skip ci] ([e3f4de7](https://github.com/zthun/romulator/commit/e3f4de7))
+* feat: it is possible now to detect whether a value represents a job type ([b093835](https://github.com/zthun/romulator/commit/b093835))
+* feat: job api can list the available jobs ([7175301](https://github.com/zthun/romulator/commit/7175301))
+* feat: job describes a asynchronous operation in the romulator-api ([89c3dfc](https://github.com/zthun/romulator/commit/89c3dfc))
+* feat: job has support for created ([5c64014](https://github.com/zthun/romulator/commit/5c64014))
+* feat: jobs allow romulator to scrape and integrate with other systems in the background ([42ec8f3](https://github.com/zthun/romulator/commit/42ec8f3))
+* feat: jobs can be redacted before they are written ([637aa80](https://github.com/zthun/romulator/commit/637aa80))
+* build: update outdated packages ([0bc5866](https://github.com/zthun/romulator/commit/0bc5866))
+* build: update outdated packages ([8e93eae](https://github.com/zthun/romulator/commit/8e93eae))
+* build: update yarn to latest version ([f0a20bb](https://github.com/zthun/romulator/commit/f0a20bb))
+* refactor: allow anything to go into the context ([324a544](https://github.com/zthun/romulator/commit/324a544))
+
+
+
+
+
 ## <small>1.18.4 (2026-01-31)</small>
 
 * build: update outdated packages ([20afb96](https://github.com/zthun/romulator/commit/20afb96))

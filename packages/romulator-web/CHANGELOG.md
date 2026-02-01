@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.18.5 (2026-02-01)</small>
+
+* build: update outdated packages ([0bc5866](https://github.com/zthun/romulator/commit/0bc5866))
+
+
+
+
+
 ## <small>1.18.4 (2026-01-31)</small>
 
 * build: update outdated packages ([20afb96](https://github.com/zthun/romulator/commit/20afb96))

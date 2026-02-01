@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.18.5 (2026-02-01)</small>
+
+* build: update outdated packages ([0bc5866](https://github.com/zthun/romulator/commit/0bc5866))
+* build: update outdated packages ([8e93eae](https://github.com/zthun/romulator/commit/8e93eae))
+* feat: it is possible now to detect whether a value represents a job type ([b093835](https://github.com/zthun/romulator/commit/b093835))
+* feat: job describes a asynchronous operation in the romulator-api ([89c3dfc](https://github.com/zthun/romulator/commit/89c3dfc))
+* feat: job has support for created ([5c64014](https://github.com/zthun/romulator/commit/5c64014))
+* feat: jobs can be redacted before they are written ([637aa80](https://github.com/zthun/romulator/commit/637aa80))
+* refactor: allow anything to go into the context ([324a544](https://github.com/zthun/romulator/commit/324a544))
+
+
+
+
+
 ## <small>1.18.4 (2026-01-31)</small>
 
 * build: update outdated packages ([20afb96](https://github.com/zthun/romulator/commit/20afb96))

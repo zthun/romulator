@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.18.5 (2026-02-01)</small>
+
+* test: cleanup target application after tests finish ([124c67f](https://github.com/zthun/romulator/commit/124c67f))
+* docs: swagger titles ([21ab39f](https://github.com/zthun/romulator/commit/21ab39f))
+* chore: add jobs endpoints ([9e96876](https://github.com/zthun/romulator/commit/9e96876))
+* chore: fix up yarn from merge ([37b26e6](https://github.com/zthun/romulator/commit/37b26e6))
+* chore: jobs directory ([5419bfd](https://github.com/zthun/romulator/commit/5419bfd))
+* chore: log grammar ([bb7e206](https://github.com/zthun/romulator/commit/bb7e206))
+* feat: job api can list the available jobs ([7175301](https://github.com/zthun/romulator/commit/7175301))
+* feat: jobs allow romulator to scrape and integrate with other systems in the background ([42ec8f3](https://github.com/zthun/romulator/commit/42ec8f3))
+* build: update outdated packages ([0bc5866](https://github.com/zthun/romulator/commit/0bc5866))
+* build: update outdated packages ([8e93eae](https://github.com/zthun/romulator/commit/8e93eae))
+
+
+
+
+
 ## <small>1.18.4 (2026-01-31)</small>
 
 * build: update outdated packages ([20afb96](https://github.com/zthun/romulator/commit/20afb96))
