@@ -9,7 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import { ApiBody, ApiParam } from "@nestjs/swagger";
+import { ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
 import type { IZDataRequestQuery, IZPage } from "@zthun/helpful-query";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import type {
@@ -20,6 +20,7 @@ import { ZRomulatorConfigUpdateDto } from "./config-update.mjs";
 import type { IZRomulatorConfigsService } from "./configs-service.mjs";
 import { ZRomulatorConfigsToken } from "./configs-service.mjs";
 
+@ApiTags("Configs")
 @Controller("configs")
 export class ZRomulatorConfigsController {
   public constructor(
