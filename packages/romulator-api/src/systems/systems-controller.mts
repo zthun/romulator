@@ -1,11 +1,12 @@
 import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
-import { ApiParam } from "@nestjs/swagger";
+import { ApiParam, ApiTags } from "@nestjs/swagger";
 import type { IZDataRequestQuery, IZPage } from "@zthun/helpful-query";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import type { IZRomulatorSystem } from "@zthun/romulator-client";
 import type { IZRomulatorSystemsService } from "./systems-service.mjs";
 import { ZRomulatorSystemsToken } from "./systems-service.mjs";
 
+@ApiTags("Systems")
 @Controller("systems")
 export class ZRomulatorSystemsController {
   public constructor(

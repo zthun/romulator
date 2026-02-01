@@ -9,4 +9,8 @@ export abstract class ZDir {
   public static configs() {
     return resolve(ZDir.application(), "configs");
   }
+
+  public static jobs() {
+    return resolve(ZDir.application(), "jobs");
+  }
 }

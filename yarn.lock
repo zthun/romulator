@@ -4409,31 +4409,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-fn@npm:^9.11.4":
-  version: 9.11.4
-  resolution: "@zthun/helpful-fn@npm:9.11.4"
+"@zthun/helpful-fn@npm:^9.11.4, @zthun/helpful-fn@npm:^9.11.5":
+  version: 9.11.5
+  resolution: "@zthun/helpful-fn@npm:9.11.5"
   dependencies:
     uuid: "npm:^13.0.0"
-  checksum: 10/edcdbea9973922b3e83a2a3abdb886a9bf1a30fdc1214209af739350663c35294b030e5bc8e6a754a258c26975a1c77eed77430534f822483be8467c472cc47d
+  checksum: 10/a989dc697408394211513d26f5dd7b2fe94575a4cd5469d0a07877ac9926824261cebb0ed5fc551a13cca8fc4c3212edc983fb471cf94988ab3bc8ca06160f4a
   languageName: node
   linkType: hard
 
-"@zthun/helpful-query@npm:^9.11.4":
-  version: 9.11.4
-  resolution: "@zthun/helpful-query@npm:9.11.4"
+"@zthun/helpful-query@npm:^9.11.4, @zthun/helpful-query@npm:^9.11.5":
+  version: 9.11.5
+  resolution: "@zthun/helpful-query@npm:9.11.5"
   dependencies:
-    "@zthun/helpful-fn": "npm:^9.11.4"
+    "@zthun/helpful-fn": "npm:^9.11.5"
     lodash-es: "npm:^4.17.23"
-  checksum: 10/5262614e2d5f74d762b96416ff5ea35578685d538d8aef1c7eede5a7406095f6007056027f9c879eb1214ad60b3a0eafb8230f3141c2a7be7eb6b02673d58107
+  checksum: 10/35d1284b6f752bfb98796cd6649ab9be70d20f2c431cece13ce4ef4f2d4e7b76b78c87ef06a6cb979312a7ef27d3791c52ab7b32a870b05c12ff9334424e06ac
   languageName: node
   linkType: hard
 
-"@zthun/helpful-react@npm:^9.11.4":
-  version: 9.11.4
-  resolution: "@zthun/helpful-react@npm:9.11.4"
+"@zthun/helpful-react@npm:^9.11.4, @zthun/helpful-react@npm:^9.11.5":
+  version: 9.11.5
+  resolution: "@zthun/helpful-react@npm:9.11.5"
   dependencies:
-    "@zthun/helpful-fn": "npm:^9.11.4"
-    "@zthun/helpful-query": "npm:^9.11.4"
+    "@zthun/helpful-fn": "npm:^9.11.5"
+    "@zthun/helpful-query": "npm:^9.11.5"
     lodash-es: "npm:^4.17.23"
     rxjs: "npm:^7.8.2"
   peerDependencies:
@@ -4443,17 +4443,17 @@ __metadata:
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10/162b0a8a088e4d4fc3dfaa6697742276e48bc3a331ffe5895af5dc4d74617ee642f9f37e5ac6ac2be432f4c02ae0fd1deed5231e2a003ea79f6d6c290c34d1d8
+  checksum: 10/c6cdaa572bb2e6f29b0565a3d709a0f9fb39dc5fda37555f5e98c975048ad00707bca7509c23549fd850a62aad9ae1ca0f7c50ecde98e35cbf458bb693daebb7
   languageName: node
   linkType: hard
 
-"@zthun/helpful-reflection@npm:^9.11.4":
-  version: 9.11.4
-  resolution: "@zthun/helpful-reflection@npm:9.11.4"
+"@zthun/helpful-reflection@npm:^9.11.5":
+  version: 9.11.5
+  resolution: "@zthun/helpful-reflection@npm:9.11.5"
   dependencies:
-    "@zthun/helpful-fn": "npm:^9.11.4"
+    "@zthun/helpful-fn": "npm:^9.11.5"
     reflect-metadata: "npm:^0.2.2"
-  checksum: 10/4f9a3d95bd64edb39f6319198fb54e4a382fcc44696626a9815a8a47778ef06389d7dec43a4b86836d533463c6dc5c410628c86e351047804a06c71c179e0bbe
+  checksum: 10/668bff9b25c665ba48dfb370a7b1cf0c256e711fbf561c8b731ced1ccb80e5d8fffcb3204a6529945ec760fe0c4a9df8b4833217bda3eb392f7ae7d9928f43f8
   languageName: node
   linkType: hard
 
@@ -4677,9 +4677,9 @@ __metadata:
     "@types/mime-types": "npm:^3.0.1"
     "@zthun/crumbtrail-fs": "npm:^2.4.5"
     "@zthun/crumbtrail-nest": "npm:^2.4.5"
-    "@zthun/helpful-fn": "npm:^9.11.4"
-    "@zthun/helpful-query": "npm:^9.11.4"
-    "@zthun/helpful-reflection": "npm:^9.11.4"
+    "@zthun/helpful-fn": "npm:^9.11.5"
+    "@zthun/helpful-query": "npm:^9.11.5"
+    "@zthun/helpful-reflection": "npm:^9.11.5"
     "@zthun/janitor-build-config": "npm:^19.5.6"
     "@zthun/janitor-ts-config": "npm:^19.5.3"
     "@zthun/lumberjacky-log": "npm:^4.0.4"
@@ -4712,8 +4712,8 @@ __metadata:
   resolution: "@zthun/romulator-client@workspace:packages/romulator-client"
   dependencies:
     "@types/lodash-es": "npm:^4.17.12"
-    "@zthun/helpful-fn": "npm:^9.11.4"
-    "@zthun/helpful-query": "npm:^9.11.4"
+    "@zthun/helpful-fn": "npm:^9.11.5"
+    "@zthun/helpful-query": "npm:^9.11.5"
     "@zthun/janitor-build-config": "npm:^19.5.6"
     "@zthun/janitor-ts-config": "npm:^19.5.3"
     lodash-es: "npm:^4.17.23"
@@ -4751,9 +4751,9 @@ __metadata:
     "@zthun/fashion-boutique": "npm:^13.0.4"
     "@zthun/fashion-tailor": "npm:^13.0.4"
     "@zthun/fashion-theme": "npm:^13.0.4"
-    "@zthun/helpful-fn": "npm:^9.11.4"
-    "@zthun/helpful-query": "npm:^9.11.4"
-    "@zthun/helpful-react": "npm:^9.11.4"
+    "@zthun/helpful-fn": "npm:^9.11.5"
+    "@zthun/helpful-query": "npm:^9.11.5"
+    "@zthun/helpful-react": "npm:^9.11.5"
     "@zthun/janitor-build-config": "npm:^19.5.6"
     "@zthun/janitor-ts-config": "npm:^19.5.3"
     "@zthun/romulator-client": "npm:^1.18.4"
