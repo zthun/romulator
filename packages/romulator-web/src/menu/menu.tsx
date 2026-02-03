@@ -86,6 +86,19 @@ export function ZRomulatorMenu() {
           </ZListItem>
 
           <ZListItem
+            name="jobs"
+            interactive
+            cursor="pointer"
+            onClick={navigateAndClose.bind(null, "/jobs")}
+          >
+            <ZContentTitle
+              avatar={<ZIconFontAwesome name="briefcase" />}
+              heading={<ZH3 compact>Jobs</ZH3>}
+              subHeading={<ZCaption>What's running in the background</ZCaption>}
+            />
+          </ZListItem>
+
+          <ZListItem
             name="settings"
             interactive
             cursor="pointer"
