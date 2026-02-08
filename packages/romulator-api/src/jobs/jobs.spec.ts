@@ -35,9 +35,10 @@ describe.sequential("JobsApi", () => {
   };
 
   const writeJob = async (job: IZJob) => {
-    const redacted = new ZJobBuilder().copy(job).guid().redact().build();
+    const withId = new ZJobBuilder().copy(job).guid().build();
+    const redacted = new ZJobBuilder().copy(withId).redact().build();
     const buffer = Buffer.from(JSON.stringify(redacted));
-    await stream.write(createJobFile(redacted.id), { buffer });
+    await stream.write(createJobFile(withId.id), { buffer });
   };
 
   const createTestTarget = async () => {
@@ -88,11 +89,6 @@ describe.sequential("JobsApi", () => {
       const _unsupported = { id: createGuid(), type: "unsupported" };
       const unsupported = Buffer.from(JSON.stringify(_unsupported));
       await stream.write(createJobFile(), { buffer: unsupported });
-
-      // Jobs with no id should be ignored.
-      const _missingId = { type: ZJobType.Ping };
-      const missingId = Buffer.from(JSON.stringify(_missingId));
-      await stream.write(createJobFile(), { buffer: missingId });
 
       // Jobs that have invalid JSON should be ignored.
       const _badJson = '{ "id": "22", here-be-dragons: true }';

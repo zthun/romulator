@@ -72,14 +72,15 @@ export class ZRomulatorJobsRepository implements IZRomulatorJobsRepository {
         continue;
       }
 
-      const id = get(content, "id");
       const type = get(content, "type");
 
-      if (!id || !isJobType(type)) {
+      if (!isJobType(type)) {
         continue;
       }
 
+      const { title: id } = file;
       const context = get(content, "context");
+
       const job = new ZJobBuilder()
         .id(id)
         .type(type)
