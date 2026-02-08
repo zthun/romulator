@@ -1,5 +1,6 @@
 import { createGuid } from "@zthun/helpful-fn";
 import { describe, expect, it } from "vitest";
+import { ZJobStatus } from "./job-status.mjs";
 import { ZJobType } from "./job-type.mjs";
 import { ZJobBuilder } from "./job.mjs";
 
@@ -49,12 +50,105 @@ describe("ZJobBuilder", () => {
     });
   });
 
+  describe("State", () => {
+    describe("Idle", () => {
+      it("should set the status", () => {
+        expect(createTestTarget().idle().build().state.status).toEqual(
+          ZJobStatus.Idle,
+        );
+      });
+
+      it("should set the percent", () => {
+        expect(createTestTarget().idle().build().state.percent).toEqual(0);
+      });
+    });
+
+    describe("Running", () => {
+      it("should set the status", () => {
+        expect(createTestTarget().running().build().state.status).toEqual(
+          ZJobStatus.Running,
+        );
+      });
+
+      it("should keep the existing percent", () => {
+        expect(
+          createTestTarget().idle().running().build().state.percent,
+        ).toEqual(0);
+      });
+
+      it("should set the percent", () => {
+        const expected = 42;
+        expect(
+          createTestTarget().running(expected).build().state.percent,
+        ).toEqual(expected);
+      });
+    });
+
+    describe("Canceled", () => {
+      it("should set the status", () => {
+        expect(createTestTarget().canceled().build().state.status).toEqual(
+          ZJobStatus.Canceled,
+        );
+      });
+
+      it("should keep the existing percent", () => {
+        expect(
+          createTestTarget().idle().canceled().build().state.percent,
+        ).toEqual(0);
+      });
+
+      it("should set the percent", () => {
+        const expected = 42;
+        expect(
+          createTestTarget().canceled(expected).build().state.percent,
+        ).toEqual(expected);
+      });
+    });
+
+    describe("Failed", () => {
+      it("should set the status", () => {
+        expect(createTestTarget().failed().build().state.status).toEqual(
+          ZJobStatus.Failed,
+        );
+      });
+
+      it("should keep the existing percent", () => {
+        expect(
+          createTestTarget().idle().failed().build().state.percent,
+        ).toEqual(0);
+      });
+
+      it("should set the percent", () => {
+        const expected = 42;
+        expect(
+          createTestTarget().failed(expected).build().state.percent,
+        ).toEqual(expected);
+      });
+    });
+
+    describe("Success", () => {
+      it("should set the status", () => {
+        expect(createTestTarget().success().build().state.status).toEqual(
+          ZJobStatus.Success,
+        );
+      });
+
+      it("should set the percent", () => {
+        expect(createTestTarget().success().build().state.percent).toEqual(100);
+      });
+    });
+  });
+
   describe("Redact", () => {
     it("should remove the createdAt field", () => {
       expect(
         createTestTarget().createdAt(new Date().toJSON()).redact().build()
           .createdAt,
       ).toBeUndefined();
+    });
+
+    it("should remove the id", () => {
+      expect(createTestTarget().guid().redact().build().id).toBeUndefined();
     });
   });
 
