@@ -14,7 +14,18 @@ services:
       - 9229:9229
     volumes:
       - .:/usr/dev
-      - ${HOME}/.zthunworks:/root/.zthunworks
+      - ${HOME}/.zthunworks/romulator:/root/.zthunworks/romulator
       - ${HOME}/Games:/root/Games
     working_dir: /usr/dev
     command: yarn workspace @zthun/romulator-api debug
+  # Nudging to get file system events
+  crumbtrail-nudge-app:
+    image: zthun/crumbtrail-cli
+    volumes:
+      - ${HOME}/.zthunworks/romulator:/home/crumbtrail/.zthunworks/romulator
+    command: crumbtrail-cli nudge -d /home/crumbtrail/.zthunworks/romulator --recursive -e 5000 --silent
+  crumbtrail-nudge-games:
+    image: zthun/crumbtrail-cli
+    volumes:
+      - ${HOME}/Games:/home/crumbtrail/games
+    command: crumbtrail-cli nudge -d /home/crumbtrail/games --recursive -e 60000 --silent
