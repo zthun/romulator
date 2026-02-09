@@ -1,5 +1,5 @@
-import { createGuid } from "@zthun/helpful-fn";
-import { isUndefined, omitBy } from "lodash-es";
+import { castEnum, castNumber, createGuid } from "@zthun/helpful-fn";
+import { get, isUndefined, omitBy } from "lodash-es";
 import { ZJobStatus } from "./job-status.mjs";
 import { ZJobType } from "./job-type.mjs";
 
@@ -253,6 +253,21 @@ export class ZJobBuilder {
     delete this._job.createdAt;
 
     return this;
+  }
+
+  /**
+   * Attempts to parse a job from a candidate job file.
+   */
+  public parse(candidate: unknown) {
+    const type = get(candidate, "type");
+    const context = get(candidate, "context");
+    const status = get(candidate, "status");
+    const percent = get(candidate, "percent");
+
+    return this.type(castEnum(ZJobType, type, ZJobType.Ping))
+      .status(castEnum(ZJobStatus, status))
+      .percent(castNumber(percent, 0))
+      .context(context);
   }
 
   /**
