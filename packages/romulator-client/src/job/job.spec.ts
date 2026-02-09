@@ -53,89 +53,72 @@ describe("ZJobBuilder", () => {
   describe("State", () => {
     describe("Idle", () => {
       it("should set the status", () => {
-        expect(createTestTarget().idle().build().state.status).toEqual(
+        expect(createTestTarget().idle().build().status).toEqual(
           ZJobStatus.Idle,
         );
-      });
-
-      it("should set the percent", () => {
-        expect(createTestTarget().idle().build().state.percent).toEqual(0);
       });
     });
 
     describe("Running", () => {
       it("should set the status", () => {
-        expect(createTestTarget().running().build().state.status).toEqual(
+        expect(createTestTarget().running().build().status).toEqual(
           ZJobStatus.Running,
         );
-      });
-
-      it("should keep the existing percent", () => {
-        expect(
-          createTestTarget().idle().running().build().state.percent,
-        ).toEqual(0);
-      });
-
-      it("should set the percent", () => {
-        const expected = 42;
-        expect(
-          createTestTarget().running(expected).build().state.percent,
-        ).toEqual(expected);
       });
     });
 
     describe("Canceled", () => {
       it("should set the status", () => {
-        expect(createTestTarget().canceled().build().state.status).toEqual(
+        expect(createTestTarget().canceled().build().status).toEqual(
           ZJobStatus.Canceled,
         );
-      });
-
-      it("should keep the existing percent", () => {
-        expect(
-          createTestTarget().idle().canceled().build().state.percent,
-        ).toEqual(0);
-      });
-
-      it("should set the percent", () => {
-        const expected = 42;
-        expect(
-          createTestTarget().canceled(expected).build().state.percent,
-        ).toEqual(expected);
       });
     });
 
     describe("Failed", () => {
       it("should set the status", () => {
-        expect(createTestTarget().failed().build().state.status).toEqual(
+        expect(createTestTarget().failed().build().status).toEqual(
           ZJobStatus.Failed,
         );
-      });
-
-      it("should keep the existing percent", () => {
-        expect(
-          createTestTarget().idle().failed().build().state.percent,
-        ).toEqual(0);
-      });
-
-      it("should set the percent", () => {
-        const expected = 42;
-        expect(
-          createTestTarget().failed(expected).build().state.percent,
-        ).toEqual(expected);
       });
     });
 
     describe("Success", () => {
       it("should set the status", () => {
-        expect(createTestTarget().success().build().state.status).toEqual(
+        expect(createTestTarget().success().build().status).toEqual(
           ZJobStatus.Success,
         );
       });
+    });
+  });
 
-      it("should set the percent", () => {
-        expect(createTestTarget().success().build().state.percent).toEqual(100);
-      });
+  describe("Percent", () => {
+    it("should set the percentage to 0 on start", () => {
+      expect(createTestTarget().start().build().percent).toEqual(0);
+    });
+
+    it("should set the percentage to 100 on completion", () => {
+      expect(createTestTarget().complete().build().percent).toEqual(100);
+    });
+
+    it("should remove the percentage", () => {
+      expect(createTestTarget().percent().build().percent).toBeUndefined();
+    });
+
+    it("should round the percentage up a half", () => {
+      expect(createTestTarget().percent(4.5).build().percent).toEqual(5);
+    });
+
+    it("should round the percentage down under half", () => {
+      expect(createTestTarget().percent(4.49).build().percent).toEqual(4);
+    });
+
+    it("should maximize the percent at 100", () => {
+      expect(createTestTarget().percent(101).build().percent).toEqual(100);
+    });
+
+    it("should minimize the percent at 0", () => {
+      expect(createTestTarget().percent(-1).build().percent).toEqual(0);
     });
   });
 

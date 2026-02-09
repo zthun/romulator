@@ -1,4 +1,4 @@
-import { createGuid, firstDefined } from "@zthun/helpful-fn";
+import { createGuid } from "@zthun/helpful-fn";
 import { isUndefined, omitBy } from "lodash-es";
 import { ZJobStatus } from "./job-status.mjs";
 import { ZJobType } from "./job-type.mjs";
@@ -18,29 +18,25 @@ export interface IZJob {
   type: ZJobType;
 
   /**
-   * Current status of the job.
+   * Status of the job.
    */
-  state: {
-    /**
-     * Status of the job.
-     */
-    status: ZJobStatus;
-    /**
-     * The percent completed.
-     *
-     * If the job does not track completion
-     * rates, then this will be 0 while the
-     * job is not complete, and 100 when it
-     * is complete.  There will be nothing
-     * else in-between.
-     *
-     * This can be a non-0 and non-100 if the
-     * job is canceled or failed.  An incomplete
-     * job should show the last completion status
-     * before finished.
-     */
-    percent: number;
-  };
+  status?: ZJobStatus;
+
+  /**
+   * The percent completed.
+   *
+   * If the job does not track completion
+   * rates, then this will be 0 while the
+   * job is not complete, and 100 when it
+   * is complete.  There will be nothing
+   * else in-between.
+   *
+   * This can be a non-0 and non-100 if the
+   * job is canceled or failed.  An incomplete
+   * job should show the last completion status
+   * before finished.
+   */
+  percent?: number;
 
   /**
    * The parameters for the job.
@@ -58,10 +54,6 @@ export interface IZJob {
  */
 export class ZJobBuilder {
   private _job: IZJob = {
-    state: {
-      status: ZJobStatus.Idle,
-      percent: 0,
-    },
     type: ZJobType.Ping,
   };
 
@@ -130,9 +122,8 @@ export class ZJobBuilder {
    * @returns
    *        This object.
    */
-  public state(status: ZJobStatus, percent?: number) {
-    this._job.state.status = status;
-    this._job.state.percent = firstDefined(this._job.state.percent, percent);
+  public status(status?: ZJobStatus) {
+    this._job.status = status;
 
     return this;
   }
@@ -143,7 +134,7 @@ export class ZJobBuilder {
    * @returns
    *        This object.
    */
-  public idle = this.state.bind(this, ZJobStatus.Idle, 0);
+  public idle = this.status.bind(this, ZJobStatus.Idle);
 
   /**
    * Sets the state status to running.
@@ -155,7 +146,7 @@ export class ZJobBuilder {
    * @returns
    *        This object.
    */
-  public running = this.state.bind(this, ZJobStatus.Running);
+  public running = this.status.bind(this, ZJobStatus.Running);
 
   /**
    * Sets the state status to canceled.
@@ -167,7 +158,7 @@ export class ZJobBuilder {
    * @returns
    *        This object.
    */
-  public canceled = this.state.bind(this, ZJobStatus.Canceled);
+  public canceled = this.status.bind(this, ZJobStatus.Canceled);
 
   /**
    * Sets the state status to failed.
@@ -179,7 +170,7 @@ export class ZJobBuilder {
    * @returns
    *        This object.
    */
-  public failed = this.state.bind(this, ZJobStatus.Failed);
+  public failed = this.status.bind(this, ZJobStatus.Failed);
 
   /**
    * Sets the state status to success and the percent to 100.
@@ -187,7 +178,37 @@ export class ZJobBuilder {
    * @returns
    *        This object.
    */
-  public success = this.state.bind(this, ZJobStatus.Success, 100);
+  public success = this.status.bind(this, ZJobStatus.Success);
+
+  /**
+   * Sets the percent value.
+   *
+   * @param val -
+   *        The percentage of the job complete
+   *
+   * @returns
+   *        This object.
+   */
+  public percent(val?: number) {
+    this._job.percent = val;
+
+    if (this._job.percent != null) {
+      this._job.percent = Math.min(100, Math.max(0, this._job.percent));
+      this._job.percent = Math.round(this._job.percent);
+    }
+
+    return this;
+  }
+
+  /**
+   * Sets the percentage to 0.
+   */
+  public start = this.percent.bind(this, 0);
+
+  /**
+   * Sets the percentage to 100.
+   */
+  public complete = this.percent.bind(this, 100);
 
   /**
    * Sets the job context or parameters.
