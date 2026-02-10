@@ -15,7 +15,7 @@ export interface IZJob {
   /**
    * The job type.
    */
-  type: ZJobType;
+  type?: ZJobType;
 
   /**
    * Status of the job.
@@ -89,7 +89,7 @@ export class ZJobBuilder {
    * @returns
    *        This builder.
    */
-  public type(val: ZJobType) {
+  public type(val?: ZJobType) {
     this._job.type = val;
     return this;
   }
@@ -218,7 +218,7 @@ export class ZJobBuilder {
    * @returns
    *        This builder.
    */
-  public context(val: any) {
+  public context(val?: any) {
     this._job.context = val;
     return this;
   }
@@ -264,7 +264,7 @@ export class ZJobBuilder {
     const status = get(candidate, "status");
     const percent = get(candidate, "percent");
 
-    return this.type(castEnum(ZJobType, type, ZJobType.Ping))
+    return this.type(castEnum(ZJobType, type))
       .status(castEnum(ZJobStatus, status))
       .percent(castNumber(percent, 0))
       .context(context);
