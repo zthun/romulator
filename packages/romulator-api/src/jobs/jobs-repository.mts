@@ -3,7 +3,7 @@ import {
   ZStreamFile,
   ZStreamFolder,
 } from "@zthun/crumbtrail-fs";
-import { isEnum, tryJsonParse } from "@zthun/helpful-fn";
+import { tryJsonParse } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import type { IZJob } from "@zthun/romulator-client";
 import { ZJobBuilder, ZJobType } from "@zthun/romulator-client";
@@ -69,17 +69,17 @@ export class ZRomulatorJobsRepository implements IZRomulatorJobsRepository {
       const value = get(result, "value")?.toString("utf-8");
       const content = tryJsonParse(value);
 
-      if (content == null || !isEnum(ZJobType, get(content, "type"))) {
-        continue;
-      }
-
       const job = new ZJobBuilder()
         .id(file.title)
         .createdAt(file.created)
         .parse(content)
         .build();
 
-      jobs.push(job);
+      const { type = ZJobType.Unknown } = job;
+
+      if (type !== ZJobType.Unknown) {
+        jobs.push(job);
+      }
     }
 
     return jobs;
