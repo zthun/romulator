@@ -3,6 +3,12 @@
  */
 export enum ZJobType {
   /**
+   * Unknown job type.
+   *
+   * You can use this as the null object for a job.
+   */
+  Unknown = "unknown",
+  /**
    * A quick hello world style job.
    *
    * Will always succeed.  This is
