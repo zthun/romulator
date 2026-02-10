@@ -8,38 +8,17 @@ import {
   ZIconFontAwesome,
   ZSearch,
   ZStack,
-  ZTile,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
-import type { IZJob } from "@zthun/romulator-client";
 import { useState } from "react";
+import { ZJobTile } from "./job-tile.js";
 import { useJobsService } from "./jobs-service.js";
 
 export function ZRomulatorJobsPage() {
-  const { body, primary } = useFashionTheme();
+  const { primary } = useFashionTheme();
   const jobs = useJobsService();
   const [request, setRequest] = useState(new ZDataRequestBuilder().build());
-
-  const renderTile = (job: IZJob) => {
-    return (
-      <ZTile
-        className="ZRomulatorJobsPage-tile"
-        fashion={body}
-        key={job.id}
-        name={job.id}
-      >
-        <ZStack
-          justify={{ content: "center" }}
-          align={{ items: "center" }}
-          height={ZSizeVaried.Full}
-          width={ZSizeVaried.Full}
-        >
-          {job.type}
-        </ZStack>
-      </ZTile>
-    );
-  };
 
   return (
     <ZStack
@@ -78,16 +57,14 @@ export function ZRomulatorJobsPage() {
           }
           GridProps={{
             columns: {
-              xl: "1fr 1fr 1fr 1fr",
-              lg: "1fr 1fr 1fr 1fr",
-              md: "1fr 1fr 1fr",
-              sm: "1fr 1fr",
-              xs: "1fr",
+              xl: "1fr 1fr 1fr",
+              lg: "1fr 1fr",
+              md: "1fr",
             },
             gap: ZSizeFixed.Medium,
           }}
           dataSource={jobs}
-          renderItem={renderTile}
+          renderItem={(job) => <ZJobTile key={job.id} value={job} />}
           value={request}
         />
       </ZCard>
