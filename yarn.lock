@@ -4438,6 +4438,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zthun/helpful-fn@npm:^9.11.10":
+  version: 9.11.10
+  resolution: "@zthun/helpful-fn@npm:9.11.10"
+  dependencies:
+    "@date-fns/tz": "npm:^1.4.1"
+    date-fns: "npm:^4.1.0"
+    uuid: "npm:^13.0.0"
+  checksum: 10/0e6c1104be792c5764e2c0c9537d551e46a62292962fb13a52f395067936fd6fa7a9016472b66d5fabad7751de9d925899cf92afcdf923e2ca75cdf32c0c5e89
+  languageName: node
+  linkType: hard
+
 "@zthun/helpful-fn@npm:^9.11.4, @zthun/helpful-fn@npm:^9.11.5":
   version: 9.11.5
   resolution: "@zthun/helpful-fn@npm:9.11.5"
@@ -4447,14 +4458,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-fn@npm:^9.11.7":
-  version: 9.11.7
-  resolution: "@zthun/helpful-fn@npm:9.11.7"
+"@zthun/helpful-query@npm:^9.11.10":
+  version: 9.11.10
+  resolution: "@zthun/helpful-query@npm:9.11.10"
   dependencies:
-    "@date-fns/tz": "npm:^1.4.1"
-    date-fns: "npm:^4.1.0"
-    uuid: "npm:^13.0.0"
-  checksum: 10/348397d09b97c643bd0861dc3ff4c9d18fc58e9aaac11bfae4aeeb9506e46bbca0444b3e498fb36c158d7c8b240f4d9e5d1c4aff9fe62f42fbfca4a005bc01a0
+    "@zthun/helpful-fn": "npm:^9.11.10"
+    lodash-es: "npm:^4.17.23"
+  checksum: 10/cb48c047c177dc16ea5a879de2f1e01f7b8751b8f4917bab8f8d21b86b3548f785a64bda6b50059f12043ccd845f2328c0e6e8eb9f4f17f1cc048e231ad56995
   languageName: node
   linkType: hard
 
@@ -4468,13 +4478,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-query@npm:^9.11.7":
-  version: 9.11.7
-  resolution: "@zthun/helpful-query@npm:9.11.7"
+"@zthun/helpful-react@npm:^9.11.10":
+  version: 9.11.10
+  resolution: "@zthun/helpful-react@npm:9.11.10"
   dependencies:
-    "@zthun/helpful-fn": "npm:^9.11.7"
+    "@zthun/helpful-fn": "npm:^9.11.10"
+    "@zthun/helpful-query": "npm:^9.11.10"
     lodash-es: "npm:^4.17.23"
-  checksum: 10/01b437dcd1efc1bb0dc377fbf70347e8c45596f792e373b719e0b0823f3a6589f443d2915afd5690e16643719c057e1d3af4f4b22880ad2a216d59dee1d85de1
+    rxjs: "npm:^7.8.2"
+  peerDependencies:
+    react: ">=18.0.0 <20.0.0"
+    react-dom: ">=18.0.0 <20.0.0"
+    rxjs: ^7.8.1
+  peerDependenciesMeta:
+    rxjs:
+      optional: true
+  checksum: 10/9a83912de1bb62c988b4cef85625013d316f43a1f489095475b85b401a46f294d86c762d116e3c3f3aa9719882a048e3cf921605ddc031e2996361cdc0b433de
   languageName: node
   linkType: hard
 
@@ -4497,32 +4516,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/helpful-react@npm:^9.11.7":
-  version: 9.11.7
-  resolution: "@zthun/helpful-react@npm:9.11.7"
+"@zthun/helpful-reflection@npm:^9.11.10":
+  version: 9.11.10
+  resolution: "@zthun/helpful-reflection@npm:9.11.10"
   dependencies:
-    "@zthun/helpful-fn": "npm:^9.11.7"
-    "@zthun/helpful-query": "npm:^9.11.7"
-    lodash-es: "npm:^4.17.23"
-    rxjs: "npm:^7.8.2"
-  peerDependencies:
-    react: ">=18.0.0 <20.0.0"
-    react-dom: ">=18.0.0 <20.0.0"
-    rxjs: ^7.8.1
-  peerDependenciesMeta:
-    rxjs:
-      optional: true
-  checksum: 10/e6d495951a0d04cef3e0af2c84787120b4f21f9997d8a947f14e0816daff9cdf429e4a44235941bccddb03f4be13fd1974dd2d41a6610470ad4ecce7fca3464e
-  languageName: node
-  linkType: hard
-
-"@zthun/helpful-reflection@npm:^9.11.7":
-  version: 9.11.7
-  resolution: "@zthun/helpful-reflection@npm:9.11.7"
-  dependencies:
-    "@zthun/helpful-fn": "npm:^9.11.7"
+    "@zthun/helpful-fn": "npm:^9.11.10"
     reflect-metadata: "npm:^0.2.2"
-  checksum: 10/1f4a4aff5756ad09b360677902a6b07bec59ed9dfb6f9bbd6e4f245bfb7e07515af8ff207d22a04cddaf24bcd1dc159b20b48f3cc2e5275a5571a1b4861d8e9b
+  checksum: 10/e1f94960a04f2b25c3f9b7f975a542f22bb78cc40baa471d1e4a56c1293237bc8ce5e03879c4608a2cc6483e0bfe6c11d3b45778767050d613fe48c6a4afee54
   languageName: node
   linkType: hard
 
@@ -4746,9 +4746,9 @@ __metadata:
     "@types/mime-types": "npm:^3.0.1"
     "@zthun/crumbtrail-fs": "npm:^2.4.6"
     "@zthun/crumbtrail-nest": "npm:^2.4.6"
-    "@zthun/helpful-fn": "npm:^9.11.7"
-    "@zthun/helpful-query": "npm:^9.11.7"
-    "@zthun/helpful-reflection": "npm:^9.11.7"
+    "@zthun/helpful-fn": "npm:^9.11.10"
+    "@zthun/helpful-query": "npm:^9.11.10"
+    "@zthun/helpful-reflection": "npm:^9.11.10"
     "@zthun/janitor-build-config": "npm:^19.5.6"
     "@zthun/janitor-ts-config": "npm:^19.5.3"
     "@zthun/lumberjacky-log": "npm:^4.0.4"
@@ -4781,8 +4781,8 @@ __metadata:
   resolution: "@zthun/romulator-client@workspace:packages/romulator-client"
   dependencies:
     "@types/lodash-es": "npm:^4.17.12"
-    "@zthun/helpful-fn": "npm:^9.11.7"
-    "@zthun/helpful-query": "npm:^9.11.7"
+    "@zthun/helpful-fn": "npm:^9.11.10"
+    "@zthun/helpful-query": "npm:^9.11.10"
     "@zthun/janitor-build-config": "npm:^19.5.6"
     "@zthun/janitor-ts-config": "npm:^19.5.3"
     lodash-es: "npm:^4.17.23"
@@ -4820,9 +4820,9 @@ __metadata:
     "@zthun/fashion-boutique": "npm:^13.0.4"
     "@zthun/fashion-tailor": "npm:^13.0.4"
     "@zthun/fashion-theme": "npm:^13.0.4"
-    "@zthun/helpful-fn": "npm:^9.11.7"
-    "@zthun/helpful-query": "npm:^9.11.7"
-    "@zthun/helpful-react": "npm:^9.11.7"
+    "@zthun/helpful-fn": "npm:^9.11.10"
+    "@zthun/helpful-query": "npm:^9.11.10"
+    "@zthun/helpful-react": "npm:^9.11.10"
     "@zthun/janitor-build-config": "npm:^19.5.6"
     "@zthun/janitor-ts-config": "npm:^19.5.3"
     "@zthun/romulator-client": "npm:^1.18.4"
@@ -8793,9 +8793,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^20.5.3":
-  version: 20.5.3
-  resolution: "happy-dom@npm:20.5.3"
+"happy-dom@npm:^20.6.0":
+  version: 20.6.0
+  resolution: "happy-dom@npm:20.6.0"
   dependencies:
     "@types/node": "npm:>=20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
@@ -8803,7 +8803,7 @@ __metadata:
     entities: "npm:^6.0.1"
     whatwg-mimetype: "npm:^3.0.0"
     ws: "npm:^8.18.3"
-  checksum: 10/0aef62ec8842ccfe06299c102a21e095a7087535bff6cfbdf9afaf2ffd44cae4cef31f6acb6571e0b717210c9e3091cac34d68977130183b33b4ad7ac8cbfd47
+  checksum: 10/7c6fb1f690826a00698b26f863cedc1875987502d2b1c19e931ab95bb9e49ade685ef26a5942fbb2e34ae8c6b056f1c91a1c67c52770d71ff69b1452cb4ecdb1
   languageName: node
   linkType: hard
 
@@ -13435,7 +13435,7 @@ __metadata:
     "@zthun/janitor-lint-config": "npm:^19.5.6"
     "@zthun/janitor-options": "npm:^19.5.6"
     "@zthun/janitor-ts-config": "npm:^19.5.3"
-    happy-dom: "npm:^20.5.3"
+    happy-dom: "npm:^20.6.0"
     husky: "npm:^9.1.7"
     lerna: "npm:^9.0.3"
     lodash-es: "npm:^4.17.23"
