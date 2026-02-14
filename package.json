@@ -20,7 +20,7 @@
     "lint": "janitor-lint",
     "build": "lerna run build",
     "make": "yarn clean && yarn check && yarn lint && yarn test && yarn build",
-    "prepare": "husky"
+    "postinstall": "husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
