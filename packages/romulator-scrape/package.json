@@ -20,7 +20,7 @@
     "@zthun/romulator-client": "^1.18.5"
   },
   "devDependencies": {
-    "@types/node": "^25.1.0",
+    "@types/node": "^25.2.3",
     "@zthun/janitor-build-config": "^19.5.6",
     "@zthun/janitor-ts-config": "^19.5.3",
     "history": "^5.3.0",

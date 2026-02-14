@@ -74,7 +74,7 @@ describe("ZRomulatorMenu", () => {
   });
 
   describe("Navigation", () => {
-    type NavigationName = "systems" | "settings" | "steam" | "audits" | "games";
+    type NavigationName = "systems" | "settings" | "jobs" | "games";
 
     const shouldNavigateTo = async (expected: string, name: NavigationName) => {
       // Arrange.
@@ -89,12 +89,16 @@ describe("ZRomulatorMenu", () => {
       expect(_history.location.pathname).toEqual(expected);
     };
 
-    it("should navigation to the systems page", async () => {
+    it("should navigate to the systems page", async () => {
       await shouldNavigateTo("/systems", "systems");
     });
 
-    it("should navigation to the games page", async () => {
+    it("should navigate to the games page", async () => {
       await shouldNavigateTo("/games", "games");
+    });
+
+    it("should navigate to the jobs page", async () => {
+      await shouldNavigateTo("/jobs", "jobs");
     });
 
     it("should navigate to the settings page", async () => {

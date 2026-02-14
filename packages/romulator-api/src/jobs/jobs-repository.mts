@@ -5,7 +5,8 @@ import {
 } from "@zthun/crumbtrail-fs";
 import { tryJsonParse } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
-import { isJobType, ZJobBuilder, type IZJob } from "@zthun/romulator-client";
+import type { IZJob } from "@zthun/romulator-client";
+import { ZJobBuilder, ZJobType } from "@zthun/romulator-client";
 import { get } from "lodash-es";
 import { ZDir } from "../dir/dir.js";
 
@@ -68,26 +69,17 @@ export class ZRomulatorJobsRepository implements IZRomulatorJobsRepository {
       const value = get(result, "value")?.toString("utf-8");
       const content = tryJsonParse(value);
 
-      if (content == null) {
-        continue;
-      }
-
-      const id = get(content, "id");
-      const type = get(content, "type");
-
-      if (!id || !isJobType(type)) {
-        continue;
-      }
-
-      const context = get(content, "context");
       const job = new ZJobBuilder()
-        .id(id)
-        .type(type)
-        .context(context)
+        .id(file.title)
         .createdAt(file.created)
+        .parse(content)
         .build();
 
-      jobs.push(job);
+      const { type = ZJobType.Unknown } = job;
+
+      if (type !== ZJobType.Unknown) {
+        jobs.push(job);
+      }
     }
 
     return jobs;

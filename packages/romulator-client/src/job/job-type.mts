@@ -3,6 +3,12 @@
  */
 export enum ZJobType {
   /**
+   * Unknown job type.
+   *
+   * You can use this as the null object for a job.
+   */
+  Unknown = "unknown",
+  /**
    * A quick hello world style job.
    *
    * Will always succeed.  This is
@@ -23,21 +29,4 @@ export enum ZJobType {
    * all systems and games.
    */
   Scrape = "scrape",
-}
-
-/**
- * Gets whether a candidate value represents a job type.
- *
- * @param candidate -
- *        The object to check.
- *
- * @returns
- *        True if candidate can be a ZJobType object.  False otherwise.
- */
-export function isJobType(candidate: unknown): candidate is ZJobType {
-  return (
-    candidate != null &&
-    typeof candidate == "string" &&
-    Object.values<string>(ZJobType).includes(candidate)
-  );
 }

@@ -8,10 +8,8 @@
     }
   },
   "changelogPreset": {
-    "name": "conventionalcommits",
-    "issuePrefixes": [
-      "#"
-    ],
+    "name": "angular",
+    "issuePrefixes": ["#"],
     "types": [
       {
         "type": "feat",

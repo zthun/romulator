@@ -9,6 +9,7 @@ import {
 import { createDarkTheme } from "@zthun/fashion-theme";
 import { ZRomulatorGamePage } from "../games/game-page.js";
 import { ZRomulatorGamesPage } from "../games/games-page.js";
+import { ZRomulatorJobsPage } from "../jobs/jobs-page.js";
 import { ZRomulatorMenu } from "../menu/menu.js";
 import { ZRomulatorSettingPage } from "../settings/setting-page.js";
 import { ZRomulatorSettingsPage } from "../settings/settings-page.js";
@@ -36,6 +37,7 @@ export function ZRomulatorApp() {
           <ZRoute path="/systems/:id" element={<ZRomulatorSystemPage />} />
           <ZRoute path="/games" element={<ZRomulatorGamesPage />} />
           <ZRoute path="/games/:id" element={<ZRomulatorGamePage />} />
+          <ZRoute path="/jobs" element={<ZRomulatorJobsPage />} />
           <ZRoute path="" element={<ZNavigate to="/systems" />} />
           <ZRoute path="*" element={<ZNotFound />} />
         </ZRouteMap>

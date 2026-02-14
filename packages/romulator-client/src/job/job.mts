@@ -1,5 +1,6 @@
-import { createGuid } from "@zthun/helpful-fn";
-import { isUndefined, omitBy } from "lodash-es";
+import { castEnum, castNumber, createGuid } from "@zthun/helpful-fn";
+import { get, isUndefined, omitBy } from "lodash-es";
+import { ZJobStatus } from "./job-status.mjs";
 import { ZJobType } from "./job-type.mjs";
 
 /**
@@ -14,7 +15,28 @@ export interface IZJob {
   /**
    * The job type.
    */
-  type: ZJobType;
+  type?: ZJobType;
+
+  /**
+   * Status of the job.
+   */
+  status?: ZJobStatus;
+
+  /**
+   * The percent completed.
+   *
+   * If the job does not track completion
+   * rates, then this will be 0 while the
+   * job is not complete, and 100 when it
+   * is complete.  There will be nothing
+   * else in-between.
+   *
+   * This can be a non-0 and non-100 if the
+   * job is canceled or failed.  An incomplete
+   * job should show the last completion status
+   * before finished.
+   */
+  percent?: number;
 
   /**
    * The parameters for the job.
@@ -67,7 +89,7 @@ export class ZJobBuilder {
    * @returns
    *        This builder.
    */
-  public type(val: ZJobType) {
+  public type(val?: ZJobType) {
     this._job.type = val;
     return this;
   }
@@ -89,6 +111,91 @@ export class ZJobBuilder {
   public scrape = this.type.bind(this, ZJobType.Scrape);
 
   /**
+   * Sets the state of the job.
+   *
+   * @param status -
+   *        The status of the job.
+   *
+   * @returns
+   *        This object.
+   */
+  public status(status?: ZJobStatus) {
+    this._job.status = status;
+
+    return this;
+  }
+
+  /**
+   * Sets the state status to idle and the percent to 0.
+   *
+   * @returns
+   *        This object.
+   */
+  public idle = this.status.bind(this, ZJobStatus.Idle);
+
+  /**
+   * Sets the state status to running.
+   *
+   * @returns
+   *        This object.
+   */
+  public running = this.status.bind(this, ZJobStatus.Running);
+
+  /**
+   * Sets the state status to canceled.
+   *
+   * @returns
+   *        This object.
+   */
+  public canceled = this.status.bind(this, ZJobStatus.Canceled);
+
+  /**
+   * Sets the state status to failed.
+   *
+   * @returns
+   *        This object.
+   */
+  public failed = this.status.bind(this, ZJobStatus.Failed);
+
+  /**
+   * Sets the state status to success and the percent to 100.
+   *
+   * @returns
+   *        This object.
+   */
+  public success = this.status.bind(this, ZJobStatus.Success);
+
+  /**
+   * Sets the percent value.
+   *
+   * @param val -
+   *        The percentage of the job complete
+   *
+   * @returns
+   *        This object.
+   */
+  public percent(val?: number) {
+    this._job.percent = val;
+
+    if (this._job.percent != null) {
+      this._job.percent = Math.min(100, Math.max(0, this._job.percent));
+      this._job.percent = Math.round(this._job.percent);
+    }
+
+    return this;
+  }
+
+  /**
+   * Sets the percentage to 0.
+   */
+  public start = this.percent.bind(this, 0);
+
+  /**
+   * Sets the percentage to 100.
+   */
+  public complete = this.percent.bind(this, 100);
+
+  /**
    * Sets the job context or parameters.
    *
    * @param val -
@@ -96,7 +203,7 @@ export class ZJobBuilder {
    * @returns
    *        This builder.
    */
-  public context(val: any) {
+  public context(val?: any) {
     this._job.context = val;
     return this;
   }
@@ -120,15 +227,32 @@ export class ZJobBuilder {
    * to a job file.
    *
    * This removes any created and updated date as the file's audit
-   * information is source of truth for these.
+   * information is source of truth for these.  The id is also removed
+   * as the file name serves as an id.
    *
    * @returns
    *        This object.
    */
   public redact() {
+    delete this._job.id;
     delete this._job.createdAt;
 
     return this;
+  }
+
+  /**
+   * Attempts to parse a job from a candidate job file.
+   */
+  public parse(candidate: unknown) {
+    const type = get(candidate, "type");
+    const context = get(candidate, "context");
+    const status = get(candidate, "status");
+    const percent = get(candidate, "percent");
+
+    return this.type(castEnum(ZJobType, type))
+      .status(castEnum(ZJobStatus, status))
+      .percent(castNumber(percent, 0))
+      .context(context);
   }
 
   /**
