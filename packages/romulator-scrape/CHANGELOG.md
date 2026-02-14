@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/zthun/romulator/compare/v1.18.5...v1.19.0) (2026-02-14)
+
+**Note:** Version bump only for package @zthun/romulator-scrape
+
+
+
+
+
 ## <small>1.18.5 (2026-02-01)</small>
 
 **Note:** Version bump only for package @zthun/romulator-scrape

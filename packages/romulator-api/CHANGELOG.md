@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/zthun/romulator/compare/v1.18.5...v1.19.0) (2026-02-14)
+
+
+### Features
+
+* job repository now sets the percent and status of the job ([3d76db6](https://github.com/zthun/romulator/commit/3d76db61eeddcbbe703a8c6213e62ca5a6b1c4ae))
+
+
+
+
+
 ## <small>1.18.5 (2026-02-01)</small>
 
 * test: cleanup target application after tests finish ([124c67f](https://github.com/zthun/romulator/commit/124c67f))

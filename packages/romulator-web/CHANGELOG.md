@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/zthun/romulator/compare/v1.18.5...v1.19.0) (2026-02-14)
+
+
+### Features
+
+* added jobs routing ([d85373a](https://github.com/zthun/romulator/commit/d85373aea410d2045aa94916760f5440750f22a3))
+* jobs page lists the jobs that are running or completed ([c799e8c](https://github.com/zthun/romulator/commit/c799e8cd93818586b74d0784d3f2be951c8a886a))
+* jobs service manages job retrieval and creation ([73445f1](https://github.com/zthun/romulator/commit/73445f18952aa3b17c502a69e7b25c3a220c49f6))
+* render job information in the tile ([715c162](https://github.com/zthun/romulator/commit/715c16224dc7f377b4ff6577c754756c394b4ade))
+
+
+
+
+
 ## <small>1.18.5 (2026-02-01)</small>
 
 * build: update outdated packages ([0bc5866](https://github.com/zthun/romulator/commit/0bc5866))

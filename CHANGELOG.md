@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/zthun/romulator/compare/v1.18.5...v1.19.0) (2026-02-14)
+
+
+### Features
+
+* added jobs routing ([d85373a](https://github.com/zthun/romulator/commit/d85373aea410d2045aa94916760f5440750f22a3))
+* job repository now sets the percent and status of the job ([3d76db6](https://github.com/zthun/romulator/commit/3d76db61eeddcbbe703a8c6213e62ca5a6b1c4ae))
+* jobs can now have saved state ([cb21b17](https://github.com/zthun/romulator/commit/cb21b17960457ef4ff03f318bcbab69751580832))
+* jobs page lists the jobs that are running or completed ([c799e8c](https://github.com/zthun/romulator/commit/c799e8cd93818586b74d0784d3f2be951c8a886a))
+* jobs service manages job retrieval and creation ([73445f1](https://github.com/zthun/romulator/commit/73445f18952aa3b17c502a69e7b25c3a220c49f6))
+* render job information in the tile ([715c162](https://github.com/zthun/romulator/commit/715c16224dc7f377b4ff6577c754756c394b4ade))
+* status describes the current running state of a job ([e44287f](https://github.com/zthun/romulator/commit/e44287f14cbe6ad8a66f8e401cb082a63e60de41))
+* unknown job type is the null object pattern for a job type ([fe4e167](https://github.com/zthun/romulator/commit/fe4e16775cf43265d0ea8ef4323877968b8a065e))
+
+
+
+
+
 ## <small>1.18.5 (2026-02-01)</small>
 
 * test: cleanup target application after tests finish ([124c67f](https://github.com/zthun/romulator/commit/124c67f))

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/zthun/romulator/compare/v1.18.5...v1.19.0) (2026-02-14)
+
+
+### Features
+
+* jobs can now have saved state ([cb21b17](https://github.com/zthun/romulator/commit/cb21b17960457ef4ff03f318bcbab69751580832))
+* status describes the current running state of a job ([e44287f](https://github.com/zthun/romulator/commit/e44287f14cbe6ad8a66f8e401cb082a63e60de41))
+* unknown job type is the null object pattern for a job type ([fe4e167](https://github.com/zthun/romulator/commit/fe4e16775cf43265d0ea8ef4323877968b8a065e))
+
+
+
+
+
 ## <small>1.18.5 (2026-02-01)</small>
 
 * build: update outdated packages ([0bc5866](https://github.com/zthun/romulator/commit/0bc5866))

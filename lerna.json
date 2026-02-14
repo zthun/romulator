@@ -1,6 +1,6 @@
 {
   "stream": true,
-  "version": "1.18.5",
+  "version": "1.19.0",
   "nx": true,
   "command": {
     "publish": {
@@ -9,7 +9,9 @@
   },
   "changelogPreset": {
     "name": "angular",
-    "issuePrefixes": ["#"],
+    "issuePrefixes": [
+      "#"
+    ],
     "types": [
       {
         "type": "feat",
