@@ -115,9 +115,6 @@ export class ZJobBuilder {
    *
    * @param status -
    *        The status of the job.
-   * @param percent
-   *        The total completion percent of the job.  If this is
-   *        undefined, then the existing percent is not changed.
    *
    * @returns
    *        This object.
@@ -139,10 +136,6 @@ export class ZJobBuilder {
   /**
    * Sets the state status to running.
    *
-   * @param percent -
-   *        The optional percent to update.  If this is undefined,
-   *        then the existing percent is not changed.
-   *
    * @returns
    *        This object.
    */
@@ -151,10 +144,6 @@ export class ZJobBuilder {
   /**
    * Sets the state status to canceled.
    *
-   * @param percent -
-   *        The optional percent to update.  If this is undefined,
-   *        then the existing percent is not changed.
-   *
    * @returns
    *        This object.
    */
@@ -162,10 +151,6 @@ export class ZJobBuilder {
 
   /**
    * Sets the state status to failed.
-   *
-   * @param percent -
-   *        The optional percent to update.  If this is undefined,
-   *        then the existing percent is not changed.
    *
    * @returns
    *        This object.
