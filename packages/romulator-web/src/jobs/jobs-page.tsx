@@ -1,7 +1,5 @@
 import {
-  useFashionTheme,
   ZBreadcrumbsLocation,
-  ZButton,
   ZCard,
   ZGrid,
   ZGridView,
@@ -16,13 +14,12 @@ import { ZJobTile } from "./job-tile.js";
 import { useJobsService } from "./jobs-service.js";
 
 export function ZRomulatorJobsPage() {
-  const { primary } = useFashionTheme();
   const jobs = useJobsService();
   const [request, setRequest] = useState(new ZDataRequestBuilder().build());
 
   return (
     <ZStack
-      className="ZRomulatorGamesPage-root"
+      className="ZRomulatorJobsPage-root"
       gap={ZSizeFixed.Medium}
       width={ZSizeVaried.Full}
     >
@@ -38,7 +35,6 @@ export function ZRomulatorJobsPage() {
         }}
       >
         <ZGridView
-          className="ZRomulatorJobsPage-root"
           heading={
             <ZGrid
               align={{ items: "flex-end" }}
@@ -46,13 +42,6 @@ export function ZRomulatorJobsPage() {
               gap={ZSizeFixed.Medium}
             >
               <ZSearch value={request} onValueChange={setRequest} />
-              <ZButton
-                avatar={
-                  <ZIconFontAwesome name="cog" width={ZSizeFixed.ExtraSmall} />
-                }
-                label="Create"
-                fashion={primary}
-              />
             </ZGrid>
           }
           GridProps={{
