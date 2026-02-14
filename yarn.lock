@@ -356,13 +356,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/config-conventional@npm:^20.4.1":
+"@commitlint/config-angular-type-enum@npm:^20.0.0":
+  version: 20.0.0
+  resolution: "@commitlint/config-angular-type-enum@npm:20.0.0"
+  checksum: 10/05e4902e217d358cbda01f7f29e7499a9b01cc816179097d6e2a082cbe323174b3d7b85d1ac89dc1efe026cb73814127f5515371fe62f44eb1474b3a36be539c
+  languageName: node
+  linkType: hard
+
+"@commitlint/config-angular@npm:^20.4.1":
   version: 20.4.1
-  resolution: "@commitlint/config-conventional@npm:20.4.1"
+  resolution: "@commitlint/config-angular@npm:20.4.1"
   dependencies:
-    "@commitlint/types": "npm:^20.4.0"
-    conventional-changelog-conventionalcommits: "npm:^9.1.0"
-  checksum: 10/fbef5f0858a0ee99a092cb8a61e011f6e8f1335825d17c81302b3ce96d4e3d79c0e97f11e2e56fe765baa7770956e99f50820278747ba9c5affa2c1394a8d34d
+    "@commitlint/config-angular-type-enum": "npm:^20.0.0"
+  checksum: 10/5b5778d3bc7c45a2f3bab3171210131d47576e59640038de3a8151a989e3743063111c9a20e3b0ccea511136a2ff1fe4a41568c1fee4f61510aeea7f14e2038e
   languageName: node
   linkType: hard
 
@@ -6334,15 +6340,6 @@ __metadata:
   dependencies:
     compare-func: "npm:^2.0.0"
   checksum: 10/2211efa2bebbb00c3976d7b860979d3c04c2bcbb661cfc0c61445986dd3efa391f6e56636482cda83dfb3da3e2327a05c80f647a9147072627046bcbe0de7d39
-  languageName: node
-  linkType: hard
-
-"conventional-changelog-conventionalcommits@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "conventional-changelog-conventionalcommits@npm:9.1.0"
-  dependencies:
-    compare-func: "npm:^2.0.0"
-  checksum: 10/932522a9eb2f19f8b6efc05f1de0b8d4775842e2156c2c58358d25069bfc43ca1a6198fb07666d7abc83695a10591787c23b7ff2e1e2d73ac484cfb2f57f5f7f
   languageName: node
   linkType: hard
 
@@ -13424,7 +13421,7 @@ __metadata:
   resolution: "romulator@workspace:."
   dependencies:
     "@commitlint/cli": "npm:^20.4.1"
-    "@commitlint/config-conventional": "npm:^20.4.1"
+    "@commitlint/config-angular": "npm:^20.4.1"
     "@types/lodash-es": "npm:^4.17.12"
     "@types/node": "npm:^25.2.2"
     "@types/react": "npm:^19.2.13"
