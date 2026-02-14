@@ -18,7 +18,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^25.2.2",
+    "@types/node": "^25.2.3",
     "@zthun/cirque": "^7.2.5",
     "@zthun/cirque-du-react": "^7.2.5",
     "@zthun/fashion-boutique": "^13.0.4",
