@@ -6,7 +6,7 @@ import {
   ZRoute,
   ZRouteMap,
 } from "@zthun/fashion-boutique";
-import { createDarkTheme } from "@zthun/fashion-theme";
+import theme from "@zthun/fashion-theme-dark";
 
 import { ZRomulatorGamePage } from "../games/game-page.js";
 import { ZRomulatorGamesPage } from "../games/games-page.js";
@@ -19,11 +19,9 @@ import { ZRomulatorSystemsPage } from "../systems/systems-page.js";
 import { ZRomulatorAvatar } from "./app-avatar.js";
 import { ZRomulatorTitle } from "./app-title.js";
 
-const FashionTheme = createDarkTheme();
-
 export function ZRomulatorApp() {
   return (
-    <ZFashionThemeContext.Provider value={FashionTheme}>
+    <ZFashionThemeContext.Provider value={theme}>
       <ZBannerMain
         TitleProps={{
           avatar: <ZRomulatorAvatar />,
