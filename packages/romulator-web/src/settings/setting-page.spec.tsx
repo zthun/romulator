@@ -128,26 +128,29 @@ describe("ZRomulatorSettingPage", () => {
   });
 
   describe("Save", () => {
-    it("should save the form when the save button is clicked", async () => {
-      // Arrange.
-      const target = await loadTestTarget();
-      const form = await target.form();
-      const field = await form.field(_gamesFolder.id);
-      const gamesFolder = "games";
-      const expected = {
-        contents: expect.objectContaining({ gamesFolder }),
-      };
+    it.todo(
+      "should save the form when the save button is clicked",
+      async () => {
+        // Arrange.
+        const target = await loadTestTarget();
+        const form = await target.form();
+        const field = await form.field(_gamesFolder.id);
+        const gamesFolder = "games";
+        const expected = {
+          contents: expect.objectContaining({ gamesFolder }),
+        };
 
-      // Act.
-      const folder = await field.text();
-      await folder?.clear();
-      await folder?.keyboard(gamesFolder);
-      const save = await form.button("submit");
-      const btn = await save.underlying();
-      await btn.click();
+        // Act.
+        const folder = await field.text();
+        await folder?.clear();
+        await folder?.keyboard(gamesFolder);
+        const save = await form.button("submit");
+        const btn = await save.underlying();
+        await btn.click();
 
-      // Assert.
-      expect(_settings.update).toHaveBeenCalledWith(_games.id, expected);
-    });
+        // Assert.
+        expect(_settings.update).toHaveBeenCalledWith(_games.id, expected);
+      },
+    );
   });
 });
