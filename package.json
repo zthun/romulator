@@ -50,5 +50,5 @@
   "resolutions": {
     "rollup": "npm:@rollup/wasm-node@*"
   },
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "yarn@4.14.1"
 }
