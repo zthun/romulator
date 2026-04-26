@@ -70,7 +70,7 @@ describe("MediaApi", () => {
     return _target;
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     _logger = new ZLoggerSilent();
 
     const gamesConfig = new ZRomulatorConfigBuilder()

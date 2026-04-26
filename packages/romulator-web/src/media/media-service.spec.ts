@@ -20,7 +20,7 @@ describe("ZRomulatorMediaService", () => {
   const createTestTarget = () => new ZRomulatorMediaService(environment);
 
   describe("URL", () => {
-    const shouldReturnUrl = async (
+    const shouldReturnUrl = (
       expected: string,
       gameOrSystem: IZRomulatorGame | IZRomulatorSystem | ZRomulatorSystemId,
       type: ZRomulatorMediaType,
@@ -43,7 +43,7 @@ describe("ZRomulatorMediaService", () => {
         .build();
 
       Object.values(ZRomulatorGameMediaType).forEach((type) => {
-        it(`should return the media url for a game with type, ${type}`, async () => {
+        it(`should return the media url for a game with type, ${type}`, () => {
           const { id } = mario;
           const segment = `${id}-${type}`;
           const expected = new ZUrlBuilder()
@@ -52,7 +52,7 @@ describe("ZRomulatorMediaService", () => {
             .append(segment)
             .build();
 
-          await shouldReturnUrl(expected, mario, type);
+          shouldReturnUrl(expected, mario, type);
         });
       });
     });
@@ -64,7 +64,7 @@ describe("ZRomulatorMediaService", () => {
         .build();
 
       Object.values(ZRomulatorSystemMediaType).forEach((type) => {
-        it(`should return the media url for a system with type, ${type}`, async () => {
+        it(`should return the media url for a system with type, ${type}`, () => {
           const { id } = nes;
           const segment = `${id}-${type}`;
           const expected = new ZUrlBuilder()
@@ -73,7 +73,7 @@ describe("ZRomulatorMediaService", () => {
             .append(segment)
             .build();
 
-          await shouldReturnUrl(expected, nes, type);
+          shouldReturnUrl(expected, nes, type);
         });
       });
     });
@@ -82,7 +82,7 @@ describe("ZRomulatorMediaService", () => {
       const dreamcast = ZRomulatorSystemId.Dreamcast;
 
       Object.values(ZRomulatorSystemMediaType).forEach((type) => {
-        it(`should return the media url for a system with type, ${type}`, async () => {
+        it(`should return the media url for a system with type, ${type}`, () => {
           const id = dreamcast;
           const segment = `${id}-${type}`;
           const expected = new ZUrlBuilder()
@@ -91,7 +91,7 @@ describe("ZRomulatorMediaService", () => {
             .append(segment)
             .build();
 
-          await shouldReturnUrl(expected, dreamcast, type);
+          shouldReturnUrl(expected, dreamcast, type);
         });
       });
     });

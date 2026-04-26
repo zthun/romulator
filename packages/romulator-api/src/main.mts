@@ -5,7 +5,7 @@ import { ZRomulatorModule } from "./app/app-module.mjs";
 
 const PORT = 3000;
 
-(async function () {
+void (async function main() {
   const app = await NestFactory.create(ZRomulatorModule);
   app.setGlobalPrefix("api");
   app.enableCors();

@@ -10,5 +10,5 @@
       "@zthun/romulator-scrape": ["./packages/romulator-scrape/src/index.mts"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.mts"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.mts", ".test/**/*.mts"]
 }

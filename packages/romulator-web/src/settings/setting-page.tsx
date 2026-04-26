@@ -29,13 +29,15 @@ export function ZRomulatorSettingPage() {
     return <ZFormField key={meta.id} metadata={meta} />;
   }, []);
 
-  const handleUpdateConfig = async (contents: any) => {
-    try {
-      const updated = await service.update(_setting!.id, { contents });
-      setSetting(updated);
-    } catch {
-      // TODO:  Error Handling
-    }
+  const handleUpdateConfig = (contents: any) => {
+    void (async () => {
+      try {
+        const updated = await service.update(_setting!.id, { contents });
+        await setSetting(updated);
+      } catch {
+        // TODO:  Error Handling
+      }
+    });
   };
 
   return (

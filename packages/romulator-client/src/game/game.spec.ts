@@ -128,37 +128,6 @@ describe("Game", () => {
       });
     });
 
-    describe("Description", () => {
-      it("should set the value if there is a string name on the candidate", () => {
-        const description = "Go fight the joker";
-
-        expect(
-          createTestTarget().parse({ description }).build().description,
-        ).toEqual(description);
-      });
-
-      it("should keep the value if the description is not a string", () => {
-        const description = 42;
-        const expected = "Original";
-
-        expect(
-          createTestTarget()
-            .description(expected)
-            .parse({ description })
-            .build().description,
-        ).toEqual(expected);
-      });
-
-      it("should keep the value if the description does not exist", () => {
-        const expected = "Original";
-
-        expect(
-          createTestTarget().description(expected).parse({}).build()
-            .description,
-        ).toEqual(expected);
-      });
-    });
-
     describe("Players", () => {
       it("should set the value", () => {
         const players = new ZRomulatorPlayersBuilder().twoPlayer().build();

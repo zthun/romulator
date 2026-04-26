@@ -61,7 +61,7 @@ export class ZRomulatorFilesGamesRepository implements IZRomulatorFilesGamesRepo
 
     const gameInfo = new Map<string, unknown>();
 
-    for await (const system of systemsInUse) {
+    for (const system of systemsInUse) {
       const info = await this._filesRepository.info(system);
       const json = await this._filesRepository.json(info);
       const gameList = castArray(json).filter((e) => hasPath(e));

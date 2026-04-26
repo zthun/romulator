@@ -33,7 +33,7 @@ describe("SystemsService", () => {
     .build();
   const systems = [nes, snes];
 
-  beforeEach(async () => {
+  beforeEach(() => {
     _http = new ZHttpServiceMock();
   });
 
