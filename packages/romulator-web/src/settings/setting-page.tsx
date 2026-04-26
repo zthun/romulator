@@ -37,7 +37,7 @@ export function ZRomulatorSettingPage() {
       } catch {
         // TODO:  Error Handling
       }
-    });
+    })();
   };
 
   return (
