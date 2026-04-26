@@ -1,9 +1,11 @@
+import { resolve } from "node:path";
+
 import {
   ZRomulatorConfigBuilder,
   ZRomulatorConfigGamesMetadata,
   ZRomulatorConfigId,
 } from "@zthun/romulator-client";
-import { resolve } from "node:path";
+
 import { ZDir } from "../dir/dir.js";
 
 export abstract class ZRomulatorConfigKnown {

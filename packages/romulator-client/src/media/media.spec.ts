@@ -1,12 +1,14 @@
-import { kebabCase } from "lodash-es";
 import { basename, extname } from "node:path";
+
+import { kebabCase } from "lodash-es";
 import { describe, expect, it } from "vitest";
+
+import { ZRomulatorMediaBuilder } from "./media.mjs";
 import {
   isMediaType,
   ZRomulatorGameMediaType,
   ZRomulatorSystemMediaType,
 } from "./media-type.mjs";
-import { ZRomulatorMediaBuilder } from "./media.mjs";
 
 describe("Media", () => {
   const createTestTarget = () => new ZRomulatorMediaBuilder();

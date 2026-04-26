@@ -1,4 +1,4 @@
-import { ZMetadataBuilder, type IZMetadata } from "@zthun/helpful-query";
+import { type IZMetadata, ZMetadataBuilder } from "@zthun/helpful-query";
 
 export abstract class ZRomulatorConfigGamesMetadata {
   public static all(): IZMetadata[] {

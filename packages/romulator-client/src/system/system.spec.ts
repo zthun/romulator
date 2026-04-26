@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+
+import { ZRomulatorSystemBuilder } from "./system.mjs";
 import {
   isSystemContentType,
   ZRomulatorSystemContentType,
@@ -12,7 +14,6 @@ import {
   isSystemMediaFormat,
   ZRomulatorSystemMediaFormat,
 } from "./system-media-format-type.mjs";
-import { ZRomulatorSystemBuilder } from "./system.mjs";
 
 describe("ZRomulatorSystem", () => {
   const createTestTarget = () => new ZRomulatorSystemBuilder();

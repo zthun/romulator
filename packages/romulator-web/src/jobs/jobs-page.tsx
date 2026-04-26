@@ -10,6 +10,7 @@ import {
 import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { ZDataRequestBuilder } from "@zthun/helpful-query";
 import { useState } from "react";
+
 import { ZJobTile } from "./job-tile.js";
 import { useJobsService } from "./jobs-service.js";
 

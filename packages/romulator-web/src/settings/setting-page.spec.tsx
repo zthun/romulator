@@ -1,8 +1,8 @@
 import {
-  ZCircusBy,
-  ZCircusDestroy,
   type IZCircusDriver,
   type IZCircusSetup,
+  ZCircusBy,
+  ZCircusDestroy,
 } from "@zthun/cirque";
 import { ZCircusSetupRenderer } from "@zthun/cirque-du-react";
 import { ZRoute, ZRouteMap, ZTestRouter } from "@zthun/fashion-boutique";
@@ -16,11 +16,12 @@ import { createMemoryHistory, type MemoryHistory } from "history";
 import type { Mocked } from "vitest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
+
 import { ZRomulatorSettingPageComponentModel } from "./setting-page.cm.mjs";
 import { ZRomulatorSettingPage } from "./setting-page.js";
 import {
-  ZRomulatorSettingsContext,
   type IZRomulatorSettingsService,
+  ZRomulatorSettingsContext,
 } from "./settings-service.mjs";
 
 describe("ZRomulatorSettingPage", () => {

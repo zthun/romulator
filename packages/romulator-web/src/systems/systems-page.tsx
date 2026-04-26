@@ -16,10 +16,11 @@ import { ZSizeFixed, ZSizeVaried } from "@zthun/fashion-tailor";
 import { css } from "@zthun/helpful-fn";
 import { ZDataRequestBuilder, ZSortBuilder } from "@zthun/helpful-query";
 import {
-  ZRomulatorSystemMediaType,
   type IZRomulatorSystem,
+  ZRomulatorSystemMediaType,
 } from "@zthun/romulator-client";
 import { useState } from "react";
+
 import { useMediaService } from "../media/media-service.js";
 import { useSystemsService } from "./systems-service.mjs";
 

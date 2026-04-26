@@ -1,10 +1,11 @@
 import type { ZOptional } from "@zthun/helpful-fn";
 import { describe, expect, it } from "vitest";
-import { ZRomulatorPlayersSerialize } from "./players-serialize.mjs";
+
 import {
-  ZRomulatorPlayersBuilder,
   type IZRomulatorPlayers,
+  ZRomulatorPlayersBuilder,
 } from "./players.mjs";
+import { ZRomulatorPlayersSerialize } from "./players-serialize.mjs";
 
 describe("ZRomulatorPlayersSerialize", () => {
   const createTestTarget = () => new ZRomulatorPlayersSerialize();

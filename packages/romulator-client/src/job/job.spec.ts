@@ -1,8 +1,9 @@
 import { createGuid } from "@zthun/helpful-fn";
 import { describe, expect, it } from "vitest";
+
+import { ZJobBuilder } from "./job.mjs";
 import { ZJobStatus } from "./job-status.mjs";
 import { ZJobType } from "./job-type.mjs";
-import { ZJobBuilder } from "./job.mjs";
 
 describe("ZJobBuilder", () => {
   const createTestTarget = () => new ZJobBuilder();
