@@ -1,10 +1,9 @@
 {
   "extends": ["@zthun/janitor-ts-config/base", "@zthun/janitor-ts-config/node"],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@zthun/romulator-client": ["../romulator-client/src/index.mts"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.tsx"]
+  "include": ["**/*.ts", "**/*.mts", "**/*.tsx"]
 }
