@@ -242,8 +242,5 @@
     "node",
     "npm",
     "en_US"
-  ],
-  "ignorePaths": [
-    "**/systems.json"
   ]
 }
