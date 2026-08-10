@@ -22,7 +22,7 @@ export function ZRomulatorSettingsPage() {
   const { body } = useFashionTheme();
   const navigate = useNavigate();
   const settings = useSettingsService();
-  const [request] = useState(new ZDataRequestBuilder().build());
+  const [request] = useState(() => new ZDataRequestBuilder().build());
 
   const renderTile = (config: IZRomulatorConfig) => {
     return (

@@ -21,7 +21,7 @@ import { ZRomulatorTitle } from "./app-title.js";
 
 export function ZRomulatorApp() {
   return (
-    <ZFashionThemeContext.Provider value={theme}>
+    <ZFashionThemeContext value={theme}>
       <ZBannerMain
         TitleProps={{
           avatar: <ZRomulatorAvatar />,
@@ -41,6 +41,6 @@ export function ZRomulatorApp() {
           <ZRoute path="*" element={<ZNotFound />} />
         </ZRouteMap>
       </ZBannerMain>
-    </ZFashionThemeContext.Provider>
+    </ZFashionThemeContext>
   );
 }

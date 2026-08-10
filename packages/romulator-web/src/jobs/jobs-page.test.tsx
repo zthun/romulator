@@ -57,9 +57,9 @@ describe("ZRomulatorJobsPage", () => {
 
     const element = (
       <ZTestRouter location={history.location} navigator={history}>
-        <ZRomulatorJobsServiceContext.Provider value={service}>
-          <ZRomulatorJobsPage />;
-        </ZRomulatorJobsServiceContext.Provider>
+        <ZRomulatorJobsServiceContext value={service}>
+          <ZRomulatorJobsPage />
+        </ZRomulatorJobsServiceContext>
       </ZTestRouter>
     );
 

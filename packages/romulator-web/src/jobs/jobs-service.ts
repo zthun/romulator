@@ -3,7 +3,7 @@ import type { IZJob } from "@zthun/romulator-client";
 import { ZHttpService } from "@zthun/webigail-http";
 import { type IZRestfulGet, ZRestfulService } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
@@ -39,4 +39,4 @@ export const ZRomulatorJobsServiceContext = createContext(
  * @returns
  *        The current service implementation to manage jobs
  */
-export const useJobsService = () => useContext(ZRomulatorJobsServiceContext);
+export const useJobsService = () => use(ZRomulatorJobsServiceContext);

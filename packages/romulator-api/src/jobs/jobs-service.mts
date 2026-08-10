@@ -71,6 +71,7 @@ export class ZRomulatorJobsService implements IZRomulatorJobsService {
   public async get(id: string): Promise<IZJob> {
     const time = new Date();
     let msg = `Searching for job with id, ${id}`;
+    this._logger.log(new ZLogEntryBuilder().info().message(msg).build());
 
     const jobs = await this._files.jobs();
     const [candidate] = jobs.filter((j) => j.id === id);
