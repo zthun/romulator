@@ -7,7 +7,7 @@ import { ZHttpService } from "@zthun/webigail-http";
 import type { IZRestfulGet, IZRestfulService } from "@zthun/webigail-rest";
 import { ZRestfulService } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
@@ -49,8 +49,7 @@ export const ZRomulatorSystemsServiceContext = createContext(
   createDefaultSystemsService(),
 );
 
-export const useSystemsService = () =>
-  useContext(ZRomulatorSystemsServiceContext);
+export const useSystemsService = () => use(ZRomulatorSystemsServiceContext);
 
 export const useSystem = (id: string) => {
   const service = useSystemsService();

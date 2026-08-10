@@ -7,7 +7,7 @@ import type {
   ZRomulatorSystemMediaType,
 } from "@zthun/romulator-client";
 import { ZUrlBuilder } from "@zthun/webigail-url";
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 import {
   type IZRomulatorEnvironment,
@@ -112,4 +112,4 @@ export const ZRomulatorMediaServiceContext = createContext(
   createDefaultMediaService(),
 );
 
-export const useMediaService = () => useContext(ZRomulatorMediaServiceContext);
+export const useMediaService = () => use(ZRomulatorMediaServiceContext);

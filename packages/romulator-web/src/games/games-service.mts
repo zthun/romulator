@@ -5,7 +5,7 @@ import { ZHttpService } from "@zthun/webigail-http";
 import type { IZRestfulGet } from "@zthun/webigail-rest";
 import { ZRestfulService } from "@zthun/webigail-rest";
 import { ZUrlBuilder } from "@zthun/webigail-url";
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
@@ -23,7 +23,7 @@ export const ZRomulatorGamesServiceContext = createContext(
   createDefaultGamesService(),
 );
 
-export const useGamesService = () => useContext(ZRomulatorGamesServiceContext);
+export const useGamesService = () => use(ZRomulatorGamesServiceContext);
 
 export const useGame = (id: string) => {
   const service = useGamesService();

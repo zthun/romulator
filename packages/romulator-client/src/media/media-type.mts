@@ -70,8 +70,7 @@ export enum ZRomulatorSystemMediaType {
  * Describes what a specific piece of media represents.
  */
 export type ZRomulatorMediaType =
-  | ZRomulatorSystemMediaType
-  | ZRomulatorGameMediaType;
+  ZRomulatorSystemMediaType | ZRomulatorGameMediaType;
 
 const ZRomulatorSystemMediaTypeMap = keyBy(
   Object.values(ZRomulatorSystemMediaType),

@@ -10,7 +10,7 @@ import {
   type IZRestfulUpdate,
   ZRestfulService,
 } from "@zthun/webigail-rest";
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 import { ZRomulatorEnvironmentBuilder } from "../environment/environment.mjs";
 
@@ -32,7 +32,7 @@ export const ZRomulatorSettingsContext = createContext(
   createDefaultSettingsService(),
 );
 
-export const useSettingsService = () => useContext(ZRomulatorSettingsContext);
+export const useSettingsService = () => use(ZRomulatorSettingsContext);
 
 export const useSetting = (id: ZRomulatorConfigId) => {
   const service = useSettingsService();

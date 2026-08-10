@@ -16,7 +16,9 @@ import { useJobsService } from "./jobs-service.js";
 
 export function ZRomulatorJobsPage() {
   const jobs = useJobsService();
-  const [request, setRequest] = useState(new ZDataRequestBuilder().build());
+  const [request, setRequest] = useState(() =>
+    new ZDataRequestBuilder().build(),
+  );
 
   return (
     <ZStack
