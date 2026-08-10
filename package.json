@@ -19,8 +19,7 @@
     "test": "vitest run --coverage",
     "lint": "eslint",
     "build": "lerna run build",
-    "make": "yarn clean && yarn check && yarn lint && yarn test && yarn build",
-    "postinstall": "husky"
+    "make": "yarn clean && yarn check && yarn lint && yarn test && yarn build"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.2",
