@@ -1,9 +1,6 @@
 {
-  "extends": [
-    "@zthun/janitor-ts-config/base",
-    "@zthun/janitor-ts-config/browser",
-    "@zthun/janitor-ts-config/react"
-  ],
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "extends": ["@zthun/janitor-ts-config/base"],
   "compilerOptions": {
     "paths": {
       "@zthun/romulator-client": ["./packages/romulator-client/src/index.mts"],
