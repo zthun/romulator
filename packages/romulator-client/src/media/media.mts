@@ -1,6 +1,5 @@
-import { basename, extname, sep } from "node:path";
-
 import { isUndefined, kebabCase, omitBy } from "lodash-es";
+import { basename, extname, sep } from "pathe";
 
 import type { ZRomulatorSystemId } from "../system/system-id.mjs";
 import { isSystemId } from "../system/system-id.mjs";
