@@ -25,7 +25,7 @@ import {
 import { ZDir } from "../dir/dir.js";
 import { ZRomulatorJobsModule } from "./jobs-module.mjs";
 
-describe.sequential("JobsApi", () => {
+describe("JobsApi", () => {
   const endpoint = "jobs";
   const stream = new ZStreamFile({ cache: { maxFiles: 0 } });
   const jobsFolder = resolve(__dirname, "../../.test.jobs");
